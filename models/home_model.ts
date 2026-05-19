@@ -1,0 +1,53 @@
+export interface HomeProductModel {
+  statusCode?: number;
+  data?: Data;
+}
+
+export interface Data {
+  featured?: Featured[];
+  newarrivals?: Featured[];
+  gifthampers?: Featured[];
+  poojahampers?: Featured[];
+}
+
+export interface Featured {
+  productid?: number;
+  bid?: number;
+  productimage?: string;
+  productname?: string;
+  categoryid?: number;
+  availablestock?: number;
+  subcategoryid?: number;
+  price?: number;
+  sellingprice?: number;
+}
+
+export interface ReviewModel {
+  statusCode?: number;
+  data?: Review[];
+}
+
+export interface Review {
+  reviewid?: number;
+  userid?: number;
+  username?: string;
+  rating?: number;
+  email?: string;
+  review?: string;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface KuralModel {
+  statusCode?: number;
+  data?: KuralData[];
+}
+
+export interface KuralData {
+  kuralid?: number;
+  kural?: string;
+  meaning?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
