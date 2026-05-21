@@ -250,7 +250,58 @@ export default function GiftDetailPage() {
     }
   };
 
+  const handleSubmitReview = async () => {
+    if (!rating) {
+      alert("Please select a rating.");
+      return;
+    }
+    if (!reviewName || !reviewEmail || !reviewTitle || !reviewContent) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    setIsSubmittingReview(true);
+    try {
+      const payload = {
+        bid: gift?.bid || 1,
+        productid: gift?.giftid || Number(id),
+        rating: rating,
+        review: reviewContent,
+        email: reviewEmail,
+        title: reviewTitle,
+        name: reviewName,
+        productname: gift?.giftname || "",
+      };
+      
+      const response = await API.post(API_ROUTES.ADDPRODUCTRATING || "/review/add-product-rating", payload);
+      if (response.status === 200) {
+        alert("Review submitted successfully!");
+        setShowReviewForm(false);
+        setRating(0);
+        setReviewName("");
+        setReviewEmail("");
+        setReviewTitle("");
+        setReviewContent("");
+      } else {
+        alert("Failed to submit review.");
+      }
+    } catch (err: any) {
+      console.error("Error submitting review:", err);
+      alert(err?.response?.data?.message || "An error occurred while submitting review.");
+    } finally {
+      setIsSubmittingReview(false);
+    }
+  };
+
   const [showReviewForm, setShowReviewForm] = useState(false);
+  
+  // Review Form States
+  const [reviewName, setReviewName] = useState("");
+  const [reviewEmail, setReviewEmail] = useState("");
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewContent, setReviewContent] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+
   const [showGiftDialog, setShowGiftDialog] = useState(false);
   const [selectedWrap, setSelectedWrap] = useState("");
   const [giftCards, setGiftCards] = useState<GiftCardsData[]>([]);
@@ -620,6 +671,8 @@ export default function GiftDetailPage() {
                     <input
                       type="text"
                       placeholder="John Doe"
+                      value={reviewName}
+                      onChange={(e) => setReviewName(e.target.value)}
                       className="w-full border border-gray-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
                     />
                   </div>
@@ -630,6 +683,8 @@ export default function GiftDetailPage() {
                     <input
                       type="email"
                       placeholder="john@example.com"
+                      value={reviewEmail}
+                      onChange={(e) => setReviewEmail(e.target.value)}
                       className="w-full border border-gray-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
                     />
                   </div>
@@ -642,6 +697,8 @@ export default function GiftDetailPage() {
                   <input
                     type="text"
                     placeholder="Summarize your experience"
+                    value={reviewTitle}
+                    onChange={(e) => setReviewTitle(e.target.value)}
                     className="w-full border border-gray-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
                   />
                 </div>
@@ -653,20 +710,19 @@ export default function GiftDetailPage() {
                   <textarea
                     rows={4}
                     placeholder="What did you like or dislike? What should other shoppers know before buying?"
+                    value={reviewContent}
+                    onChange={(e) => setReviewContent(e.target.value)}
                     className="w-full border border-gray-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium resize-none"
                   />
                 </div>
 
                 <button
                   type="button"
-                  onClick={() =>
-                    handleActionWithLogin(() =>
-                      alert("Review submitted successfully!"),
-                    )
-                  }
-                  className="py-3.5 px-8 rounded-xl bg-[var(--olive)] text-white font-bold text-[13px] tracking-widest shadow-md shadow-[var(--olive)]/20 hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer"
+                  disabled={isSubmittingReview}
+                  onClick={() => handleActionWithLogin(handleSubmitReview)}
+                  className="py-3.5 px-8 rounded-xl bg-[var(--olive)] text-white font-bold text-[13px] tracking-widest shadow-md shadow-[var(--olive)]/20 hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer disabled:opacity-50"
                 >
-                  {t.product.submit_review}
+                  {isSubmittingReview ? "SUBMITTING..." : t.product.submit_review}
                 </button>
               </form>
             </div>

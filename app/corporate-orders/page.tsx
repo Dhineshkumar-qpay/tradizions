@@ -25,6 +25,8 @@ import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
 import { API_ROUTES } from "@/routes/api_routes";
+import { CorporateProductModel } from "@/models/corporate_product_model";
+import { useRouter } from "next/navigation";
 
 const translations: Record<string, any> = {
   EN: en,
@@ -62,8 +64,25 @@ export default function CorporateOrdersPage() {
   const [description, setDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState<number | null>(null);
+  const router = useRouter();
+  const [corporateProducts, setCorporateProducts] = useState<
+    CorporateProductModel[]
+  >([]);
 
   useEffect(() => {
+    const fetchCorporateProducts = async () => {
+      try {
+        const response = await API.post(API_ROUTES.GETCORPORATEPRODUCTS);
+        if (response.status === 200) {
+          setCorporateProducts(response.data?.data || []);
+        }
+      } catch (err) {
+        console.error("Error fetching corporate products:", err);
+      }
+    };
+    fetchCorporateProducts();
+
     setLoaded(true);
     const savedLang = localStorage.getItem("selectedLang");
     if (savedLang && translations[savedLang]) {
@@ -107,9 +126,51 @@ export default function CorporateOrdersPage() {
       }
     } catch (err: any) {
       console.error("Error submitting corporate inquiry:", err);
-      alert(err?.response?.data?.message || "An error occurred while submitting your inquiry.");
+      alert(
+        err?.response?.data?.message ||
+          "An error occurred while submitting your inquiry.",
+      );
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleBuyNow = async (
+    item: CorporateProductModel,
+    e: React.MouseEvent,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.dispatchEvent(new Event("openLoginSidebar"));
+      return;
+    }
+
+    setIsAddingToCart(item.productid);
+    try {
+      const response = await API.post(API_ROUTES.ADDTOCART, {
+        bid: item.bid || 1,
+        productid: null,
+        giftid: item.productid,
+        quantity: 1,
+        itemtype: "gift",
+        isbuynow: true,
+      });
+      if (response.status === 200) {
+        window.dispatchEvent(new Event("cartUpdated"));
+        router.push("/checkout");
+      } else {
+        alert("Failed to proceed to checkout.");
+      }
+    } catch (err: any) {
+      console.error("Error adding to cart:", err);
+      alert(
+        err?.response?.data?.message ||
+          "An error occurred while proceeding to checkout.",
+      );
+    } finally {
+      setIsAddingToCart(null);
     }
   };
 
@@ -117,41 +178,6 @@ export default function CorporateOrdersPage() {
   const benefitsRef = useInView();
   const productsRef = useInView();
   const formRef = useInView();
-
-  const corporateProducts = [
-    {
-      id: 1,
-      name: t.corporate_orders.prod1_name,
-      price: 3499,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-lo4Psnq5vDI61PzeMWKo2UlIv2_kyPnzBQ&s",
-      desc: t.corporate_orders.prod1_desc,
-    },
-    {
-      id: 2,
-      name: t.corporate_orders.prod2_name,
-      price: 2899,
-      image:
-        "https://img.freepik.com/free-photo/set-pecan-pistachios-almond-peanut-cashew-pine-nuts-lined-up-assorted-nuts-dried-fruits-mini-different-bowls_176474-2051.jpg?semt=ais_hybrid&w=740&q=80",
-      desc: t.corporate_orders.prod2_desc,
-    },
-    {
-      id: 3,
-      name: t.corporate_orders.prod3_name,
-      price: 4999,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk7BJ2N2Wp2yYW6ApncUC_Eo_HNDzAcaKSQQ&s",
-      desc: t.corporate_orders.prod3_desc,
-    },
-    {
-      id: 4,
-      name: t.corporate_orders.prod4_name,
-      price: 1899,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2FT49efQnnIWeAkVhYB4M2aHITRbY1rv5ww&s",
-      desc: t.corporate_orders.prod4_desc,
-    },
-  ];
 
   return (
     <main className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
@@ -187,7 +213,9 @@ export default function CorporateOrdersPage() {
             className={`text-xl md:text-2xl lg:text-3xl font-extrabold text-white leading-[1.05] tracking-tight mb-8 transition-all duration-1000 delay-200 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
             {t.corporate_orders.elevate} <br />
-            <span className="text-[var(--orange)]">{t.corporate_orders.relationships}</span>
+            <span className="text-[var(--orange)]">
+              {t.corporate_orders.relationships}
+            </span>
           </h1>
 
           <p
@@ -262,64 +290,77 @@ export default function CorporateOrdersPage() {
               {t.corporate_orders.collection}
             </p>
             <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
-              {t.corporate_orders.popular_choices} <span className="gradient-text">{t.corporate_orders.choices}</span>
+              {t.corporate_orders.popular_choices}{" "}
+              <span className="gradient-text">
+                {t.corporate_orders.choices}
+              </span>
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {corporateProducts.map((item, i) => (
-              <div
-                key={i}
-                className={`group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-700 ${productsRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
-                style={{ transitionDelay: `${i * 150}ms` }}
-              >
-                {/* Image Container */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
-                  <Image
-                    src={item.image || "/placeholder.png"}
-                    alt={item.name}
-                    fill
-                    className="object-cover transition-all duration-[1200ms] group-hover:scale-110"
-                  />
-                  
-                  <div className="absolute top-3 left-3 z-20">
-                    <span className="px-2.5 py-1 rounded-full bg-[var(--orange)] text-white text-[9px] font-black tracking-wider shadow-lg">
-                      BULK OFFERS
-                    </span>
-                  </div>
-                </div>
+            {corporateProducts.map((item, i) => {
+              const itemImage = item.productimage?.startsWith("http")
+                ? item.productimage
+                : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`;
 
-                {/* Content */}
-                <div className="p-4 flex flex-col flex-1 space-y-3">
-                  <div className="space-y-1">
-                    <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
-                      {item.name}
-                    </h3>
-                    <p className="text-[11px] text-gray-400 font-medium line-clamp-1">
-                      {item.desc}
-                    </p>
+              return (
+                <Link
+                  href={`/gift-detail/${item.productid}`}
+                  key={i}
+                  className={`group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-700 ${productsRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
+                  style={{ transitionDelay: `${i * 150}ms` }}
+                >
+                  {/* Image Container */}
+                  <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
+                    <img
+                      src={itemImage || "/placeholder.png"}
+                      alt={item.productname}
+                      className=" h-full w-full object-cover transition-all duration-[1200ms] group-hover:scale-110"
+                    />
                   </div>
 
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xl font-black text-gray-900">
-                      ₹{item.price.toLocaleString()}
-                    </span>
-                    <span className="text-[10px] text-gray-400 font-medium">Starting from</span>
-                  </div>
+                  {/* Content */}
+                  <div className="p-4 flex flex-col flex-1 space-y-3">
+                    <div className="space-y-1">
+                      <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
+                        {item.productname}
+                      </h3>
+                      <p className="text-[11px] text-gray-400 font-medium line-clamp-1">
+                        {item.description}
+                      </p>
+                    </div>
 
-                  {/* Add to Cart Button */}
-                  <div className="pt-2 mt-auto">
-                    <button 
-                      onClick={() => document.getElementById("corporate-form")?.scrollIntoView({ behavior: "smooth" })}
-                      className="w-full bg-[#FCFBF9] border border-gray-100 text-gray-900 py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300 group/btn cursor-pointer"
-                    >
-                      <span>GET QUOTE</span>
-                      <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
-                    </button>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-xl font-black text-gray-900">
+                        ₹
+                        {item.sellingprice > 0
+                          ? item.sellingprice.toLocaleString()
+                          : item.price.toLocaleString()}
+                      </span>
+                      <span className="text-[10px] text-gray-400 font-medium">
+                        Starting from
+                      </span>
+                    </div>
+
+                    {/* Add to Cart Button */}
+                    <div className="pt-2 mt-auto">
+                      <button
+                        disabled={isAddingToCart === item.productid}
+                        onClick={(e) => handleBuyNow(item, e)}
+                        className="w-full bg-[#FCFBF9] border border-gray-100 text-gray-900 py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300 group/btn cursor-pointer disabled:opacity-50"
+                      >
+                        <span>
+                          {isAddingToCart === item.productid
+                            ? "PROCESSING..."
+                            : "BUY NOW"}
+                        </span>
+                        <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -342,11 +383,15 @@ export default function CorporateOrdersPage() {
                     </h3>
                     <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
                       {t.corporate_orders.custom_quote_heading}{" "}
-                      <span className="gradient-text">{t.corporate_orders.custom_quote_sub}</span>
+                      <span className="gradient-text">
+                        {t.corporate_orders.custom_quote_sub}
+                      </span>
                     </h2>
                     <p className="text-sm text-gray-400 font-light max-w-md">
                       {t.corporate_orders.custom_quote_desc}{" "}
-                      <span className="font-bold text-gray-900">{t.corporate_orders.hours_24}</span>
+                      <span className="font-bold text-gray-900">
+                        {t.corporate_orders.hours_24}
+                      </span>
                     </p>
                   </div>
 
@@ -394,7 +439,8 @@ export default function CorporateOrdersPage() {
                       Inquiry Submitted Successfully!
                     </h3>
                     <p className="text-sm text-gray-400 max-w-sm mb-8 leading-relaxed font-light">
-                      Thank you for your corporate query. We have received your request and our team will get back to you soon!
+                      Thank you for your corporate query. We have received your
+                      request and our team will get back to you soon!
                     </p>
                     <button
                       onClick={() => setIsSubmitted(false)}
@@ -465,7 +511,7 @@ export default function CorporateOrdersPage() {
                           {t.corporate_orders.quantity}
                         </label>
                         <div className="relative">
-                          <select 
+                          <select
                             value={quantity}
                             onChange={(e) => setQuantity(e.target.value)}
                             className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium appearance-none"
@@ -493,12 +539,14 @@ export default function CorporateOrdersPage() {
                       ></textarea>
                     </div>
 
-                    <button 
+                    <button
                       type="submit"
                       disabled={isSubmitting}
                       className="w-full py-5 rounded-2xl bg-[var(--olive)] text-white font-bold text-[12px] tracking-[0.25em] shadow-xl shadow-[var(--olive)]/20 hover:shadow-2xl hover:-translate-y-1 active:scale-[0.98] transition-all uppercase cursor-pointer disabled:opacity-50"
                     >
-                      {isSubmitting ? "SUBMITTING..." : t.corporate_orders.submit_inquiry}
+                      {isSubmitting
+                        ? "SUBMITTING..."
+                        : t.corporate_orders.submit_inquiry}
                     </button>
                   </form>
                 )}

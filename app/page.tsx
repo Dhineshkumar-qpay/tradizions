@@ -372,7 +372,7 @@ export default function Home() {
       <SubscriptionPlans t={t} />
       <TestimonialsSection t={t} reviews={userReviews} />
       <CertificationsSection />
-      <VideoTestimonialsSection />
+      {/* <VideoTestimonialsSection /> */}
       <SustainabilityAndPackagingSection />
     </div>
   );

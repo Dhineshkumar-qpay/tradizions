@@ -2,23 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  ShieldCheck,
-  Check,
-  ShoppingCart,
-  Gift,
-  Lock,
-} from "lucide-react";
+import { ShieldCheck, Check, ShoppingCart, Gift, Lock } from "lucide-react";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
 import { API_ROUTES } from "@/routes/api_routes";
-import {
-  AddressData,
-  States,
-  Districts,
-} from "@/models/address_model";
+import { AddressData, States, Districts } from "@/models/address_model";
 import { CheckoutProduct } from "@/models/checkout_model";
 import { useRouter } from "next/navigation";
 
@@ -280,106 +270,132 @@ export default function CheckoutPage() {
   }
 
   if (orderPlaced) {
-    return (
-      <main className="min-h-screen bg-[#faf9f6] flex items-center justify-center p-4">
-        <style>{`
-          .success-animation {
-            margin: 0 auto;
-          }
-          .checkmark-circle {
-            stroke-dasharray: 166;
-            stroke-dashoffset: 166;
-            stroke-width: 2;
-            stroke-miterlimit: 10;
-            stroke: var(--olive);
-            fill: none;
-            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-          }
-          .checkmark-check {
-            transform-origin: 50% 50%;
-            stroke-dasharray: 48;
-            stroke-dashoffset: 48;
-            stroke: #fff;
-            stroke-width: 3;
-            fill: none;
-            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
-          }
-          .checkmark-fill {
-            border-radius: 50%;
-            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
-          }
-          @keyframes stroke {
-            100% { stroke-dashoffset: 0; }
-          }
-          @keyframes scale {
-            0%, 100% { transform: none; }
-            50% { transform: scale3d(1.15, 1.15, 1); }
-          }
-          @keyframes fill {
-            100% { box-shadow: inset 0px 0px 0px 50px var(--olive); }
-          }
-          @keyframes slide-up-fade {
-            0% { transform: translateY(15px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-          }
-          .animate-slide-up {
-            animation: slide-up-fade 0.4s ease-out 1s forwards;
-            opacity: 0;
-          }
-          @keyframes scale-in-card {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-          }
-          .animate-card {
-            animation: scale-in-card 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-          }
-        `}</style>
-        <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] border border-gray-100 animate-card">
-          <svg
-            className="success-animation w-20 h-20 mb-6 checkmark-fill shadow-lg shadow-[var(--olive)]/30"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 52 52"
-          >
-            <circle
-              className="checkmark-circle"
-              cx="26"
-              cy="26"
-              r="25"
-              fill="none"
-            />
-            <path
-              className="checkmark-check"
-              fill="none"
-              d="M14.1 27.2l7.1 7.2 16.7-16.8"
-            />
-          </svg>
-          <div className="animate-slide-up">
-            <h2 className="text-2xl font-black text-gray-900 mb-1.5 tracking-tight">
-              Order Placed!
-            </h2>
-            <p className="text-xs text-gray-500 font-medium mb-6">
-              Your order{" "}
-              <span className="font-bold text-gray-800">#{placedOrderId}</span>{" "}
-              has been confirmed.
-            </p>
-            <div className="space-y-3">
-              <Link
-                href="/my-account?tab=orders"
-                className="w-full py-3.5 rounded-xl bg-[var(--olive)] text-white font-bold text-xs tracking-widest shadow-md shadow-[var(--olive)]/20 hover:shadow-lg hover:-translate-y-0.5 transition-all block uppercase"
-              >
-                View My Orders
-              </Link>
-              <Link
-                href="/shop"
-                className="w-full py-3.5 rounded-xl bg-gray-50 text-gray-600 font-bold text-xs tracking-widest hover:bg-gray-100 transition-all block uppercase border border-gray-100"
-              >
-                Continue Shopping
-              </Link>
+   return (
+  <main className="min-h-screen bg-[#f7f7f5] flex items-center justify-center p-25 overflow-hidden relative">
+
+    {/* Background Glow */}
+    <div className="absolute top-[-80px] left-[-80px] w-[180px] h-[180px] bg-[var(--olive)]/10 rounded-full blur-3xl" />
+    <div className="absolute bottom-[-80px] right-[-80px] w-[180px] h-[180px] bg-[var(--olive-dark)]/10 rounded-full blur-3xl" />
+
+    <div className="relative w-full max-w-sm">
+
+      {/* Card */}
+      <div className="relative bg-white rounded-[28px] border border-stone-200/70 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.12)] overflow-hidden">
+
+        {/* Top Border */}
+        <div className="h-1.5 bg-gradient-to-r from-[var(--olive)] via-[var(--olive)] to-[var(--olive-dark)]" />
+
+        <div className="px-6 pt-8 pb-6 text-center">
+
+          {/* Success Icon */}
+          <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+
+            {/* Ring Animation */}
+            <div className="absolute inset-0 rounded-full border-2 border-[var(--olive)]/30 animate-ping" />
+
+            {/* Circle */}
+            <div className="relative z-10 w-20 h-20 rounded-full bg-gradient-to-br from-[var(--olive)] to-[var(--olive-dark)] flex items-center justify-center shadow-[0_15px_30px_rgba(85,107,47,0.35)]">
+
+              <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
+
+                {/* Check */}
+                <svg
+                  className="w-7 h-7 text-[var(--olive)]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M5 13l4 4L19 7"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      strokeDasharray: 100,
+                      strokeDashoffset: 100,
+                      animation: "draw 0.6s ease forwards",
+                    }}
+                  />
+                </svg>
+              </div>
             </div>
           </div>
+
+          {/* Title */}
+          <h1 className="text-2xl font-black text-stone-900 mb-2 tracking-tight">
+            Order Confirmed
+          </h1>
+
+          <p className="text-stone-500 text-xs leading-relaxed max-w-[240px] mx-auto mb-6">
+            Your payment has been completed successfully.
+          </p>
+
+          {/* Order Info */}
+          <div className="bg-stone-50 rounded-2xl border border-stone-200 p-4 mb-6 text-left">
+
+            <div className="flex justify-between items-center mb-3">
+              <span className="text-[10px] uppercase tracking-[0.18em] text-stone-400 font-bold">
+                Order ID
+              </span>
+
+              <span className="text-xs font-black text-stone-900">
+                #{placedOrderId}
+              </span>
+            </div>
+
+            <div className="border-t border-dashed border-stone-200 my-3"></div>
+
+            <div className="flex justify-between items-center mb-3">
+              <span className="text-[11px] text-stone-500 font-medium">
+                Total
+              </span>
+
+              <span className="text-lg font-black text-[var(--olive-dark)]">
+                ₹{grandTotal.toLocaleString()}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-[11px] text-stone-500 font-medium">
+                Payment
+              </span>
+
+              <span className="text-[10px] uppercase px-2 py-1 rounded-lg bg-white border border-stone-200 font-bold text-stone-700">
+                {paymentMethod}
+              </span>
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-col gap-3">
+
+            <Link
+              href="/my-account?tab=orders"
+              className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]"
+            >
+              Track Order
+            </Link>
+
+            <Link
+              href="/shop"
+              className="w-full h-12 rounded-xl bg-white border border-stone-200 text-stone-700 text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center hover:bg-stone-50 transition-all duration-300"
+            >
+              Continue Shopping
+            </Link>
+          </div>
         </div>
-      </main>
-    );
+      </div>
+    </div>
+
+    <style jsx>{`
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+    `}</style>
+  </main>
+);
   }
 
   return (
@@ -453,7 +469,7 @@ export default function CheckoutPage() {
                         }
                         className="w-full border border-stone-200 rounded-xl py-3 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-stone-800 text-sm shadow-sm"
                       >
-                        <option value="">Select an address</option>
+                        <option value="">{t.checkout?.select_address || "Select an address"}</option>
                         {addresses.map((addr) => (
                           <option key={addr.addressid} value={addr.addressid}>
                             {addr.addressline}, {addr.city}
@@ -575,7 +591,7 @@ export default function CheckoutPage() {
                                 }}
                                 className="w-full border border-stone-200 rounded-xl py-2 px-3 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-stone-800 text-xs shadow-sm"
                               >
-                                <option value="">Select Address</option>
+                                <option value="">{t.checkout?.select_address || "Select Address"}</option>
                                 {addresses.map((addr) => (
                                   <option
                                     key={addr.addressid}
@@ -649,7 +665,7 @@ export default function CheckoutPage() {
                           }}
                           className="w-full border border-stone-200 rounded-xl py-3.5 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm"
                         >
-                          <option value={0}>Select State</option>
+                          <option value={0}>{t.checkout?.select_state || "Select State"}</option>
                           {statesList.map((st) => (
                             <option key={st.stateid} value={st.stateid}>
                               {st.state}
@@ -680,7 +696,7 @@ export default function CheckoutPage() {
                           }}
                           className="w-full border border-stone-200 rounded-xl py-3.5 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm disabled:bg-stone-50 disabled:text-stone-400"
                         >
-                          <option value={0}>Select District</option>
+                          <option value={0}>{t.checkout?.select_district || "Select District"}</option>
                           {districtsList.map((ds) => (
                             <option key={ds.districtid} value={ds.districtid}>
                               {ds.district}
@@ -857,8 +873,8 @@ export default function CheckoutPage() {
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-stone-500 font-medium">Shipping</span>
-                  <span className="font-bold text-emerald-600">FREE</span>
+                  <span className="text-stone-500 font-medium">{t.checkout?.shipping || "Shipping"}</span>
+                  <span className="font-bold text-emerald-600">{t.checkout?.free || "FREE"}</span>
                 </div>
               </div>
 
@@ -879,7 +895,7 @@ export default function CheckoutPage() {
               <div className="flex items-center gap-2 mb-6 text-emerald-600 border-t border-b border-stone-100 py-4">
                 <ShieldCheck className="w-5 h-5" />
                 <div>
-                  <p className="text-xs font-bold">Safe and Secure Payments</p>
+                  <p className="text-xs font-bold">{t.cart?.secure_payment || "Safe and Secure Payments"}</p>
                   <p className="text-[10px] text-stone-500">
                     100% Secure. Your data is safe with us.
                   </p>

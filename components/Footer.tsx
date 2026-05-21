@@ -94,19 +94,17 @@ export default function Footer() {
             </h4>
             <ul className="space-y-4 text-sm">
               {[
-                "Best Sellers",
-                "Millet Collection",
-                "Healthy Malts",
-                "Gift Hampers",
-                "Pooja Items",
+                { name: t.aboutUs, path: "/about-us" },
+                { name: t.contactUs, path: "/contact-us" },
+                { name: t.myAccount, path: "/my-account" },
               ].map((link) => (
-                <li key={link}>
+                <li key={link.path}>
                   <Link
-                    href={`/shop?q=${link.toLowerCase()}`}
+                    href={link.path}
                     className="text-white/60 hover:text-white flex items-center gap-2 group transition"
                   >
                     <span className="w-0 h-px bg-[var(--orange)] group-hover:w-4 transition-all duration-300" />
-                    {link}
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -157,7 +155,7 @@ export default function Footer() {
               <div className="relative">
                 <input
                   type="email"
-                  placeholder="Your Email Address"
+                  placeholder={t.contact_us?.email || "Your Email Address"}
                   className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-[var(--orange)]/30"
                 />
 
@@ -221,7 +219,7 @@ export default function Footer() {
           <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
             <Leaf className="w-3 h-3 text-[var(--orange)]" />
             <span className="text-[10px] font-bold text-white/60 tracking-widest uppercase">
-              Purely Traditional
+              {t.purely_traditional || "Purely Traditional"}
             </span>
           </div>
         </div>

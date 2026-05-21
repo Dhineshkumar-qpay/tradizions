@@ -135,6 +135,57 @@ export default function OrderDetailPage() {
     );
   }
 
+  const orderStatuses = [
+    "pending",
+    "confirmed",
+    "processing",
+    "packed",
+    "shipped",
+    "outfordelivery",
+    "delivered",
+  ];
+  const currentStatus = orderInfo.status?.toLowerCase() || "pending";
+  const currentIndex = orderStatuses.indexOf(currentStatus);
+  const activePercent = currentIndex !== -1 ? (currentIndex / (orderStatuses.length - 1)) * 100 : 0;
+
+  const steps = [
+    {
+      key: "pending",
+      label: "Pending",
+      icon: Calendar,
+    },
+    {
+      key: "confirmed",
+      label: "Confirmed",
+      icon: ShieldCheck,
+    },
+    {
+      key: "processing",
+      label: "Processing",
+      icon: Clock,
+    },
+    {
+      key: "packed",
+      label: "Packed",
+      icon: Package,
+    },
+    {
+      key: "shipped",
+      label: "Shipped",
+      icon: Truck,
+    },
+    {
+      key: "outfordelivery",
+      label: "Out For Delivery",
+      icon: MapPin,
+    },
+    {
+      key: "delivered",
+      label: "Delivered",
+      icon: CheckCircle2,
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-[#faf9f6] pt-20 pb-20">
       <div className="max-w-6xl mx-auto px-6">
@@ -144,7 +195,7 @@ export default function OrderDetailPage() {
             {/* <Link href="/my-account" className="inline-flex items-center gap-2 text-[10px] font-black text-[var(--olive)] uppercase tracking-[0.2em] mb-2 hover:translate-x-[-4px] transition-transform">
               <ArrowLeft className="w-3.5 h-3.5" /> Back to Account
             </Link> */}
-            <h1 className="text-3xl font-black text-gray-900 tracking-tighter">
+            <h1 className="text-2xl font-black text-gray-900 tracking-tighter">
               {t.order_detail.title}{" "}
               <span className=" text-[var(--olive)]">#{orderInfo.id}</span>
             </h1>
@@ -171,53 +222,42 @@ export default function OrderDetailPage() {
                   {t.order_detail.progress}
                 </h3>
                 <span className="px-4 py-1.5 bg-emerald-50 text-emerald-600 rounded-full text-[9px] font-black uppercase tracking-widest border border-emerald-100">
-                  {t.order_detail.status_delivered}
+                  {orderInfo.status || "Pending"}
                 </span>
               </div>
 
-              <div className="relative flex justify-between">
-                {/* Connector Line */}
-                <div className="absolute top-5 left-0 right-0 h-0.5 bg-stone-50" />
-                <div className="absolute top-5 left-0 w-full h-0.5 bg-[var(--olive)] origin-left" />
-
-                {[
-                  {
-                    label: t.order_detail.step_placed,
-                    icon: Calendar,
-                    active: true,
-                  },
-                  {
-                    label: t.order_detail.step_shipped,
-                    icon: Package,
-                    active: true,
-                  },
-                  {
-                    label: t.order_detail.step_transit,
-                    icon: Truck,
-                    active: true,
-                  },
-                  {
-                    label: t.order_detail.step_delivery,
-                    icon: CheckCircle2,
-                    active: true,
-                  },
-                ].map((step, i) => (
+              <div className="overflow-x-auto no-scrollbar pb-4">
+                <div className="relative flex justify-between min-w-[750px] lg:min-w-0 px-4">
+                  {/* Connector Line */}
+                  <div className="absolute top-5 left-[6%] right-[6%] h-0.5 bg-stone-100" />
                   <div
-                    key={i}
-                    className="flex flex-col items-center gap-4 relative z-10"
-                  >
-                    <div
-                      className={`w-8 h-8 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-500 ${step.active ? "bg-[var(--olive)] text-white scale-110" : "bg-white text-gray-300 border border-stone-100"}`}
-                    >
-                      <step.icon className="w-4 h-4" />
-                    </div>
-                    <span
-                      className={`text-[10px] font-black uppercase tracking-widest ${step.active ? "text-gray-900" : "text-gray-300"}`}
-                    >
-                      {step.label}
-                    </span>
-                  </div>
-                ))}
+                    className="absolute top-5 left-[6%] h-0.5 bg-[var(--olive)] origin-left transition-all duration-500"
+                    style={{ width: `${activePercent * 0.88}%` }}
+                  />
+
+                  {steps.map((step, i) => {
+                    const stepIndex = orderStatuses.indexOf(step.key);
+                    const isStepActive = currentIndex !== -1 && stepIndex <= currentIndex;
+
+                    return (
+                      <div
+                        key={step.key}
+                        className="flex flex-col items-center gap-4 relative z-10 w-24"
+                      >
+                        <div
+                          className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-500 ${isStepActive ? "bg-[var(--olive)] text-white scale-110" : "bg-white text-gray-300 border border-stone-100"}`}
+                        >
+                          <step.icon className="w-5 h-5" />
+                        </div>
+                        <span
+                          className={`text-[9px] font-black uppercase tracking-widest text-center ${isStepActive ? "text-gray-900" : "text-gray-300"}`}
+                        >
+                          {step.label}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 

@@ -80,7 +80,11 @@
   "view_all": "View All",
   "planner": "Monthly Nutrition Planner",
   "planner_desc": "Plan your family's monthly millet requirements and health budget with our precision calculation tool.",
-  "tags": ["Millets", "Nuts", "Spices"],
+  "tags": [
+    "Millets",
+    "Nuts",
+    "Spices"
+  ],
   "subscription": "Smart Monthly Delivery Plans",
   "subscription_desc": "Save time and never run out of essentials with our smart subscription plans designed for your daily needs.",
   "subscribe": "Subscribe Now",
@@ -377,5 +381,14 @@
     "title": "Page Not Found",
     "desc": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
     "back_home": "Back to Home"
+  },
+  "navbar": {
+    "searching": "Searching...",
+    "no_products": "No products found",
+    "suggested": "Suggested Products",
+    "found": "Found",
+    "out_of_stock": "OUT OF STOCK",
+    "off": "OFF",
+    "view_all": "View all results in shop"
   }
 }

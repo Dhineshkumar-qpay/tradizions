@@ -80,7 +80,11 @@
   "view_all": "सभी देखें",
   "planner": "मासिक पोषण योजना",
   "planner_desc": "अपने परिवार की मासिक मिलेट जरूरतों की योजना बनाएं।",
-  "tags": ["मिलेट्स", "नट्स", "मसाले"],
+  "tags": [
+    "मिलेट्स",
+    "नट्स",
+    "मसाले"
+  ],
   "subscription": "स्मार्ट मासिक डिलीवरी योजनाएं",
   "subscription_desc": "दैनिक जरूरतों के लिए सब्सक्रिप्शन प्लान के साथ समय बचाएं।",
   "subscribe": "अभी सब्सक्राइब करें",
@@ -377,5 +381,14 @@
     "title": "पेज नहीं मिला",
     "desc": "जिस पेज को आप ढूंढ रहे हैं उसे हटाया जा सकता है, उसका नाम बदला जा सकता है, या वह अस्थायी रूप से अनुपलब्ध है।",
     "back_home": "होम पेज पर वापस जाएं"
+  },
+  "navbar": {
+    "searching": "Searching...",
+    "no_products": "No products found",
+    "suggested": "Suggested Products",
+    "found": "Found",
+    "out_of_stock": "OUT OF STOCK",
+    "off": "OFF",
+    "view_all": "View all results in shop"
   }
 }

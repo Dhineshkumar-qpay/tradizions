@@ -35,6 +35,7 @@ const translations: Record<string, any> = {
 
 export default function CartPage() {
   const [selectedLang, setSelectedLang] = useState("EN");
+  const t = translations[selectedLang] || translations["EN"];
   const [showGiftModal, setShowGiftModal] = useState(false);
   const [selectedAddon, setSelectedAddon] = useState("none");
   const router = useRouter();
@@ -211,7 +212,7 @@ export default function CartPage() {
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-black text-stone-900">My Cart</h1>
+              <h1 className="text-2xl font-black text-stone-900">{t.cart?.title || "My Cart"}</h1>
               <span className="text-stone-500 font-bold">
                 ({cartItems.length} {cartItems.length === 1 ? "Item" : "Items"})
               </span>
@@ -366,7 +367,7 @@ export default function CartPage() {
                           </div>
                         </div>
                       </div>
-                      {item.itemtype === "gift" && (
+                      {item.itemtype === "gift" && item.giftcard && item.giftcard.length > 0 && (
                         <div className="border-t border-stone-100 bg-stone-50/30">
                           <button
                             onClick={() =>
@@ -553,8 +554,7 @@ export default function CartPage() {
                           try {
                             const updatePromises = cartItems
                               .filter(
-                                (item) =>
-                                  item.giftcardid && item.giftcardid > 0,
+                                (item) => item.itemtype === "gift"
                               )
                               .map((item) =>
                                 API.post(API_ROUTES.UPDATEGIFTCARD, {

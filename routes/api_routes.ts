@@ -27,6 +27,8 @@ export const API_ROUTES = {
   UPDATEQUANTITY: "/cart/update-quantity",
   ADDFAVOURITE: "/product/add-favourite",
   GETFAVOURITE: "/product/get-favourites",
+  GETCORPORATEPRODUCTS: "/product/corporate-products",
+  ADDPRODUCTRATING: "/product/add-update-rating",
   STATES: "/admin/getstates",
   DISTRICTS: "/admin/getdistricts",
   ADDADDRESS: "/address/add-address",

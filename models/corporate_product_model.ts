@@ -1,0 +1,37 @@
+export interface CorporateProductModel {
+  productid: number;
+  bid: number;
+  productimage: string;
+  productname: string;
+  categoryid: number;
+  categoryname: string;
+  subcategoryid: number;
+  subcategoryname: string;
+  brandname: string | null;
+  description: string;
+  price: number;
+  sellingprice: number;
+  weight: number | null;
+  unit: string | null;
+  availablestock: number;
+  isFeatured: boolean;
+  isFavourite: boolean;
+  isTrending: boolean;
+  isBestSeller: boolean;
+  isActive: boolean;
+  ingredients: string | null;
+  shelflife: string | null;
+  storageinfo: string | null;
+  calories: number;
+  protien: number;
+  fibre: number;
+  fat: number;
+  carbohydrates: number;
+  country: string;
+  productlist: string | null;
+  packingtype: string | null;
+  itemtype: string;
+  gifttype: string | null;
+  createdAt: string;
+  updatedAt: string;
+}

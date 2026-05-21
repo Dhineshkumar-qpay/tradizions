@@ -542,21 +542,21 @@ export default function Navbar() {
                   {isSearching ? (
                     <div className="flex items-center justify-center py-8 text-stone-400 gap-2.5 text-xs font-semibold">
                       <Loader2 className="w-4 h-4 animate-spin text-[var(--olive)]" />
-                      <span>{t.searching || "Searching..."}</span>
+                      <span>{t.navbar?.searching || "Searching..."}</span>
                     </div>
                   ) : suggestions.length === 0 ? (
                     <div className="flex items-center justify-center py-8 text-stone-400 text-xs font-semibold">
-                      {t.noResults || "No products found"}
+                      {t.navbar?.no_products || "No products found"}
                     </div>
                   ) : (
                     <>
                       {/* Header title */}
                       <div className="px-4 py-2.5 border-b border-stone-100 flex items-center justify-between bg-stone-50/50">
                         <span className="text-[10px] font-black tracking-widest text-stone-400 uppercase">
-                          Suggested Products
+                          {t.navbar?.suggested || "Suggested Products"}
                         </span>
                         <span className="text-[9px] font-black text-[var(--olive)] bg-[var(--olive)]/10 px-2.5 py-0.5 rounded-full border border-[var(--olive)]/10">
-                          {suggestions.length} Found
+                          {suggestions.length} {t.navbar?.found || "Found"}
                         </span>
                       </div>
 
@@ -597,9 +597,7 @@ export default function Navbar() {
                                   product.availablestock <= 0) && (
                                   <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px] z-10">
                                     <span className="bg-red-500/90 text-white text-[7px] font-black px-1.5 py-0.5 rounded-sm tracking-wider shadow-sm text-center leading-none">
-                                      OUT OF
-                                      <br />
-                                      STOCK
+                                      {t.navbar?.out_of_stock || "OUT OF STOCK"}
                                     </span>
                                   </div>
                                 )}
@@ -640,7 +638,7 @@ export default function Navbar() {
                                                 product.price) *
                                                 100,
                                             )}
-                                            % OFF
+                                            % {t.navbar?.off || "OFF"}
                                           </span>
                                         )}
                                       </>
@@ -665,7 +663,7 @@ export default function Navbar() {
                           }}
                           className="text-[10px] font-black text-[var(--olive)] hover:text-[var(--orange)] tracking-widest uppercase flex items-center gap-1.5 transition-colors duration-300"
                         >
-                          View all results in shop{" "}
+                          {t.navbar?.view_all || "View all results in shop"}
                           <ChevronRight className="w-3.5 h-3.5" />
                         </Link>
                       </div>
