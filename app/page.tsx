@@ -25,6 +25,10 @@ import {
   Scale,
   Baby,
   ScrollText,
+  Search,
+  Trash2,
+  Plus,
+  ArrowDown,
 } from "lucide-react";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
@@ -37,6 +41,7 @@ import {
   Review,
   KuralModel,
   KuralData,
+  CalculatorProducts,
 } from "@/models/home_model";
 import { img } from "framer-motion/m";
 
@@ -1076,12 +1081,18 @@ function ProductCard({
               });
             }}
             className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
-              (product.availablestock ?? 0) <= 0 
-                ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed" 
+              (product.availablestock ?? 0) <= 0
+                ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                 : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
             } disabled:opacity-50`}
           >
-            <span>{(product.availablestock ?? 0) <= 0 ? "OUT OF STOCK" : isAdding ? "ADDING..." : "ADD TO CART"}</span>
+            <span>
+              {(product.availablestock ?? 0) <= 0
+                ? "OUT OF STOCK"
+                : isAdding
+                  ? "ADDING..."
+                  : "ADD TO CART"}
+            </span>
             {isAdding ? (
               <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
             ) : (
@@ -1168,7 +1179,11 @@ function GiftingSection({
                     className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] snap-start flex-shrink-0"
                   >
                     <Link
-                      href={id ? `/gift-detail/${id}?productid=${id}&bid=${item.bid || 1}` : "/gift-detail"}
+                      href={
+                        id
+                          ? `/gift-detail/${id}?productid=${id}&bid=${item.bid || 1}`
+                          : "/gift-detail"
+                      }
                       className="group relative block bg-[#faf9f6] rounded-[2rem] p-4 border border-transparent hover:border-stone-100 hover:bg-white transition-all duration-500 hover:shadow-xl h-full"
                     >
                       <div className="relative aspect-video rounded-[1.5rem] overflow-hidden mb-6">
@@ -1698,60 +1713,125 @@ function HealthGoalsSection({ t }: { t: any }) {
   );
 }
 
-// -----------------------------------  NUTRITION PLANNER (Nuts & Millets Calculator)
-
-const initialMilletsData = [
-  {
-    name: "Barnyard Millet (Kuthiraivali)",
-    tam: "குதிரைவாலி",
-    hin: "सांवा",
-    price: 160,
-  },
-  { name: "Finger Millet (Ragi)", tam: "கேழ்வரகு", hin: "रागी", price: 60 },
-  { name: "Foxtail Millet (Thinai)", tam: "தினை", hin: "कंगनी", price: 150 },
-  { name: "Kodo Millet (Varagu)", tam: "வரகு", hin: "कोदो", price: 170 },
-  { name: "Little Millet (Saamai)", tam: "சாமை", hin: "குட்கி", price: 180 },
-  { name: "Pearl Millet (Bajra/Kambu)", tam: "கம்பு", hin: "बाजरा", price: 70 },
-  { name: "Sorghum (Jowar/Cholam)", tam: "சோளம்", hin: "ज्वார்", price: 80 },
-];
-
-const initialNutsData = [
-  { name: "Almond (Badam)", tam: "பாதாம்", hin: "बादाम", price: 900 },
-  { name: "Cashew (Munthiri)", tam: "முந்திரி", hin: "काजू", price: 850 },
-  { name: "Walnut (Akroot)", tam: "அக்ரூட்", hin: "अخरोट", price: 1200 },
-  { name: "Pistachio (Pista)", tam: "பிஸ்தா", hin: "पिस्ता", price: 1750 },
-  {
-    name: "Raisins (Ular Draksha)",
-    tam: "உலர் திராட்சை",
-    hin: "किशமिश",
-    price: 500,
-  },
-  {
-    name: "Dates (Pericham Pazham)",
-    tam: "பேரிச்சம் பழம்",
-    hin: "खजूर",
-    price: 900,
-  },
-  { name: "Hazelnut", tam: "ஹேசல்நட்", hin: "हेज़लनट", price: 1500 },
-];
-
-const initialSpicesData = [
-  {
-    name: "Turmeric Powder",
-    tam: "மஞ்சள் தூள்",
-    hin: "हल्दी पाउडर",
-    price: 400,
-  },
-  { name: "Black Pepper", tam: "மிளகு", hin: "काली मिर्च", price: 800 },
-  { name: "Cumin Seeds", tam: "சீரகம்", hin: "जीरा", price: 600 },
-  { name: "Cardamom", tam: "ஏலக்காய்", hin: "இலாयची", price: 3500 },
-  { name: "Cloves", tam: "கிராம்பு", hin: "लौंग", price: 1200 },
-  { name: "Cinnamon", tam: "பட்டை", hin: "दालचीनी", price: 500 },
-];
-
 function NutritionPlanner({ t }: { t: any }) {
   const { ref, isVisible } = useInView();
-  const [activeTab, setActiveTab] = useState("millets");
+  const [nutsProducts, setNutsProducts] = useState<CalculatorProducts[]>([]);
+  const [milletsProducts, setMilletsProducts] = useState<CalculatorProducts[]>(
+    [],
+  );
+  const [spicesProducts, setSpicesProducts] = useState<CalculatorProducts[]>(
+    [],
+  );
+  const [allProducts, setAllProducts] = useState<CalculatorProducts[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedProducts, setSelectedProducts] = useState<
+    CalculatorProducts[]
+  >([]);
+  const [plannerData, setPlannerData] = useState<
+    Record<number, { grams: number; days: number; members: number }>
+  >({});
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const [resNuts, resMillets, resSpices] = await Promise.all([
+          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 1, bid: 1 }),
+          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 2, bid: 1 }),
+          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 3, bid: 1 }),
+        ]);
+
+        const nuts = (resNuts.data?.data || []).map((p: any) => ({
+          ...p,
+          categoryid: 1,
+        }));
+        const millets = (resMillets.data?.data || []).map((p: any) => ({
+          ...p,
+          categoryid: 2,
+        }));
+        const spices = (resSpices.data?.data || []).map((p: any) => ({
+          ...p,
+          categoryid: 3,
+        }));
+
+        setNutsProducts(nuts);
+        setMilletsProducts(millets);
+        setSpicesProducts(spices);
+        setAllProducts([...nuts, ...millets, ...spices]);
+      } catch (err) {
+        console.error("Error fetching calculator products", err);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const handleToggleProduct = (product: CalculatorProducts) => {
+    if (selectedProducts.find((p) => p.productid === product.productid)) {
+      setSelectedProducts((prev) =>
+        prev.filter((p) => p.productid !== product.productid),
+      );
+      setPlannerData((prev) => {
+        const newData = { ...prev };
+        delete newData[product.productid!];
+        return newData;
+      });
+    } else {
+      setSelectedProducts((prev) => [...prev, product]);
+      setPlannerData((prev) => ({
+        ...prev,
+        [product.productid!]: { grams: 20, days: 30, members: 4 },
+      }));
+    }
+  };
+
+  const handleClearAll = () => {
+    setSelectedProducts([]);
+    setPlannerData({});
+  };
+
+  const handleRemoveItem = (productid: number) => {
+    setSelectedProducts((prev) =>
+      prev.filter((p) => p.productid !== productid),
+    );
+    setPlannerData((prev) => {
+      const newData = { ...prev };
+      delete newData[productid];
+      return newData;
+    });
+  };
+
+  const calculateRow = (product: CalculatorProducts) => {
+    const data = plannerData[product.productid!] || {
+      grams: 0,
+      days: 0,
+      members: 0,
+    };
+    const qtyPerPerson = (data.grams * data.days) / 1000;
+    const price = product.sellingprice || product.price || 0;
+    const totalPrice = qtyPerPerson * data.members * price;
+    return { qty: qtyPerPerson.toFixed(2), price: Math.round(totalPrice) };
+  };
+
+  const grandTotal = selectedProducts.reduce(
+    (acc, row) => acc + calculateRow(row).price,
+    0,
+  );
+
+  const displayedProducts = allProducts.filter((p) => {
+    if (selectedCategory !== 0 && p.categoryid !== selectedCategory)
+      return false;
+    if (
+      searchQuery &&
+      !p.productname?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+      return false;
+    return true;
+  });
+
+  const scrollToCalculator = () => {
+    const el = document.getElementById("calculator-section");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleActionWithLogin = (action: () => void) => {
     if (localStorage.getItem("isLoggedIn") !== "true") {
@@ -1765,206 +1845,382 @@ function NutritionPlanner({ t }: { t: any }) {
       action();
     }
   };
-  const [milletsPlanner, setMilletsPlanner] = useState(
-    initialMilletsData.map((m) => ({ ...m, grams: 100, days: 30, members: 4 })),
-  );
-  const [nutsPlanner, setNutsPlanner] = useState(
-    initialNutsData.map((n) => ({ ...n, grams: 20, days: 30, members: 4 })),
-  );
-  const [spicesPlanner, setSpicesPlanner] = useState(
-    initialSpicesData.map((s) => ({ ...s, grams: 10, days: 30, members: 4 })),
-  );
-
-  const calculateRow = (row: any) => {
-    const qtyPerPerson = (row.grams * row.days) / 1000;
-    const totalPrice = qtyPerPerson * row.members * row.price;
-    return { qty: qtyPerPerson.toFixed(2), price: Math.round(totalPrice) };
-  };
-
-  const currentPlanner =
-    activeTab === "millets"
-      ? milletsPlanner
-      : activeTab === "nuts"
-        ? nutsPlanner
-        : spicesPlanner;
-
-  const setPlanner =
-    activeTab === "millets"
-      ? setMilletsPlanner
-      : activeTab === "nuts"
-        ? setNutsPlanner
-        : setSpicesPlanner;
-
-  const grandTotal = currentPlanner.reduce(
-    (acc, row) => acc + calculateRow(row).price,
-    0,
-  );
 
   return (
-    <section ref={ref} className="py-20 bg-gray-50/30 relative overflow-hidden">
-      {/* Decorative background circle */}
-      <div className="absolute -top-24 -left-24 w-72 h-72 bg-[var(--olive)]/5 rounded-full blur-3xl pointer-events-none" />
+    <section ref={ref} className="py-12 bg-gray-50/50 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-8">
+        {/* Step 1: Select Products You Want */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">
+                1. Select Products You Want
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Choose the products you want to include in your monthly
+                calculation.
+              </p>
+            </div>
+            <div className="flex items-center gap-3 w-full md:w-auto">
+              <div className="relative flex-1 md:w-64">
+                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <button
+                onClick={scrollToCalculator}
+                className="btn-standard flex items-center gap-2 whitespace-nowrap px-5 py-2.5 rounded-lg font-semibold text-sm"
+              >
+                View Calculator <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div
-          className={`text-center mb-12 space-y-3 transition-all duration-500 opacity-100 translate-y-0`}
-        >
-          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
-            {t.planner.split(" ").slice(0, 2).join(" ")}{" "}
-            <span className="gradient-text">
-              {t.planner.split(" ").slice(2).join(" ")}
-            </span>
-          </h2>
-          <p className="text-xs font-normal text-gray-400 max-w-md mx-auto">
-            {t.planner_desc}
-          </p>
-        </div>
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Sidebar Categories */}
+            <div className="w-full lg:w-64 flex flex-col gap-2">
+              <button
+                onClick={() => setSelectedCategory(0)}
+                className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 0 ? "bg-[var(--olive)]/20 border-[var(--olive)]/50 text-[var(--olive)]" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
+              >
+                <div className="flex items-center gap-3 font-semibold text-sm">
+                  <Leaf
+                    className={`w-5 h-5 ${selectedCategory === 0 ? "text-[var(--olive)]" : "text-gray-400"}`}
+                  />{" "}
+                  All Products
+                </div>
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === 0 ? "bg-[var(--olive)]/20 text-[var(--olive)]" : "bg-gray-100 text-gray-500"}`}
+                >
+                  {allProducts.length}
+                </span>
+              </button>
 
-        {/* Tab Bar */}
-        <div className="flex justify-center gap-3 mb-10">
-          <button
-            onClick={() => setActiveTab("millets")}
-            className={`px-6 py-2 rounded-full text-[10px] font-bold tracking-widest transition-all duration-500 cursor-pointer ${
-              activeTab === "millets"
-                ? "bg-[var(--olive)] text-white shadow-lg scale-105"
-                : "bg-white text-gray-400 hover:text-[var(--olive)] border border-gray-100"
-            }`}
-          >
-            {t.sections.millets.toUpperCase()}
-          </button>
-          <button
-            onClick={() => setActiveTab("nuts")}
-            className={`px-6 py-2 rounded-full text-[10px] font-bold tracking-widest transition-all duration-500 cursor-pointer ${
-              activeTab === "nuts"
-                ? "bg-[var(--olive)] text-white shadow-lg scale-105"
-                : "bg-white text-gray-400 hover:text-[var(--olive)] border border-gray-100"
-            }`}
-          >
-            {t.sections.nuts.toUpperCase()}
-          </button>
-          <button
-            onClick={() => setActiveTab("spices")}
-            className={`px-6 py-2 rounded-full text-[10px] font-bold tracking-widest transition-all duration-500 cursor-pointer ${
-              activeTab === "spices"
-                ? "bg-[var(--olive)] text-white shadow-lg scale-105"
-                : "bg-white text-gray-400 hover:text-[var(--olive)] border border-gray-100"
-            }`}
-          >
-            {t.sections.spices}
-          </button>
-        </div>
+              <button
+                onClick={() => setSelectedCategory(1)}
+                className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 1 ? "bg-green-50 border-green-200 text-green-800" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
+              >
+                <div className="flex items-center gap-3 font-semibold text-sm">
+                  <Leaf
+                    className={`w-5 h-5 ${selectedCategory === 1 ? "text-green-600" : "text-gray-400"}`}
+                  />{" "}
+                  Nuts
+                </div>
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === 1 ? "bg-green-200/50 text-green-700" : "bg-gray-100 text-gray-500"}`}
+                >
+                  {nutsProducts.length}
+                </span>
+              </button>
 
-        <div
-          className={`bg-white rounded-[1rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden transition-all duration-500 delay-200 opacity-100 translate-y-0`}
-        >
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-gray-50/50 text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-gray-200">
-                  <th className="px-6 py-5">
-                    {activeTab === "millets"
-                      ? "Millet"
-                      : activeTab === "nuts"
-                        ? "Nut"
-                        : "Spice"}{" "}
-                    Item
-                  </th>
-                  <th className="px-4 py-5 text-center">Grams / Day</th>
-                  <th className="px-4 py-5 text-center">Days / Month</th>
-                  <th className="px-4 py-5 text-center">Family Members</th>
-                  <th className="px-4 py-5">Qty / Person</th>
-                  <th className="px-4 py-5">Price / Kg</th>
-                  <th className="px-6 py-5 text-right">Total Budget</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {currentPlanner.map((row, idx) => {
-                  const { qty, price } = calculateRow(row);
+              <button
+                onClick={() => setSelectedCategory(2)}
+                className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 2 ? "bg-yellow-50 border-yellow-200 text-yellow-800" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
+              >
+                <div className="flex items-center gap-3 font-semibold text-sm">
+                  <Zap
+                    className={`w-5 h-5 ${selectedCategory === 2 ? "text-yellow-600" : "text-gray-400"}`}
+                  />{" "}
+                  Millets
+                </div>
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === 2 ? "bg-yellow-200/50 text-yellow-700" : "bg-gray-100 text-gray-500"}`}
+                >
+                  {milletsProducts.length}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setSelectedCategory(3)}
+                className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 3 ? "bg-orange-50 border-orange-200 text-orange-800" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
+              >
+                <div className="flex items-center gap-3 font-semibold text-sm">
+                  <Sparkles
+                    className={`w-5 h-5 ${selectedCategory === 3 ? "text-orange-600" : "text-gray-400"}`}
+                  />{" "}
+                  Spices
+                </div>
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === 3 ? "bg-orange-200/50 text-orange-700" : "bg-gray-100 text-gray-500"}`}
+                >
+                  {spicesProducts.length}
+                </span>
+              </button>
+            </div>
+
+            {/* Products Grid */}
+            <div className="flex-1">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-bold text-gray-800">
+                  {selectedCategory === 0
+                    ? "All Products"
+                    : selectedCategory === 1
+                      ? "Nuts"
+                      : selectedCategory === 2
+                        ? "Millets"
+                        : "Spices"}
+                  <span className="text-gray-400 ml-2 font-normal">
+                    ({displayedProducts.length})
+                  </span>
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+                {displayedProducts.map((product) => {
+                  const isSelected = !!selectedProducts.find(
+                    (p) => p.productid === product.productid,
+                  );
+                  const price = product.sellingprice || product.price || 0;
                   return (
-                    <tr
-                      key={idx}
-                      className="group hover:bg-gray-50/30 transition-all"
+                    <div
+                      key={product.productid}
+                      onClick={() => handleToggleProduct(product)}
+                      className={`group relative p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 ${isSelected ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-sm" : "border-transparent bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5"}`}
                     >
-                      <td className="px-6 py-4">
-                        <div className="space-y-0.5">
-                          <p className="text-sm font-semibold text-gray-800 group-hover:text-[var(--olive)] transition-colors">
-                            {row.name}
-                          </p>
-                          <p className="text-[9px] text-gray-400 font-medium tracking-wide">
-                            {row.tam} | {row.hin}
-                          </p>
+                      <div
+                        className={`absolute top-2 left-2 w-4 h-4 rounded flex items-center justify-center transition-colors duration-300 ${isSelected ? "bg-[var(--olive)] text-white" : "bg-gray-100 border border-gray-200 group-hover:border-gray-300 text-transparent"}`}
+                      >
+                        <Check
+                          className={`w-3 h-3 ${isSelected ? "opacity-100" : "opacity-0"}`}
+                          strokeWidth={3}
+                        />
+                      </div>
+                      <div className="h-[60px] w-full relative mb-3 mt-4 bg-white rounded-lg overflow-hidden flex items-center justify-center">
+                        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 opacity-50"></div>
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_IMAGE_URL ?? ""}${product.productimage ?? ""}`}
+                          alt={product.productname ?? "product image"}
+                          className="object-contain mix-blend-multiply opacity-80 group-hover:scale-110 transition-transform duration-500 w-full h-full absolute inset-0 p-1"
+                        />
+                      </div>
+                      <div className="text-center space-y-1">
+                        <p className="font-bold text-[11px] md:text-xs text-gray-900 line-clamp-2 leading-tight group-hover:text-[var(--olive)] transition-colors">
+                          {product.productname}
+                        </p>
+                        <div className="inline-block px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
+                          <span className="text-[11px] font-extrabold text-[var(--olive)]">
+                            ₹{price}
+                          </span>
+                          <span className="text-[9px] font-medium text-gray-500 ml-0.5">
+                            / Kg
+                          </span>
                         </div>
-                      </td>
-                      <td className="px-4 py-4 text-center">
-                        <input
-                          type="number"
-                          className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 bg-gray-50/50 text-xs font-bold text-gray-700 text-center focus:ring-2 focus:ring-[var(--olive)]/20 focus:bg-white outline-none transition-all"
-                          value={row.grams}
-                          onChange={(e) => {
-                            const newPlanner = [...currentPlanner];
-                            newPlanner[idx].grams = Number(e.target.value);
-                            setPlanner(newPlanner);
-                          }}
-                        />
-                      </td>
-                      <td className="px-4 py-4 text-center">
-                        <input
-                          type="number"
-                          className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 bg-gray-50/50 text-xs font-bold text-gray-700 text-center focus:ring-2 focus:ring-[var(--olive)]/20 focus:bg-white outline-none transition-all"
-                          value={row.days}
-                          onChange={(e) => {
-                            const newPlanner = [...currentPlanner];
-                            newPlanner[idx].days = Number(e.target.value);
-                            setPlanner(newPlanner);
-                          }}
-                        />
-                      </td>
-                      <td className="px-4 py-4 text-center">
-                        <input
-                          type="number"
-                          className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 bg-gray-50/50 text-xs font-bold text-gray-700 text-center focus:ring-2 focus:ring-[var(--olive)]/20 focus:bg-white outline-none transition-all"
-                          value={row.members}
-                          onChange={(e) => {
-                            const newPlanner = [...currentPlanner];
-                            newPlanner[idx].members = Number(e.target.value);
-                            setPlanner(newPlanner);
-                          }}
-                        />
-                      </td>
-                      <td className="px-4 py-4 font-medium text-gray-400 text-xs">
-                        {qty} <span className="text-[9px] font-bold">Kg</span>
-                      </td>
-                      <td className="px-4 py-4 font-medium text-gray-400 text-xs">
-                        ₹{row.price}
-                      </td>
-                      <td className="px-6 py-4 text-right font-bold text-[var(--olive)] text-sm">
-                        ₹{price}
-                      </td>
-                    </tr>
+                      </div>
+                    </div>
                   );
                 })}
+              </div>
+
+              {/* Selection Summary */}
+              <div className="mt-6 bg-[var(--olive)]/5 border border-[var(--olive)]/10 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-2 text-[var(--olive)] font-semibold text-sm">
+                  <Check className="w-5 h-5 text-[var(--olive)]" />{" "}
+                  {selectedProducts.length} products selected
+                </div>
+                <button
+                  onClick={scrollToCalculator}
+                  disabled={selectedProducts.length === 0}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--olive)] text-white hover:bg-[var(--olive-dark)] shadow-md" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}
+                >
+                  Add to Calculator <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Separator Arrow */}
+        <div className="flex justify-center -my-2">
+          <ArrowDown className="w-8 h-8 text-[var(--olive)] animate-bounce" />
+        </div>
+
+        {/* Step 2: Calculator */}
+        <div
+          id="calculator-section"
+          className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6"
+        >
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">
+                2. Your Monthly Calculation
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Set your requirements and calculate the monthly budget for
+                selected products.
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleClearAll}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-gray-600 font-medium text-sm hover:bg-gray-50 cursor-pointer"
+              >
+                Clear All <Trash2 className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--olive)] text-white font-medium text-sm hover:bg-[var(--olive-dark)] cursor-pointer"
+              >
+                Add More Products <Plus className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto border border-gray-100 rounded-xl">
+            <table className="w-full text-left border-collapse min-w-[800px]">
+              <thead>
+                <tr className="bg-gray-50 text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-gray-200">
+                  <th className="px-6 py-4">Product</th>
+                  <th className="px-4 py-4 text-center">Grams / Day</th>
+                  <th className="px-4 py-4 text-center">Days / Month</th>
+                  <th className="px-4 py-4 text-center">Family Members</th>
+                  <th className="px-4 py-4 text-center">Qty / Person</th>
+                  <th className="px-4 py-4 text-center">Price / Kg</th>
+                  <th className="px-6 py-4 text-right">Total Budget</th>
+                  <th className="px-4 py-4 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {selectedProducts.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={8}
+                      className="px-6 py-12 text-center text-gray-400"
+                    >
+                      No products selected. Please select products from the list
+                      above.
+                    </td>
+                  </tr>
+                ) : (
+                  selectedProducts.map((product) => {
+                    const data = plannerData[product.productid!];
+                    const { qty, price } = calculateRow(product);
+                    const displayPrice =
+                      product.sellingprice || product.price || 0;
+
+                    return (
+                      <tr
+                        key={product.productid}
+                        className="hover:bg-gray-50/30 transition-all"
+                      >
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 relative rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                              <img
+                                src={`${process.env.NEXT_PUBLIC_IMAGE_URL ?? ""}${product.productimage ?? ""}`}
+                                alt={product.productname || ""}
+                                className="object-cover p-1 opacity-50"
+                              />
+                            </div>
+                            <p className="text-sm font-semibold text-gray-800 leading-tight">
+                              {product.productname}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-center">
+                          <input
+                            type="number"
+                            className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 bg-white text-xs font-bold text-gray-700 text-center focus:ring-2 focus:ring-[var(--olive)]/20 outline-none"
+                            value={data.grams}
+                            onChange={(e) =>
+                              setPlannerData((prev) => ({
+                                ...prev,
+                                [product.productid!]: {
+                                  ...data,
+                                  grams: Number(e.target.value),
+                                },
+                              }))
+                            }
+                          />
+                        </td>
+                        <td className="px-4 py-4 text-center">
+                          <input
+                            type="number"
+                            className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 bg-white text-xs font-bold text-gray-700 text-center focus:ring-2 focus:ring-[var(--olive)]/20 outline-none"
+                            value={data.days}
+                            onChange={(e) =>
+                              setPlannerData((prev) => ({
+                                ...prev,
+                                [product.productid!]: {
+                                  ...data,
+                                  days: Number(e.target.value),
+                                },
+                              }))
+                            }
+                          />
+                        </td>
+                        <td className="px-4 py-4 text-center">
+                          <input
+                            type="number"
+                            className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 bg-white text-xs font-bold text-gray-700 text-center focus:ring-2 focus:ring-[var(--olive)]/20 outline-none"
+                            value={data.members}
+                            onChange={(e) =>
+                              setPlannerData((prev) => ({
+                                ...prev,
+                                [product.productid!]: {
+                                  ...data,
+                                  members: Number(e.target.value),
+                                },
+                              }))
+                            }
+                          />
+                        </td>
+                        <td className="px-4 py-4 text-center font-medium text-gray-500 text-xs">
+                          {qty} <span className="text-[10px]">Kg</span>
+                        </td>
+                        <td className="px-4 py-4 text-center font-medium text-gray-500 text-xs">
+                          ₹{displayPrice}
+                        </td>
+                        <td className="px-6 py-4 text-right font-bold text-gray-900 text-sm">
+                          ₹{price}
+                        </td>
+                        <td className="px-4 py-4 text-center">
+                          <button
+                            onClick={() => handleRemoveItem(product.productid!)}
+                            className="w-8 h-8 mx-auto rounded-lg bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>
 
-          <div className="p-6 bg-gray-50/50 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-gray-100">
+          <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-gray-100 pt-6">
             <button
-              onClick={() =>
-                handleActionWithLogin(() =>
-                  alert("Added nutrition plan products to cart!"),
-                )
-              }
-              className="btn-standard w-full md:w-auto rounded-xl font-bold text-[10px] tracking-[0.2em] active:scale-95 transition-all duration-500 cursor-pointer"
+              onClick={handleClearAll}
+              className="px-4 py-2.5 rounded-lg border border-gray-200 text-gray-600 font-medium text-sm flex items-center gap-2 hover:bg-gray-50"
             >
-              ADD TO CART
+              Clear All Items <Trash2 className="w-4 h-4" />
             </button>
-            <div className="text-center md:text-right space-y-0.5">
-              <p className="text-[9px] font-bold text-gray-400 tracking-[0.2em] uppercase">
-                Monthly Grand Total
-              </p>
-              <p className="text-lg font-black text-gray-900 tracking-tight">
-                ₹{grandTotal.toLocaleString()}
-              </p>
+            <div className="flex items-center gap-6">
+              <div className="text-right">
+                <p className="text-[10px] font-bold text-gray-400 tracking-[0.1em] uppercase mb-1">
+                  Monthly Grand Total
+                </p>
+                <p className="text-2xl font-black text-gray-900 leading-none">
+                  ₹{grandTotal.toLocaleString()}
+                </p>
+              </div>
+              <button
+                onClick={() =>
+                  handleActionWithLogin(() =>
+                    alert("Added nutrition plan products to cart!"),
+                  )
+                }
+                disabled={selectedProducts.length === 0}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm tracking-wide transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--olive)] text-white hover:bg-[var(--olive-dark)] shadow-lg shadow-green-900/20 active:scale-95" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}
+              >
+                Buy Now <ShoppingCart className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
@@ -2333,12 +2589,16 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
                           handleActionWithLogin(() => alert("Added to cart!"));
                         }}
                         className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
-                          (product.availablestock ?? 0) <= 0 
-                            ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed" 
+                          (product.availablestock ?? 0) <= 0
+                            ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                             : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
                         } disabled:opacity-50`}
                       >
-                        <span>{(product.availablestock ?? 0) <= 0 ? "OUT OF STOCK" : "ADD TO CART"}</span>
+                        <span>
+                          {(product.availablestock ?? 0) <= 0
+                            ? "OUT OF STOCK"
+                            : "ADD TO CART"}
+                        </span>
                         <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
                       </button>
                     </div>

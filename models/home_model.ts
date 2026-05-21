@@ -51,3 +51,21 @@ export interface KuralData {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+
+export interface CalculatorProductsModel {
+    statusCode?: number;
+    data?:       CalculatorProducts[];
+}
+
+export interface CalculatorProducts {
+    bid?:          number;
+    productid?:    number;
+    productname?:  string;
+    productimage?:  string;
+    categoryid?:   number;
+    price?:        number;
+    sellingprice?: number;
+    weight?:       number;
+    unit?:         string;
+}

@@ -37,4 +37,5 @@ export const API_ROUTES = {
   PLACEORDER: "/order/placeorder",
   GETALLORDERS: "/order/get-all-orders",
   ORDERDETAILS: "/order/order-details",
+  CALCULATORPRODUCTS: "/calculator/products",
 };

@@ -613,7 +613,7 @@ export default function Navbar() {
                                     className={`text-xs font-black ${product.stock <= 0 || product.availablestock <= 0 ? "text-gray-400" : "text-gray-900"}`}
                                   >
                                     ₹
-                                    {product.selllingprice === 0
+                                    {product.selllingprice !== 0
                                       ? product.sellingprice?.toLocaleString()
                                       : product.price.toLocaleString()}
                                   </span>
