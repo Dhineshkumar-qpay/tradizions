@@ -41,6 +41,10 @@ export interface Orderdetails {
   price?: number;
   totalprice?: number;
   itemstatus?: string;
+  ordertype?: string;
+  gramsperday?: null;
+  dayspermonth?: null;
+  familymembers?: null;
 }
 
 export interface Product {

@@ -322,7 +322,7 @@ export default function ShopPage() {
       itemtype:
         p.itemtype ||
         ((p.categoryname && p.categoryname.toLowerCase().includes("gift")) ||
-        p.categoryid === 4
+          p.categoryid === 4
           ? "gift"
           : "product"),
       bid: p.bid || 1,
@@ -497,11 +497,10 @@ export default function ShopPage() {
                     page: 1,
                   }));
                 }}
-                className={`py-2 rounded-sm text-[11px] font-bold border transition-all cursor-pointer ${
-                  activeFilters.weight === numericWeight
+                className={`py-2 rounded-sm text-[11px] font-bold border transition-all cursor-pointer ${activeFilters.weight === numericWeight
                     ? "bg-stone-900 text-white border-stone-900"
                     : "bg-white text-stone-500 border-stone-200 hover:border-stone-400 shadow-sm"
-                }`}
+                  }`}
               >
                 {w}
               </button>
@@ -641,11 +640,10 @@ export default function ShopPage() {
                             }));
                             setIsSortDropdownOpen(false);
                           }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
-                            sortBy === ""
+                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${sortBy === ""
                               ? "bg-stone-50 text-[var(--olive)]"
                               : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                          }`}
+                            }`}
                         >
                           Sort: Default
                           {sortBy === "" && (
@@ -662,11 +660,10 @@ export default function ShopPage() {
                             }));
                             setIsSortDropdownOpen(false);
                           }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
-                            sortBy === "lowToHigh"
+                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${sortBy === "lowToHigh"
                               ? "bg-stone-50 text-[var(--olive)]"
                               : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                          }`}
+                            }`}
                         >
                           Price: Low to High
                           {sortBy === "lowToHigh" && (
@@ -683,11 +680,10 @@ export default function ShopPage() {
                             }));
                             setIsSortDropdownOpen(false);
                           }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
-                            sortBy === "highToLow"
+                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${sortBy === "highToLow"
                               ? "bg-stone-50 text-[var(--olive)]"
                               : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                          }`}
+                            }`}
                         >
                           Price: High to Low
                           {sortBy === "highToLow" && (
@@ -810,10 +806,17 @@ export default function ShopPage() {
                           <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
                             {product.name}
                           </h3>
-                          <p className="text-[11px] text-gray-400 font-medium line-clamp-1">
-                            {(product as any).desc ||
-                              "Tradizions premium selection for health."}
-                          </p>
+                          <div className="flex items-center gap-2">
+                            {(product as any).weight && (product as any).unitname && (
+                              <span className="inline-block bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded">
+                                {(product as any).weight} {(product as any).unitname}
+                              </span>
+                            )}
+                            <p className="text-[11px] text-gray-400 font-medium line-clamp-1 flex-1">
+                              {(product as any).desc ||
+                                "Tradizions premium selection for health."}
+                            </p>
+                          </div>
                         </div>
 
                         <div className="flex items-baseline gap-2">
@@ -945,7 +948,7 @@ export default function ShopPage() {
                                     console.error("Error adding to cart:", err);
                                     alert(
                                       err?.response?.data?.message ||
-                                        "An error occurred while adding to cart.",
+                                      "An error occurred while adding to cart.",
                                     );
                                   } finally {
                                     setAddingToCartId(null);

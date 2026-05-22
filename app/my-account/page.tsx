@@ -18,6 +18,7 @@ import {
   Wallet,
   Check,
   Lock,
+  Calendar,
 } from "lucide-react";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
@@ -27,6 +28,7 @@ import { API_ROUTES } from "@/routes/api_routes";
 import { FavouriteProductModel, FavouriteProduct } from "@/models/cart_model";
 import { ProfileModel } from "@/models/auth_model";
 import { OrderModel, OrdersData } from "@/models/checkout_model";
+import { CalculatorOrderModel, Datum } from "@/models/calculator_model";
 import {
   AddressModel,
   AddressData,
@@ -52,6 +54,8 @@ export default function ProfilePage() {
   const [addingToCartId, setAddingToCartId] = useState<number | null>(null);
 
   const [orders, setOrders] = useState<OrdersData[]>([]);
+  const [orderHistoryTab, setOrderHistoryTab] = useState<'products' | 'gifts'>('products');
+  const [monthlyOrders, setMonthlyOrders] = useState<Datum[]>([]);
   const [isOrdersLoading, setIsOrdersLoading] = useState(false);
 
   // Address States
@@ -332,10 +336,10 @@ export default function ProfilePage() {
     }
   };
 
-  const fetchOrders = async (itemtype: string) => {
+  const fetchOrders = async (itemtype: string, ordertype: string = "normal") => {
     setIsOrdersLoading(true);
     try {
-      const response = await API.post(API_ROUTES.GETALLORDERS, { itemtype });
+      const response = await API.post(API_ROUTES.GETALLORDERS, { itemtype, ordertype });
       if (response.status === 200) {
         const orderModel: OrderModel = response.data;
         setOrders(orderModel.data || []);
@@ -347,8 +351,23 @@ export default function ProfilePage() {
     }
   };
 
+  const fetchMonthlyOrders = async () => {
+    setIsOrdersLoading(true);
+    try {
+      const response = await API.post(API_ROUTES.CALCULATORORDERS);
+      if (response.status === 200) {
+        const calcOrderModel: CalculatorOrderModel = response.data;
+        setMonthlyOrders(calcOrderModel.data || []);
+      }
+    } catch (err) {
+      console.error("Error fetching monthly orders:", err);
+    } finally {
+      setIsOrdersLoading(false);
+    }
+  };
+
   // Left menu state
-  const [activeTab, setActiveTab] = useState("profile"); // profile, addresses, wishlist, orders, gift-orders, subscriptions, referrals, wallet
+  const [activeTab, setActiveTab] = useState("profile"); // profile, addresses, wishlist, orders, gift-orders, monthly-orders, subscriptions, referrals, wallet
 
   useEffect(() => {
     if (activeTab === "wishlist") {
@@ -359,11 +378,11 @@ export default function ProfilePage() {
     } else if (activeTab === "profile") {
       fetchProfile();
     } else if (activeTab === "orders") {
-      fetchOrders("product");
-    } else if (activeTab === "gift-orders") {
-      fetchOrders("gift");
+      fetchOrders(orderHistoryTab === "gifts" ? "gift" : "product");
+    } else if (activeTab === "monthly-orders") {
+      fetchMonthlyOrders();
     }
-  }, [activeTab]);
+  }, [activeTab, orderHistoryTab]);
 
   // Address sub-view state
   const [addressView, setAddressView] = useState("list"); // list, add, edit
@@ -794,49 +813,69 @@ export default function ProfilePage() {
     </div>
   );
 
-  const renderOrders = () => (
-    <div className="animate-fade-in-up">
-      <h2 className="text-2xl font-bold text-gray-900 mb-8">
-        {t.my_account.order_history}
-      </h2>
-      {isOrdersLoading ? (
-        <div className="flex flex-col items-center justify-center py-20 space-y-4">
-          <div className="w-10 h-10 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
-          <p className="text-stone-400 text-sm font-medium">
-            Loading orders...
-          </p>
-        </div>
-      ) : orders.length === 0 ? (
-        <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
-          {/* Decorative Background Element */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -z-10" />
-
-          <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
-            <div className="absolute inset-0 bg-[var(--olive)]/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-500" />
-            <Package
-              className="w-8 h-8 text-stone-300 group-hover:text-[var(--olive)] transition-colors duration-500 relative z-10"
-              strokeWidth={1.5}
-            />
+  const renderOrders = () => {
+    return (
+      <div className="animate-fade-in-up">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900">
+            {t.my_account.order_history}
+          </h2>
+          
+          {/* Tab Switcher */}
+          <div className="flex items-center bg-gray-100 p-1 rounded-xl w-fit">
+            <button 
+              onClick={() => setOrderHistoryTab('products')}
+              className={`px-4 py-2 text-[11px] font-bold tracking-widest uppercase rounded-lg transition-all duration-300 ${orderHistoryTab === 'products' ? 'bg-white text-[var(--olive)] shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+            >
+              Products History
+            </button>
+            <button 
+              onClick={() => setOrderHistoryTab('gifts')}
+              className={`px-4 py-2 text-[11px] font-bold tracking-widest uppercase rounded-lg transition-all duration-300 ${orderHistoryTab === 'gifts' ? 'bg-white text-[var(--olive)] shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+            >
+              Gift History
+            </button>
           </div>
-
-          <h3 className="text-xl font-bold text-gray-900 mb-2 tracking-tight">
-            No orders found
-          </h3>
-          <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto leading-relaxed">
-            Looks like you haven't placed any orders yet. Discover our premium collection.
-          </p>
-
-          <Link
-            href="/shop"
-            className="group flex items-center gap-2 px-6 py-3 bg-[var(--olive)] hover:bg-[var(--olive)]/90 text-white rounded-xl font-bold text-[11px] uppercase tracking-widest shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-          >
-            Explore Shop
-            <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-          </Link>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {orders.map((order, index) => {
+
+        {isOrdersLoading ? (
+          <div className="flex flex-col items-center justify-center py-20 space-y-4">
+            <div className="w-10 h-10 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
+            <p className="text-stone-400 text-sm font-medium">
+              Loading orders...
+            </p>
+          </div>
+        ) : orders.length === 0 ? (
+          <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
+            {/* Decorative Background Element */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -z-10" />
+
+            <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
+              <div className="absolute inset-0 bg-[var(--olive)]/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-500" />
+              <Package
+                className="w-8 h-8 text-stone-300 group-hover:text-[var(--olive)] transition-colors duration-500 relative z-10"
+                strokeWidth={1.5}
+              />
+            </div>
+
+            <h3 className="text-xl font-bold text-gray-900 mb-2 tracking-tight">
+              No {orderHistoryTab === 'gifts' ? 'gift orders' : 'orders'} found
+            </h3>
+            <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto leading-relaxed">
+              Looks like you haven't placed any {orderHistoryTab === 'gifts' ? 'gift orders' : 'orders'} yet. Discover our premium collection.
+            </p>
+
+            <Link
+              href="/shop"
+              className="group flex items-center gap-2 px-6 py-3 bg-[var(--olive)] hover:bg-[var(--olive)]/90 text-white rounded-xl font-bold text-[11px] uppercase tracking-widest shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+            >
+              Explore Shop
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {orders.map((order, index) => {
             const itemImage =
               order.productimage !== null
                 ? order.productimage?.startsWith("http")
@@ -891,75 +930,97 @@ export default function ProfilePage() {
         </div>
       )}
     </div>
-  );
+    );
+  };
 
-  const renderGiftOrders = () => (
+
+  const renderMonthlyOrders = () => (
     <div className="animate-fade-in-up">
-      <h2 className="text-2xl font-bold text-gray-900 mb-8">
-        {t.my_account.gift_history}
-      </h2>
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-2xl font-black text-stone-900 tracking-tight">
+          Monthly Orders
+        </h2>
+        <span className="px-3 py-1 bg-stone-100 text-stone-600 rounded-lg text-xs font-bold tracking-widest uppercase">
+          {monthlyOrders.length} Orders
+        </span>
+      </div>
+
       {isOrdersLoading ? (
         <div className="flex flex-col items-center justify-center py-20 space-y-4">
           <div className="w-10 h-10 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
-          <p className="text-stone-400 text-sm font-medium">Loading gift orders...</p>
+          <p className="text-stone-400 text-sm font-medium">Loading monthly orders...</p>
         </div>
-      ) : orders.length === 0 ? (
+      ) : monthlyOrders.length === 0 ? (
         <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -z-10" />
           <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
-            <Gift className="w-8 h-8 text-stone-300" strokeWidth={1.5} />
+            <Package className="w-8 h-8 text-stone-300" strokeWidth={1.5} />
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">No gift orders found</h3>
-          <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto">Looks like you haven't placed any gift orders yet.</p>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">No monthly orders found</h3>
+          <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto">Looks like you haven't placed any monthly orders yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {orders.map((order, index) => {
-            const itemImage = order.productimage !== null
-              ? order.productimage?.startsWith("http")
-                ? order.productimage
-                : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${order.productimage}`
-              : "/placeholder.png";
-
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {monthlyOrders.map((order, index) => {
+            const isDelivered = order.orderstatus?.toLowerCase() === "delivered";
             return (
               <Link
-                key={order.orderitemid || index}
-                href={`/order-detail?id=${order.orderitemid}`}
-                className="group flex items-center gap-4 p-4 rounded-[1.5rem] bg-white border-2 border-gray-100 hover:border-[var(--olive)]/30 hover:shadow-md transition-all"
+                key={order.orderid || index}
+                href={`/monthly-order-detail?id=${order.orderid}`}
+                className="group relative bg-white rounded-2xl p-4 border border-stone-200 hover:border-[var(--olive)]/30 hover:shadow-[0_8px_20px_rgb(0,0,0,0.04)] transition-all duration-300 flex flex-col overflow-hidden"
               >
-                <div className="relative w-20 h-20 shrink-0 rounded-xl overflow-hidden bg-[#faf9f6] border border-gray-100">
-                  <img
-                    src={itemImage}
-                    className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    alt={order.productname || "gift order"}
-                  />
-                </div>
-                <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
-                  <div>
-                    <div className="flex justify-between items-start gap-3 mb-1">
-                      <h4 className="text-[13px] font-bold text-gray-900 truncate group-hover:text-[var(--olive)] transition-colors">
-                        {order.productname}
+                {/* Decorative background accent */}
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--olive)]/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--olive)]/10 transition-colors pointer-events-none" />
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Order Header */}
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-stone-50 rounded-md border border-stone-100 mb-2">
+                        <Calendar className="w-3 h-3 text-[var(--olive)]" />
+                        <span className="text-[9px] font-black uppercase tracking-widest text-stone-500">
+                          {order.orderdate}
+                        </span>
+                      </div>
+                      <h4 className="text-base font-black text-stone-900 group-hover:text-[var(--olive)] transition-colors">
+                        Order #{order.orderid}
                       </h4>
-                      <p className="text-[13px] font-black text-[var(--olive)] whitespace-nowrap">
-                        ₹{order.price || order.totalprice}
-                      </p>
                     </div>
-                    <p className="text-[11px] text-gray-500 font-medium truncate mb-2.5">
-                      {order.categoryname || "Gift Item"}
-                    </p>
+                    <div
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center border shadow-sm ${isDelivered ? "bg-emerald-50 border-emerald-100 text-emerald-600" : "bg-amber-50 border-amber-100 text-amber-600"}`}
+                    >
+                      {isDelivered ? <Check className="w-4 h-4" /> : <Package className="w-4 h-4" />}
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-stone-50 border border-stone-100">
-                      <span
-                        className={`w-1.5 h-1.5 rounded-full ${order.itemstatus?.toLowerCase() === "delivered" ? "bg-emerald-500" : "bg-amber-500 animate-pulse"}`}
-                      />
-                      <span className="text-[9px] font-bold text-stone-600 tracking-widest uppercase">
-                        {order.itemstatus || "Pending"}
-                      </span>
+
+                  {/* Order Price & Status */}
+                  <div className="mt-auto pt-4 border-t border-dashed border-stone-200">
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-1">
+                          Total Amount
+                        </p>
+                        <p className="text-xl font-black text-stone-900">
+                          ₹{order.totalamount?.toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="flex flex-col items-end gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[9px] font-black text-stone-400 group-hover:text-[var(--olive)] transition-colors uppercase tracking-widest">
+                            Details
+                          </span>
+                          <div className="w-5 h-5 rounded-full bg-stone-50 group-hover:bg-[var(--olive)]/10 flex items-center justify-center transition-colors">
+                            <ChevronRight className="w-3 h-3 text-stone-400 group-hover:text-[var(--olive)]" />
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-[9px] font-black text-gray-400 group-hover:text-[var(--olive)] transition-colors uppercase tracking-widest flex items-center gap-0.5">
-                      Details <ChevronRight className="w-3 h-3" />
-                    </span>
+
+                    <div className="mt-3 flex items-center gap-2">
+                      <div className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border ${isDelivered ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-amber-50 text-amber-700 border-amber-100'}`}>
+                        {order.orderstatus || "Pending"}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Link>
@@ -1122,14 +1183,15 @@ export default function ProfilePage() {
                 <ChevronRight className="w-4 h-4 opacity-70" />
               )}
             </button>
+
             <button
-              onClick={() => setActiveTab("gift-orders")}
-              className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "gift-orders" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
+              onClick={() => setActiveTab("monthly-orders")}
+              className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "monthly-orders" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
             >
               <div className="flex items-center gap-3">
-                <Gift className="w-5 h-5" /> {t.my_account.gift_history}
+                <Package className="w-5 h-5" /> Monthly Orders
               </div>
-              {activeTab === "gift-orders" && (
+              {activeTab === "monthly-orders" && (
                 <ChevronRight className="w-4 h-4 opacity-70" />
               )}
             </button>
@@ -1207,7 +1269,8 @@ export default function ProfilePage() {
           {activeTab === "addresses" && renderAddresses()}
           {activeTab === "wishlist" && renderWishlist()}
           {activeTab === "orders" && renderOrders()}
-          {activeTab === "gift-orders" && renderGiftOrders()}
+
+          {activeTab === "monthly-orders" && renderMonthlyOrders()}
           {activeTab === "subscriptions" && renderSubscriptionManagement()}
           {activeTab === "referrals" && renderReferrals()}
           {activeTab === "wallet" && renderWallet()}

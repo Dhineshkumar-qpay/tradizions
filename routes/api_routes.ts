@@ -38,4 +38,9 @@ export const API_ROUTES = {
   GETALLORDERS: "/order/get-all-orders",
   ORDERDETAILS: "/order/order-details",
   CALCULATORPRODUCTS: "/calculator/products",
+  ADDCALCULATORCART: "/calculator/cart/add",
+  GETCALCULATORCART: "/calculator/cart/get",
+  PLACECALCULATORORDER: "/calculator/place-order",
+  CALCULATORORDERS: "/calculator/orders",
+  CALCULATORORDERDETAILS: "/calculator/order-detail",
 };

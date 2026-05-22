@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Home, ArrowLeft, Compass, Map } from "lucide-react";
 import { useState, useEffect } from "react";
 import en from "@/languages/en.json";
@@ -14,6 +15,7 @@ const translations: Record<string, any> = {
 };
 
 export default function NotFound() {
+  const router = useRouter();
   const [selectedLang, setSelectedLang] = useState("EN");
 
   useEffect(() => {
@@ -87,7 +89,7 @@ export default function NotFound() {
           </Link>
           
           <button
-            onClick={() => window.history.back()}
+            onClick={() => router.back()}
             className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-8 py-3.5 bg-white text-[var(--olive-dark)] border border-gray-200 rounded-xl font-bold tracking-widest text-[11px] hover:bg-gray-50 hover:border-gray-300 transition-all duration-500"
           >
             <ArrowLeft className="w-4 h-4" />

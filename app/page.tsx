@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -1058,11 +1059,11 @@ function ProductCard({
                 setIsAdding(true);
                 try {
                   const response = await API.post(API_ROUTES.ADDTOCART, {
-                    bid: 1,
-                    productid: id,
-                    giftid: null,
+                    bid: product.bid || 1,
+                    productid: product.itemtype === "gift" ? null : id,
+                    giftid: product.itemtype === "gift" ? id : null,
                     quantity: 1,
-                    itemtype: "product",
+                    itemtype: product.itemtype || "product",
                   });
                   if (response.status === 200) {
                     window.dispatchEvent(new Event("cartUpdated"));
@@ -1261,11 +1262,11 @@ function WhyChooseUsSection({ t }: { t: any }) {
     <section ref={ref} className="py-32 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
-          {/* Left Side: Dynamic Image & Stats (5 columns) */}
+          {/* Left Side: Dynamic Image & Stats (4 columns) */}
           <div
-            className={`lg:col-span-5 relative transition-all duration-500 opacity-100 translate-x-0`}
+            className={`lg:col-span-4 relative transition-all duration-500 opacity-100 translate-x-0`}
           >
-            <div className="relative aspect-[4/5] rounded-[3.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[16px] border-white">
+            <div className="relative aspect-[3/4] rounded-[3.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[16px] border-white max-w-sm mx-auto lg:max-w-none">
               <Image
                 src="/why-choose-us.jpg"
                 alt="Quality organic products"
@@ -1310,9 +1311,9 @@ function WhyChooseUsSection({ t }: { t: any }) {
             <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-amber-100/30 rounded-full blur-[80px] -z-10" />
           </div>
 
-          {/* Right Side: Content & Features (7 columns) */}
+          {/* Right Side: Content & Features (8 columns) */}
           <div
-            className={`lg:col-span-7 space-y-12 transition-all duration-500 delay-300 opacity-100 translate-x-0`}
+            className={`lg:col-span-8 space-y-12 transition-all duration-500 delay-300 opacity-100 translate-x-0`}
           >
             <div className="space-y-6">
               <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
@@ -1731,6 +1732,8 @@ function NutritionPlanner({ t }: { t: any }) {
   const [plannerData, setPlannerData] = useState<
     Record<number, { grams: number; days: number; members: number }>
   >({});
+  const [isBuying, setIsBuying] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -1850,31 +1853,36 @@ function NutritionPlanner({ t }: { t: any }) {
     <section ref={ref} className="py-12 bg-gray-50/50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-8">
         {/* Step 1: Select Products You Want */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 p-6 md:p-10 relative overflow-hidden">
+          {/* Subtle background decoration */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 relative z-10">
             <div>
-              <h2 className="text-xl font-bold text-gray-900">
-                1. Select Products You Want
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                Choose the products you want to include in your monthly
-                calculation.
+              <div className="flex items-center gap-3 mb-2">
+                <span className="w-8 h-8 rounded-full bg-[var(--olive)] text-white flex items-center justify-center font-bold text-sm shadow-md">1</span>
+                <h2 className="text-2xl font-black text-stone-900 tracking-tight">
+                  Select Products You Want
+                </h2>
+              </div>
+              <p className="text-stone-500 font-medium ml-11">
+                Choose the products you want to include in your monthly calculation.
               </p>
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
               <div className="relative flex-1 md:w-64">
-                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="Search products..."
-                  className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 font-medium text-stone-800 transition-all bg-stone-50 focus:bg-white"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <button
                 onClick={scrollToCalculator}
-                className="btn-standard flex items-center gap-2 whitespace-nowrap px-5 py-2.5 rounded-lg font-semibold text-sm"
+                className="btn-standard flex items-center gap-2 whitespace-nowrap px-6 py-3 rounded-xl font-bold text-sm shadow-md"
               >
                 View Calculator <ArrowRight className="w-4 h-4" />
               </button>
@@ -2042,57 +2050,47 @@ function NutritionPlanner({ t }: { t: any }) {
         {/* Step 2: Calculator */}
         <div
           id="calculator-section"
-          className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6"
+          className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 p-6 md:p-10 relative overflow-hidden"
         >
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+          {/* Subtle background decoration */}
+          <div className="absolute top-0 left-0 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/3"></div>
+
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 relative z-10">
             <div>
-              <h2 className="text-xl font-bold text-gray-900">
-                2. Your Monthly Calculation
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                Set your requirements and calculate the monthly budget for
-                selected products.
+              <div className="flex items-center gap-3 mb-2">
+                <span className="w-8 h-8 rounded-full bg-[var(--olive)] text-white flex items-center justify-center font-bold text-sm shadow-md">2</span>
+                <h2 className="text-2xl font-black text-stone-900 tracking-tight">
+                  Your Monthly Calculation
+                </h2>
+              </div>
+              <p className="text-stone-500 font-medium ml-11">
+                Set your requirements and calculate the monthly budget for selected products.
               </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handleClearAll}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-gray-600 font-medium text-sm hover:bg-gray-50 cursor-pointer"
-              >
-                Clear All <Trash2 className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--olive)] text-white font-medium text-sm hover:bg-[var(--olive-dark)] cursor-pointer"
-              >
-                Add More Products <Plus className="w-4 h-4" />
-              </button>
             </div>
           </div>
 
-          <div className="overflow-x-auto border border-gray-100 rounded-xl">
+          <div className="overflow-x-auto border border-stone-100 rounded-2xl shadow-sm bg-white relative z-10">
             <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
-                <tr className="bg-gray-50 text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-gray-200">
-                  <th className="px-6 py-4">Product</th>
-                  <th className="px-4 py-4 text-center">Grams / Day</th>
-                  <th className="px-4 py-4 text-center">Days / Month</th>
-                  <th className="px-4 py-4 text-center">Family Members</th>
-                  <th className="px-4 py-4 text-center">Qty / Person</th>
-                  <th className="px-4 py-4 text-center">Price / Kg</th>
-                  <th className="px-6 py-4 text-right">Total Budget</th>
-                  <th className="px-4 py-4 text-center">Action</th>
+                <tr className="bg-stone-50/80 text-[10px] font-black text-stone-500 uppercase tracking-widest border-b border-stone-100">
+                  <th className="px-6 py-5">Product</th>
+                  <th className="px-4 py-5 text-center">Grams / Day</th>
+                  <th className="px-4 py-5 text-center">Days / Month</th>
+                  <th className="px-4 py-5 text-center">Family Members</th>
+                  <th className="px-4 py-5 text-center">Qty / Person</th>
+                  <th className="px-4 py-5 text-center">Price / Kg</th>
+                  <th className="px-6 py-5 text-right">Total Budget</th>
+                  <th className="px-4 py-5 text-center">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-stone-100">
                 {selectedProducts.length === 0 ? (
                   <tr>
                     <td
                       colSpan={8}
-                      className="px-6 py-12 text-center text-gray-400"
+                      className="px-6 py-16 text-center text-stone-400 font-medium"
                     >
-                      No products selected. Please select products from the list
-                      above.
+                      No products selected. Please select products from the list above.
                     </td>
                   </tr>
                 ) : (
@@ -2105,18 +2103,18 @@ function NutritionPlanner({ t }: { t: any }) {
                     return (
                       <tr
                         key={product.productid}
-                        className="hover:bg-gray-50/30 transition-all"
+                        className="hover:bg-stone-50/50 transition-colors"
                       >
                         <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 relative rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                          <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 relative rounded-xl bg-stone-50 border border-stone-100 overflow-hidden flex-shrink-0">
                               <img
                                 src={`${process.env.NEXT_PUBLIC_IMAGE_URL ?? ""}${product.productimage ?? ""}`}
                                 alt={product.productname || ""}
-                                className="object-cover p-1 opacity-50"
+                                className="object-cover p-1"
                               />
                             </div>
-                            <p className="text-sm font-semibold text-gray-800 leading-tight">
+                            <p className="text-sm font-bold text-stone-800 leading-tight">
                               {product.productname}
                             </p>
                           </div>
@@ -2124,7 +2122,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         <td className="px-4 py-4 text-center">
                           <input
                             type="number"
-                            className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 bg-white text-xs font-bold text-gray-700 text-center focus:ring-2 focus:ring-[var(--olive)]/20 outline-none"
+                            className="w-16 px-2 py-2 rounded-xl border border-stone-200 bg-stone-50 text-sm font-bold text-stone-800 text-center focus:bg-white focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-sm"
                             value={data.grams}
                             onChange={(e) =>
                               setPlannerData((prev) => ({
@@ -2140,7 +2138,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         <td className="px-4 py-4 text-center">
                           <input
                             type="number"
-                            className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 bg-white text-xs font-bold text-gray-700 text-center focus:ring-2 focus:ring-[var(--olive)]/20 outline-none"
+                            className="w-16 px-2 py-2 rounded-xl border border-stone-200 bg-stone-50 text-sm font-bold text-stone-800 text-center focus:bg-white focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-sm"
                             value={data.days}
                             onChange={(e) =>
                               setPlannerData((prev) => ({
@@ -2156,7 +2154,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         <td className="px-4 py-4 text-center">
                           <input
                             type="number"
-                            className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 bg-white text-xs font-bold text-gray-700 text-center focus:ring-2 focus:ring-[var(--olive)]/20 outline-none"
+                            className="w-16 px-2 py-2 rounded-xl border border-stone-200 bg-stone-50 text-sm font-bold text-stone-800 text-center focus:bg-white focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-sm"
                             value={data.members}
                             onChange={(e) =>
                               setPlannerData((prev) => ({
@@ -2169,19 +2167,19 @@ function NutritionPlanner({ t }: { t: any }) {
                             }
                           />
                         </td>
-                        <td className="px-4 py-4 text-center font-medium text-gray-500 text-xs">
-                          {qty} <span className="text-[10px]">Kg</span>
+                        <td className="px-4 py-4 text-center font-bold text-stone-500 text-sm">
+                          {qty} <span className="text-[10px] font-medium text-stone-400">Kg</span>
                         </td>
-                        <td className="px-4 py-4 text-center font-medium text-gray-500 text-xs">
+                        <td className="px-4 py-4 text-center font-bold text-stone-500 text-sm">
                           ₹{displayPrice}
                         </td>
-                        <td className="px-6 py-4 text-right font-bold text-gray-900 text-sm">
+                        <td className="px-6 py-4 text-right font-black text-stone-900 text-base">
                           ₹{price}
                         </td>
                         <td className="px-4 py-4 text-center">
                           <button
                             onClick={() => handleRemoveItem(product.productid!)}
-                            className="w-8 h-8 mx-auto rounded-lg bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition-colors"
+                            className="w-9 h-9 mx-auto rounded-xl bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-sm"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -2194,32 +2192,61 @@ function NutritionPlanner({ t }: { t: any }) {
             </table>
           </div>
 
-          <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-gray-100 pt-6">
+          <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-stone-100 pt-8 relative z-10">
             <button
               onClick={handleClearAll}
-              className="px-4 py-2.5 rounded-lg border border-gray-200 text-gray-600 font-medium text-sm flex items-center gap-2 hover:bg-gray-50"
+              className="px-5 py-3 rounded-xl border border-stone-200 text-stone-600 font-bold text-sm flex items-center gap-2 hover:bg-stone-50 hover:border-stone-300 transition-all shadow-sm"
             >
               Clear All Items <Trash2 className="w-4 h-4" />
             </button>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-8">
               <div className="text-right">
-                <p className="text-[10px] font-bold text-gray-400 tracking-[0.1em] uppercase mb-1">
+                <p className="text-[10px] font-black text-stone-400 tracking-[0.1em] uppercase mb-1">
                   Monthly Grand Total
                 </p>
-                <p className="text-2xl font-black text-gray-900 leading-none">
+                <p className="text-3xl font-black text-stone-900 leading-none">
                   ₹{grandTotal.toLocaleString()}
                 </p>
               </div>
               <button
                 onClick={() =>
-                  handleActionWithLogin(() =>
-                    alert("Added nutrition plan products to cart!"),
-                  )
+                  handleActionWithLogin(async () => {
+                    setIsBuying(true);
+                    try {
+                      const payload = {
+                        products: selectedProducts.map(p => {
+                          const d = plannerData[p.productid!];
+                          return {
+                            bid: p.bid || 1,
+                            productid: p.productid,
+                            gramsperday: d.grams,
+                            dayspermonth: d.days,
+                            familymembers: d.members
+                          };
+                        })
+                      };
+                      const response = await API.post(API_ROUTES.ADDCALCULATORCART, payload);
+                      if (response.status === 200) {
+                        router.push("/monthly-cart");
+                      } else {
+                        alert("Failed to add to monthly cart.");
+                      }
+                    } catch (err: any) {
+                      console.error("Error adding to monthly cart", err);
+                      alert(err?.response?.data?.message || "An error occurred while adding to monthly cart.");
+                    } finally {
+                      setIsBuying(false);
+                    }
+                  })
                 }
-                disabled={selectedProducts.length === 0}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm tracking-wide transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--olive)] text-white hover:bg-[var(--olive-dark)] shadow-lg shadow-green-900/20 active:scale-95" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}
+                disabled={selectedProducts.length === 0 || isBuying}
+                className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm tracking-wide transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--olive)] text-white hover:bg-[var(--olive-dark)] shadow-lg shadow-green-900/20 active:scale-95" : "bg-gray-200 text-gray-400 cursor-not-allowed"} min-w-[140px]`}
               >
-                Buy Now <ShoppingCart className="w-5 h-5" />
+                {isBuying ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <>Buy Now <ShoppingCart className="w-5 h-5" /></>
+                )}
               </button>
             </div>
           </div>

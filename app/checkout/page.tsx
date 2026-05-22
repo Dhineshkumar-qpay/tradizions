@@ -140,7 +140,7 @@ export default function CheckoutPage() {
       console.error("Error saving address:", err);
       alert(
         err?.response?.data?.message ||
-          "An error occurred while saving address.",
+        "An error occurred while saving address.",
       );
     }
   };
@@ -237,9 +237,9 @@ export default function CheckoutPage() {
         addressids:
           selectionMode === "multi"
             ? multipleAddress.map(({ addressid, productid }) => ({
-                addressid,
-                productid,
-              }))
+              addressid,
+              productid,
+            }))
             : [],
       };
       const response = await API.post(API_ROUTES.PLACEORDER, body);
@@ -254,7 +254,7 @@ export default function CheckoutPage() {
       console.error("Error placing order:", err);
       alert(
         err?.response?.data?.message ||
-          "An error occurred while placing your order.",
+        "An error occurred while placing your order.",
       );
     } finally {
       setIsPlacingOrder(false);
@@ -270,132 +270,132 @@ export default function CheckoutPage() {
   }
 
   if (orderPlaced) {
-   return (
-  <main className="min-h-screen bg-[#f7f7f5] flex items-center justify-center p-25 overflow-hidden relative">
+    return (
+      <main className="min-h-screen bg-[#f7f7f5] flex items-center justify-center p-25 overflow-hidden relative">
 
-    {/* Background Glow */}
-    <div className="absolute top-[-80px] left-[-80px] w-[180px] h-[180px] bg-[var(--olive)]/10 rounded-full blur-3xl" />
-    <div className="absolute bottom-[-80px] right-[-80px] w-[180px] h-[180px] bg-[var(--olive-dark)]/10 rounded-full blur-3xl" />
+        {/* Background Glow */}
+        <div className="absolute top-[-80px] left-[-80px] w-[180px] h-[180px] bg-[var(--olive)]/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-[-80px] right-[-80px] w-[180px] h-[180px] bg-[var(--olive-dark)]/10 rounded-full blur-3xl" />
 
-    <div className="relative w-full max-w-sm">
+        <div className="relative w-full max-w-sm">
 
-      {/* Card */}
-      <div className="relative bg-white rounded-[28px] border border-stone-200/70 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.12)] overflow-hidden">
+          {/* Card */}
+          <div className="relative bg-white rounded-[28px] border border-stone-200/70 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.12)] overflow-hidden">
 
-        {/* Top Border */}
-        <div className="h-1.5 bg-gradient-to-r from-[var(--olive)] via-[var(--olive)] to-[var(--olive-dark)]" />
+            {/* Top Border */}
+            <div className="h-1.5 bg-gradient-to-r from-[var(--olive)] via-[var(--olive)] to-[var(--olive-dark)]" />
 
-        <div className="px-6 pt-8 pb-6 text-center">
+            <div className="px-6 pt-8 pb-6 text-center">
 
-          {/* Success Icon */}
-          <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+              {/* Success Icon */}
+              <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
 
-            {/* Ring Animation */}
-            <div className="absolute inset-0 rounded-full border-2 border-[var(--olive)]/30 animate-ping" />
+                {/* Ring Animation */}
+                <div className="absolute inset-0 rounded-full border-2 border-[var(--olive)]/30 animate-ping" />
 
-            {/* Circle */}
-            <div className="relative z-10 w-20 h-20 rounded-full bg-gradient-to-br from-[var(--olive)] to-[var(--olive-dark)] flex items-center justify-center shadow-[0_15px_30px_rgba(85,107,47,0.35)]">
+                {/* Circle */}
+                <div className="relative z-10 w-20 h-20 rounded-full bg-gradient-to-br from-[var(--olive)] to-[var(--olive-dark)] flex items-center justify-center shadow-[0_15px_30px_rgba(85,107,47,0.35)]">
 
-              <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
 
-                {/* Check */}
-                <svg
-                  className="w-7 h-7 text-[var(--olive)]"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                  viewBox="0 0 24 24"
+                    {/* Check */}
+                    <svg
+                      className="w-7 h-7 text-[var(--olive)]"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M5 13l4 4L19 7"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{
+                          strokeDasharray: 100,
+                          strokeDashoffset: 100,
+                          animation: "draw 0.6s ease forwards",
+                        }}
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Title */}
+              <h1 className="text-2xl font-black text-stone-900 mb-2 tracking-tight">
+                Order Confirmed
+              </h1>
+
+              <p className="text-stone-500 text-xs leading-relaxed max-w-[240px] mx-auto mb-6">
+                Your payment has been completed successfully.
+              </p>
+
+              {/* Order Info */}
+              <div className="bg-stone-50 rounded-2xl border border-stone-200 p-4 mb-6 text-left">
+
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-[10px] uppercase tracking-[0.18em] text-stone-400 font-bold">
+                    Order ID
+                  </span>
+
+                  <span className="text-xs font-black text-stone-900">
+                    #{placedOrderId}
+                  </span>
+                </div>
+
+                <div className="border-t border-dashed border-stone-200 my-3"></div>
+
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-[11px] text-stone-500 font-medium">
+                    Total
+                  </span>
+
+                  <span className="text-lg font-black text-[var(--olive-dark)]">
+                    ₹{grandTotal.toLocaleString()}
+                  </span>
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <span className="text-[11px] text-stone-500 font-medium">
+                    Payment
+                  </span>
+
+                  <span className="text-[10px] uppercase px-2 py-1 rounded-lg bg-white border border-stone-200 font-bold text-stone-700">
+                    {paymentMethod}
+                  </span>
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <div className="flex flex-col gap-3">
+
+                <Link
+                  href="/my-account?tab=orders"
+                  className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]"
                 >
-                  <path
-                    d="M5 13l4 4L19 7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    style={{
-                      strokeDasharray: 100,
-                      strokeDashoffset: 100,
-                      animation: "draw 0.6s ease forwards",
-                    }}
-                  />
-                </svg>
+                  Track Order
+                </Link>
+
+                <Link
+                  href="/shop"
+                  className="w-full h-12 rounded-xl bg-white border border-stone-200 text-stone-700 text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center hover:bg-stone-50 transition-all duration-300"
+                >
+                  Continue Shopping
+                </Link>
               </div>
             </div>
           </div>
-
-          {/* Title */}
-          <h1 className="text-2xl font-black text-stone-900 mb-2 tracking-tight">
-            Order Confirmed
-          </h1>
-
-          <p className="text-stone-500 text-xs leading-relaxed max-w-[240px] mx-auto mb-6">
-            Your payment has been completed successfully.
-          </p>
-
-          {/* Order Info */}
-          <div className="bg-stone-50 rounded-2xl border border-stone-200 p-4 mb-6 text-left">
-
-            <div className="flex justify-between items-center mb-3">
-              <span className="text-[10px] uppercase tracking-[0.18em] text-stone-400 font-bold">
-                Order ID
-              </span>
-
-              <span className="text-xs font-black text-stone-900">
-                #{placedOrderId}
-              </span>
-            </div>
-
-            <div className="border-t border-dashed border-stone-200 my-3"></div>
-
-            <div className="flex justify-between items-center mb-3">
-              <span className="text-[11px] text-stone-500 font-medium">
-                Total
-              </span>
-
-              <span className="text-lg font-black text-[var(--olive-dark)]">
-                ₹{grandTotal.toLocaleString()}
-              </span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="text-[11px] text-stone-500 font-medium">
-                Payment
-              </span>
-
-              <span className="text-[10px] uppercase px-2 py-1 rounded-lg bg-white border border-stone-200 font-bold text-stone-700">
-                {paymentMethod}
-              </span>
-            </div>
-          </div>
-
-          {/* Buttons */}
-          <div className="flex flex-col gap-3">
-
-            <Link
-              href="/my-account?tab=orders"
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]"
-            >
-              Track Order
-            </Link>
-
-            <Link
-              href="/shop"
-              className="w-full h-12 rounded-xl bg-white border border-stone-200 text-stone-700 text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center hover:bg-stone-50 transition-all duration-300"
-            >
-              Continue Shopping
-            </Link>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <style jsx>{`
+        <style jsx>{`
       @keyframes draw {
         to {
           stroke-dashoffset: 0;
         }
       }
     `}</style>
-  </main>
-);
+      </main>
+    );
   }
 
   return (
@@ -431,37 +431,37 @@ export default function CheckoutPage() {
               <div className="space-y-6">
                 {/* Option 1: Single Address */}
                 <div
-                  className={`border-2 rounded-2xl p-6 cursor-pointer transition-all ${
-                    selectionMode === "single"
-                      ? "border-[var(--olive)] bg-[#fcfcfb]"
-                      : "border-stone-100 hover:border-stone-200"
-                  }`}
-                  onClick={() => setSelectionMode("single")}
+                  className={`border-2 rounded-2xl p-6 transition-all ${cartItems.length > 1 && selectionMode !== "single"
+                    ? "border-stone-100 hover:border-stone-200 cursor-pointer"
+                    : "border-[var(--olive)] bg-[#fcfcfb]"
+                    }`}
+                  onClick={() => cartItems.length > 1 && setSelectionMode("single")}
                 >
                   <div className="flex items-center gap-4 mb-4">
-                    <div
-                      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                        selectionMode === "single"
+                    {cartItems.length > 1 && (
+                      <div
+                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${selectionMode === "single"
                           ? "border-[var(--olive)] bg-[var(--olive)]"
                           : "border-stone-300"
-                      }`}
-                    >
-                      {selectionMode === "single" && (
-                        <Check className="w-3 h-3 text-white" strokeWidth={4} />
-                      )}
-                    </div>
+                          }`}
+                      >
+                        {selectionMode === "single" && (
+                          <Check className="w-3 h-3 text-white" strokeWidth={4} />
+                        )}
+                      </div>
+                    )}
                     <div>
                       <h3 className="text-sm font-bold text-stone-900">
-                        Apply one address to all products
+                        {cartItems.length > 1 ? "Apply one address to all products" : t.checkout?.delivery_address || "Delivery Address"}
                       </h3>
                       <p className="text-xs text-stone-500">
-                        All items will be delivered to the same address
+                        {cartItems.length > 1 ? "All items will be delivered to the same address" : "Select where you want your item delivered"}
                       </p>
                     </div>
                   </div>
 
-                  {selectionMode === "single" && (
-                    <div className="ml-10">
+                  {(selectionMode === "single" || cartItems.length <= 1) && (
+                    <div className={cartItems.length > 1 ? "ml-10" : ""}>
                       <select
                         value={selectedAddressId || ""}
                         onChange={(e) =>
@@ -480,134 +480,136 @@ export default function CheckoutPage() {
                   )}
                 </div>
 
-                {/* Divider */}
-                <div className="relative flex items-center justify-center my-6">
-                  <div className="border-t border-stone-200 w-full" />
-                  <span className="absolute bg-white px-4 text-stone-400 text-sm font-medium">
-                    or
-                  </span>
-                </div>
+                {cartItems.length > 1 && (
+                  <>
+                    {/* Divider */}
+                    <div className="relative flex items-center justify-center my-6">
+                      <div className="border-t border-stone-200 w-full" />
+                      <span className="absolute bg-white px-4 text-stone-400 text-sm font-medium">
+                        or
+                      </span>
+                    </div>
 
-                {/* Option 2: Multi Address */}
-                <div
-                  className={`border-2 rounded-2xl p-6 cursor-pointer transition-all ${
-                    selectionMode === "multi"
-                      ? "border-[var(--olive)] bg-[#fcfcfb]"
-                      : "border-stone-100 hover:border-stone-200"
-                  }`}
-                  onClick={() => setSelectionMode("multi")}
-                >
-                  <div className="flex items-center gap-4 mb-4">
+                    {/* Option 2: Multi Address */}
                     <div
-                      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                        selectionMode === "multi"
-                          ? "border-[var(--olive)] bg-[var(--olive)]"
-                          : "border-stone-300"
-                      }`}
+                      className={`border-2 rounded-2xl p-6 cursor-pointer transition-all ${selectionMode === "multi"
+                        ? "border-[var(--olive)] bg-[#fcfcfb]"
+                        : "border-stone-100 hover:border-stone-200"
+                        }`}
+                      onClick={() => setSelectionMode("multi")}
                     >
+                      <div className="flex items-center gap-4 mb-4">
+                        <div
+                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${selectionMode === "multi"
+                            ? "border-[var(--olive)] bg-[var(--olive)]"
+                            : "border-stone-300"
+                            }`}
+                        >
+                          {selectionMode === "multi" && (
+                            <Check className="w-3 h-3 text-white" strokeWidth={4} />
+                          )}
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-bold text-stone-900">
+                            Choose address for each product
+                          </h3>
+                          <p className="text-xs text-stone-500">
+                            Select different addresses for different products
+                          </p>
+                        </div>
+                      </div>
+
                       {selectionMode === "multi" && (
-                        <Check className="w-3 h-3 text-white" strokeWidth={4} />
+                        <div className="ml-10 space-y-4">
+                          {cartItems.map((item, idx) => {
+                            const itemImage = item.image?.startsWith("http")
+                              ? item.image
+                              : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.image}`;
+                            return (
+                              <div
+                                key={item.cartid || idx}
+                                className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 border border-stone-100 rounded-xl bg-white"
+                              >
+                                <div className="flex items-center gap-4 flex-1">
+                                  <div className="relative w-12 h-12 rounded-lg bg-stone-50 overflow-hidden shrink-0 border border-stone-100">
+                                    <img
+                                      src={itemImage || "/placeholder.png"}
+                                      className="w-full h-full object-cover"
+                                      alt={item.name || ""}
+                                    />
+                                  </div>
+                                  <div className="min-w-0">
+                                    <p className="text-xs font-bold text-stone-900 truncate">
+                                      {item.name}
+                                    </p>
+                                    <p className="text-xs text-stone-500">
+                                      ₹
+                                      {((item.sellingprice ?? 0) > 0
+                                        ? item.sellingprice
+                                        : item.price
+                                      )?.toLocaleString()}{" "}
+                                      × {item.quantity}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="w-full sm:w-48">
+                                  <select
+                                    value={
+                                      multipleAddress.find(
+                                        (entry) => entry.cartid === item.cartid,
+                                      )?.addressid || ""
+                                    }
+                                    onChange={(e) => {
+                                      const addrId = Number(e.target.value);
+                                      const productid =
+                                        item.itemtype === "gift"
+                                          ? item.giftid
+                                          : item.productid;
+                                      const cartId = item.cartid || 0;
+                                      setMultipleAddress((prev) => {
+                                        const index = prev.findIndex(
+                                          (entry) => entry.cartid === cartId,
+                                        );
+                                        if (index !== -1) {
+                                          const updated = [...prev];
+                                          updated[index] = {
+                                            ...updated[index],
+                                            addressid: addrId,
+                                          };
+                                          return updated;
+                                        } else {
+                                          return [
+                                            ...prev,
+                                            {
+                                              addressid: addrId,
+                                              productid: productid ?? 0,
+                                              cartid: cartId,
+                                            },
+                                          ];
+                                        }
+                                      });
+                                    }}
+                                    className="w-full border border-stone-200 rounded-xl py-2 px-3 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-stone-800 text-xs shadow-sm"
+                                  >
+                                    <option value="">{t.checkout?.select_address || "Select Address"}</option>
+                                    {addresses.map((addr) => (
+                                      <option
+                                        key={addr.addressid}
+                                        value={addr.addressid}
+                                      >
+                                        {addr.addressline}, {addr.city}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
                       )}
                     </div>
-                    <div>
-                      <h3 className="text-sm font-bold text-stone-900">
-                        Choose address for each product
-                      </h3>
-                      <p className="text-xs text-stone-500">
-                        Select different addresses for different products
-                      </p>
-                    </div>
-                  </div>
-
-                  {selectionMode === "multi" && (
-                    <div className="ml-10 space-y-4">
-                      {cartItems.map((item, idx) => {
-                        const itemImage = item.image?.startsWith("http")
-                          ? item.image
-                          : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.image}`;
-                        return (
-                          <div
-                            key={item.cartid || idx}
-                            className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 border border-stone-100 rounded-xl bg-white"
-                          >
-                            <div className="flex items-center gap-4 flex-1">
-                              <div className="relative w-12 h-12 rounded-lg bg-stone-50 overflow-hidden shrink-0 border border-stone-100">
-                                <img
-                                  src={itemImage || "/placeholder.png"}
-                                  className="w-full h-full object-cover"
-                                  alt={item.name || ""}
-                                />
-                              </div>
-                              <div className="min-w-0">
-                                <p className="text-xs font-bold text-stone-900 truncate">
-                                  {item.name}
-                                </p>
-                                <p className="text-xs text-stone-500">
-                                  ₹
-                                  {((item.sellingprice ?? 0) > 0
-                                    ? item.sellingprice
-                                    : item.price
-                                  )?.toLocaleString()}{" "}
-                                  × {item.quantity}
-                                </p>
-                              </div>
-                            </div>
-                            <div className="w-full sm:w-48">
-                              <select
-                                value={
-                                  multipleAddress.find(
-                                    (entry) => entry.cartid === item.cartid,
-                                  )?.addressid || ""
-                                }
-                                onChange={(e) => {
-                                  const addrId = Number(e.target.value);
-                                  const productid =
-                                    item.itemtype === "gift"
-                                      ? item.giftid
-                                      : item.productid;
-                                  const cartId = item.cartid || 0;
-                                  setMultipleAddress((prev) => {
-                                    const index = prev.findIndex(
-                                      (entry) => entry.cartid === cartId,
-                                    );
-                                    if (index !== -1) {
-                                      const updated = [...prev];
-                                      updated[index] = {
-                                        ...updated[index],
-                                        addressid: addrId,
-                                      };
-                                      return updated;
-                                    } else {
-                                      return [
-                                        ...prev,
-                                        {
-                                          addressid: addrId,
-                                          productid: productid || 0,
-                                          cartid: cartId,
-                                        },
-                                      ];
-                                    }
-                                  });
-                                }}
-                                className="w-full border border-stone-200 rounded-xl py-2 px-3 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-stone-800 text-xs shadow-sm"
-                              >
-                                <option value="">{t.checkout?.select_address || "Select Address"}</option>
-                                {addresses.map((addr) => (
-                                  <option
-                                    key={addr.addressid}
-                                    value={addr.addressid}
-                                  >
-                                    {addr.addressline}, {addr.city}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
+                  </>
+                )}
               </div>
 
               {showAddressForm && (
@@ -832,7 +834,7 @@ export default function CheckoutPage() {
                           <p className="text-[13px] font-bold text-stone-900 whitespace-nowrap">
                             ₹
                             {item.sellingprice === 0 ||
-                            item.sellingprice === undefined
+                              item.sellingprice === undefined
                               ? item.price?.toLocaleString()
                               : item.sellingprice?.toLocaleString()}
                           </p>
