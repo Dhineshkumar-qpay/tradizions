@@ -36,6 +36,9 @@ export interface AddressData {
   stateid?: number;
   country?: string;
   pincode?: string;
+  title?: string;
+  name?: string;
+  mobilenumber?: string;
   latitude?: number;
   longitude?: number;
   createdAt?: Date;

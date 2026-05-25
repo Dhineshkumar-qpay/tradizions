@@ -13,6 +13,8 @@ export const API_ROUTES = {
   PRODUCT_DETAIL: "/product/product-detail",
   GIFT_DETAIL: "/product/gift-detail",
   GIFT_CARDS: "/product/gift-cards",
+  NEWARRIVALS: "/product/new-arrivals",
+  FEATURED: "/product/featured",
   USERS: "/users",
   ORDERS: "/orders",
   ADDNORMALCONTACTUS: "/contact/add-normal-contactus",

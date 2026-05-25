@@ -88,6 +88,8 @@ export interface Giftdetail {
   giftsellingprice?: number;
   stock?: number;
   discount?: number;
+  weight?: number;
+  unit?: string;
   packingtype?: string;
   image1?: null;
   image2?: null;

@@ -342,7 +342,7 @@ export default function ShopPage() {
         <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4">
           {t.shop_filters.categories}
         </h4>
-        <div className="space-y-3">
+        <div className="space-y-2">
           <button
             onClick={() => {
               setSelectedCategory("All Categories");
@@ -354,32 +354,47 @@ export default function ShopPage() {
               }));
               if (isMobileFilterOpen) setIsMobileFilterOpen(false);
             }}
-            className={`block text-[12px] font-bold transition-colors cursor-pointer ${selectedCategory === "All Categories" ? "text-[var(--olive)] font-extrabold" : "text-stone-500 hover:text-stone-900"}`}
+            className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+              selectedCategory === "All Categories"
+                ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
+                : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+            }`}
           >
-            {t.shop_filters.all_collections}
+            <span className="text-[12px] font-bold">{t.shop_filters.all_collections}</span>
+            <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-colors ${selectedCategory === "All Categories" ? "border-[var(--olive)]" : "border-stone-200"}`}>
+              {selectedCategory === "All Categories" && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+            </div>
           </button>
-          <div className="pl-4 space-y-3">
-            {categories.map((cat) => (
-              <button
-                key={cat.categoryid || cat.categoryname}
-                onClick={() => {
-                  setSelectedCategory(cat.categoryname);
-                  setActiveFilters((prev: any) => ({
-                    ...prev,
-                    categoryid: cat.categoryid,
-                    subcategoryid: 0,
-                    page: 1,
-                  }));
-                  if (isMobileFilterOpen) setIsMobileFilterOpen(false);
-                }}
-                className={`block text-[12px] font-bold transition-colors cursor-pointer text-left w-full ${selectedCategory === cat.categoryname ? "text-stone-900 font-extrabold" : "text-stone-500 hover:text-stone-900"}`}
-              >
-                {selectedCategory === cat.categoryname && (
-                  <ChevronRight className="w-3 h-3 inline mr-1 text-stone-400" />
-                )}
-                {cat.categoryname}
-              </button>
-            ))}
+          
+          <div className="pl-4 space-y-2 mt-2">
+            {categories.map((cat) => {
+              const isSelected = selectedCategory === cat.categoryname;
+              return (
+                <button
+                  key={cat.categoryid || cat.categoryname}
+                  onClick={() => {
+                    setSelectedCategory(cat.categoryname);
+                    setActiveFilters((prev: any) => ({
+                      ...prev,
+                      categoryid: cat.categoryid,
+                      subcategoryid: 0,
+                      page: 1,
+                    }));
+                    if (isMobileFilterOpen) setIsMobileFilterOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+                    isSelected
+                      ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
+                      : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+                  }`}
+                >
+                  <span className="text-[12px] font-bold">{cat.categoryname}</span>
+                  <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--olive)]" : "border-stone-200"}`}>
+                    {isSelected && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -392,34 +407,32 @@ export default function ShopPage() {
             </span>
             <ChevronDown className="w-3.5 h-3.5 text-stone-400 transition-transform group-open:rotate-180" />
           </summary>
-          <div className="px-5 pb-5 space-y-2.5">
-            {subcategories.map((sub) => (
-              <label
-                key={sub.subcategoryid}
-                className="flex items-center gap-3 cursor-pointer group/label"
-              >
-                <input
-                  type="checkbox"
-                  checked={activeFilters.subcategoryid === sub.subcategoryid}
-                  onChange={() => {
+          <div className="px-5 pb-5 space-y-2">
+            {subcategories.map((sub) => {
+              const isSelected = activeFilters.subcategoryid === sub.subcategoryid;
+              return (
+                <button
+                  key={sub.subcategoryid}
+                  onClick={() => {
                     setActiveFilters((prev: any) => ({
                       ...prev,
-                      subcategoryid:
-                        prev.subcategoryid === sub.subcategoryid
-                          ? 0
-                          : sub.subcategoryid,
+                      subcategoryid: prev.subcategoryid === sub.subcategoryid ? 0 : sub.subcategoryid,
                       page: 1,
                     }));
                   }}
-                  className="w-3.5 h-3.5 border-stone-300 rounded-sm text-[var(--olive)] focus:ring-0 cursor-pointer"
-                />
-                <span
-                  className={`text-[12px] font-medium transition-colors ${activeFilters.subcategoryid === sub.subcategoryid ? "text-stone-900 font-bold" : "text-stone-600 group-hover/label:text-stone-900"}`}
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+                    isSelected
+                      ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
+                      : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+                  }`}
                 >
-                  {sub.subcategoryname}
-                </span>
-              </label>
-            ))}
+                  <span className="text-[12px] font-bold">{sub.subcategoryname}</span>
+                  <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--olive)]" : "border-stone-200"}`}>
+                    {isSelected && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </details>
       )}
@@ -431,7 +444,7 @@ export default function ShopPage() {
           </span>
           <ChevronDown className="w-3.5 h-3.5 text-stone-400 transition-transform group-open:rotate-180" />
         </summary>
-        <div className="px-5 pb-5 space-y-2.5">
+        <div className="px-5 pb-5 space-y-2">
           {[
             {
               label: t.shop_filters.price_options?.under_500 || "Under 500",
@@ -449,31 +462,31 @@ export default function ShopPage() {
               label: t.shop_filters.price_options?.above_1500 || "Above 1500",
               value: "above-1500",
             },
-          ].map((range) => (
-            <label
-              key={range.value}
-              className="flex items-center gap-3 cursor-pointer group/label"
-            >
-              <input
-                type="checkbox"
-                checked={activeFilters.pricerange === range.value}
-                onChange={() => {
+          ].map((range) => {
+            const isSelected = activeFilters.pricerange === range.value;
+            return (
+              <button
+                key={range.value}
+                onClick={() => {
                   setActiveFilters((prev: any) => ({
                     ...prev,
-                    pricerange:
-                      prev.pricerange === range.value ? "" : range.value,
+                    pricerange: prev.pricerange === range.value ? "" : range.value,
                     page: 1,
                   }));
                 }}
-                className="w-3.5 h-3.5 border-stone-300 rounded-sm text-[var(--olive)] focus:ring-0 cursor-pointer"
-              />
-              <span
-                className={`text-[12px] font-medium transition-colors ${activeFilters.pricerange === range.value ? "text-stone-900 font-bold" : "text-stone-600 group-hover/label:text-stone-900"}`}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+                  isSelected
+                    ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
+                    : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+                }`}
               >
-                {range.label}
-              </span>
-            </label>
-          ))}
+                <span className="text-[12px] font-bold">{range.label}</span>
+                <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--olive)]" : "border-stone-200"}`}>
+                  {isSelected && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+                </div>
+              </button>
+            );
+          })}
         </div>
       </details>
 
@@ -487,6 +500,7 @@ export default function ShopPage() {
         <div className="px-5 pb-5 grid grid-cols-2 gap-2 animate-in fade-in duration-300">
           {["250g", "500g", "1kg", "2kg"].map((w) => {
             const numericWeight = mapWeightToValue(w);
+            const isSelected = activeFilters.weight === numericWeight;
             return (
               <button
                 key={w}
@@ -497,12 +511,13 @@ export default function ShopPage() {
                     page: 1,
                   }));
                 }}
-                className={`py-2 rounded-sm text-[11px] font-bold border transition-all cursor-pointer ${activeFilters.weight === numericWeight
-                    ? "bg-stone-900 text-white border-stone-900"
-                    : "bg-white text-stone-500 border-stone-200 hover:border-stone-400 shadow-sm"
-                  }`}
+                className={`w-full flex items-center justify-center px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+                  isSelected
+                    ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
+                    : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+                }`}
               >
-                {w}
+                <span className="text-[12px] font-bold">{w}</span>
               </button>
             );
           })}
@@ -806,10 +821,10 @@ export default function ShopPage() {
                           <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
                             {product.name}
                           </h3>
-                          <div className="flex items-center gap-2">
-                            {(product as any).weight && (product as any).unitname && (
-                              <span className="inline-block bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded">
-                                {(product as any).weight} {(product as any).unitname}
+                          <div className="flex items-center gap-2 mt-1">
+                            {(product as any).weight && ((product as any).unit || (product as any).unitname) && (
+                              <span className="inline-block mt-1 bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md text-[10px] font-bold border border-stone-200">
+                                {(product as any).weight} {(product as any).unit || (product as any).unitname}
                               </span>
                             )}
                             <p className="text-[11px] text-gray-400 font-medium line-clamp-1 flex-1">
@@ -832,81 +847,6 @@ export default function ShopPage() {
 
                         {/* Add to Cart Button */}
                         <div className="pt-2 mt-auto">
-                          {cartItem ? (
-                            <div className="flex items-center justify-between border border-[var(--olive)] rounded-xl overflow-hidden bg-white h-11">
-                              <button
-                                disabled={updatingCartId === cartItem.cartid}
-                                onClick={async (e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setUpdatingCartId(cartItem.cartid);
-                                  try {
-                                    const newQty = cartItem.quantity - 1;
-                                    const response = await API.post(
-                                      API_ROUTES.UPDATEQUANTITY,
-                                      {
-                                        cartid: cartItem.cartid,
-                                        quantity: newQty,
-                                      },
-                                    );
-                                    if (response.status === 200) {
-                                      window.dispatchEvent(
-                                        new Event("cartUpdated"),
-                                      );
-                                    }
-                                  } catch (err) {
-                                    console.error(
-                                      "Error updating quantity:",
-                                      err,
-                                    );
-                                  } finally {
-                                    setUpdatingCartId(null);
-                                  }
-                                }}
-                                className="px-4 py-2 hover:bg-stone-50 font-black text-sm text-[var(--olive)] disabled:opacity-50 cursor-pointer"
-                              >
-                                -
-                              </button>
-                              <span className="font-bold text-xs text-gray-800">
-                                {updatingCartId === cartItem.cartid
-                                  ? "..."
-                                  : cartItem.quantity}
-                              </span>
-                              <button
-                                disabled={updatingCartId === cartItem.cartid}
-                                onClick={async (e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setUpdatingCartId(cartItem.cartid);
-                                  try {
-                                    const newQty = cartItem.quantity + 1;
-                                    const response = await API.post(
-                                      API_ROUTES.UPDATEQUANTITY,
-                                      {
-                                        cartid: cartItem.cartid,
-                                        quantity: newQty,
-                                      },
-                                    );
-                                    if (response.status === 200) {
-                                      window.dispatchEvent(
-                                        new Event("cartUpdated"),
-                                      );
-                                    }
-                                  } catch (err) {
-                                    console.error(
-                                      "Error updating quantity:",
-                                      err,
-                                    );
-                                  } finally {
-                                    setUpdatingCartId(null);
-                                  }
-                                }}
-                                className="px-4 py-2 hover:bg-stone-50 font-black text-sm text-[var(--olive)] disabled:opacity-50 cursor-pointer"
-                              >
-                                +
-                              </button>
-                            </div>
-                          ) : (
                             <button
                               disabled={
                                 addingToCartId === (product.id || null) ||
@@ -970,7 +910,6 @@ export default function ShopPage() {
                                 <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
                               )}
                             </button>
-                          )}
                         </div>
                       </div>
                     </Link>

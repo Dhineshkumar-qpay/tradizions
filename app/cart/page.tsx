@@ -136,6 +136,10 @@ export default function CartPage() {
     setUpdatingCartId(cartid);
     try {
       const newQty = currentQty + delta;
+      if (newQty > 10) {
+        alert("Maximum quantity allowed per product is 10.");
+        return;
+      }
       const response = await API.post(API_ROUTES.UPDATEQUANTITY, {
         cartid: cartid,
         quantity: newQty,
@@ -326,8 +330,8 @@ export default function CartPage() {
                                     1,
                                   )
                                 }
-                                disabled={isUpdating}
-                                className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-white hover:shadow-sm transition-all text-stone-400"
+                                disabled={isUpdating || (item.quantity ?? 0) >= 10}
+                                className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-white hover:shadow-sm transition-all text-stone-400 disabled:opacity-30"
                               >
                                 <Plus className="w-3.5 h-3.5" />
                               </button>

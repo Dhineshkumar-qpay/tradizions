@@ -30,6 +30,10 @@ import {
   Trash2,
   Plus,
   ArrowDown,
+  LayoutGrid,
+  Wheat,
+  Flame,
+  Circle,
 } from "lucide-react";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
@@ -52,96 +56,6 @@ const translations: Record<string, any> = {
   HI: hi,
 };
 
-const featuredProducts = [
-  {
-    id: 1,
-    name: "Premium Barnyard Millet Premium Barnyard Millet Premium Barnyard Millet Premium Barnyard Millet",
-    price: 299,
-    originalPrice: 399,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfBIYakTGLZHnzJqrGY_ax7uQfXVKUca48Rw&s",
-    rating: 4.8,
-    reviews: 124,
-    badge: "Millets",
-  },
-  {
-    id: 2,
-    name: "Himalayan Walnut Kernels",
-    price: 899,
-    originalPrice: 1199,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRazhuxmy7XhgzVTcMWu3yjOkiMBYmfBxKew&s",
-    rating: 4.9,
-    reviews: 89,
-    badge: "Nuts",
-  },
-  {
-    id: 3,
-    name: "Finger Millet (Ragi) Malt",
-    price: 450,
-    originalPrice: 599,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2FT49efQnnIWeAkVhYB4M2aHITRbY1rv5ww&s",
-    rating: 4.7,
-    reviews: 203,
-    badge: "Millets",
-  },
-  {
-    id: 4,
-    name: "Organic Foxtail Millet",
-    price: 250,
-    originalPrice: 349,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3L2_MG4RRGC3w-XLNh2dOphIOfzSc6AHWKA&s",
-    rating: 4.6,
-    reviews: 156,
-    badge: "Millets",
-  },
-];
-
-const giftHampers = [
-  {
-    id: 101,
-    name: "Festive Celebration Box",
-    price: 2499,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-lo4Psnq5vDI61PzeMWKo2UlIv2_kyPnzBQ&s",
-    desc: "A premium collection of organic millets, dry fruits & artisan sweets.",
-  },
-  {
-    id: 102,
-    name: "Wellness Nut Selection",
-    price: 1899,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk7BJ2N2Wp2yYW6ApncUC_Eo_HNDzAcaKSQQ&s",
-    desc: "Hand-picked premium nuts & nutritious millet treats for the health-conscious.",
-  },
-];
-
-const testimonials = [
-  {
-    name: "Priya Sharma",
-    role: "Health Enthusiast",
-    text: "Tradizions has completely transformed our kitchen. The millets are incredibly fresh and the flavours remind me of my grandmother's cooking.",
-    rating: 5,
-    avatar: "PS",
-  },
-  {
-    name: "Rajesh Kumar",
-    role: "Corporate Gifting",
-    text: "We ordered 50 gift hampers for Diwali. The presentation was stunning and every recipient was thrilled. Will definitely order again!",
-    rating: 5,
-    avatar: "RK",
-  },
-  {
-    name: "Ananya Patel",
-    role: "Yoga Practitioner",
-    text: "The ragi malt is my go-to morning drink now. Pure, organic, and full of energy. Best quality I have found online.",
-    rating: 5,
-    avatar: "AP",
-  },
-];
-
 const whyChooseUs = [
   {
     icon: Star,
@@ -156,7 +70,7 @@ const whyChooseUs = [
   {
     icon: Heart,
     title: "Trusted by families",
-    desc: "10,000+ happy households",
+    desc: "100+ happy households",
   },
   { icon: Zap, title: "Fast delivery", desc: "Quick turnaround time" },
 ];
@@ -231,6 +145,8 @@ export default function Home() {
   const [selectedLang, setSelectedLang] = useState("EN");
   const [categories, setCategories] = useState<any[]>([]);
   const [homeData, setHomeData] = useState<HomeProductModel | null>(null);
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+  const [newArrivalsProducts, setNewArrivalsProducts] = useState<any[]>([]);
   const [kuralList, setKuralList] = useState<KuralData[]>([]);
   const [userReviews, setUserReviews] = useState<Review[]>([]);
   const [favouriteProductIds, setFavouriteProductIds] = useState<number[]>([]);
@@ -301,6 +217,28 @@ export default function Home() {
     }
   };
 
+  const fetchFeaturedProducts = async () => {
+    try {
+      const response = await API.post(API_ROUTES.FEATURED, { page: 1, limit: 20 });
+      if (response.data && response.data.success) {
+        setFeaturedProducts(response.data.products || []);
+      }
+    } catch (err) {
+      console.error("Error fetching featured products:", err);
+    }
+  };
+
+  const fetchNewArrivalsProducts = async () => {
+    try {
+      const response = await API.post(API_ROUTES.NEWARRIVALS, { page: 1, limit: 20 });
+      if (response.data && response.data.success) {
+        setNewArrivalsProducts(response.data.products || []);
+      }
+    } catch (err) {
+      console.error("Error fetching new arrivals products:", err);
+    }
+  };
+
   const fetchUserReviews = async () => {
     try {
       const response = await API.post(API_ROUTES.GETALLUSERREVIEWS);
@@ -318,6 +256,8 @@ export default function Home() {
     fetchKural();
     fetchCategories();
     fetchHomeProducts();
+    fetchFeaturedProducts();
+    fetchNewArrivalsProducts();
     fetchUserReviews();
   }, []);
 
@@ -366,8 +306,8 @@ export default function Home() {
       <CategoriesSection t={t} categories={categories} />
       <HealthGoalsSection t={t} />
       <HealthBenefitsSection t={t} />
-      <FeaturedSection t={t} products={homeData?.data?.featured} />
-      <NewArrivalsSection t={t} products={homeData?.data?.newarrivals} />
+      <FeaturedSection t={t} products={featuredProducts} />
+      <NewArrivalsSection t={t} products={newArrivalsProducts} />
       <WhyChooseUsSection t={t} />
       <GiftingSection
         t={t}
@@ -516,7 +456,7 @@ function HealthBenefitsSection({ t }: { t: any }) {
   const activeBenefits = benefitsMap[activeCategory];
 
   return (
-    <section className="py-24 bg-[#fafaf9] overflow-hidden">
+    <section className="py-12 bg-[#fafaf9] overflow-hidden">
       {/* HEADER */}
       <div className="max-w-7xl mx-auto px-6 mb-16">
         <div className="text-center space-y-4">
@@ -531,33 +471,30 @@ function HealthBenefitsSection({ t }: { t: any }) {
           <div className="flex justify-center gap-4 mt-10 flex-wrap">
             <button
               onClick={() => setActiveCategory("nuts")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${
-                activeCategory === "nuts"
+              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "nuts"
                   ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
                   : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-              }`}
+                }`}
             >
               {t.sections?.nuts || "Nuts"}
             </button>
 
             <button
               onClick={() => setActiveCategory("millets")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${
-                activeCategory === "millets"
+              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "millets"
                   ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
                   : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-              }`}
+                }`}
             >
               {t.sections?.millets || "Millets"}
             </button>
 
             <button
               onClick={() => setActiveCategory("spices")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${
-                activeCategory === "spices"
+              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "spices"
                   ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
                   : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-              }`}
+                }`}
             >
               {t.sections?.spices || "Spices"}
             </button>
@@ -670,36 +607,6 @@ function HeroSection({ t }: { t: any }) {
               {t.gifting}
             </Link>
           </div>
-
-          {/* Social Proof */}
-          <div
-            className={`flex items-center gap-6 pt-6 transition-all duration-500 delay-800 opacity-100 translate-y-0`}
-          >
-            <div className="flex -space-x-3">
-              {["PS", "RK", "AP", "MG"].map((initials, i) => (
-                <div
-                  key={i}
-                  className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--olive)] to-emerald-700 border-2 border-white/20 flex items-center justify-center text-[10px] font-bold text-white"
-                >
-                  {initials}
-                </div>
-              ))}
-            </div>
-            <div className="text-sm">
-              <div className="flex items-center gap-1 mb-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-3.5 h-3.5 text-amber-400 fill-amber-400"
-                  />
-                ))}
-                <span className="text-white/80 font-semibold ml-1">4.9</span>
-              </div>
-              <p className="text-white/40 text-xs">
-                Trusted by 10,000+ families
-              </p>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -741,7 +648,7 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
     categories && categories.length > 0 ? categories : [];
 
   return (
-    <section ref={ref} className="py-28 bg-white relative overflow-hidden">
+    <section ref={ref} className="py-16 bg-white relative overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-50/60 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
@@ -808,13 +715,12 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
 
 function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
   const { ref, isVisible } = useInView();
-  const displayProducts =
-    products && products.length > 0 ? products : featuredProducts;
+  const displayProducts = products && products.length > 0 ? products : [];
 
   return (
     <section
       ref={ref}
-      className="py-28 bg-[var(--site-bg)] relative overflow-hidden"
+      className="py-16 bg-[var(--site-bg)] relative overflow-hidden"
     >
       {/* Organic Background Blobs */}
       <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-[var(--olive)]/5 rounded-full blur-[120px] pointer-events-none" />
@@ -837,7 +743,7 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
             </p>
           </div>
           <Link
-            href="/shop"
+            href="/featured"
             className="group inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[var(--olive)] relative"
           >
             <span className="relative">
@@ -852,42 +758,53 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
         </div>
 
         {/* Product Horizontal Scroll */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          {displayProducts.map((product, idx) => (
-            <div
-              key={
-                product.productid !== undefined ? product.productid : product.id
-              }
-              className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0"
-            >
-              <ProductCard
-                product={product}
-                isVisible={isVisible}
-                delay={idx * 150}
-                t={t}
-              />
-            </div>
-          ))}
-          {/* View All Card */}
-          {displayProducts.length > 10 && (
-            <div className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0 flex">
-              <Link
-                href="/shop"
-                className="flex-1 group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/30 min-h-[350px]"
+        {displayProducts.length === 0 ? (
+          <div className="py-12 flex flex-col items-center justify-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+            <Leaf className="w-8 h-8 text-gray-300 mb-3" />
+            <p className="text-gray-500 font-medium text-sm">
+              No products found.
+            </p>
+          </div>
+        ) : (
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {displayProducts.map((product, idx) => (
+              <div
+                key={
+                  product.productid !== undefined
+                    ? product.productid
+                    : product.id
+                }
+                className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0"
               >
-                <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-[var(--olive)] transition-colors duration-300 shadow-sm group-hover:shadow-md">
-                  <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
-                  {t.explore_all || "View All"}
-                </h3>
-                <p className="text-xs text-gray-400 mt-2 font-medium">
-                  Explore more products
-                </p>
-              </Link>
-            </div>
-          )}
-        </div>
+                <ProductCard
+                  product={product}
+                  isVisible={isVisible}
+                  delay={idx * 150}
+                  t={t}
+                />
+              </div>
+            ))}
+            {/* View All Card */}
+            {displayProducts.length > 10 && (
+              <div className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0 flex">
+                <Link
+                  href="/featured"
+                  className="flex-1 group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/30 min-h-[350px]"
+                >
+                  <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-[var(--olive)] transition-colors duration-300 shadow-sm group-hover:shadow-md">
+                    <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
+                    {t.explore_all || "View All"}
+                  </h3>
+                  <p className="text-xs text-gray-400 mt-2 font-medium">
+                    Explore more products
+                  </p>
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -909,8 +826,8 @@ function ProductCard({
   const price = product.sellingprice || product.price || 0;
   const originalPrice =
     product.price !== undefined &&
-    product.sellingprice !== undefined &&
-    product.price > product.sellingprice
+      product.sellingprice !== undefined &&
+      product.price > product.sellingprice
       ? product.price
       : null;
   const image = product.productimage
@@ -1032,8 +949,13 @@ function ProductCard({
             {name}
           </h3>
           <p className="text-[11px] text-gray-400 font-medium line-clamp-1">
-            {product.desc || "Tradizions premium selection for health."}
+            {product.description || "Tradizions premium selection for health."}
           </p>
+          {product.weight && product.unit && (
+            <span className="inline-block mt-1 bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md text-[10px] font-bold border border-stone-200">
+              {product.weight} {product.unit}
+            </span>
+          )}
         </div>
 
         <div className="flex items-baseline gap-2">
@@ -1074,18 +996,17 @@ function ProductCard({
                   console.error("Error adding to cart:", err);
                   alert(
                     err?.response?.data?.message ||
-                      "An error occurred while adding to cart.",
+                    "An error occurred while adding to cart.",
                   );
                 } finally {
                   setIsAdding(false);
                 }
               });
             }}
-            className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
-              (product.availablestock ?? 0) <= 0
+            className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
                 ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                 : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
-            } disabled:opacity-50`}
+              } disabled:opacity-50`}
           >
             <span>
               {(product.availablestock ?? 0) <= 0
@@ -1121,10 +1042,10 @@ function GiftingSection({
   const displayHampers =
     apiGiftHampers && apiGiftHampers.length > 0
       ? [...apiGiftHampers, ...(apiPoojaHampers || [])]
-      : giftHampers;
+      : [];
 
   return (
-    <section ref={ref} className="py-24 bg-white relative overflow-hidden">
+    <section ref={ref} className="py-16 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col gap-20">
           {/* ── Artisanal Gift Hampers ── */}
@@ -1155,99 +1076,108 @@ function GiftingSection({
               </Link>
             </div>
 
-            <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-              {displayHampers.map((item, idx) => {
-                const id =
-                  item.productid !== undefined ? item.productid : item.id;
-                const name = item.productname || item.name;
-                const price = item.sellingprice || item.price || 0;
-                const originalPrice =
-                  item.price !== undefined &&
-                  item.sellingprice !== undefined &&
-                  item.price > item.sellingprice
-                    ? item.price
-                    : null;
-                const image = item.productimage
-                  ? getImageUrl(item.productimage)
-                  : item.image || "/placeholder.png";
-                const desc =
-                  item.desc ||
-                  "Tradizions premium traditional wellness hamper.";
+            {displayHampers.length === 0 ? (
+              <div className="py-12 flex flex-col items-center justify-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                <Gift className="w-8 h-8 text-gray-300 mb-3" />
+                <p className="text-gray-500 font-medium text-sm">
+                  No gifts found.
+                </p>
+              </div>
+            ) : (
+              <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                {displayHampers.map((item, idx) => {
+                  const id =
+                    item.productid !== undefined ? item.productid : item.id;
+                  const name = item.productname || item.name;
+                  const price = item.sellingprice || item.price || 0;
+                  const originalPrice =
+                    item.price !== undefined &&
+                      item.sellingprice !== undefined &&
+                      item.price > item.sellingprice
+                      ? item.price
+                      : null;
+                  const image = item.productimage
+                    ? getImageUrl(item.productimage)
+                    : item.image || "/placeholder.png";
+                  const desc =
+                    item.desc ||
+                    "Tradizions premium traditional wellness hamper.";
 
-                return (
-                  <div
-                    key={id}
-                    className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] snap-start flex-shrink-0"
-                  >
-                    <Link
-                      href={
-                        id
-                          ? `/gift-detail/${id}?productid=${id}&bid=${item.bid || 1}`
-                          : "/gift-detail"
-                      }
-                      className="group relative block bg-[#faf9f6] rounded-[2rem] p-4 border border-transparent hover:border-stone-100 hover:bg-white transition-all duration-500 hover:shadow-xl h-full"
+                  return (
+                    <div
+                      key={id}
+                      className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] snap-start flex-shrink-0"
                     >
-                      <div className="relative aspect-video rounded-[1.5rem] overflow-hidden mb-6">
-                        <img
-                          src={image}
-                          alt={name}
-                          className={`h-full w-full object-cover transition-transform duration-[1500ms] group-hover:scale-110 ${(item.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
-                        />
-                        {(item.availablestock ?? 0) <= 0 && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[2px] z-10">
-                            <span className="bg-red-500/90 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] shadow-xl">
-                              OUT OF STOCK
-                            </span>
-                          </div>
-                        )}
-                        <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-stone-400 group-hover:text-[var(--orange)] transition-colors shadow-sm">
-                          <ArrowRight className="w-4 h-4" />
-                        </div>
-                      </div>
-                      <div className="space-y-3 px-2 pb-2">
-                        <div className="flex justify-between items-start gap-4">
-                          <h4 className="text-lg font-bold text-gray-900 leading-tight group-hover:text-[var(--olive)] transition-colors line-clamp-1">
-                            {name}
-                          </h4>
-                        </div>
-                        <p className="text-xs text-gray-400 leading-relaxed font-medium line-clamp-2">
-                          {desc}
-                        </p>
-                        <div className="flex items-center gap-2 pt-2">
-                          <span className="text-lg font-black text-gray-900">
-                            ₹{price.toLocaleString()}
-                          </span>
-                          {originalPrice && originalPrice > price && (
-                            <span className="text-[10px] font-bold text-stone-300 line-through">
-                              ₹{originalPrice.toLocaleString()}
-                            </span>
+                      <Link
+                        href={
+                          id
+                            ? `/gift-detail/${id}?productid=${id}&bid=${item.bid || 1}`
+                            : "/gift-detail"
+                        }
+                        className="group relative block bg-[#faf9f6] rounded-[2rem] p-4 border border-transparent hover:border-stone-100 hover:bg-white transition-all duration-500 hover:shadow-xl h-full"
+                      >
+                        <div className="relative aspect-video rounded-[1.5rem] overflow-hidden mb-6">
+                          <img
+                            src={image}
+                            alt={name}
+                            className={`h-full w-full object-cover transition-transform duration-[1500ms] group-hover:scale-110 ${(item.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
+                          />
+                          {(item.availablestock ?? 0) <= 0 && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[2px] z-10">
+                              <span className="bg-red-500/90 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] shadow-xl">
+                                OUT OF STOCK
+                              </span>
+                            </div>
                           )}
+                          <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-stone-400 group-hover:text-[var(--orange)] transition-colors shadow-sm">
+                            <ArrowRight className="w-4 h-4" />
+                          </div>
                         </div>
+                        <div className="space-y-3 px-2 pb-2">
+                          <div className="flex justify-between items-start gap-4">
+                            <h4 className="text-lg font-bold text-gray-900 leading-tight group-hover:text-[var(--olive)] transition-colors line-clamp-1">
+                              {name}
+                            </h4>
+                          </div>
+                          <p className="text-xs text-gray-400 leading-relaxed font-medium line-clamp-2">
+                            {desc}
+                          </p>
+                          <div className="flex items-center gap-2 pt-2">
+                            <span className="text-lg font-black text-gray-900">
+                              ₹{price.toLocaleString()}
+                            </span>
+                            {originalPrice && originalPrice > price && (
+                              <span className="text-[10px] font-bold text-stone-300 line-through">
+                                ₹{originalPrice.toLocaleString()}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  );
+                })}
+                {/* View All Card */}
+                {displayHampers.length > 10 && (
+                  <div className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] snap-start flex-shrink-0 flex">
+                    <Link
+                      href="/gifts"
+                      className="flex-1 group relative bg-[#faf9f6] rounded-[2rem] p-4 border border-transparent hover:border-stone-100 hover:bg-white transition-all duration-500 hover:shadow-xl flex flex-col items-center justify-center min-h-[300px]"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-sm group-hover:bg-[var(--olive)] transition-colors duration-300">
+                        <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
                       </div>
+                      <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
+                        {t.view_all || "View All"}
+                      </h3>
+                      <p className="text-xs text-gray-400 mt-2 font-medium">
+                        Explore more hampers
+                      </p>
                     </Link>
                   </div>
-                );
-              })}
-              {/* View All Card */}
-              {displayHampers.length > 10 && (
-                <div className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] snap-start flex-shrink-0 flex">
-                  <Link
-                    href="/gifts"
-                    className="flex-1 group relative bg-[#faf9f6] rounded-[2rem] p-4 border border-transparent hover:border-stone-100 hover:bg-white transition-all duration-500 hover:shadow-xl flex flex-col items-center justify-center min-h-[300px]"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-sm group-hover:bg-[var(--olive)] transition-colors duration-300">
-                      <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
-                    </div>
-                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
-                      {t.view_all || "View All"}
-                    </h3>
-                    <p className="text-xs text-gray-400 mt-2 font-medium">
-                      Explore more hampers
-                    </p>
-                  </Link>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1259,7 +1189,7 @@ function WhyChooseUsSection({ t }: { t: any }) {
   const { ref, isVisible } = useInView();
 
   return (
-    <section ref={ref} className="py-32 bg-white relative overflow-hidden">
+    <section ref={ref} className="py-16 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
           {/* Left Side: Dynamic Image & Stats (4 columns) */}
@@ -1380,16 +1310,20 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   const listToRender =
     reviews && reviews.length > 0
       ? reviews.map((r) => ({
-          name: r.username || "Anonymous User",
-          role: "Verified Buyer",
-          text: r.review || "",
-          rating: Math.round(r.rating || 5),
-          avatar: getInitials(r.username || "Anonymous"),
-        }))
-      : testimonials;
+        name: r.username || "Anonymous User",
+        role: "Verified Buyer",
+        text: r.review || "",
+        rating: Math.round(r.rating || 5),
+        avatar: getInitials(r.username || "Anonymous"),
+      }))
+      : [];
+
+  if (listToRender.length === 0) {
+    return null;
+  }
 
   return (
-    <section ref={ref} className="py-24 bg-white relative overflow-hidden">
+    <section ref={ref} className="py-16 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div
           className={`max-w-2xl mx-auto text-center mb-20 space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
@@ -1502,9 +1436,8 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
 
         {/* Global Rating Tag */}
         <div
-          className={`mt-10 flex flex-col items-center gap-3 transition-all duration-500 delay-500 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
+          className={`mt-10 flex flex-col items-center gap-3 transition-all duration-500 delay-500 ${isVisible ? "opacity-100" : "opacity-0"
+            }`}
         >
           <div className="flex -space-x-3">
             {users.map((name, i) => (
@@ -1656,7 +1589,7 @@ function HealthGoalsSection({ t }: { t: any }) {
   const { ref, isVisible } = useInView();
 
   return (
-    <section ref={ref} className="py-24 bg-white relative overflow-hidden">
+    <section ref={ref} className="py-16 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div
           className={`text-center mb-16 space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
@@ -1852,6 +1785,17 @@ function NutritionPlanner({ t }: { t: any }) {
   return (
     <section ref={ref} className="py-12 bg-gray-50/50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-8">
+        {/* Main Calculator Header */}
+        <div className="text-center mb-4 space-y-4">
+          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+            Monthly <span className="gradient-text">Product Calculator</span>
+          </h2>
+          <p className="text-sm font-normal text-gray-400 max-w-lg mx-auto">
+            Plan your family's monthly nutritional needs and budget
+            effortlessly.
+          </p>
+        </div>
+
         {/* Step 1: Select Products You Want */}
         <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 p-6 md:p-10 relative overflow-hidden">
           {/* Subtle background decoration */}
@@ -1860,13 +1804,16 @@ function NutritionPlanner({ t }: { t: any }) {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 relative z-10">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <span className="w-8 h-8 rounded-full bg-[var(--olive)] text-white flex items-center justify-center font-bold text-sm shadow-md">1</span>
+                <span className="w-8 h-8 rounded-full bg-[var(--olive)] text-white flex items-center justify-center font-bold text-sm shadow-md">
+                  1
+                </span>
                 <h2 className="text-2xl font-black text-stone-900 tracking-tight">
                   Select Products You Want
                 </h2>
               </div>
               <p className="text-stone-500 font-medium ml-11">
-                Choose the products you want to include in your monthly calculation.
+                Choose the products you want to include in your monthly
+                calculation.
               </p>
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
@@ -1897,7 +1844,7 @@ function NutritionPlanner({ t }: { t: any }) {
                 className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 0 ? "bg-[var(--olive)]/20 border-[var(--olive)]/50 text-[var(--olive)]" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
               >
                 <div className="flex items-center gap-3 font-semibold text-sm">
-                  <Leaf
+                  <LayoutGrid
                     className={`w-5 h-5 ${selectedCategory === 0 ? "text-[var(--olive)]" : "text-gray-400"}`}
                   />{" "}
                   All Products
@@ -1914,7 +1861,7 @@ function NutritionPlanner({ t }: { t: any }) {
                 className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 1 ? "bg-green-50 border-green-200 text-green-800" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
               >
                 <div className="flex items-center gap-3 font-semibold text-sm">
-                  <Leaf
+                  <Circle
                     className={`w-5 h-5 ${selectedCategory === 1 ? "text-green-600" : "text-gray-400"}`}
                   />{" "}
                   Nuts
@@ -1931,7 +1878,7 @@ function NutritionPlanner({ t }: { t: any }) {
                 className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 2 ? "bg-yellow-50 border-yellow-200 text-yellow-800" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
               >
                 <div className="flex items-center gap-3 font-semibold text-sm">
-                  <Zap
+                  <Wheat
                     className={`w-5 h-5 ${selectedCategory === 2 ? "text-yellow-600" : "text-gray-400"}`}
                   />{" "}
                   Millets
@@ -1948,7 +1895,7 @@ function NutritionPlanner({ t }: { t: any }) {
                 className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 3 ? "bg-orange-50 border-orange-200 text-orange-800" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
               >
                 <div className="flex items-center gap-3 font-semibold text-sm">
-                  <Sparkles
+                  <Flame
                     className={`w-5 h-5 ${selectedCategory === 3 ? "text-orange-600" : "text-gray-400"}`}
                   />{" "}
                   Spices
@@ -1978,51 +1925,60 @@ function NutritionPlanner({ t }: { t: any }) {
                 </h3>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-                {displayedProducts.map((product) => {
-                  const isSelected = !!selectedProducts.find(
-                    (p) => p.productid === product.productid,
-                  );
-                  const price = product.sellingprice || product.price || 0;
-                  return (
-                    <div
-                      key={product.productid}
-                      onClick={() => handleToggleProduct(product)}
-                      className={`group relative p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 ${isSelected ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-sm" : "border-transparent bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5"}`}
-                    >
+              {displayedProducts.length === 0 ? (
+                <div className="py-12 flex flex-col items-center justify-center bg-stone-50 rounded-2xl border border-dashed border-stone-200">
+                  <Leaf className="w-8 h-8 text-stone-300 mb-3" />
+                  <p className="text-stone-500 font-medium text-sm">
+                    No products found matching your search.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+                  {displayedProducts.map((product) => {
+                    const isSelected = !!selectedProducts.find(
+                      (p) => p.productid === product.productid,
+                    );
+                    const price = product.sellingprice || product.price || 0;
+                    return (
                       <div
-                        className={`absolute top-2 left-2 w-4 h-4 rounded flex items-center justify-center transition-colors duration-300 ${isSelected ? "bg-[var(--olive)] text-white" : "bg-gray-100 border border-gray-200 group-hover:border-gray-300 text-transparent"}`}
+                        key={product.productid}
+                        onClick={() => handleToggleProduct(product)}
+                        className={`group relative p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 ${isSelected ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-sm" : "border-transparent bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5"}`}
                       >
-                        <Check
-                          className={`w-3 h-3 ${isSelected ? "opacity-100" : "opacity-0"}`}
-                          strokeWidth={3}
-                        />
-                      </div>
-                      <div className="h-[60px] w-full relative mb-3 mt-4 bg-white rounded-lg overflow-hidden flex items-center justify-center">
-                        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 opacity-50"></div>
-                        <img
-                          src={`${process.env.NEXT_PUBLIC_IMAGE_URL ?? ""}${product.productimage ?? ""}`}
-                          alt={product.productname ?? "product image"}
-                          className="object-contain mix-blend-multiply opacity-80 group-hover:scale-110 transition-transform duration-500 w-full h-full absolute inset-0 p-1"
-                        />
-                      </div>
-                      <div className="text-center space-y-1">
-                        <p className="font-bold text-[11px] md:text-xs text-gray-900 line-clamp-2 leading-tight group-hover:text-[var(--olive)] transition-colors">
-                          {product.productname}
-                        </p>
-                        <div className="inline-block px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
-                          <span className="text-[11px] font-extrabold text-[var(--olive)]">
-                            ₹{price}
-                          </span>
-                          <span className="text-[9px] font-medium text-gray-500 ml-0.5">
-                            / Kg
-                          </span>
+                        <div
+                          className={`absolute top-2 left-2 w-4 h-4 rounded flex items-center justify-center transition-colors duration-300 ${isSelected ? "bg-[var(--olive)] text-white" : "bg-gray-100 border border-gray-200 group-hover:border-gray-300 text-transparent"}`}
+                        >
+                          <Check
+                            className={`w-3 h-3 ${isSelected ? "opacity-100" : "opacity-0"}`}
+                            strokeWidth={3}
+                          />
+                        </div>
+                        <div className="h-[60px] w-full relative mb-3 mt-4 bg-white rounded-lg overflow-hidden flex items-center justify-center">
+                          <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 opacity-50"></div>
+                          <img
+                            src={`${process.env.NEXT_PUBLIC_IMAGE_URL ?? ""}${product.productimage ?? ""}`}
+                            alt={product.productname ?? "product image"}
+                            className="object-contain mix-blend-multiply opacity-80 group-hover:scale-110 transition-transform duration-500 w-full h-full absolute inset-0 p-1"
+                          />
+                        </div>
+                        <div className="text-center space-y-1">
+                          <p className="font-bold text-[11px] md:text-xs text-gray-900 line-clamp-2 leading-tight group-hover:text-[var(--olive)] transition-colors">
+                            {product.productname}
+                          </p>
+                          <div className="inline-block px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
+                            <span className="text-[11px] font-extrabold text-[var(--olive)]">
+                              ₹{price}
+                            </span>
+                            <span className="text-[9px] font-medium text-gray-500 ml-0.5">
+                              / Kg
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
 
               {/* Selection Summary */}
               <div className="mt-6 bg-[var(--olive)]/5 border border-[var(--olive)]/10 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -2030,13 +1986,6 @@ function NutritionPlanner({ t }: { t: any }) {
                   <Check className="w-5 h-5 text-[var(--olive)]" />{" "}
                   {selectedProducts.length} products selected
                 </div>
-                <button
-                  onClick={scrollToCalculator}
-                  disabled={selectedProducts.length === 0}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--olive)] text-white hover:bg-[var(--olive-dark)] shadow-md" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}
-                >
-                  Add to Calculator <ArrowRight className="w-4 h-4" />
-                </button>
               </div>
             </div>
           </div>
@@ -2058,13 +2007,16 @@ function NutritionPlanner({ t }: { t: any }) {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 relative z-10">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <span className="w-8 h-8 rounded-full bg-[var(--olive)] text-white flex items-center justify-center font-bold text-sm shadow-md">2</span>
+                <span className="w-8 h-8 rounded-full bg-[var(--olive)] text-white flex items-center justify-center font-bold text-sm shadow-md">
+                  2
+                </span>
                 <h2 className="text-2xl font-black text-stone-900 tracking-tight">
                   Your Monthly Calculation
                 </h2>
               </div>
               <p className="text-stone-500 font-medium ml-11">
-                Set your requirements and calculate the monthly budget for selected products.
+                Set your requirements and calculate the monthly budget for
+                selected products.
               </p>
             </div>
           </div>
@@ -2075,7 +2027,7 @@ function NutritionPlanner({ t }: { t: any }) {
                 <tr className="bg-stone-50/80 text-[10px] font-black text-stone-500 uppercase tracking-widest border-b border-stone-100">
                   <th className="px-6 py-5">Product</th>
                   <th className="px-4 py-5 text-center">Grams / Day</th>
-                  <th className="px-4 py-5 text-center">Days / Month</th>
+                  <th className="px-4 py-5 text-center">Days</th>
                   <th className="px-4 py-5 text-center">Family Members</th>
                   <th className="px-4 py-5 text-center">Qty / Person</th>
                   <th className="px-4 py-5 text-center">Price / Kg</th>
@@ -2090,7 +2042,8 @@ function NutritionPlanner({ t }: { t: any }) {
                       colSpan={8}
                       className="px-6 py-16 text-center text-stone-400 font-medium"
                     >
-                      No products selected. Please select products from the list above.
+                      No products selected. Please select products from the list
+                      above.
                     </td>
                   </tr>
                 ) : (
@@ -2168,7 +2121,10 @@ function NutritionPlanner({ t }: { t: any }) {
                           />
                         </td>
                         <td className="px-4 py-4 text-center font-bold text-stone-500 text-sm">
-                          {qty} <span className="text-[10px] font-medium text-stone-400">Kg</span>
+                          {qty}{" "}
+                          <span className="text-[10px] font-medium text-stone-400">
+                            Kg
+                          </span>
                         </td>
                         <td className="px-4 py-4 text-center font-bold text-stone-500 text-sm">
                           ₹{displayPrice}
@@ -2214,18 +2170,21 @@ function NutritionPlanner({ t }: { t: any }) {
                     setIsBuying(true);
                     try {
                       const payload = {
-                        products: selectedProducts.map(p => {
+                        products: selectedProducts.map((p) => {
                           const d = plannerData[p.productid!];
                           return {
                             bid: p.bid || 1,
                             productid: p.productid,
                             gramsperday: d.grams,
                             dayspermonth: d.days,
-                            familymembers: d.members
+                            familymembers: d.members,
                           };
-                        })
+                        }),
                       };
-                      const response = await API.post(API_ROUTES.ADDCALCULATORCART, payload);
+                      const response = await API.post(
+                        API_ROUTES.ADDCALCULATORCART,
+                        payload,
+                      );
                       if (response.status === 200) {
                         router.push("/monthly-cart");
                       } else {
@@ -2233,7 +2192,10 @@ function NutritionPlanner({ t }: { t: any }) {
                       }
                     } catch (err: any) {
                       console.error("Error adding to monthly cart", err);
-                      alert(err?.response?.data?.message || "An error occurred while adding to monthly cart.");
+                      alert(
+                        err?.response?.data?.message ||
+                        "An error occurred while adding to monthly cart.",
+                      );
                     } finally {
                       setIsBuying(false);
                     }
@@ -2245,7 +2207,9 @@ function NutritionPlanner({ t }: { t: any }) {
                 {isBuying ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
-                  <>Buy Now <ShoppingCart className="w-5 h-5" /></>
+                  <>
+                    Buy Now <ShoppingCart className="w-5 h-5" />
+                  </>
                 )}
               </button>
             </div>
@@ -2315,7 +2279,7 @@ function SubscriptionPlans({ t }: { t: any }) {
   ];
 
   return (
-    <section ref={ref} className="py-24 bg-[#fafaf9] relative overflow-hidden">
+    <section ref={ref} className="py-16 bg-[#fafaf9] relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <div
@@ -2412,6 +2376,7 @@ function SubscriptionPlans({ t }: { t: any }) {
 function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
   const { ref, isVisible } = useInView();
   const [favouriteProductIds, setFavouriteProductIds] = useState<number[]>([]);
+  const [addingToCartId, setAddingToCartId] = useState<number | null>(null);
 
   const fetchFavourites = async () => {
     if (localStorage.getItem("isLoggedIn") === "true") {
@@ -2455,7 +2420,7 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
   const displayProducts = products && products.length > 0 ? products : [];
 
   return (
-    <section ref={ref} className="py-24 bg-white relative overflow-hidden">
+    <section ref={ref} className="py-16 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div
           className={`flex flex-col md:flex-row items-end justify-between mb-16 gap-6 transition-all duration-500 opacity-100 translate-y-0`}
@@ -2472,7 +2437,7 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
             </p>
           </div>
           <Link
-            href="/shop"
+            href="/new-arrivals"
             className="group inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[var(--olive)] relative"
           >
             <span className="relative">
@@ -2486,174 +2451,231 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
           </Link>
         </div>
 
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          {displayProducts.map((product, idx) => {
-            const id =
-              product.productid !== undefined ? product.productid : product.id;
-            const name = product.productname || product.name;
-            const price = product.sellingprice || product.price || 0;
-            const originalPrice =
-              product.price !== undefined &&
-              product.sellingprice !== undefined &&
-              product.price > product.sellingprice
-                ? product.price
-                : null;
-            const image = product.productimage
-              ? getImageUrl(product.productimage)
-              : product.image || "/placeholder.png";
-            const categoryid = product.categoryid;
-            const isGiftOrPooja =
-              categoryid === 4 ||
-              categoryid === 5 ||
-              (product.category &&
-                product.category.toLowerCase().includes("gift"));
-            const detailUrl = isGiftOrPooja
-              ? `/gift-detail/${id}?productid=${id}&bid=${product.bid || 1}`
-              : `/product-detail/${id}?productid=${id}&bid=${product.bid || 1}`;
+        {displayProducts.length === 0 ? (
+          <div className="py-12 flex flex-col items-center justify-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+            <Leaf className="w-8 h-8 text-gray-300 mb-3" />
+            <p className="text-gray-500 font-medium text-sm">
+              No products found.
+            </p>
+          </div>
+        ) : (
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {displayProducts.map((product, idx) => {
+              const id =
+                product.productid !== undefined
+                  ? product.productid
+                  : product.id;
+              const name = product.productname || product.name;
+              const price = product.sellingprice || product.price || 0;
+              const originalPrice =
+                product.price !== undefined &&
+                  product.sellingprice !== undefined &&
+                  product.price > product.sellingprice
+                  ? product.price
+                  : null;
+              const image = product.productimage
+                ? getImageUrl(product.productimage)
+                : product.image || "/placeholder.png";
+              const categoryid = product.categoryid;
+              const isGiftOrPooja =
+                categoryid === 4 ||
+                categoryid === 5 ||
+                (product.category &&
+                  product.category.toLowerCase().includes("gift"));
+              const detailUrl = isGiftOrPooja
+                ? `/gift-detail/${id}?productid=${id}&bid=${product.bid || 1}`
+                : `/product-detail/${id}?productid=${id}&bid=${product.bid || 1}`;
 
-            return (
-              <div
-                key={id}
-                className="w-[calc(50%-0.75rem)] md:w-[calc(25%-1.125rem)] snap-start flex-shrink-0"
-              >
-                <Link
-                  href={detailUrl}
-                  className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] h-full"
-                  style={{
-                    transitionDelay: isVisible ? `${idx * 150}ms` : "0ms",
-                  }}
+              return (
+                <div
+                  key={id}
+                  className="w-[calc(50%-0.75rem)] md:w-[calc(25%-1.125rem)] snap-start flex-shrink-0"
                 >
-                  {/* Image Container */}
-                  <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
-                    <img
-                      src={image}
-                      alt={name}
-                      className={`h-full w-full object-cover transition-all duration-[1200ms] group-hover:scale-110 ${(product.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
-                    />
+                  <Link
+                    href={detailUrl}
+                    className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] h-full"
+                    style={{
+                      transitionDelay: isVisible ? `${idx * 150}ms` : "0ms",
+                    }}
+                  >
+                    {/* Image Container */}
+                    <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
+                      <img
+                        src={image}
+                        alt={name}
+                        className={`h-full w-full object-cover transition-all duration-[1200ms] group-hover:scale-110 ${(product.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
+                      />
 
-                    {(product.availablestock ?? 0) <= 0 && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[2px] z-10">
-                        <span className="bg-red-500/90 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] shadow-xl">
-                          OUT OF STOCK
-                        </span>
-                      </div>
-                    )}
+                      {(product.availablestock ?? 0) <= 0 && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[2px] z-10">
+                          <span className="bg-red-500/90 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] shadow-xl">
+                            OUT OF STOCK
+                          </span>
+                        </div>
+                      )}
 
-                    {/* Floating Actions */}
-                    <div className="absolute top-3 right-3 z-20">
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handleActionWithLogin(async () => {
-                            if (id === undefined) return;
-                            try {
-                              const response = await API.post(
-                                API_ROUTES.ADDFAVOURITE,
-                                { productid: id },
-                              );
-                              if (response.status === 200) {
-                                window.dispatchEvent(
-                                  new Event("favoritesUpdated"),
+                      {/* Floating Actions */}
+                      <div className="absolute top-3 right-3 z-20">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleActionWithLogin(async () => {
+                              if (id === undefined) return;
+                              try {
+                                const response = await API.post(
+                                  API_ROUTES.ADDFAVOURITE,
+                                  { productid: id },
                                 );
+                                if (response.status === 200) {
+                                  window.dispatchEvent(
+                                    new Event("favoritesUpdated"),
+                                  );
+                                }
+                              } catch (err) {
+                                console.error("Error adding to wishlist:", err);
                               }
-                            } catch (err) {
-                              console.error("Error adding to wishlist:", err);
-                            }
-                          });
-                        }}
-                        className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-400 hover:text-red-500 transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
-                      >
-                        <Heart
-                          className={`w-4 h-4 ${id !== undefined && favouriteProductIds.includes(id) ? "fill-red-500 text-red-500" : ""}`}
-                        />
-                      </button>
+                            });
+                          }}
+                          className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-400 hover:text-red-500 transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+                        >
+                          <Heart
+                            className={`w-4 h-4 ${id !== undefined && favouriteProductIds.includes(id) ? "fill-red-500 text-red-500" : ""}`}
+                          />
+                        </button>
+                      </div>
+
+                      <div className="absolute top-3 left-3 z-20 flex flex-col gap-2">
+                        {originalPrice && originalPrice > price && (
+                          <span className="px-2.5 py-1 rounded-full bg-[var(--orange)] text-white text-[9px] font-black tracking-wider shadow-lg">
+                            {Math.round(
+                              ((originalPrice - price) / originalPrice) * 100,
+                            )}
+                            % OFF
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="absolute top-3 left-3 z-20 flex flex-col gap-2">
-                      {originalPrice && originalPrice > price && (
-                        <span className="px-2.5 py-1 rounded-full bg-[var(--orange)] text-white text-[9px] font-black tracking-wider shadow-lg">
-                          {Math.round(
-                            ((originalPrice - price) / originalPrice) * 100,
+                    {/* Content */}
+                    <div className="p-4 flex flex-col flex-1 space-y-3">
+                      <div className="space-y-1">
+                        <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
+                          {name}
+                        </h3>
+                        <p className="text-[11px] text-gray-400 font-medium line-clamp-1">
+                          {product.description ||
+                            "Tradizions premium selection for health."}
+                        </p>
+                        {product.weight &&
+                          (product.unit || product.unitname) && (
+                            <span className="inline-block mt-1 bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md text-[10px] font-bold border border-stone-200">
+                              {product.weight}{" "}
+                              {product.unit || product.unitname}
+                            </span>
                           )}
-                          % OFF
+                      </div>
+
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-xl font-black text-gray-900">
+                          ₹{price.toLocaleString()}
                         </span>
-                      )}
+                        {originalPrice && originalPrice > price && (
+                          <span className="text-xs text-gray-400 line-through font-medium">
+                            ₹{originalPrice.toLocaleString()}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Add to Cart Button */}
+                      <div className="pt-2 mt-auto">
+                        <button
+                          disabled={
+                            addingToCartId === id ||
+                            (product.availablestock ?? 0) <= 0
+                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if ((product.availablestock ?? 0) <= 0) return;
+                            handleActionWithLogin(async () => {
+                              setAddingToCartId(id);
+                              try {
+                                const response = await API.post(
+                                  API_ROUTES.ADDTOCART,
+                                  {
+                                    bid: product.bid || 1,
+                                    productid: isGiftOrPooja ? null : id,
+                                    giftid: isGiftOrPooja ? id : null,
+                                    quantity: 1,
+                                    itemtype: isGiftOrPooja
+                                      ? "gift"
+                                      : "product",
+                                  },
+                                );
+                                if (response.status === 200) {
+                                  window.dispatchEvent(
+                                    new Event("cartUpdated"),
+                                  );
+                                } else {
+                                  alert("Failed to add product to cart.");
+                                }
+                              } catch (err: any) {
+                                console.error("Error adding to cart:", err);
+                                alert(
+                                  err?.response?.data?.message ||
+                                  "An error occurred.",
+                                );
+                              } finally {
+                                setAddingToCartId(null);
+                              }
+                            });
+                          }}
+                          className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
+                              ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
+                              : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
+                            } disabled:opacity-50`}
+                        >
+                          <span>
+                            {(product.availablestock ?? 0) <= 0
+                              ? "OUT OF STOCK"
+                              : addingToCartId === id
+                                ? "ADDING..."
+                                : "ADD TO CART"}
+                          </span>
+                          {addingToCartId === id ? (
+                            <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
+                          )}
+                        </button>
+                      </div>
                     </div>
+                  </Link>
+                </div>
+              );
+            })}
+            {/* View All Card */}
+            {displayProducts.length > 10 && (
+              <div className="w-[calc(50%-0.75rem)] md:w-[calc(25%-1.125rem)] snap-start flex-shrink-0 flex">
+                <Link
+                  href="/new-arrivals"
+                  className="flex-1 group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/30 min-h-[350px]"
+                >
+                  <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-[var(--olive)] transition-colors duration-300 shadow-sm group-hover:shadow-md">
+                    <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
                   </div>
-
-                  {/* Content */}
-                  <div className="p-4 flex flex-col flex-1 space-y-3">
-                    <div className="space-y-1">
-                      <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
-                        {name}
-                      </h3>
-                      <p className="text-[11px] text-gray-400 font-medium line-clamp-1">
-                        {product.desc ||
-                          "Tradizions premium selection for health."}
-                      </p>
-                    </div>
-
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-xl font-black text-gray-900">
-                        ₹{price.toLocaleString()}
-                      </span>
-                      {originalPrice && originalPrice > price && (
-                        <span className="text-xs text-gray-400 line-through font-medium">
-                          ₹{originalPrice.toLocaleString()}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Add to Cart Button */}
-                    <div className="pt-2 mt-auto">
-                      <button
-                        disabled={(product.availablestock ?? 0) <= 0}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          if ((product.availablestock ?? 0) <= 0) return;
-                          handleActionWithLogin(() => alert("Added to cart!"));
-                        }}
-                        className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
-                          (product.availablestock ?? 0) <= 0
-                            ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-                            : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
-                        } disabled:opacity-50`}
-                      >
-                        <span>
-                          {(product.availablestock ?? 0) <= 0
-                            ? "OUT OF STOCK"
-                            : "ADD TO CART"}
-                        </span>
-                        <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
-                      </button>
-                    </div>
-                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
+                    {t.explore_all || "View All"}
+                  </h3>
+                  <p className="text-xs text-gray-400 mt-2 font-medium">
+                    Explore new arrivals
+                  </p>
                 </Link>
               </div>
-            );
-          })}
-          {/* View All Card */}
-          {displayProducts.length > 10 && (
-            <div className="w-[calc(50%-0.75rem)] md:w-[calc(25%-1.125rem)] snap-start flex-shrink-0 flex">
-              <Link
-                href="/shop"
-                className="flex-1 group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/30 min-h-[350px]"
-              >
-                <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-[var(--olive)] transition-colors duration-300 shadow-sm group-hover:shadow-md">
-                  <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
-                  {t.explore_all || "View All"}
-                </h3>
-                <p className="text-xs text-gray-400 mt-2 font-medium">
-                  Explore new arrivals
-                </p>
-              </Link>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -2733,7 +2755,7 @@ function CertificationsSection() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-[#FDFDFD] relative overflow-hidden">
+    <section className="py-16 bg-gradient-to-b from-white to-[#FDFDFD] relative overflow-hidden">
       {/* Background visual graphics */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--olive)]/5 rounded-full filter blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-[var(--orange)]/5 rounded-full filter blur-[100px] pointer-events-none" />
@@ -2819,7 +2841,7 @@ function VideoTestimonialsSection() {
   ];
 
   return (
-    <section className="py-24 bg-[#FAFBF9] border-t border-stone-200/50 relative overflow-hidden">
+    <section className="py-16 bg-[#FAFBF9] border-t border-stone-200/50 relative overflow-hidden">
       {/* Decorative organic mesh pattern in background */}
       <div className="absolute inset-0 opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] pointer-events-none" />
 
@@ -2912,7 +2934,7 @@ function VideoTestimonialsSection() {
 
 function SustainabilityAndPackagingSection() {
   return (
-    <section className="py-24 bg-white relative overflow-hidden border-t border-stone-200/50">
+    <section className="py-16 bg-white relative overflow-hidden border-t border-stone-200/50">
       <div className="max-w-7xl mx-auto px-6">
         {/* Subtle, beautiful grid of 3 premium container blocks */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">

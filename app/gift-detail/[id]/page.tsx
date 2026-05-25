@@ -491,9 +491,17 @@ export default function GiftDetailPage() {
             <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-2">
               {gift.giftname}
             </h1>
-            <p className="text-gray-500 font-medium mb-6">
+            <p className="text-gray-500 font-medium mb-4">
               {gift.giftdescription || ""}
             </p>
+
+            {gift.weight && gift.unit && (
+              <div className="mb-6">
+                <span className="inline-block bg-stone-100 text-stone-600 px-3 py-1.5 rounded-full text-xs font-bold border border-stone-200">
+                  Weight: {gift.weight} {gift.unit}
+                </span>
+              </div>
+            )}
 
             <div className="flex items-end gap-4 mb-8">
               <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">

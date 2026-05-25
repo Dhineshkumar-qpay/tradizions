@@ -301,7 +301,7 @@ export default function AboutUsPage() {
                   </p>
                 </div>
                 <p className="text-xs font-medium text-white leading-relaxed">
-                  Trusted by over 10,000+ health-conscious families.
+                  Trusted by over 100+ health-conscious families.
                 </p>
               </div>
             </div>
@@ -450,29 +450,7 @@ export default function AboutUsPage() {
             </p>
           </div>
 
-          {/* Form / Video Tabs */}
-          <div className="flex justify-center gap-4 mb-10">
-            <button
-              onClick={() => setActiveTab("text")}
-              className={`px-8 py-3 rounded-full text-[11px] font-black tracking-[0.2em] uppercase transition-all duration-500 flex items-center gap-2 cursor-pointer ${
-                activeTab === "text"
-                  ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
-                  : "bg-white text-gray-500 hover:text-gray-700 border border-stone-200 shadow-sm"
-              }`}
-            >
-              <Star className="w-4 h-4" /> Written Review
-            </button>
-            <button
-              onClick={() => setActiveTab("video")}
-              className={`px-8 py-3 rounded-full text-[11px] font-black tracking-[0.2em] uppercase transition-all duration-500 flex items-center gap-2 cursor-pointer ${
-                activeTab === "video"
-                  ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
-                  : "bg-white text-gray-500 hover:text-gray-700 border border-stone-200 shadow-sm"
-              }`}
-            >
-              <Video className="w-4 h-4" /> Video Testimonial
-            </button>
-          </div>
+
 
           <div
             className={`bg-white rounded-[1rem] shadow-[0_30px_80px_rgba(0,0,0,0.08)] border border-stone-100 p-8 md:p-14 relative overflow-hidden transition-all duration-700 min-h-[400px] flex flex-col justify-center ${offerRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}
@@ -480,8 +458,7 @@ export default function AboutUsPage() {
             {/* Form decorative corner */}
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-[var(--olive)]/5 rounded-full blur-2xl" />
 
-            {activeTab === "text" ? (
-              isSubmitted ? (
+            {isSubmitted ? (
                 <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in relative z-10">
                   <div className="w-20 h-20 bg-emerald-50 text-[var(--olive)] rounded-full flex items-center justify-center mb-6 border border-emerald-100 shadow-sm animate-scale-in">
                     <CheckCircle2 className="w-10 h-10 animate-pulse" />
@@ -596,130 +573,7 @@ export default function AboutUsPage() {
                     </button>
                   </div>
                 </form>
-              )
-            ) : (
-              isVideoSubmitted ? (
-                <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in relative z-10">
-                  <div className="w-20 h-20 bg-emerald-50 text-[var(--olive)] rounded-full flex items-center justify-center mb-6 border border-emerald-100 shadow-sm animate-scale-in">
-                    <CheckCircle2 className="w-10 h-10 animate-pulse" />
-                  </div>
-                  <h3 className="text-2xl font-extrabold text-gray-900 mb-3 tracking-tight">
-                    Video Testimonial Uploaded!
-                  </h3>
-                  <p className="text-sm text-gray-400 max-w-sm mb-8 leading-relaxed font-light">
-                    Thank you for sharing your visual journey. Our editorial team will review your submission shortly.
-                  </p>
-                  <button
-                    onClick={() => setIsVideoSubmitted(false)}
-                    className="px-8 py-3.5 rounded-xl bg-[var(--olive)] text-white text-[11px] font-black tracking-[0.2em] uppercase hover:bg-[var(--olive-dark)] transition-all shadow-lg cursor-pointer hover:-translate-y-0.5"
-                  >
-                    Upload Another Video
-                  </button>
-                </div>
-              ) : (
-                <form className="space-y-8 relative z-10 animate-fade-in" onSubmit={handleSubmitVideoReview}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Video Title */}
-                    <div className="space-y-3">
-                      <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--orange)]"></span> Video Title
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="e.g. My Tradizions Wellness Experience"
-                        className="w-full px-6 py-4 rounded-2xl bg-stone-50 border border-stone-200 focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none transition-all text-[13px] font-bold text-gray-800 placeholder:text-gray-400 placeholder:font-medium shadow-inner"
-                        value={videoTitle}
-                        onChange={(e) => setVideoTitle(e.target.value)}
-                        required
-                      />
-                    </div>
-                    {/* Email */}
-                    <div className="space-y-3">
-                      <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]"></span> Email Address
-                      </label>
-                      <input
-                        type="email"
-                        placeholder="Enter your email"
-                        className="w-full px-6 py-4 rounded-2xl bg-stone-50 border border-stone-200 focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none transition-all text-[13px] font-bold text-gray-800 placeholder:text-gray-400 placeholder:font-medium shadow-inner"
-                        value={videoEmail}
-                        onChange={(e) => setVideoEmail(e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <div className="space-y-3">
-                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span> Video Description
-                    </label>
-                    <textarea
-                      rows={4}
-                      placeholder="Tell us briefly about the video content..."
-                      className="w-full px-6 py-4 rounded-2xl bg-stone-50 border border-stone-200 focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none transition-all text-[13px] font-bold text-gray-800 placeholder:text-gray-400 placeholder:font-medium shadow-inner resize-none"
-                      value={videoDesc}
-                      onChange={(e) => setVideoDesc(e.target.value)}
-                      required
-                    ></textarea>
-                  </div>
-
-                  {/* File Upload Area */}
-                  <div className="space-y-3">
-                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Upload Video
-                    </label>
-                    <div className="relative border-2 border-dashed border-stone-200 hover:border-[var(--olive)] rounded-2xl p-8 bg-stone-50/50 text-center transition-all group cursor-pointer">
-                      <input
-                        type="file"
-                        accept="video/*"
-                        onChange={(e) => {
-                          if (e.target.files && e.target.files[0]) {
-                            const file = e.target.files[0];
-                            if (file.size > 10 * 1024 * 1024) {
-                              alert("Video file size exceeds the 10MB limit. Please upload a smaller video.");
-                              e.target.value = "";
-                              return;
-                            }
-                            setVideoFile(file);
-                          }
-                        }}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
-                        required={!videoFile}
-                      />
-                      <div className="flex flex-col items-center justify-center space-y-3 pointer-events-none">
-                        <div className="w-14 h-14 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-400 group-hover:text-[var(--olive)] group-hover:scale-110 transition-all">
-                          <Video className="w-6 h-6" />
-                        </div>
-                        {videoFile ? (
-                          <div className="space-y-1">
-                            <p className="text-sm font-bold text-[var(--olive)]">{videoFile.name}</p>
-                            <p className="text-[10px] text-gray-400 font-medium">{(videoFile.size / (1024 * 1024)).toFixed(2)} MB</p>
-                          </div>
-                        ) : (
-                          <div className="space-y-1">
-                            <p className="text-sm font-bold text-gray-700">Click to upload or drag and drop</p>
-                            <p className="text-xs text-gray-400 font-medium">MP4, WebM, or OGG (Max 10MB)</p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-6">
-                    <button
-                      type="submit"
-                      disabled={isVideoSubmitting}
-                      className="group w-full flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-[var(--olive)] text-white font-black text-[11px] tracking-[0.2em] uppercase transition-all duration-500 hover:shadow-[0_20px_40px_rgba(85,107,47,0.3)] hover:-translate-y-1 active:scale-95 overflow-hidden relative cursor-pointer disabled:opacity-50"
-                    >
-                      <span className="relative z-10">{isVideoSubmitting ? "Uploading..." : "Submit Video Testimonial"}</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-[var(--olive-dark)] to-[var(--olive)] opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <Upload className="w-4 h-4 relative z-10 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all" />
-                    </button>
-                  </div>
-                </form>
-              )
-            )}
+              )}
           </div>
         </div>
       </section>

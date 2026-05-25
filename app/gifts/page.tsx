@@ -318,7 +318,7 @@ export default function GiftsPage() {
         <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4">
           {t.gifts_filters?.categories || "Categories"}
         </h4>
-        <div className="space-y-3">
+        <div className="space-y-2">
           <button
             onClick={() => {
               setSelectedCategory("All Gifts");
@@ -330,31 +330,48 @@ export default function GiftsPage() {
               }));
               if (isMobileFilterOpen) setIsMobileFilterOpen(false);
             }}
-            className={`block text-[12px] font-bold transition-colors cursor-pointer ${selectedCategory === "All Gifts" ? "text-[var(--orange)]" : "text-stone-500 hover:text-stone-900"}`}
+            className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+              selectedCategory === "All Gifts"
+                ? "bg-[var(--orange)]/5 border-[var(--orange)] text-[var(--orange)] shadow-sm scale-[1.02]"
+                : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+            }`}
           >
-            {t.gifts_filters?.all_gifts || "All Gifts"}
+            <span className="text-[12px] font-bold">{t.gifts_filters?.all_gifts || "All Gifts"}</span>
+            <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-colors ${selectedCategory === "All Gifts" ? "border-[var(--orange)]" : "border-stone-200"}`}>
+              {selectedCategory === "All Gifts" && <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>}
+            </div>
           </button>
-          {categories.map((cat) => (
-            <button
-              key={cat.categoryid}
-              onClick={() => {
-                setSelectedCategory(cat.categoryname);
-                setActiveFilters((prev: any) => ({
-                  ...prev,
-                  categoryid: cat.categoryid,
-                  subcategoryid: 0,
-                  page: 1,
-                }));
-                if (isMobileFilterOpen) setIsMobileFilterOpen(false);
-              }}
-              className={`block text-[12px] font-bold transition-colors cursor-pointer text-left w-full ${selectedCategory === cat.categoryname ? "text-stone-900 font-extrabold" : "text-stone-500 hover:text-stone-900"}`}
-            >
-              {selectedCategory === cat.categoryname && (
-                <ChevronRight className="w-3 h-3 inline mr-1 text-stone-400" />
-              )}
-              {cat.categoryname}
-            </button>
-          ))}
+          
+          <div className="pl-4 space-y-2 mt-2">
+            {categories.map((cat) => {
+              const isSelected = selectedCategory === cat.categoryname;
+              return (
+                <button
+                  key={cat.categoryid}
+                  onClick={() => {
+                    setSelectedCategory(cat.categoryname);
+                    setActiveFilters((prev: any) => ({
+                      ...prev,
+                      categoryid: cat.categoryid,
+                      subcategoryid: 0,
+                      page: 1,
+                    }));
+                    if (isMobileFilterOpen) setIsMobileFilterOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+                    isSelected
+                      ? "bg-[var(--orange)]/5 border-[var(--orange)] text-[var(--orange)] shadow-sm scale-[1.02]"
+                      : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+                  }`}
+                >
+                  <span className="text-[12px] font-bold">{cat.categoryname}</span>
+                  <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--orange)]" : "border-stone-200"}`}>
+                    {isSelected && <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -366,34 +383,32 @@ export default function GiftsPage() {
             </span>
             <ChevronDown className="w-3.5 h-3.5 text-stone-400 transition-transform group-open:rotate-180" />
           </summary>
-          <div className="px-5 pb-5 space-y-2.5">
-            {subcategories.map((sub: any) => (
-              <label
-                key={sub.subcategoryid}
-                className="flex items-center gap-3 cursor-pointer group/label"
-              >
-                <input
-                  type="checkbox"
-                  checked={activeFilters.subcategoryid === sub.subcategoryid}
-                  onChange={() => {
+          <div className="px-5 pb-5 space-y-2">
+            {subcategories.map((sub: any) => {
+              const isSelected = activeFilters.subcategoryid === sub.subcategoryid;
+              return (
+                <button
+                  key={sub.subcategoryid}
+                  onClick={() => {
                     setActiveFilters((prev: any) => ({
                       ...prev,
-                      subcategoryid:
-                        prev.subcategoryid === sub.subcategoryid
-                          ? 0
-                          : sub.subcategoryid,
+                      subcategoryid: prev.subcategoryid === sub.subcategoryid ? 0 : sub.subcategoryid,
                       page: 1,
                     }));
                   }}
-                  className="w-3.5 h-3.5 border-stone-300 rounded-sm text-[var(--orange)] focus:ring-0 cursor-pointer"
-                />
-                <span
-                  className={`text-[12px] font-medium transition-colors ${activeFilters.subcategoryid === sub.subcategoryid ? "text-stone-900 font-bold" : "text-stone-600 group-hover/label:text-stone-900"}`}
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+                    isSelected
+                      ? "bg-[var(--orange)]/5 border-[var(--orange)] text-[var(--orange)] shadow-sm scale-[1.02]"
+                      : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+                  }`}
                 >
-                  {sub.subcategoryname}
-                </span>
-              </label>
-            ))}
+                  <span className="text-[12px] font-bold">{sub.subcategoryname}</span>
+                  <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--orange)]" : "border-stone-200"}`}>
+                    {isSelected && <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </details>
       )}
@@ -405,36 +420,36 @@ export default function GiftsPage() {
           </span>
           <ChevronDown className="w-3.5 h-3.5 text-stone-400 transition-transform group-open:rotate-180" />
         </summary>
-        <div className="px-5 pb-5 space-y-2.5">
+        <div className="px-5 pb-5 space-y-2">
           {[
             { label: "Under 1000", value: "0-1000" },
             { label: "1000-2500", value: "1000-2500" },
             { label: "Above 2500", value: "above-2500" },
-          ].map((range) => (
-            <label
-              key={range.value}
-              className="flex items-center gap-3 cursor-pointer group/label"
-            >
-              <input
-                type="checkbox"
-                checked={activeFilters.pricerange === range.value}
-                onChange={() => {
+          ].map((range) => {
+            const isSelected = activeFilters.pricerange === range.value;
+            return (
+              <button
+                key={range.value}
+                onClick={() => {
                   setActiveFilters((prev: any) => ({
                     ...prev,
-                    pricerange:
-                      prev.pricerange === range.value ? "" : range.value,
+                    pricerange: prev.pricerange === range.value ? "" : range.value,
                     page: 1,
                   }));
                 }}
-                className="w-3.5 h-3.5 border-stone-300 rounded-sm text-[var(--orange)] focus:ring-0 cursor-pointer"
-              />
-              <span
-                className={`text-[12px] font-medium transition-colors ${activeFilters.pricerange === range.value ? "text-stone-900 font-bold" : "text-stone-600 group-hover/label:text-stone-900"}`}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+                  isSelected
+                    ? "bg-[var(--orange)]/5 border-[var(--orange)] text-[var(--orange)] shadow-sm scale-[1.02]"
+                    : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+                }`}
               >
-                {range.label}
-              </span>
-            </label>
-          ))}
+                <span className="text-[12px] font-bold">{range.label}</span>
+                <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--orange)]" : "border-stone-200"}`}>
+                  {isSelected && <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>}
+                </div>
+              </button>
+            );
+          })}
         </div>
       </details>
     </div>
@@ -724,81 +739,6 @@ export default function GiftsPage() {
 
                         {/* Add to Cart Button */}
                         <div className="pt-2 mt-auto">
-                          {cartItem ? (
-                            <div className="flex items-center justify-between border border-[var(--olive)] rounded-xl overflow-hidden bg-white h-11">
-                              <button
-                                disabled={updatingCartId === cartItem.cartid}
-                                onClick={async (e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setUpdatingCartId(cartItem.cartid);
-                                  try {
-                                    const newQty = cartItem.quantity - 1;
-                                    const response = await API.post(
-                                      API_ROUTES.UPDATEQUANTITY,
-                                      {
-                                        cartid: cartItem.cartid,
-                                        quantity: newQty,
-                                      },
-                                    );
-                                    if (response.status === 200) {
-                                      window.dispatchEvent(
-                                        new Event("cartUpdated"),
-                                      );
-                                    }
-                                  } catch (err) {
-                                    console.error(
-                                      "Error updating quantity:",
-                                      err,
-                                    );
-                                  } finally {
-                                    setUpdatingCartId(null);
-                                  }
-                                }}
-                                className="px-4 py-2 hover:bg-stone-50 font-black text-sm text-[var(--olive)] disabled:opacity-50 cursor-pointer"
-                              >
-                                -
-                              </button>
-                              <span className="font-bold text-xs text-gray-800">
-                                {updatingCartId === cartItem.cartid
-                                  ? "..."
-                                  : cartItem.quantity}
-                              </span>
-                              <button
-                                disabled={updatingCartId === cartItem.cartid}
-                                onClick={async (e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setUpdatingCartId(cartItem.cartid);
-                                  try {
-                                    const newQty = cartItem.quantity + 1;
-                                    const response = await API.post(
-                                      API_ROUTES.UPDATEQUANTITY,
-                                      {
-                                        cartid: cartItem.cartid,
-                                        quantity: newQty,
-                                      },
-                                    );
-                                    if (response.status === 200) {
-                                      window.dispatchEvent(
-                                        new Event("cartUpdated"),
-                                      );
-                                    }
-                                  } catch (err) {
-                                    console.error(
-                                      "Error updating quantity:",
-                                      err,
-                                    );
-                                  } finally {
-                                    setUpdatingCartId(null);
-                                  }
-                                }}
-                                className="px-4 py-2 hover:bg-stone-50 font-black text-sm text-[var(--olive)] disabled:opacity-50 cursor-pointer"
-                              >
-                                +
-                              </button>
-                            </div>
-                          ) : (
                             <button
                               disabled={addingToCartId === product.id || product.availablestock <= 0}
                               onClick={(e) => {
@@ -848,7 +788,6 @@ export default function GiftsPage() {
                                 <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
                               )}
                             </button>
-                          )}
                         </div>
                       </div>
                     </Link>

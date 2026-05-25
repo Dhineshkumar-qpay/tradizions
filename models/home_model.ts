@@ -4,8 +4,6 @@ export interface HomeProductModel {
 }
 
 export interface Data {
-  featured?: Featured[];
-  newarrivals?: Featured[];
   gifthampers?: Featured[];
   poojahampers?: Featured[];
 }

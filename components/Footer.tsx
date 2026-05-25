@@ -118,7 +118,7 @@ export default function Footer() {
             </h4>
             <ul className="space-y-4 text-sm">
               {[
-                { name: t.terms, path: "/policies/terms-policy" },
+                { name: t.terms, path: "/policies/terms-and-conditions" },
                 { name: t.privacyPolicy, path: "/policies/privacy-policy" },
                 { name: t.faqs, path: "/policies/faqs" },
                 { name: t.shipping, path: "/policies/shipping-policy" },

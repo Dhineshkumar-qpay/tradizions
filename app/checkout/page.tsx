@@ -40,6 +40,9 @@ export default function CheckoutPage() {
 
   // Address Form States
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [title, setTitle] = useState("Home");
+  const [name, setName] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
   const [addressLine, setAddressLine] = useState("");
   const [landmark, setLandmark] = useState("");
   const [city, setCity] = useState("");
@@ -95,6 +98,8 @@ export default function CheckoutPage() {
   const handleSaveAddress = async (e: React.FormEvent) => {
     e.preventDefault();
     if (
+      !name.trim() ||
+      !mobileNumber.trim() ||
       !addressLine.trim() ||
       !city.trim() ||
       !pincode.trim() ||
@@ -107,6 +112,9 @@ export default function CheckoutPage() {
     try {
       const payload = {
         addressid: 0,
+        title: title,
+        name: name,
+        mobilenumber: mobileNumber,
         addressline: addressLine,
         landmark: landmark,
         city: city,
@@ -125,6 +133,9 @@ export default function CheckoutPage() {
         alert("Address added successfully!");
         fetchAddresses();
         setShowAddressForm(false);
+        setTitle("Home");
+        setName("");
+        setMobileNumber("");
         setAddressLine("");
         setLandmark("");
         setCity("");
@@ -133,6 +144,7 @@ export default function CheckoutPage() {
         setSelectedDistrictId(0);
         setSelectedStateName("");
         setSelectedDistrictName("");
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         alert("Failed to save address.");
       }
@@ -244,9 +256,10 @@ export default function CheckoutPage() {
       };
       const response = await API.post(API_ROUTES.PLACEORDER, body);
       if (response.status === 200 && response.data?.data) {
-        setPlacedOrderId(response.data.data.orderid);
+        setPlacedOrderId(response.data.data.orderid || response.data.orderid);
         setOrderPlaced(true);
         window.dispatchEvent(new Event("cartUpdated"));
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         alert("Failed to place order.");
       }
@@ -618,6 +631,46 @@ export default function CheckoutPage() {
                     Enter Details
                   </h3>
                   <form onSubmit={handleSaveAddress} className="space-y-5">
+                    <div className="grid grid-cols-2 gap-5">
+                      <div>
+                        <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
+                          Title
+                        </label>
+                        <select
+                          value={title}
+                          onChange={(e) => setTitle(e.target.value)}
+                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm"
+                        >
+                          <option value="Home">Home</option>
+                          <option value="Office">Office</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
+                        Mobile Number
+                      </label>
+                      <input
+                        type="tel"
+                        placeholder="10-digit Mobile Number"
+                        value={mobileNumber}
+                        onChange={(e) => setMobileNumber(e.target.value)}
+                        className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                      />
+                    </div>
                     <div>
                       <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
                         Address Line
@@ -922,7 +975,7 @@ export default function CheckoutPage() {
                 placing the order, you agree to our
                 <br />
                 <Link
-                  href="/policies/terms-policy"
+                  href="/policies/terms-and-conditions"
                   className="underline hover:text-[var(--olive)] transition-colors"
                 >
                   Terms & Conditions

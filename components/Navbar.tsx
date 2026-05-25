@@ -954,7 +954,7 @@ export default function Navbar() {
                   <p className="text-center text-[11px] text-gray-400 mt-4 leading-relaxed px-4">
                     {t.termsText} <br />{" "}
                     <Link
-                      href="/policies/terms-policy"
+                      href="/policies/terms-and-conditions"
                       onClick={() => {
                         setIsDrawerOpen(false);
                       }}
