@@ -1,42 +1,44 @@
-export interface OrderItemModel {
+/// Orders List Model
+export interface OrdersModel {
   statusCode?: number;
-  data?: OrderItemData;
+  data?: OrdersData[];
 }
 
-export interface OrderItemData {
-  orderdetails?: Orderdetails;
-  product?: Product;
-  giftcard?: Giftcard;
-  address?: Address;
-}
-
-export interface Address {
-  addressid?: number;
+export interface OrdersData {
+  orderid?: number;
   userid?: number;
-  addressline?: string;
-  landmark?: string;
-  city?: string;
-  district?: string;
-  districtid?: number;
-  state?: string;
-  stateid?: number;
-  country?: string;
-  pincode?: string;
-  latitude?: number;
-  longitude?: number;
+  addressid?: number;
+  bid?: number;
+  totalamount?: number;
+  ordertype?: string;
+  itemtype?: string;
+  orderstatus?: string;
+  paymentstatus?: string;
+  paymentid?: null;
+  items?: ProductsItems[];
 }
 
-export interface Giftcard {
-  giftcardid?: number;
-  giftcardimage?: string;
-  giftcardname?: string;
-  giftcardprice?: number;
-  giftmessage?: string;
+export interface ProductsItems {
+  productid?: number;
+  productname?: string;
+  productimage?: string;
 }
 
-export interface Orderdetails {
+/// Order Details Model
+export interface OrderDetailModel {
+  statusCode?: number;
+  data?: Data;
+}
+
+export interface Data {
+  order?: Order;
+  items?: Item[];
+}
+
+export interface Item {
   orderitemid?: number;
   orderid?: number;
+  userid?: number;
   quantity?: number;
   price?: number;
   totalprice?: number;
@@ -45,6 +47,22 @@ export interface Orderdetails {
   gramsperday?: null;
   dayspermonth?: null;
   familymembers?: null;
+  quantitypersonkg?: null;
+  totalquantitykg?: null;
+  calculatedprice?: null;
+  product?: Product;
+  giftcard?: Giftcard;
+  address?: Address;
+}
+
+export interface Address {
+  addressid?: number;
+  addressline?: string;
+  landmark?: string;
+  city?: string;
+  district?: string;
+  state?: string;
+  pincode?: string;
 }
 
 export interface Product {
@@ -52,4 +70,24 @@ export interface Product {
   bid?: number;
   productname?: string;
   productimage?: string;
+  price?: number;
+  sellingprice?: number;
+  itemtype?: string;
+}
+
+export interface Order {
+  orderid?: number;
+  totalamount?: number;
+  orderstatus?: string;
+  paymentstatus?: string;
+  ordertype?: string;
+  address?: string;
+}
+
+export interface Giftcard {
+    giftcardid?: number;
+    cardname?:   string;
+    giftmessage?:   string;
+    cardimage?:  string;
+    cardprice?:  number;
 }

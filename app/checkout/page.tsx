@@ -11,6 +11,10 @@ import { API_ROUTES } from "@/routes/api_routes";
 import { AddressData, States, Districts } from "@/models/address_model";
 import { CheckoutProduct } from "@/models/checkout_model";
 import { useRouter } from "next/navigation";
+import locationDataRaw from "../../public/location/india_states_districts.json";
+import SearchableDropdown from "@/components/SearchableDropdown";
+
+const locationData: Record<string, string[]> = locationDataRaw as any;
 
 const translations: Record<string, any> = {
   EN: en,
@@ -51,8 +55,8 @@ export default function CheckoutPage() {
   const [selectedDistrictId, setSelectedDistrictId] = useState<number>(0);
   const [selectedStateName, setSelectedStateName] = useState("");
   const [selectedDistrictName, setSelectedDistrictName] = useState("");
-  const [statesList, setStatesList] = useState<States[]>([]);
-  const [districtsList, setDistrictsList] = useState<Districts[]>([]);
+  const [statesList, setStatesList] = useState<string[]>(Object.keys(locationData));
+  const [districtsList, setDistrictsList] = useState<string[]>([]);
 
   const router = useRouter();
 
@@ -71,30 +75,7 @@ export default function CheckoutPage() {
     }
   };
 
-  const fetchStates = async () => {
-    try {
-      const response = await API.post(API_ROUTES.STATES);
-      if (response.status === 200) {
-        setStatesList(response.data?.data || []);
-      }
-    } catch (err) {
-      console.error("Error fetching states:", err);
-    }
-  };
-
-  const fetchDistricts = async (stateId: number) => {
-    try {
-      const response = await API.post(API_ROUTES.DISTRICTS, {
-        stateid: stateId,
-      });
-      if (response.status === 200) {
-        setDistrictsList(response.data?.data || []);
-      }
-    } catch (err) {
-      console.error("Error fetching districts:", err);
-    }
-  };
-
+  // Location logic handled locally now
   const handleSaveAddress = async (e: React.FormEvent) => {
     e.preventDefault();
     if (
@@ -103,8 +84,8 @@ export default function CheckoutPage() {
       !addressLine.trim() ||
       !city.trim() ||
       !pincode.trim() ||
-      !selectedStateId ||
-      !selectedDistrictId
+      !selectedStateName ||
+      !selectedDistrictName
     ) {
       alert("Please fill all required address fields.");
       return;
@@ -112,18 +93,16 @@ export default function CheckoutPage() {
     try {
       const payload = {
         addressid: 0,
-        title: title,
-        name: name,
-        mobilenumber: mobileNumber,
+        title: title || "Home",
+        fullname: name || "Dhineshkumar",
+        mobilenumber: mobileNumber || "9025821501",
         addressline: addressLine,
         landmark: landmark,
         city: city,
         district: selectedDistrictName,
-        districtid: selectedDistrictId,
         state: selectedStateName,
-        stateid: selectedStateId,
         country: "India",
-        pincode: pincode,
+        pincode: Number(pincode) || 638008,
         latitude: 11.3667,
         longitude: 77.7867,
       };
@@ -172,7 +151,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     const init = async () => {
       setIsLoading(true);
-      await Promise.all([fetchAddresses(), fetchCart(), fetchStates()]);
+      await Promise.all([fetchAddresses(), fetchCart()]);
       setIsLoading(false);
     };
     init();
@@ -383,7 +362,7 @@ export default function CheckoutPage() {
               <div className="flex flex-col gap-3">
 
                 <Link
-                  href="/my-account?tab=orders"
+                  href={`/order-detail?id=${placedOrderId}`}
                   className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]"
                 >
                   Track Order
@@ -475,20 +454,12 @@ export default function CheckoutPage() {
 
                   {(selectionMode === "single" || cartItems.length <= 1) && (
                     <div className={cartItems.length > 1 ? "ml-10" : ""}>
-                      <select
-                        value={selectedAddressId || ""}
-                        onChange={(e) =>
-                          setSelectedAddressId(Number(e.target.value))
-                        }
-                        className="w-full border border-stone-200 rounded-xl py-3 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-stone-800 text-sm shadow-sm"
-                      >
-                        <option value="">{t.checkout?.select_address || "Select an address"}</option>
-                        {addresses.map((addr) => (
-                          <option key={addr.addressid} value={addr.addressid}>
-                            {addr.addressline}, {addr.city}
-                          </option>
-                        ))}
-                      </select>
+                      <SearchableDropdown
+                        options={addresses.map((addr) => ({ label: `${addr.addressline}, ${addr.city}`, value: addr.addressid }))}
+                        value={selectedAddressId}
+                        placeholder={t.checkout?.select_address || "Select an address"}
+                        onChange={(val) => setSelectedAddressId(Number(val))}
+                      />
                     </div>
                   )}
                 </div>
@@ -566,14 +537,16 @@ export default function CheckoutPage() {
                                   </div>
                                 </div>
                                 <div className="w-full sm:w-48">
-                                  <select
+                                  <SearchableDropdown
+                                    options={addresses.map((addr) => ({ label: `${addr.addressline}, ${addr.city}`, value: addr.addressid }))}
                                     value={
                                       multipleAddress.find(
                                         (entry) => entry.cartid === item.cartid,
                                       )?.addressid || ""
                                     }
-                                    onChange={(e) => {
-                                      const addrId = Number(e.target.value);
+                                    placeholder={t.checkout?.select_address || "Select Address"}
+                                    onChange={(val) => {
+                                      const addrId = Number(val);
                                       const productid =
                                         item.itemtype === "gift"
                                           ? item.giftid
@@ -602,18 +575,7 @@ export default function CheckoutPage() {
                                         }
                                       });
                                     }}
-                                    className="w-full border border-stone-200 rounded-xl py-2 px-3 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-stone-800 text-xs shadow-sm"
-                                  >
-                                    <option value="">{t.checkout?.select_address || "Select Address"}</option>
-                                    {addresses.map((addr) => (
-                                      <option
-                                        key={addr.addressid}
-                                        value={addr.addressid}
-                                      >
-                                        {addr.addressline}, {addr.city}
-                                      </option>
-                                    ))}
-                                  </select>
+                                  />
                                 </div>
                               </div>
                             );
@@ -700,64 +662,30 @@ export default function CheckoutPage() {
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
                           State
                         </label>
-                        <select
-                          value={selectedStateId}
-                          onChange={(e) => {
-                            const sId = Number(e.target.value);
-                            setSelectedStateId(sId);
-                            const selectedState = statesList.find(
-                              (s) => s.stateid === sId,
-                            );
-                            if (selectedState) {
-                              setSelectedStateName(selectedState.state || "");
-                              fetchDistricts(sId);
-                            } else {
-                              setSelectedStateName("");
-                              setDistrictsList([]);
-                            }
-                            setSelectedDistrictId(0);
+                        <SearchableDropdown
+                          options={statesList}
+                          value={selectedStateName}
+                          placeholder={t.checkout?.select_state || "Select State"}
+                          onChange={(val) => {
+                            setSelectedStateName(val);
+                            setDistrictsList(locationData[val] || []);
                             setSelectedDistrictName("");
                           }}
-                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm"
-                        >
-                          <option value={0}>{t.checkout?.select_state || "Select State"}</option>
-                          {statesList.map((st) => (
-                            <option key={st.stateid} value={st.stateid}>
-                              {st.state}
-                            </option>
-                          ))}
-                        </select>
+                        />
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
                           District
                         </label>
-                        <select
-                          value={selectedDistrictId}
-                          disabled={!selectedStateId}
-                          onChange={(e) => {
-                            const dId = Number(e.target.value);
-                            setSelectedDistrictId(dId);
-                            const selectedDist = districtsList.find(
-                              (d) => d.districtid === dId,
-                            );
-                            if (selectedDist) {
-                              setSelectedDistrictName(
-                                selectedDist.district || "",
-                              );
-                            } else {
-                              setSelectedDistrictName("");
-                            }
+                        <SearchableDropdown
+                          options={districtsList}
+                          value={selectedDistrictName}
+                          placeholder={t.checkout?.select_district || "Select District"}
+                          disabled={!selectedStateName}
+                          onChange={(val) => {
+                            setSelectedDistrictName(val);
                           }}
-                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm disabled:bg-stone-50 disabled:text-stone-400"
-                        >
-                          <option value={0}>{t.checkout?.select_district || "Select District"}</option>
-                          {districtsList.map((ds) => (
-                            <option key={ds.districtid} value={ds.districtid}>
-                              {ds.district}
-                            </option>
-                          ))}
-                        </select>
+                        />
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-5">

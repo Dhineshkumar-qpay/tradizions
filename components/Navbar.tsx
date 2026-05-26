@@ -113,6 +113,7 @@ export default function Navbar() {
   // Language State
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState("EN");
+  const [shouldRedirectToAccount, setShouldRedirectToAccount] = useState(false);
 
   // Login States
   const [loginStep, setLoginStep] = useState<"mobile" | "otp">("mobile");
@@ -136,10 +137,13 @@ export default function Navbar() {
   const t = translations[selectedLang] || translations["EN"];
 
   useEffect(() => {
-    const handleOpenLogin = () => setIsDrawerOpen(true);
-    window.addEventListener("openLoginSidebar", handleOpenLogin);
+    const handleOpenLogin = (e: any) => {
+      setShouldRedirectToAccount(e.detail?.redirect ?? false);
+      setIsDrawerOpen(true);
+    };
+    window.addEventListener("openLoginSidebar", handleOpenLogin as EventListener);
     return () =>
-      window.removeEventListener("openLoginSidebar", handleOpenLogin);
+      window.removeEventListener("openLoginSidebar", handleOpenLogin as EventListener);
   }, []);
 
   useEffect(() => {
@@ -218,7 +222,9 @@ export default function Navbar() {
         // Dispatch dynamic success indicator event so other pages execute their queued actions
         window.dispatchEvent(new Event("loginSuccess"));
 
-        router.push("/my-account");
+        if (shouldRedirectToAccount) {
+          router.push("/my-account");
+        }
       } else {
         setError("Invalid OTP or server error. Please try again.");
       }
@@ -688,6 +694,7 @@ export default function Navbar() {
                   if (isLoggedIn) {
                     router.push("/my-account");
                   } else {
+                    setShouldRedirectToAccount(true);
                     setIsDrawerOpen(true);
                   }
                 }}
@@ -827,6 +834,7 @@ export default function Navbar() {
                 if (isLoggedIn) {
                   router.push("/my-account");
                 } else {
+                  setShouldRedirectToAccount(true);
                   setIsDrawerOpen(true);
                 }
               }}

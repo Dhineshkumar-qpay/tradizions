@@ -27,7 +27,7 @@ import { API } from "@/service/api_service";
 import { API_ROUTES } from "@/routes/api_routes";
 import { FavouriteProductModel, FavouriteProduct } from "@/models/cart_model";
 import { ProfileModel } from "@/models/auth_model";
-import { OrderModel, OrdersData } from "@/models/checkout_model";
+import { OrdersModel, OrdersData } from "@/models/order_item_model";
 import { CalculatorOrderModel, Datum } from "@/models/calculator_model";
 import {
   AddressModel,
@@ -38,6 +38,10 @@ import {
   Districts,
 } from "@/models/address_model";
 import { ProfileData } from "@/models/auth_model";
+import locationDataRaw from "../../public/location/india_states_districts.json";
+import SearchableDropdown from "@/components/SearchableDropdown";
+
+const locationData: Record<string, string[]> = locationDataRaw as any;
 
 const translations: Record<string, any> = {
   EN: en,
@@ -54,7 +58,6 @@ export default function ProfilePage() {
   const [addingToCartId, setAddingToCartId] = useState<number | null>(null);
 
   const [orders, setOrders] = useState<OrdersData[]>([]);
-  const [orderHistoryTab, setOrderHistoryTab] = useState<'products' | 'gifts'>('products');
   const [monthlyOrders, setMonthlyOrders] = useState<Datum[]>([]);
   const [isOrdersLoading, setIsOrdersLoading] = useState(false);
 
@@ -120,11 +123,15 @@ export default function ProfilePage() {
     }
   };
   const [isAddressesLoading, setIsAddressesLoading] = useState(false);
-  const [statesList, setStatesList] = useState<States[]>([]);
-  const [districtsList, setDistrictsList] = useState<Districts[]>([]);
+  const [statesList, setStatesList] = useState<string[]>(Object.keys(locationData));
+  const [districtsList, setDistrictsList] = useState<string[]>([]);
 
   // Address Form States
+  const [orderHistoryTab, setOrderHistoryTab] = useState<"normal" | "monthly">("normal");
   const [addressId, setAddressId] = useState<number>(0);
+  const [title, setTitle] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
   const [addressLine, setAddressLine] = useState("");
   const [landmark, setLandmark] = useState("");
   const [city, setCity] = useState("");
@@ -149,34 +156,12 @@ export default function ProfilePage() {
     }
   };
 
-  const fetchStates = async () => {
-    try {
-      const response = await API.post(API_ROUTES.STATES);
-      if (response.status === 200) {
-        const stateModel: StateModel = response.data;
-        setStatesList(stateModel.data || []);
-      }
-    } catch (err) {
-      console.error("Error fetching states:", err);
-    }
-  };
-
-  const fetchDistricts = async (stateId: number) => {
-    try {
-      const response = await API.post(API_ROUTES.DISTRICTS, {
-        stateid: stateId,
-      });
-      if (response.status === 200) {
-        const distModel: DistrictModel = response.data;
-        setDistrictsList(distModel.data || []);
-      }
-    } catch (err) {
-      console.error("Error fetching districts:", err);
-    }
-  };
-
+  // Location data logic handled locally now
   const handleOpenAddAddress = () => {
     setAddressId(0);
+    setTitle("");
+    setFullname("");
+    setMobileNumber("");
     setAddressLine("");
     setLandmark("");
     setCity("");
@@ -191,6 +176,9 @@ export default function ProfilePage() {
 
   const handleOpenEditAddress = (addr: AddressData) => {
     setAddressId(addr.addressid || 0);
+    setTitle(addr.title || "");
+    setFullname(addr.fullname || "");
+    setMobileNumber(addr.mobilenumber || "");
     setAddressLine(addr.addressline || "");
     setLandmark(addr.landmark || "");
     setCity(addr.city || "");
@@ -199,14 +187,24 @@ export default function ProfilePage() {
     setSelectedDistrictId(addr.districtid || 0);
     setSelectedStateName(addr.state || "");
     setSelectedDistrictName(addr.district || "");
-    if (addr.stateid) {
-      fetchDistricts(addr.stateid);
+    if (addr.state) {
+      setDistrictsList(locationData[addr.state] || []);
+    } else {
+      setDistrictsList([]);
     }
     setAddressView("edit");
   };
 
   const handleSaveAddress = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!fullname.trim()) {
+      alert("Please enter full name.");
+      return;
+    }
+    if (!mobileNumber.trim()) {
+      alert("Please enter mobile number.");
+      return;
+    }
     if (!addressLine.trim()) {
       alert("Please enter address line.");
       return;
@@ -219,11 +217,11 @@ export default function ProfilePage() {
       alert("Please enter pincode.");
       return;
     }
-    if (!selectedStateId) {
+    if (!selectedStateName) {
       alert("Please select a state.");
       return;
     }
-    if (!selectedDistrictId) {
+    if (!selectedDistrictName) {
       alert("Please select a district.");
       return;
     }
@@ -231,15 +229,16 @@ export default function ProfilePage() {
     try {
       const payload = {
         addressid: addressId,
+        title: title || "Home",
+        fullname: fullname,
+        mobilenumber: mobileNumber,
         addressline: addressLine,
         landmark: landmark,
         city: city,
         district: selectedDistrictName,
-        districtid: selectedDistrictId,
         state: selectedStateName,
-        stateid: selectedStateId,
         country: "India",
-        pincode: pincode,
+        pincode: Number(pincode) || 638008,
         latitude: 11.3667,
         longitude: 77.7867,
       };
@@ -336,12 +335,12 @@ export default function ProfilePage() {
     }
   };
 
-  const fetchOrders = async (itemtype: string, ordertype: string = "normal") => {
+  const fetchOrders = async (ordertype: string = "normal") => {
     setIsOrdersLoading(true);
     try {
-      const response = await API.post(API_ROUTES.GETALLORDERS, { itemtype, ordertype });
+      const response = await API.post(API_ROUTES.GETALLORDERS);
       if (response.status === 200) {
-        const orderModel: OrderModel = response.data;
+        const orderModel: OrdersModel = response.data;
         setOrders(orderModel.data || []);
       }
     } catch (err) {
@@ -374,15 +373,14 @@ export default function ProfilePage() {
       fetchWishlist();
     } else if (activeTab === "addresses") {
       fetchAddresses();
-      fetchStates();
     } else if (activeTab === "profile") {
       fetchProfile();
     } else if (activeTab === "orders") {
-      fetchOrders(orderHistoryTab === "gifts" ? "gift" : "product");
+      fetchOrders();
     } else if (activeTab === "monthly-orders") {
       fetchMonthlyOrders();
     }
-  }, [activeTab, orderHistoryTab]);
+  }, [activeTab]);
 
   // Address sub-view state
   const [addressView, setAddressView] = useState("list"); // list, add, edit
@@ -511,6 +509,42 @@ export default function ProfilePage() {
           <form onSubmit={handleSaveAddress} className="space-y-4 max-w-sm">
             <div>
               <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
+                Address Title
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. Home, Office"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
+                Full Name
+              </label>
+              <input
+                type="text"
+                placeholder="Receiver's Full Name"
+                value={fullname}
+                onChange={(e) => setFullname(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
+                Mobile Number
+              </label>
+              <input
+                type="text"
+                placeholder="10-digit Mobile Number"
+                value={mobileNumber}
+                onChange={(e) => setMobileNumber(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
                 Address Line
               </label>
               <textarea
@@ -549,62 +583,30 @@ export default function ProfilePage() {
               <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
                 State
               </label>
-              <select
-                value={selectedStateId}
-                onChange={(e) => {
-                  const sId = Number(e.target.value);
-                  setSelectedStateId(sId);
-                  const selectedState = statesList.find(
-                    (s) => s.stateid === sId,
-                  );
-                  if (selectedState) {
-                    setSelectedStateName(selectedState.state || "");
-                    fetchDistricts(sId);
-                  } else {
-                    setSelectedStateName("");
-                    setDistrictsList([]);
-                  }
-                  setSelectedDistrictId(0);
+              <SearchableDropdown
+                options={statesList}
+                value={selectedStateName}
+                placeholder="Select State"
+                onChange={(val) => {
+                  setSelectedStateName(val);
+                  setDistrictsList(locationData[val] || []);
                   setSelectedDistrictName("");
                 }}
-                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
-              >
-                <option value={0}>Select State</option>
-                {statesList.map((st) => (
-                  <option key={st.stateid} value={st.stateid}>
-                    {st.state}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
             <div>
               <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
                 District
               </label>
-              <select
-                value={selectedDistrictId}
-                disabled={!selectedStateId}
-                onChange={(e) => {
-                  const dId = Number(e.target.value);
-                  setSelectedDistrictId(dId);
-                  const selectedDist = districtsList.find(
-                    (d) => d.districtid === dId,
-                  );
-                  if (selectedDist) {
-                    setSelectedDistrictName(selectedDist.district || "");
-                  } else {
-                    setSelectedDistrictName("");
-                  }
+              <SearchableDropdown
+                options={districtsList}
+                value={selectedDistrictName}
+                placeholder="Select District"
+                disabled={!selectedStateName}
+                onChange={(val) => {
+                  setSelectedDistrictName(val);
                 }}
-                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm disabled:bg-gray-50 disabled:text-gray-400"
-              >
-                <option value={0}>Select District</option>
-                {districtsList.map((ds) => (
-                  <option key={ds.districtid} value={ds.districtid}>
-                    {ds.district}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
             <div>
               <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
@@ -705,15 +707,26 @@ export default function ProfilePage() {
                   DELETE
                 </button>
               </div>
-              <span className="inline-block px-3 py-1 bg-white shadow-sm text-[var(--olive)] border border-gray-100 text-[10px] font-bold tracking-widest rounded-md mb-4 uppercase">
-                {addr.landmark || "ADDRESS"}
-              </span>
-              <p className="text-sm font-medium text-gray-700 leading-relaxed">
+              <div className="mb-4">
+                <span className="inline-block px-3 py-1 bg-white shadow-sm text-[var(--olive)] border border-[var(--olive)]/20 text-[10px] font-black tracking-widest rounded-lg mb-3 uppercase">
+                  {addr.title || "Address"}
+                </span>
+                <h3 className="text-base font-black text-gray-900 leading-tight tracking-tight">{addr.fullname}</h3>
+                <p className="text-xs font-bold text-gray-500 mt-1">{addr.mobilenumber}</p>
+              </div>
+              <div className="border-t border-dashed border-gray-200 my-4"></div>
+              <p className="text-sm font-medium text-gray-600 leading-relaxed">
                 {addr.addressline}
+                {addr.landmark && (
+                  <>
+                    <br />
+                    <span className="text-gray-400">Landmark: {addr.landmark}</span>
+                  </>
+                )}
                 <br />
                 {addr.city}, {addr.district}
                 <br />
-                {addr.state} - {addr.pincode}
+                {addr.state} - <span className="font-bold text-gray-900">{addr.pincode}</span>
               </p>
             </div>
           ))}
@@ -820,119 +833,236 @@ export default function ProfilePage() {
           <h2 className="text-2xl font-bold text-gray-900">
             {t.my_account.order_history}
           </h2>
-          
-          {/* Tab Switcher */}
-          <div className="flex items-center bg-gray-100 p-1 rounded-xl w-fit">
-            <button 
-              onClick={() => setOrderHistoryTab('products')}
-              className={`px-4 py-2 text-[11px] font-bold tracking-widest uppercase rounded-lg transition-all duration-300 ${orderHistoryTab === 'products' ? 'bg-white text-[var(--olive)] shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+          <div className="flex bg-stone-100 p-1 rounded-xl w-full sm:w-auto">
+            <button
+              onClick={() => setOrderHistoryTab("normal")}
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${orderHistoryTab === "normal"
+                ? "bg-white text-[var(--olive)] shadow-sm"
+                : "text-stone-500 hover:text-stone-700"
+                }`}
             >
-              Products History
+              Normal Orders
             </button>
-            <button 
-              onClick={() => setOrderHistoryTab('gifts')}
-              className={`px-4 py-2 text-[11px] font-bold tracking-widest uppercase rounded-lg transition-all duration-300 ${orderHistoryTab === 'gifts' ? 'bg-white text-[var(--olive)] shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+            <button
+              onClick={() => setOrderHistoryTab("monthly")}
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${orderHistoryTab === "monthly"
+                ? "bg-white text-[var(--olive)] shadow-sm"
+                : "text-stone-500 hover:text-stone-700"
+                }`}
             >
-              Gift History
+              Monthly Orders
             </button>
           </div>
         </div>
 
-        {isOrdersLoading ? (
-          <div className="flex flex-col items-center justify-center py-20 space-y-4">
-            <div className="w-10 h-10 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
-            <p className="text-stone-400 text-sm font-medium">
-              Loading orders...
-            </p>
-          </div>
-        ) : orders.length === 0 ? (
-          <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
-            {/* Decorative Background Element */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -z-10" />
-
-            <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
-              <div className="absolute inset-0 bg-[var(--olive)]/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-500" />
-              <Package
-                className="w-8 h-8 text-stone-300 group-hover:text-[var(--olive)] transition-colors duration-500 relative z-10"
-                strokeWidth={1.5}
-              />
+        {orderHistoryTab === "normal" ? (
+          isOrdersLoading ? (
+            <div className="flex flex-col items-center justify-center py-20 space-y-4">
+              <div className="w-10 h-10 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
+              <p className="text-stone-400 text-sm font-medium">
+                Loading orders...
+              </p>
             </div>
+          ) : orders.length === 0 ? (
+            <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -z-10" />
 
-            <h3 className="text-xl font-bold text-gray-900 mb-2 tracking-tight">
-              No {orderHistoryTab === 'gifts' ? 'gift orders' : 'orders'} found
-            </h3>
-            <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto leading-relaxed">
-              Looks like you haven't placed any {orderHistoryTab === 'gifts' ? 'gift orders' : 'orders'} yet. Discover our premium collection.
-            </p>
+              <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
+                <div className="absolute inset-0 bg-[var(--olive)]/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-500" />
+                <Package
+                  className="w-8 h-8 text-stone-300 group-hover:text-[var(--olive)] transition-colors duration-500 relative z-10"
+                  strokeWidth={1.5}
+                />
+              </div>
 
-            <Link
-              href="/shop"
-              className="group flex items-center gap-2 px-6 py-3 bg-[var(--olive)] hover:bg-[var(--olive)]/90 text-white rounded-xl font-bold text-[11px] uppercase tracking-widest shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-            >
-              Explore Shop
-              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {orders.map((order, index) => {
-            const itemImage =
-              order.productimage !== null
-                ? order.productimage?.startsWith("http")
-                  ? order.productimage
-                  : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${order.productimage}`
-                : "/placeholder.png";
+              <h3 className="text-xl font-bold text-gray-900 mb-2 tracking-tight">
+                No orders found
+              </h3>
+              <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto leading-relaxed">
+                Looks like you haven't placed any orders yet.
+                Discover our premium collection.
+              </p>
 
-            return (
               <Link
-                key={order.orderitemid || index}
-                href={`/order-detail?id=${order.orderitemid}`}
-                className="group flex items-center gap-4 p-4 rounded-[1.5rem] bg-white border-2 border-gray-100 hover:border-[var(--olive)]/30 hover:shadow-md transition-all"
+                href="/shop"
+                className="group flex items-center gap-2 px-6 py-3 bg-[var(--olive)] hover:bg-[var(--olive)]/90 text-white rounded-xl font-bold text-[11px] uppercase tracking-widest shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
               >
-                <div className="relative w-20 h-20 shrink-0 rounded-xl overflow-hidden bg-[#faf9f6] border border-gray-100">
-                  <img
-                    src={itemImage}
-                    className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    alt={order.productname || "order"}
-                  />
-                </div>
-                <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
-                  <div>
-                    <div className="flex justify-between items-start gap-3 mb-1">
-                      <h4 className="text-[13px] font-bold text-gray-900 truncate group-hover:text-[var(--olive)] transition-colors">
-                        {order.productname}
-                      </h4>
-                      <p className="text-[13px] font-black text-[var(--olive)] whitespace-nowrap">
-                        ₹{order.totalprice}
-                      </p>
-                    </div>
-                    <p className="text-[11px] text-gray-500 font-medium truncate mb-2.5">
-                      {order.categoryname}
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-stone-50 border border-stone-100">
-                      <span
-                        className={`w-1.5 h-1.5 rounded-full ${order.itemstatus?.toLowerCase() === "delivered" ? "bg-emerald-500" : "bg-amber-500 animate-pulse"}`}
-                      />
-                      <span className="text-[9px] font-bold text-stone-600 tracking-widest uppercase">
-                        {order.itemstatus}
-                      </span>
-                    </div>
-                    <span className="text-[9px] font-black text-gray-400 group-hover:text-[var(--olive)] transition-colors uppercase tracking-widest flex items-center gap-0.5">
-                      Details <ChevronRight className="w-3 h-3" />
-                    </span>
-                  </div>
-                </div>
+                Explore Shop
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </Link>
-            );
-          })}
-        </div>
-      )}
-    </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {orders.map((order, index) => {
+                return (
+                  <Link
+                    key={order.orderid || index}
+                    href={`/order-detail?id=${order.orderid}`}
+                    className="group flex items-center gap-4 p-4 rounded-[1.5rem] bg-white border-2 border-gray-100 hover:border-[var(--olive)]/30 hover:shadow-md transition-all"
+                  >
+                    {(() => {
+                      const hasItems = order.items && order.items.length > 0;
+                      const itemName = hasItems ? order.items![0].productname : `Order #${order.orderid}`;
+
+                      return (
+                        <>
+                          <div className="relative flex -space-x-3 w-20 shrink-0">
+                            {hasItems ? (
+                              order.items?.slice(0, 3).map((item, i) => (
+                                <div key={i} className="relative w-12 h-12 rounded-full border-2 border-white overflow-hidden bg-[#faf9f6] shadow-sm z-10 hover:z-20 transition-all hover:scale-110">
+                                  <img
+                                    src={item.productimage?.startsWith("http") ? item.productimage : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`}
+                                    alt={item.productname || "Product"}
+                                    className="w-full h-full object-cover mix-blend-multiply"
+                                  />
+                                </div>
+                              ))
+                            ) : (
+                              <div className="w-12 h-12 rounded-full border-2 border-white bg-[#faf9f6] flex items-center justify-center shadow-sm">
+                                <Package className="w-5 h-5 text-stone-300" />
+                              </div>
+                            )}
+                            {hasItems && order.items!.length > 3 && (
+                              <div className="relative w-12 h-12 rounded-full border-2 border-white bg-stone-100 flex items-center justify-center shadow-sm z-0 text-[10px] font-bold text-stone-600">
+                                +{order.items!.length - 3}
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
+                            <div>
+                              <div className="flex justify-between items-start gap-3 mb-1">
+                                <h4 className="text-[13px] font-bold text-gray-900 truncate group-hover:text-[var(--olive)] transition-colors" title={itemName}>
+                                  {itemName}
+                                </h4>
+                                <p className="text-[13px] font-black text-[var(--olive)] whitespace-nowrap">
+                                  ₹{order.totalamount}
+                                </p>
+                              </div>
+                              <p className="text-[11px] text-gray-500 font-medium truncate mb-2.5 capitalize">
+                                {order.ordertype || "Normal"} • Order #{order.orderid}
+                              </p>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-stone-50 border border-stone-100">
+                                <span
+                                  className={`w-1.5 h-1.5 rounded-full ${order.orderstatus?.toLowerCase() === "delivered" ? "bg-emerald-500" : "bg-amber-500 animate-pulse"}`}
+                                />
+                                <span className="text-[9px] font-bold text-stone-600 tracking-widest uppercase">
+                                  {order.orderstatus}
+                                </span>
+                              </div>
+                              <span className="text-[9px] font-black text-gray-400 group-hover:text-[var(--olive)] transition-colors uppercase tracking-widest flex items-center gap-0.5">
+                                Details <ChevronRight className="w-3 h-3" />
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </Link>
+                );
+              })}
+            </div>
+          )
+        ) : (
+          isOrdersLoading ? (
+            <div className="flex flex-col items-center justify-center py-20 space-y-4">
+              <div className="w-10 h-10 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
+              <p className="text-stone-400 text-sm font-medium">
+                Loading monthly orders...
+              </p>
+            </div>
+          ) : monthlyOrders.length === 0 ? (
+            <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -z-10" />
+              <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
+                <Package className="w-8 h-8 text-stone-300" strokeWidth={1.5} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                No monthly orders found
+              </h3>
+              <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto">
+                Looks like you haven't placed any monthly orders yet.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {monthlyOrders.map((order, index) => {
+                const isDelivered =
+                  order.orderstatus?.toLowerCase() === "delivered";
+                return (
+                  <Link
+                    key={order.orderid || index}
+                    href={`/monthly-order-detail?id=${order.orderid}`}
+                    className="group relative bg-white rounded-2xl p-4 border border-stone-200 hover:border-[var(--olive)]/30 hover:shadow-[0_8px_20px_rgb(0,0,0,0.04)] transition-all duration-300 flex flex-col overflow-hidden"
+                  >
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--olive)]/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--olive)]/10 transition-colors pointer-events-none" />
+
+                    <div className="relative z-10 flex flex-col h-full">
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-stone-50 rounded-md border border-stone-100 mb-2">
+                            <Calendar className="w-3 h-3 text-[var(--olive)]" />
+                            <span className="text-[9px] font-black uppercase tracking-widest text-stone-500">
+                              {order.orderdate}
+                            </span>
+                          </div>
+                          <h4 className="text-base font-black text-stone-900 group-hover:text-[var(--olive)] transition-colors">
+                            Order #{order.orderid}
+                          </h4>
+                        </div>
+                        <div
+                          className={`w-8 h-8 rounded-lg flex items-center justify-center border shadow-sm ${isDelivered ? "bg-emerald-50 border-emerald-100 text-emerald-600" : "bg-amber-50 border-amber-100 text-amber-600"}`}
+                        >
+                          {isDelivered ? (
+                            <Check className="w-4 h-4" />
+                          ) : (
+                            <Package className="w-4 h-4" />
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="mt-auto pt-4 border-t border-dashed border-stone-200">
+                        <div className="flex items-end justify-between">
+                          <div>
+                            <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-1">
+                              Total Amount
+                            </p>
+                            <p className="text-xl font-black text-stone-900">
+                              ₹{order.totalamount?.toLocaleString()}
+                            </p>
+                          </div>
+                          <div className="flex flex-col items-end gap-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-[9px] font-black text-stone-400 group-hover:text-[var(--olive)] transition-colors uppercase tracking-widest">
+                                Details
+                              </span>
+                              <div className="w-5 h-5 rounded-full bg-stone-50 group-hover:bg-[var(--olive)]/10 flex items-center justify-center transition-colors">
+                                <ChevronRight className="w-3 h-3 text-stone-400 group-hover:text-[var(--olive)]" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mt-3 flex items-center gap-2">
+                          <div
+                            className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border ${isDelivered ? "bg-emerald-50 text-emerald-700 border-emerald-100" : "bg-amber-50 text-amber-700 border-amber-100"}`}
+                          >
+                            {order.orderstatus || "Pending"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )
+        )
+        }
+      </div >
     );
   };
-
 
   const renderMonthlyOrders = () => (
     <div className="animate-fade-in-up">
@@ -948,7 +1078,9 @@ export default function ProfilePage() {
       {isOrdersLoading ? (
         <div className="flex flex-col items-center justify-center py-20 space-y-4">
           <div className="w-10 h-10 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
-          <p className="text-stone-400 text-sm font-medium">Loading monthly orders...</p>
+          <p className="text-stone-400 text-sm font-medium">
+            Loading monthly orders...
+          </p>
         </div>
       ) : monthlyOrders.length === 0 ? (
         <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
@@ -956,13 +1088,18 @@ export default function ProfilePage() {
           <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
             <Package className="w-8 h-8 text-stone-300" strokeWidth={1.5} />
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">No monthly orders found</h3>
-          <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto">Looks like you haven't placed any monthly orders yet.</p>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">
+            No monthly orders found
+          </h3>
+          <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto">
+            Looks like you haven't placed any monthly orders yet.
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {monthlyOrders.map((order, index) => {
-            const isDelivered = order.orderstatus?.toLowerCase() === "delivered";
+            const isDelivered =
+              order.orderstatus?.toLowerCase() === "delivered";
             return (
               <Link
                 key={order.orderid || index}
@@ -971,7 +1108,7 @@ export default function ProfilePage() {
               >
                 {/* Decorative background accent */}
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--olive)]/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--olive)]/10 transition-colors pointer-events-none" />
-                
+
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Order Header */}
                   <div className="flex justify-between items-start mb-4">
@@ -989,7 +1126,11 @@ export default function ProfilePage() {
                     <div
                       className={`w-8 h-8 rounded-lg flex items-center justify-center border shadow-sm ${isDelivered ? "bg-emerald-50 border-emerald-100 text-emerald-600" : "bg-amber-50 border-amber-100 text-amber-600"}`}
                     >
-                      {isDelivered ? <Check className="w-4 h-4" /> : <Package className="w-4 h-4" />}
+                      {isDelivered ? (
+                        <Check className="w-4 h-4" />
+                      ) : (
+                        <Package className="w-4 h-4" />
+                      )}
                     </div>
                   </div>
 
@@ -1017,7 +1158,9 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="mt-3 flex items-center gap-2">
-                      <div className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border ${isDelivered ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-amber-50 text-amber-700 border-amber-100'}`}>
+                      <div
+                        className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border ${isDelivered ? "bg-emerald-50 text-emerald-700 border-emerald-100" : "bg-amber-50 text-amber-700 border-amber-100"}`}
+                      >
                         {order.orderstatus || "Pending"}
                       </div>
                     </div>
@@ -1184,7 +1327,9 @@ export default function ProfilePage() {
               )}
             </button>
 
-            <button
+
+
+            {/* <button
               onClick={() => setActiveTab("monthly-orders")}
               className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "monthly-orders" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
             >
@@ -1194,7 +1339,7 @@ export default function ProfilePage() {
               {activeTab === "monthly-orders" && (
                 <ChevronRight className="w-4 h-4 opacity-70" />
               )}
-            </button>
+            </button> */}
             <button
               onClick={() => setActiveTab("subscriptions")}
               className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "subscriptions" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
@@ -1269,6 +1414,7 @@ export default function ProfilePage() {
           {activeTab === "addresses" && renderAddresses()}
           {activeTab === "wishlist" && renderWishlist()}
           {activeTab === "orders" && renderOrders()}
+          {activeTab === "gift-orders" && renderOrders()}
 
           {activeTab === "monthly-orders" && renderMonthlyOrders()}
           {activeTab === "subscriptions" && renderSubscriptionManagement()}

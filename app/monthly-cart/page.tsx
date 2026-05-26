@@ -8,6 +8,10 @@ import { API } from "@/service/api_service";
 import { API_ROUTES } from "@/routes/api_routes";
 import { AddressData, States, Districts } from "@/models/address_model";
 import { MonthlyCartModel, MonthlyCartData } from "@/models/calculator_model";
+import locationDataRaw from "../../public/location/india_states_districts.json";
+import SearchableDropdown from "@/components/SearchableDropdown";
+
+const locationData: Record<string, string[]> = locationDataRaw as any;
 
 export default function MonthlyCartPage() {
   const router = useRouter();
@@ -29,8 +33,8 @@ export default function MonthlyCartPage() {
   const [selectedDistrictId, setSelectedDistrictId] = useState<number>(0);
   const [selectedStateName, setSelectedStateName] = useState("");
   const [selectedDistrictName, setSelectedDistrictName] = useState("");
-  const [statesList, setStatesList] = useState<States[]>([]);
-  const [districtsList, setDistrictsList] = useState<Districts[]>([]);
+  const [statesList, setStatesList] = useState<string[]>(Object.keys(locationData));
+  const [districtsList, setDistrictsList] = useState<string[]>([]);
 
   const fetchAddresses = async () => {
     try {
@@ -46,31 +50,10 @@ export default function MonthlyCartPage() {
     }
   };
 
-  const fetchStates = async () => {
-    try {
-      const response = await API.post(API_ROUTES.STATES);
-      if (response.status === 200) {
-        setStatesList(response.data?.data || []);
-      }
-    } catch (err) {
-      console.error("Error fetching states:", err);
-    }
-  };
-
-  const fetchDistricts = async (stateId: number) => {
-    try {
-      const response = await API.post(API_ROUTES.DISTRICTS, { stateid: stateId });
-      if (response.status === 200) {
-        setDistrictsList(response.data?.data || []);
-      }
-    } catch (err) {
-      console.error("Error fetching districts:", err);
-    }
-  };
-
+  // Location logic handled locally now
   const handleSaveAddress = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!addressLine.trim() || !city.trim() || !pincode.trim() || !selectedStateId || !selectedDistrictId) {
+    if (!addressLine.trim() || !city.trim() || !pincode.trim() || !selectedStateName || !selectedDistrictName) {
       alert("Please fill all required address fields.");
       return;
     }
@@ -81,9 +64,9 @@ export default function MonthlyCartPage() {
         landmark: landmark,
         city: city,
         district: selectedDistrictName,
-        districtid: selectedDistrictId,
+        districtid: 1,
         state: selectedStateName,
-        stateid: selectedStateId,
+        stateid: 1,
         country: "India",
         pincode: pincode,
         latitude: 11.3667,
@@ -133,7 +116,7 @@ export default function MonthlyCartPage() {
   useEffect(() => {
     const init = async () => {
       setIsLoading(true);
-      await Promise.all([fetchAddresses(), fetchCart(), fetchStates()]);
+      await Promise.all([fetchAddresses(), fetchCart()]);
       setIsLoading(false);
     };
     init();
@@ -204,7 +187,7 @@ export default function MonthlyCartPage() {
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <Link href="/my-account?tab=monthly-orders" className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]">Track Order</Link>
+                <Link href={`/order-detail?id=${placedOrderId}`} className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]">Track Order</Link>
                 <Link href="/shop" className="w-full h-12 rounded-xl bg-white border border-stone-200 text-stone-700 text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center hover:bg-stone-50 transition-all duration-300">Continue Shopping</Link>
               </div>
             </div>
@@ -275,43 +258,28 @@ export default function MonthlyCartPage() {
                     <div className="grid grid-cols-2 gap-5">
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">State</label>
-                        <select value={selectedStateId} onChange={(e) => {
-                          const sId = Number(e.target.value);
-                          setSelectedStateId(sId);
-                          const selectedState = statesList.find((s) => s.stateid === sId);
-                          if (selectedState) {
-                            setSelectedStateName(selectedState.state || "");
-                            fetchDistricts(sId);
-                          } else {
-                            setSelectedStateName("");
-                            setDistrictsList([]);
-                          }
-                          setSelectedDistrictId(0);
-                          setSelectedDistrictName("");
-                        }} className="w-full border border-stone-200 rounded-xl py-3.5 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm">
-                          <option value={0}>Select State</option>
-                          {statesList.map((st) => (
-                            <option key={st.stateid} value={st.stateid}>{st.state}</option>
-                          ))}
-                        </select>
+                        <SearchableDropdown
+                          options={statesList}
+                          value={selectedStateName}
+                          placeholder="Select State"
+                          onChange={(val) => {
+                            setSelectedStateName(val);
+                            setDistrictsList(locationData[val] || []);
+                            setSelectedDistrictName("");
+                          }}
+                        />
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">District</label>
-                        <select value={selectedDistrictId} disabled={!selectedStateId} onChange={(e) => {
-                          const dId = Number(e.target.value);
-                          setSelectedDistrictId(dId);
-                          const selectedDist = districtsList.find((d) => d.districtid === dId);
-                          if (selectedDist) {
-                            setSelectedDistrictName(selectedDist.district || "");
-                          } else {
-                            setSelectedDistrictName("");
-                          }
-                        }} className="w-full border border-stone-200 rounded-xl py-3.5 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm disabled:bg-stone-50 disabled:text-stone-400">
-                          <option value={0}>Select District</option>
-                          {districtsList.map((ds) => (
-                            <option key={ds.districtid} value={ds.districtid}>{ds.district}</option>
-                          ))}
-                        </select>
+                        <SearchableDropdown
+                          options={districtsList}
+                          value={selectedDistrictName}
+                          placeholder="Select District"
+                          disabled={!selectedStateName}
+                          onChange={(val) => {
+                            setSelectedDistrictName(val);
+                          }}
+                        />
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-5">

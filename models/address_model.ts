@@ -37,7 +37,7 @@ export interface AddressData {
   country?: string;
   pincode?: string;
   title?: string;
-  name?: string;
+  fullname?: string;
   mobilenumber?: string;
   latitude?: number;
   longitude?: number;

@@ -44,5 +44,5 @@ export const API_ROUTES = {
   GETCALCULATORCART: "/calculator/cart/get",
   PLACECALCULATORORDER: "/calculator/place-order",
   CALCULATORORDERS: "/calculator/orders",
-  CALCULATORORDERDETAILS: "/calculator/order-detail",
+  NEWSLETTER: "/auth/newsletter",
 };

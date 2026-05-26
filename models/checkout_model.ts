@@ -33,25 +33,3 @@ export interface GiftCard {
   status?: string;
 }
 
-export interface OrderModel {
-  statusCode?: number;
-  data?: OrdersData[];
-}
-
-export interface OrdersData {
-  orderitemid?: number;
-  orderid?: number;
-  bid?: number;
-  userid?: number;
-  productid?: number;
-  quantity?: number;
-  price?: string;
-  giftcardid?: number;
-  giftmessage?: null | string;
-  giftcardprice?: string;
-  totalprice?: string;
-  itemstatus?: string;
-  productname?: string;
-  productimage?: string;
-  categoryname?: string;
-}

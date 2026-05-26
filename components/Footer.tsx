@@ -11,7 +11,8 @@ import {
   FaYoutube as Youtube,
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
-
+import { API } from "@/service/api_service";
+import { API_ROUTES } from "@/routes/api_routes";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
@@ -33,6 +34,33 @@ export default function Footer() {
 
   const [selectedLang, setSelectedLang] = useState("EN");
   const t = translations[selectedLang] || translations["EN"];
+
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [toastMessage, setToastMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setIsLoading(true);
+    setToastMessage(null);
+
+    try {
+      await API.post(API_ROUTES.NEWSLETTER, { email });
+      setToastMessage({ type: "success", text: "Successfully subscribed to newsletter!" });
+      setEmail("");
+    } catch (err: any) {
+      if (err.response?.status === 400) {
+        setToastMessage({ type: "error", text: err.response?.data?.message || "Invalid email or already subscribed." });
+      } else {
+        setToastMessage({ type: "error", text: "Failed to subscribe. Please try again." });
+      }
+    } finally {
+      setIsLoading(false);
+      setTimeout(() => setToastMessage(null), 3000);
+    }
+  };
 
   useEffect(() => {
     const updateLang = () => {
@@ -152,20 +180,29 @@ export default function Footer() {
                 {t.newsletter_text}
               </p>
 
-              <div className="relative">
+              <form onSubmit={handleSubscribe} className="relative">
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
+                  required
                   placeholder={t.contact_us?.email || "Your Email Address"}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-[var(--orange)]/30"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-[var(--orange)]/30 disabled:opacity-50"
                 />
 
                 <button
                   type="submit"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 bg-[var(--orange)] rounded-xl hover:bg-[#e67e00] transition"
+                  disabled={isLoading}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 bg-[var(--orange)] rounded-xl hover:bg-[#e67e00] transition disabled:opacity-50"
                 >
-                  <ArrowRight className="w-5 h-5" />
+                  {isLoading ? (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <ArrowRight className="w-5 h-5" />
+                  )}
                 </button>
-              </div>
+              </form>
             </div>
 
             {/* Contact */}
@@ -224,6 +261,15 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-4 right-4 z-50 animate-fade-in-up">
+          <div className={`px-6 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-bold tracking-wide ${toastMessage.type === 'success' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-red-50 text-red-600 border border-red-100'}`}>
+            {toastMessage.text}
+          </div>
+        </div>
+      )}
     </footer>
   );
 }
