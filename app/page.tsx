@@ -219,7 +219,10 @@ export default function Home() {
 
   const fetchFeaturedProducts = async () => {
     try {
-      const response = await API.post(API_ROUTES.FEATURED, { page: 1, limit: 20 });
+      const response = await API.post(API_ROUTES.FEATURED, {
+        page: 1,
+        limit: 20,
+      });
       if (response.data && response.data.success) {
         setFeaturedProducts(response.data.products || []);
       }
@@ -230,7 +233,10 @@ export default function Home() {
 
   const fetchNewArrivalsProducts = async () => {
     try {
-      const response = await API.post(API_ROUTES.NEWARRIVALS, { page: 1, limit: 20 });
+      const response = await API.post(API_ROUTES.NEWARRIVALS, {
+        page: 1,
+        limit: 20,
+      });
       if (response.data && response.data.success) {
         setNewArrivalsProducts(response.data.products || []);
       }
@@ -471,30 +477,33 @@ function HealthBenefitsSection({ t }: { t: any }) {
           <div className="flex justify-center gap-4 mt-10 flex-wrap">
             <button
               onClick={() => setActiveCategory("nuts")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "nuts"
+              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${
+                activeCategory === "nuts"
                   ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
                   : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-                }`}
+              }`}
             >
               {t.sections?.nuts || "Nuts"}
             </button>
 
             <button
               onClick={() => setActiveCategory("millets")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "millets"
+              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${
+                activeCategory === "millets"
                   ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
                   : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-                }`}
+              }`}
             >
               {t.sections?.millets || "Millets"}
             </button>
 
             <button
               onClick={() => setActiveCategory("spices")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "spices"
+              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${
+                activeCategory === "spices"
                   ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
                   : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-                }`}
+              }`}
             >
               {t.sections?.spices || "Spices"}
             </button>
@@ -826,8 +835,8 @@ function ProductCard({
   const price = product.sellingprice || product.price || 0;
   const originalPrice =
     product.price !== undefined &&
-      product.sellingprice !== undefined &&
-      product.price > product.sellingprice
+    product.sellingprice !== undefined &&
+    product.price > product.sellingprice
       ? product.price
       : null;
   const image = product.productimage
@@ -996,17 +1005,18 @@ function ProductCard({
                   console.error("Error adding to cart:", err);
                   alert(
                     err?.response?.data?.message ||
-                    "An error occurred while adding to cart.",
+                      "An error occurred while adding to cart.",
                   );
                 } finally {
                   setIsAdding(false);
                 }
               });
             }}
-            className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
+            className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
+              (product.availablestock ?? 0) <= 0
                 ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                 : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
-              } disabled:opacity-50`}
+            } disabled:opacity-50`}
           >
             <span>
               {(product.availablestock ?? 0) <= 0
@@ -1092,8 +1102,8 @@ function GiftingSection({
                   const price = item.sellingprice || item.price || 0;
                   const originalPrice =
                     item.price !== undefined &&
-                      item.sellingprice !== undefined &&
-                      item.price > item.sellingprice
+                    item.sellingprice !== undefined &&
+                    item.price > item.sellingprice
                       ? item.price
                       : null;
                   const image = item.productimage
@@ -1310,12 +1320,12 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   const listToRender =
     reviews && reviews.length > 0
       ? reviews.map((r) => ({
-        name: r.username || "Anonymous User",
-        role: "Verified Buyer",
-        text: r.review || "",
-        rating: Math.round(r.rating || 5),
-        avatar: getInitials(r.username || "Anonymous"),
-      }))
+          name: r.username || "Anonymous User",
+          role: "Verified Buyer",
+          text: r.review || "",
+          rating: Math.round(r.rating || 5),
+          avatar: getInitials(r.username || "Anonymous"),
+        }))
       : [];
 
   if (listToRender.length === 0) {
@@ -1436,8 +1446,9 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
 
         {/* Global Rating Tag */}
         <div
-          className={`mt-10 flex flex-col items-center gap-3 transition-all duration-500 delay-500 ${isVisible ? "opacity-100" : "opacity-0"
-            }`}
+          className={`mt-10 flex flex-col items-center gap-3 transition-all duration-500 delay-500 ${
+            isVisible ? "opacity-100" : "opacity-0"
+          }`}
         >
           <div className="flex -space-x-3">
             {users.map((name, i) => (
@@ -2029,8 +2040,8 @@ function NutritionPlanner({ t }: { t: any }) {
                   <th className="px-4 py-5 text-center">Grams / Day</th>
                   <th className="px-4 py-5 text-center">Days</th>
                   <th className="px-4 py-5 text-center">Family Members</th>
-                  <th className="px-4 py-5 text-center">Qty / Person</th>
-                  <th className="px-4 py-5 text-center">Price / Kg</th>
+                  <th className="px-4 py-5 text-center">KG / Person</th>
+                  <th className="px-4 py-5 text-center">Price / KG</th>
                   <th className="px-6 py-5 text-right">Total Budget</th>
                   <th className="px-4 py-5 text-center">Action</th>
                 </tr>
@@ -2194,7 +2205,7 @@ function NutritionPlanner({ t }: { t: any }) {
                       console.error("Error adding to monthly cart", err);
                       alert(
                         err?.response?.data?.message ||
-                        "An error occurred while adding to monthly cart.",
+                          "An error occurred while adding to monthly cart.",
                       );
                     } finally {
                       setIsBuying(false);
@@ -2469,8 +2480,8 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
               const price = product.sellingprice || product.price || 0;
               const originalPrice =
                 product.price !== undefined &&
-                  product.sellingprice !== undefined &&
-                  product.price > product.sellingprice
+                product.sellingprice !== undefined &&
+                product.price > product.sellingprice
                   ? product.price
                   : null;
               const image = product.productimage
@@ -2624,17 +2635,18 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
                                 console.error("Error adding to cart:", err);
                                 alert(
                                   err?.response?.data?.message ||
-                                  "An error occurred.",
+                                    "An error occurred.",
                                 );
                               } finally {
                                 setAddingToCartId(null);
                               }
                             });
                           }}
-                          className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
+                          className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
+                            (product.availablestock ?? 0) <= 0
                               ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                               : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
-                            } disabled:opacity-50`}
+                          } disabled:opacity-50`}
                         >
                           <span>
                             {(product.availablestock ?? 0) <= 0
@@ -2771,7 +2783,6 @@ function CertificationsSection() {
             standards, natural processes, and government-approved accreditations
             to deliver uncompromising safety.
           </p>
-          <div className="w-12 h-1 bg-[var(--orange)] rounded-full mx-auto mt-2" />
         </div>
 
         <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -2842,18 +2853,16 @@ function VideoTestimonialsSection() {
 
   return (
     <section className="py-16 bg-[#FAFBF9] border-t border-stone-200/50 relative overflow-hidden">
-      {/* Decorative organic mesh pattern in background */}
-      <div className="absolute inset-0 opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] pointer-events-none" />
+      {/* <div className="absolute inset-0 opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Centered Heading */}
+        
         <div className="text-center space-y-3 mb-16">
           <h3 className="text-2xl md:text-3xl font-black text-gray-950 tracking-tight leading-none">
             Video <span className="gradient-text">Testimonials</span>
           </h3>
         </div>
 
-        {/* Left to right horizontal scroll track */}
         <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {videoReviews.map((video, idx) => (
             <div
@@ -2867,13 +2876,10 @@ function VideoTestimonialsSection() {
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105 filter brightness-95"
                 />
 
-                {/* Dark gradient vignette overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/95 via-stone-900/40 to-transparent transition-all duration-500" />
 
-                {/* Centered glassmorphic play button */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="relative">
-                    {/* Outer pulsing gold glow */}
                     <div className="absolute -inset-4 bg-amber-500/25 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse" />
                     <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/25 transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:text-[var(--olive)] shadow-xl relative z-10">
                       <svg
@@ -2886,7 +2892,6 @@ function VideoTestimonialsSection() {
                   </div>
                 </div>
 
-                {/* Info overlay (Name, status, duration) */}
                 <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-white z-10">
                   <div className="space-y-0.5">
                     <span className="text-[11px] font-black tracking-widest uppercase leading-none block">
@@ -2901,13 +2906,11 @@ function VideoTestimonialsSection() {
                   </span>
                 </div>
 
-                {/* Interactive bottom timeline bar */}
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-[var(--orange)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
               </div>
             </div>
           ))}
 
-          {/* Greater than 10 show "Show All" card */}
           {videoReviews.length > 10 && (
             <div className="w-[220px] md:w-[250px] snap-start flex-shrink-0 flex">
               <Link
@@ -2927,6 +2930,12 @@ function VideoTestimonialsSection() {
             </div>
           )}
         </div>
+      </div> */}
+
+      <div style={{width:"100%", border:"1px grey", background:"white", boxShadow:"inset 0 0 10px #000000"}}>
+        <p className="text-center text-sm text-stone-500 font-medium py-12">
+          Hello Dhinesh 👋
+        </p>
       </div>
     </section>
   );

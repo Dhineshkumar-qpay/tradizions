@@ -420,72 +420,58 @@ export default function Navbar() {
 
           {/* Right Section */}
           <div className="flex items-center gap-4 lg:gap-6 ml-auto">
-            {/* Redesigned Language Selection - Modern Segmented Control */}
-            <div className="hidden xl:block">
-              <div className="flex items-center bg-white/50 backdrop-blur-xl p-1 rounded-full border border-[#e0d4b7] shadow-[0_2px_15px_rgba(0,0,0,0.02)]">
-                {languages.map((lang) => {
-                  const isActive = selectedLang === lang.code;
-                  return (
-                    <button
-                      key={lang.code}
-                      onClick={() => handleLangChange(lang.code)}
-                      className={`relative px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest transition-all duration-500 uppercase ${
-                        isActive
-                          ? "text-white"
-                          : "text-gray-500 hover:text-[var(--olive)]"
-                      }`}
-                    >
-                      {/* Active Indicator Background */}
-                      {isActive && (
-                        <div className="absolute inset-0 bg-[var(--olive)] rounded-full shadow-[0_4px_12px_rgba(85,107,47,0.25)] animate-scale-in z-0" />
-                      )}
-                      <span className="relative z-10">{lang.code}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Compact Dropdown for Medium Screens */}
-            <div className="hidden md:block xl:hidden relative">
+            {/* Professional Language Selection */}
+            <div className="hidden md:block relative">
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
-                className={`flex items-center h-10 gap-2 px-3 py-1.5 rounded-full border transition-all duration-300 group ${
+                onBlur={() => setTimeout(() => setIsLangOpen(false), 200)}
+                className={`flex items-center h-10 gap-2 px-4 rounded-full border transition-all duration-300 ${
                   isLangOpen
-                    ? "bg-[var(--olive)] border-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20"
-                    : "bg-white border-[#e0d4b7] text-gray-600 hover:border-[var(--olive)] hover:bg-gray-50"
+                    ? "bg-white border-[var(--olive)] shadow-[0_2px_15px_rgba(85,107,47,0.12)]"
+                    : "bg-white/60 border-[#e0d4b7]/60 hover:bg-white hover:border-[#e0d4b7] shadow-sm"
                 }`}
               >
                 <Globe
-                  className={`w-3.5 h-3.5 transition-transform duration-500 ${isLangOpen ? "rotate-[360deg]" : "text-[var(--olive)] group-hover:rotate-12"}`}
+                  className={`w-4 h-4 transition-colors duration-300 ${
+                    isLangOpen ? "text-[var(--olive)]" : "text-gray-500"
+                  }`}
                 />
-                <span className="text-[10px] font-black tracking-[0.15em] uppercase">
+                <span
+                  className={`text-[11px] font-bold tracking-widest uppercase transition-colors duration-300 ${
+                    isLangOpen ? "text-[var(--olive)]" : "text-gray-700"
+                  }`}
+                >
                   {selectedLang}
                 </span>
                 <ChevronDown
-                  className={`w-3 h-3 transition-transform duration-500 ${isLangOpen ? "rotate-180" : "opacity-40"}`}
+                  className={`w-3.5 h-3.5 transition-all duration-300 ${
+                    isLangOpen ? "rotate-180 text-[var(--olive)]" : "text-gray-400"
+                  }`}
                 />
               </button>
 
               {isLangOpen && (
-                <div className="absolute top-full right-0 mt-4 w-40 bg-white/95 backdrop-blur-xl border border-[#e0d4b7] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden animate-fade-in-up">
-                  <div className="p-1.5">
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => handleLangChange(lang.code)}
-                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-[10px] font-black tracking-wider transition-all ${
-                          selectedLang === lang.code
-                            ? "bg-[var(--olive)] text-white shadow-sm"
-                            : "text-gray-600 hover:bg-gray-50 hover:text-[var(--olive)]"
-                        }`}
-                      >
-                        {lang.name}
-                        {selectedLang === lang.code && (
-                          <Check className="w-3 h-3" />
-                        )}
-                      </button>
-                    ))}
+                <div className="absolute top-full right-0 mt-2 w-36 bg-white/95 backdrop-blur-xl border border-[#e0d4b7]/50 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] z-50 overflow-hidden animate-fade-in-up">
+                  <div className="p-1.5 space-y-0.5">
+                    {languages.map((lang) => {
+                      const isActive = selectedLang === lang.code;
+                      return (
+                        <button
+                          key={lang.code}
+                          onClick={() => handleLangChange(lang.code)}
+                          className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-[11px] font-bold tracking-wider transition-all duration-200 ${
+                            isActive
+                              ? "bg-[var(--olive)]/10 text-[var(--olive)]"
+                              : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                          }`}
+                        >
+                          {lang.name}
+                          {isActive && (
+                            <div className="w-1.5 h-1.5 rounded-full bg-[var(--olive)] shadow-[0_0_8px_rgba(85,107,47,0.6)]" />
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}

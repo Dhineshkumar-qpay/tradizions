@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import {
   User,
   Package,
@@ -12,12 +11,10 @@ import {
   ShoppingCart,
   LogOut,
   ChevronRight,
-  Gift,
   Zap,
   Users,
   Wallet,
   Check,
-  Lock,
   Calendar,
 } from "lucide-react";
 import en from "@/languages/en.json";
@@ -28,15 +25,8 @@ import { API_ROUTES } from "@/routes/api_routes";
 import { FavouriteProductModel, FavouriteProduct } from "@/models/cart_model";
 import { ProfileModel } from "@/models/auth_model";
 import { OrdersModel, OrdersData } from "@/models/order_item_model";
-import { CalculatorOrderModel, Datum } from "@/models/calculator_model";
-import {
-  AddressModel,
-  AddressData,
-  StateModel,
-  States,
-  DistrictModel,
-  Districts,
-} from "@/models/address_model";
+import { Datum } from "@/models/calculator_model";
+import { AddressModel, AddressData } from "@/models/address_model";
 import { ProfileData } from "@/models/auth_model";
 import locationDataRaw from "../../public/location/india_states_districts.json";
 import SearchableDropdown from "@/components/SearchableDropdown";
@@ -47,6 +37,24 @@ const translations: Record<string, any> = {
   EN: en,
   TA: ta,
   HI: hi,
+};
+
+const getStatusStyles = (status: string | undefined) => {
+  const s = (status || "").toLowerCase();
+  switch (s) {
+    case "delivered":
+      return "bg-[#D1FAE5] text-[#10B981] border-[#10B981]";
+    case "confirmed":
+      return "bg-[#DBEAFE] text-[#3B82F6] border-[#3B82F6]";
+    case "pending":
+      return "bg-[#FEF3C7] text-[#F59E0B] border-[#F59E0B]";
+    case "shipped":
+      return "bg-[#EDE9FE] text-[#8B5CF6] border-[#8B5CF6]";
+    case "cancelled":
+      return "bg-[#FEE2E2] text-[#EF4444] border-[#EF4444]";
+    default:
+      return "bg-stone-50 text-stone-600 border-stone-100";
+  }
 };
 
 export default function ProfilePage() {
@@ -123,15 +131,20 @@ export default function ProfilePage() {
     }
   };
   const [isAddressesLoading, setIsAddressesLoading] = useState(false);
-  const [statesList, setStatesList] = useState<string[]>(Object.keys(locationData));
+  const [statesList, setStatesList] = useState<string[]>(
+    Object.keys(locationData),
+  );
   const [districtsList, setDistrictsList] = useState<string[]>([]);
 
   // Address Form States
-  const [orderHistoryTab, setOrderHistoryTab] = useState<"normal" | "monthly">("normal");
+  const [orderHistoryTab, setOrderHistoryTab] = useState<"normal" | "monthly">(
+    "normal",
+  );
   const [addressId, setAddressId] = useState<number>(0);
   const [title, setTitle] = useState("");
   const [fullname, setFullname] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
+  const [addressEmail, setAddressEmail] = useState("");
   const [addressLine, setAddressLine] = useState("");
   const [landmark, setLandmark] = useState("");
   const [city, setCity] = useState("");
@@ -162,6 +175,7 @@ export default function ProfilePage() {
     setTitle("");
     setFullname("");
     setMobileNumber("");
+    setAddressEmail("");
     setAddressLine("");
     setLandmark("");
     setCity("");
@@ -179,6 +193,7 @@ export default function ProfilePage() {
     setTitle(addr.title || "");
     setFullname(addr.fullname || "");
     setMobileNumber(addr.mobilenumber || "");
+    setAddressEmail(addr.email || "");
     setAddressLine(addr.addressline || "");
     setLandmark(addr.landmark || "");
     setCity(addr.city || "");
@@ -230,8 +245,9 @@ export default function ProfilePage() {
       const payload = {
         addressid: addressId,
         title: title || "Home",
-        fullname: fullname,
+        fullname: fullname || "Customer",
         mobilenumber: mobileNumber,
+        email: addressEmail,
         addressline: addressLine,
         landmark: landmark,
         city: city,
@@ -338,7 +354,9 @@ export default function ProfilePage() {
   const fetchOrders = async (ordertype: string = "normal") => {
     setIsOrdersLoading(true);
     try {
-      const response = await API.post(API_ROUTES.GETALLORDERS);
+      const response = await API.post(API_ROUTES.GETALLORDERS, {
+        ordertype: ordertype,
+      });
       if (response.status === 200) {
         const orderModel: OrdersModel = response.data;
         setOrders(orderModel.data || []);
@@ -353,10 +371,12 @@ export default function ProfilePage() {
   const fetchMonthlyOrders = async () => {
     setIsOrdersLoading(true);
     try {
-      const response = await API.post(API_ROUTES.CALCULATORORDERS);
+      const response = await API.post(API_ROUTES.GETALLORDERS, {
+        ordertype: "monthly",
+      });
       if (response.status === 200) {
-        const calcOrderModel: CalculatorOrderModel = response.data;
-        setMonthlyOrders(calcOrderModel.data || []);
+        const orderModel: OrdersModel = response.data;
+        setMonthlyOrders(orderModel.data || []);
       }
     } catch (err) {
       console.error("Error fetching monthly orders:", err);
@@ -376,14 +396,17 @@ export default function ProfilePage() {
     } else if (activeTab === "profile") {
       fetchProfile();
     } else if (activeTab === "orders") {
-      fetchOrders();
+      if (orderHistoryTab === "monthly") {
+        fetchMonthlyOrders();
+      } else {
+        fetchOrders();
+      }
     } else if (activeTab === "monthly-orders") {
       fetchMonthlyOrders();
     }
-  }, [activeTab]);
+  }, [activeTab, orderHistoryTab]);
 
-  // Address sub-view state
-  const [addressView, setAddressView] = useState("list"); // list, add, edit
+  const [addressView, setAddressView] = useState("list");
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn");
@@ -540,6 +563,19 @@ export default function ProfilePage() {
                 placeholder="10-digit Mobile Number"
                 value={mobileNumber}
                 onChange={(e) => setMobileNumber(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
+                Email Address
+              </label>
+              <input
+                type="email"
+                required
+                placeholder="Required for order updates"
+                value={addressEmail}
+                onChange={(e) => setAddressEmail(e.target.value)}
                 className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
               />
             </div>
@@ -711,8 +747,15 @@ export default function ProfilePage() {
                 <span className="inline-block px-3 py-1 bg-white shadow-sm text-[var(--olive)] border border-[var(--olive)]/20 text-[10px] font-black tracking-widest rounded-lg mb-3 uppercase">
                   {addr.title || "Address"}
                 </span>
-                <h3 className="text-base font-black text-gray-900 leading-tight tracking-tight">{addr.fullname}</h3>
-                <p className="text-xs font-bold text-gray-500 mt-1">{addr.mobilenumber}</p>
+                <h3 className="text-base font-black text-gray-900 leading-tight tracking-tight">
+                  {addr.fullname}
+                </h3>
+                <p className="text-xs font-bold text-gray-500 mt-1">
+                  {addr.mobilenumber}
+                </p>
+                <p className="text-xs font-normal text-gray-400 mt-1">
+                  {addr.email}
+                </p>
               </div>
               <div className="border-t border-dashed border-gray-200 my-4"></div>
               <p className="text-sm font-medium text-gray-600 leading-relaxed">
@@ -720,13 +763,16 @@ export default function ProfilePage() {
                 {addr.landmark && (
                   <>
                     <br />
-                    <span className="text-gray-400">Landmark: {addr.landmark}</span>
+                    <span className="text-gray-400">
+                      Landmark: {addr.landmark}
+                    </span>
                   </>
                 )}
                 <br />
                 {addr.city}, {addr.district}
                 <br />
-                {addr.state} - <span className="font-bold text-gray-900">{addr.pincode}</span>
+                {addr.state} -{" "}
+                <span className="font-bold text-gray-900">{addr.pincode}</span>
               </p>
             </div>
           ))}
@@ -879,8 +925,8 @@ export default function ProfilePage() {
                 No orders found
               </h3>
               <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto leading-relaxed">
-                Looks like you haven't placed any orders yet.
-                Discover our premium collection.
+                Looks like you haven't placed any orders yet. Discover our
+                premium collection.
               </p>
 
               <Link
@@ -902,16 +948,25 @@ export default function ProfilePage() {
                   >
                     {(() => {
                       const hasItems = order.items && order.items.length > 0;
-                      const itemName = hasItems ? order.items![0].productname : `Order #${order.orderid}`;
+                      const itemName = hasItems
+                        ? order.items![0].productname
+                        : `Order #${order.orderid}`;
 
                       return (
                         <>
                           <div className="relative flex -space-x-3 w-20 shrink-0">
                             {hasItems ? (
                               order.items?.slice(0, 3).map((item, i) => (
-                                <div key={i} className="relative w-12 h-12 rounded-full border-2 border-white overflow-hidden bg-[#faf9f6] shadow-sm z-10 hover:z-20 transition-all hover:scale-110">
+                                <div
+                                  key={i}
+                                  className="relative w-12 h-12 rounded-full border-2 border-white overflow-hidden bg-[#faf9f6] shadow-sm z-10 hover:z-20 transition-all hover:scale-110"
+                                >
                                   <img
-                                    src={item.productimage?.startsWith("http") ? item.productimage : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`}
+                                    src={
+                                      item.productimage?.startsWith("http")
+                                        ? item.productimage
+                                        : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`
+                                    }
                                     alt={item.productname || "Product"}
                                     className="w-full h-full object-cover mix-blend-multiply"
                                   />
@@ -931,7 +986,10 @@ export default function ProfilePage() {
                           <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
                             <div>
                               <div className="flex justify-between items-start gap-3 mb-1">
-                                <h4 className="text-[13px] font-bold text-gray-900 truncate group-hover:text-[var(--olive)] transition-colors" title={itemName}>
+                                <h4
+                                  className="text-[13px] font-bold text-gray-900 truncate group-hover:text-[var(--olive)] transition-colors"
+                                  title={itemName}
+                                >
                                   {itemName}
                                 </h4>
                                 <p className="text-[13px] font-black text-[var(--olive)] whitespace-nowrap">
@@ -939,15 +997,13 @@ export default function ProfilePage() {
                                 </p>
                               </div>
                               <p className="text-[11px] text-gray-500 font-medium truncate mb-2.5 capitalize">
-                                {order.ordertype || "Normal"} • Order #{order.orderid}
+                                {order.ordertype || "Normal"} • Order #
+                                {order.orderid}
                               </p>
                             </div>
                             <div className="flex items-center justify-between">
-                              <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-stone-50 border border-stone-100">
-                                <span
-                                  className={`w-1.5 h-1.5 rounded-full ${order.orderstatus?.toLowerCase() === "delivered" ? "bg-emerald-500" : "bg-amber-500 animate-pulse"}`}
-                                />
-                                <span className="text-[9px] font-bold text-stone-600 tracking-widest uppercase">
+                              <div className={`inline-flex items-center px-2 py-1 rounded-md border ${getStatusStyles(order.orderstatus)}`}>
+                                <span className="text-[9px] font-bold tracking-widest uppercase">
                                   {order.orderstatus}
                                 </span>
                               </div>
@@ -964,103 +1020,114 @@ export default function ProfilePage() {
               })}
             </div>
           )
+        ) : isOrdersLoading ? (
+          <div className="flex flex-col items-center justify-center py-20 space-y-4">
+            <div className="w-10 h-10 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
+            <p className="text-stone-400 text-sm font-medium">
+              Loading monthly orders...
+            </p>
+          </div>
+        ) : monthlyOrders.length === 0 ? (
+          <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -z-10" />
+            <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
+              <Package className="w-8 h-8 text-stone-300" strokeWidth={1.5} />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              No monthly orders found
+            </h3>
+            <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto">
+              Looks like you haven't placed any monthly orders yet.
+            </p>
+          </div>
         ) : (
-          isOrdersLoading ? (
-            <div className="flex flex-col items-center justify-center py-20 space-y-4">
-              <div className="w-10 h-10 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
-              <p className="text-stone-400 text-sm font-medium">
-                Loading monthly orders...
-              </p>
-            </div>
-          ) : monthlyOrders.length === 0 ? (
-            <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -z-10" />
-              <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
-                <Package className="w-8 h-8 text-stone-300" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
-                No monthly orders found
-              </h3>
-              <p className="text-gray-500 mb-8 font-medium text-sm max-w-xs mx-auto">
-                Looks like you haven't placed any monthly orders yet.
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {monthlyOrders.map((order, index) => {
-                const isDelivered =
-                  order.orderstatus?.toLowerCase() === "delivered";
-                return (
-                  <Link
-                    key={order.orderid || index}
-                    href={`/monthly-order-detail?id=${order.orderid}`}
-                    className="group relative bg-white rounded-2xl p-4 border border-stone-200 hover:border-[var(--olive)]/30 hover:shadow-[0_8px_20px_rgb(0,0,0,0.04)] transition-all duration-300 flex flex-col overflow-hidden"
-                  >
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--olive)]/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--olive)]/10 transition-colors pointer-events-none" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {monthlyOrders.map((order, index) => {
+              return (
+                <Link
+                  key={order.orderid || index}
+                  href={`/order-detail?id=${order.orderid}`}
+                  className="group flex items-center gap-4 p-4 rounded-[1.5rem] bg-white border-2 border-gray-100 hover:border-[var(--olive)]/30 hover:shadow-md transition-all"
+                >
+                  {(() => {
+                    const orderAny = order as any;
+                    const hasItems =
+                      orderAny.items && orderAny.items.length > 0;
+                    const itemName = hasItems
+                      ? orderAny.items[0].productname
+                      : `Monthly Order #${order.orderid}`;
 
-                    <div className="relative z-10 flex flex-col h-full">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-stone-50 rounded-md border border-stone-100 mb-2">
-                            <Calendar className="w-3 h-3 text-[var(--olive)]" />
-                            <span className="text-[9px] font-black uppercase tracking-widest text-stone-500">
-                              {order.orderdate}
-                            </span>
-                          </div>
-                          <h4 className="text-base font-black text-stone-900 group-hover:text-[var(--olive)] transition-colors">
-                            Order #{order.orderid}
-                          </h4>
-                        </div>
-                        <div
-                          className={`w-8 h-8 rounded-lg flex items-center justify-center border shadow-sm ${isDelivered ? "bg-emerald-50 border-emerald-100 text-emerald-600" : "bg-amber-50 border-amber-100 text-amber-600"}`}
-                        >
-                          {isDelivered ? (
-                            <Check className="w-4 h-4" />
+                    return (
+                      <>
+                        <div className="relative flex -space-x-3 w-20 shrink-0">
+                          {hasItems ? (
+                            orderAny.items
+                              .slice(0, 3)
+                              .map((item: any, i: number) => (
+                                <div
+                                  key={i}
+                                  className="relative w-12 h-12 rounded-full border-2 border-white overflow-hidden bg-[#faf9f6] shadow-sm z-10 hover:z-20 transition-all hover:scale-110"
+                                >
+                                  <img
+                                    src={
+                                      item.productimage?.startsWith("http")
+                                        ? item.productimage
+                                        : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`
+                                    }
+                                    alt={item.productname || "Product"}
+                                    className="w-full h-full object-cover mix-blend-multiply"
+                                  />
+                                </div>
+                              ))
                           ) : (
-                            <Package className="w-4 h-4" />
+                            <div className="w-12 h-12 rounded-full border-2 border-white bg-[#faf9f6] flex items-center justify-center shadow-sm">
+                              <Package className="w-5 h-5 text-stone-300" />
+                            </div>
+                          )}
+                          {hasItems && orderAny.items.length > 3 && (
+                            <div className="relative w-12 h-12 rounded-full border-2 border-white bg-stone-100 flex items-center justify-center shadow-sm z-0 text-[10px] font-bold text-stone-600">
+                              +{orderAny.items.length - 3}
+                            </div>
                           )}
                         </div>
-                      </div>
-
-                      <div className="mt-auto pt-4 border-t border-dashed border-stone-200">
-                        <div className="flex items-end justify-between">
+                        <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
                           <div>
-                            <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-1">
-                              Total Amount
-                            </p>
-                            <p className="text-xl font-black text-stone-900">
-                              ₹{order.totalamount?.toLocaleString()}
-                            </p>
-                          </div>
-                          <div className="flex flex-col items-end gap-2">
-                            <div className="flex items-center gap-2">
-                              <span className="text-[9px] font-black text-stone-400 group-hover:text-[var(--olive)] transition-colors uppercase tracking-widest">
-                                Details
-                              </span>
-                              <div className="w-5 h-5 rounded-full bg-stone-50 group-hover:bg-[var(--olive)]/10 flex items-center justify-center transition-colors">
-                                <ChevronRight className="w-3 h-3 text-stone-400 group-hover:text-[var(--olive)]" />
-                              </div>
+                            <div className="flex justify-between items-start gap-3 mb-1">
+                              <h4
+                                className="text-[13px] font-bold text-gray-900 truncate group-hover:text-[var(--olive)] transition-colors"
+                                title={itemName}
+                              >
+                                {itemName}
+                              </h4>
+                              <p className="text-[13px] font-black text-[var(--olive)] whitespace-nowrap">
+                                ₹{order.totalamount}
+                              </p>
                             </div>
+                            <p className="text-[11px] text-gray-500 font-medium truncate mb-2.5 capitalize">
+                              {order.ordertype || "Monthly"} • Order #
+                              {order.orderid}
+                            </p>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className={`inline-flex items-center px-2 py-1 rounded-md border ${getStatusStyles(order.orderstatus)}`}>
+                              <span className="text-[9px] font-bold tracking-widest uppercase">
+                                {order.orderstatus}
+                              </span>
+                            </div>
+                            <span className="text-[9px] font-black text-gray-400 group-hover:text-[var(--olive)] transition-colors uppercase tracking-widest flex items-center gap-0.5">
+                              Details <ChevronRight className="w-3 h-3" />
+                            </span>
                           </div>
                         </div>
-
-                        <div className="mt-3 flex items-center gap-2">
-                          <div
-                            className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border ${isDelivered ? "bg-emerald-50 text-emerald-700 border-emerald-100" : "bg-amber-50 text-amber-700 border-amber-100"}`}
-                          >
-                            {order.orderstatus || "Pending"}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          )
-        )
-        }
-      </div >
+                      </>
+                    );
+                  })()}
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </div>
     );
   };
 
@@ -1103,7 +1170,7 @@ export default function ProfilePage() {
             return (
               <Link
                 key={order.orderid || index}
-                href={`/monthly-order-detail?id=${order.orderid}`}
+                href={`/order-detail?id=${order.orderid}`}
                 className="group relative bg-white rounded-2xl p-4 border border-stone-200 hover:border-[var(--olive)]/30 hover:shadow-[0_8px_20px_rgb(0,0,0,0.04)] transition-all duration-300 flex flex-col overflow-hidden"
               >
                 {/* Decorative background accent */}
@@ -1159,7 +1226,7 @@ export default function ProfilePage() {
 
                     <div className="mt-3 flex items-center gap-2">
                       <div
-                        className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border ${isDelivered ? "bg-emerald-50 text-emerald-700 border-emerald-100" : "bg-amber-50 text-amber-700 border-amber-100"}`}
+                        className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border ${getStatusStyles(order.orderstatus)}`}
                       >
                         {order.orderstatus || "Pending"}
                       </div>
@@ -1326,8 +1393,6 @@ export default function ProfilePage() {
                 <ChevronRight className="w-4 h-4 opacity-70" />
               )}
             </button>
-
-
 
             {/* <button
               onClick={() => setActiveTab("monthly-orders")}

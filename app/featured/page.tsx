@@ -154,9 +154,9 @@ export default function FeaturedProductsPage() {
       <div className="max-w-7xl mx-auto px-6 py-10 pb-32">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* SIDEBAR FILTERS */}
-          <aside className="w-full lg:w-64 shrink-0 space-y-6">
+          <aside className="w-full lg:w-56 shrink-0 space-y-6">
             <div className="bg-white border border-stone-200 shadow-sm rounded-xl overflow-hidden">
-              <div className="px-5 py-4 border-b border-stone-100 flex items-center justify-between bg-white">
+              <div className="px-4 py-3 border-b border-stone-100 flex items-center justify-between bg-white">
                 <h3 className="text-base font-bold text-stone-900 tracking-tight">
                   Filters
                 </h3>
@@ -174,7 +174,7 @@ export default function FeaturedProductsPage() {
               </div>
               <div className="p-6">
                 <div className="mb-8">
-                  <h3 className="text-xs font-black text-stone-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <h3 className="text-xs font-black text-stone-400 uppercase tracking-widest mb-3 flex items-center gap-2">
                     <Filter className="w-4 h-4" /> Sort By
                   </h3>
                   <div className="flex flex-col gap-2">
@@ -186,14 +186,14 @@ export default function FeaturedProductsPage() {
                       <button
                         key={item.id}
                         onClick={() => { setSortBy(item.id); setCurrentPage(1); }}
-                        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
                           sortBy === item.id
                             ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                             : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
                         }`}
                       >
-                        <span className="text-[12px] font-bold">{item.label}</span>
-                        <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-colors ${sortBy === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
+                        <span className="text-[11px] font-bold">{item.label}</span>
+                        <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${sortBy === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
                           {sortBy === item.id && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
                         </div>
                       </button>
@@ -202,7 +202,7 @@ export default function FeaturedProductsPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xs font-black text-stone-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <h3 className="text-xs font-black text-stone-400 uppercase tracking-widest mb-3 flex items-center gap-2">
                     <Filter className="w-4 h-4" /> Price Range
                   </h3>
                   <div className="flex flex-col gap-2">
@@ -216,14 +216,14 @@ export default function FeaturedProductsPage() {
                       <button
                         key={item.id}
                         onClick={() => { setPriceRange(item.id); setCurrentPage(1); }}
-                        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
                           priceRange === item.id
                             ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                             : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
                         }`}
                       >
-                        <span className="text-[12px] font-bold">{item.label}</span>
-                        <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-colors ${priceRange === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
+                        <span className="text-[11px] font-bold">{item.label}</span>
+                        <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${priceRange === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
                           {priceRange === item.id && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
                         </div>
                       </button>
@@ -376,7 +376,7 @@ export default function FeaturedProductsPage() {
                             } disabled:opacity-50`}
                           >
                             <span>{(product.availablestock ?? 0) <= 0 ? "OUT OF STOCK" : "ADD TO CART"}</span>
-                            <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
+                            <ShoppingCart className="w-3 h-3 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
                           </button>
                         </div>
                       </div>

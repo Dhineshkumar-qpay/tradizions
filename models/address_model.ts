@@ -29,6 +29,7 @@ export interface AddressData {
   userid?: number;
   addressline?: string;
   landmark?: string;
+  email?: string;
   city?: string;
   district?: string;
   districtid?: number;

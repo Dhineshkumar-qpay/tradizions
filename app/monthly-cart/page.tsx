@@ -25,6 +25,10 @@ export default function MonthlyCartPage() {
 
   // Address Form States
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [title, setTitle] = useState("Home");
+  const [name, setName] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [addressEmail, setAddressEmail] = useState("");
   const [addressLine, setAddressLine] = useState("");
   const [landmark, setLandmark] = useState("");
   const [city, setCity] = useState("");
@@ -53,13 +57,17 @@ export default function MonthlyCartPage() {
   // Location logic handled locally now
   const handleSaveAddress = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!addressLine.trim() || !city.trim() || !pincode.trim() || !selectedStateName || !selectedDistrictName) {
+    if (!name.trim() || !mobileNumber.trim() || !addressLine.trim() || !city.trim() || !pincode.trim() || !selectedStateName || !selectedDistrictName) {
       alert("Please fill all required address fields.");
       return;
     }
     try {
       const payload = {
         addressid: 0,
+        title: title || "Home",
+        fullname: name || "Customer",
+        mobilenumber: mobileNumber || "9025821501",
+        email: addressEmail,
         addressline: addressLine,
         landmark: landmark,
         city: city,
@@ -78,6 +86,10 @@ export default function MonthlyCartPage() {
         alert("Address added successfully!");
         fetchAddresses();
         setShowAddressForm(false);
+        setTitle("Home");
+        setName("");
+        setMobileNumber("");
+        setAddressEmail("");
         setAddressLine("");
         setLandmark("");
         setCity("");
@@ -235,7 +247,7 @@ export default function MonthlyCartPage() {
                       <option value="">Select an address</option>
                       {addresses.map((addr) => (
                         <option key={addr.addressid} value={addr.addressid}>
-                          {addr.addressline}, {addr.city}
+                         {addr.title}, {addr.addressline}, {addr.city}
                         </option>
                       ))}
                     </select>
@@ -247,6 +259,50 @@ export default function MonthlyCartPage() {
                 <div className="mt-8 border border-stone-100 rounded-[1.5rem] p-6 sm:p-8 bg-stone-50/50 shadow-inner animate-fade-in-up">
                   <h3 className="text-sm font-black text-stone-900 mb-6 uppercase tracking-widest">Enter Details</h3>
                   <form onSubmit={handleSaveAddress} className="space-y-5">
+                    <div className="grid grid-cols-2 gap-5">
+                      <div>
+                        <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
+                          Title
+                        </label>
+                        <select
+                          value={title}
+                          onChange={(e) => setTitle(e.target.value)}
+                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm"
+                        >
+                          <option value="Home">Home</option>
+                          <option value="Office">Office</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
+                        Mobile Number
+                      </label>
+                      <input
+                        type="tel"
+                        placeholder="10-digit Mobile Number"
+                        value={mobileNumber}
+                        onChange={(e) => setMobileNumber(e.target.value)}
+                        className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Email Address</label>
+                      <input type="email" required placeholder="Required for order updates" value={addressEmail} onChange={(e) => setAddressEmail(e.target.value)} className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white" />
+                    </div>
                     <div>
                       <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Address Line</label>
                       <textarea rows={2} value={addressLine} onChange={(e) => setAddressLine(e.target.value)} className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all resize-none font-bold text-stone-800 text-sm shadow-sm bg-white" />

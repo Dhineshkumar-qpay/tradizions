@@ -51,10 +51,11 @@ export default function Footer() {
       setToastMessage({ type: "success", text: "Successfully subscribed to newsletter!" });
       setEmail("");
     } catch (err: any) {
+      console.log(err);
       if (err.response?.status === 400) {
         setToastMessage({ type: "error", text: err.response?.data?.message || "Invalid email or already subscribed." });
       } else {
-        setToastMessage({ type: "error", text: "Failed to subscribe. Please try again." });
+        setToastMessage({ type: "error", text: err.response?.message??"Failed to subscribe. Please try again." });
       }
     } finally {
       setIsLoading(false);

@@ -47,6 +47,7 @@ export default function CheckoutPage() {
   const [title, setTitle] = useState("Home");
   const [name, setName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
+  const [addressEmail, setAddressEmail] = useState("");
   const [addressLine, setAddressLine] = useState("");
   const [landmark, setLandmark] = useState("");
   const [city, setCity] = useState("");
@@ -96,6 +97,7 @@ export default function CheckoutPage() {
         title: title || "Home",
         fullname: name || "Dhineshkumar",
         mobilenumber: mobileNumber || "9025821501",
+        email: addressEmail,
         addressline: addressLine,
         landmark: landmark,
         city: city,
@@ -115,6 +117,7 @@ export default function CheckoutPage() {
         setTitle("Home");
         setName("");
         setMobileNumber("");
+        setAddressEmail("");
         setAddressLine("");
         setLandmark("");
         setCity("");
@@ -455,7 +458,7 @@ export default function CheckoutPage() {
                   {(selectionMode === "single" || cartItems.length <= 1) && (
                     <div className={cartItems.length > 1 ? "ml-10" : ""}>
                       <SearchableDropdown
-                        options={addresses.map((addr) => ({ label: `${addr.addressline}, ${addr.city}`, value: addr.addressid }))}
+                        options={addresses.map((addr) => ({ label: `${addr.title}, ${addr.addressline}, ${addr.city}`, value: addr.addressid }))}
                         value={selectedAddressId}
                         placeholder={t.checkout?.select_address || "Select an address"}
                         onChange={(val) => setSelectedAddressId(Number(val))}
@@ -538,7 +541,7 @@ export default function CheckoutPage() {
                                 </div>
                                 <div className="w-full sm:w-48">
                                   <SearchableDropdown
-                                    options={addresses.map((addr) => ({ label: `${addr.addressline}, ${addr.city}`, value: addr.addressid }))}
+                                    options={addresses.map((addr) => ({ label: `${addr.title}, ${addr.addressline}, ${addr.city}`, value: addr.addressid }))}
                                     value={
                                       multipleAddress.find(
                                         (entry) => entry.cartid === item.cartid,
@@ -630,6 +633,19 @@ export default function CheckoutPage() {
                         placeholder="10-digit Mobile Number"
                         value={mobileNumber}
                         onChange={(e) => setMobileNumber(e.target.value)}
+                        className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="Required for order updates"
+                        value={addressEmail}
+                        onChange={(e) => setAddressEmail(e.target.value)}
                         className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
                       />
                     </div>

@@ -114,3 +114,15 @@ export interface GiftCardsData {
   cardimage?: string;
   status?: string;
 }
+
+export interface HealthGoalsModel {
+  statusCode?: number;
+  data?: HealthGoalsData[];
+}
+
+export interface HealthGoalsData {
+  goalid?: number;
+  goalimage?: string;
+  goalname?: string;
+  description?: string;
+}

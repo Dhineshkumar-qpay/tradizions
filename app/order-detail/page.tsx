@@ -344,7 +344,7 @@ function OrderDetailContent() {
                 {isMonthly ? "Monthly Subscription" : "Standard Order"}
               </p>
               <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-                Order{" "}
+                ORD {" "}
                 <span style={{ color: "var(--gold)" }}>#{orderInfo.id}</span>
               </h1>
               <p
