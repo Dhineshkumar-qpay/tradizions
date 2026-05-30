@@ -272,8 +272,11 @@ export default function GiftDetailPage() {
         name: reviewName,
         productname: gift?.giftname || "",
       };
-      
-      const response = await API.post(API_ROUTES.ADDPRODUCTRATING || "/review/add-product-rating", payload);
+
+      const response = await API.post(
+        API_ROUTES.ADDPRODUCTRATING || "/review/add-product-rating",
+        payload,
+      );
       if (response.status === 200) {
         alert("Review submitted successfully!");
         setShowReviewForm(false);
@@ -287,14 +290,17 @@ export default function GiftDetailPage() {
       }
     } catch (err: any) {
       console.error("Error submitting review:", err);
-      alert(err?.response?.data?.message || "An error occurred while submitting review.");
+      alert(
+        err?.response?.data?.message ||
+          "An error occurred while submitting review.",
+      );
     } finally {
       setIsSubmittingReview(false);
     }
   };
 
   const [showReviewForm, setShowReviewForm] = useState(false);
-  
+
   // Review Form States
   const [reviewName, setReviewName] = useState("");
   const [reviewEmail, setReviewEmail] = useState("");
@@ -313,9 +319,7 @@ export default function GiftDetailPage() {
   useEffect(() => {
     const fetchGiftCards = async () => {
       try {
-        const response = await API.post(API_ROUTES.GIFT_CARDS, {
-          bid: gift?.bid || 1,
-        });
+        const response = await API.post(API_ROUTES.GIFT_CARDS);
         if (response.status === 200 && response.data?.data) {
           setGiftCards(response.data.data);
         }
@@ -504,12 +508,24 @@ export default function GiftDetailPage() {
             )}
 
             <div className="flex items-end gap-4 mb-8">
-              <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
-                ₹{gift.giftsellingprice}
-              </span>
-              <span className="text-lg text-gray-400 font-medium line-through mb-1">
-                ₹{gift.giftprice}
-              </span>
+              {gift.giftsellingprice === 0 ||
+              gift.giftsellingprice == undefined ? (
+                <>
+                  <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
+                    ₹{gift.giftprice}
+                  </span>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
+                    ₹{gift.giftsellingprice}
+                  </span>
+                  <span className="text-lg text-gray-400 font-medium line-through mb-1">
+                    ₹{gift.giftprice}
+                  </span>
+                </>
+              )}
               <span className="text-[10px] font-bold tracking-widest text-emerald-500 uppercase bg-emerald-50 px-2 py-1 rounded-md mb-1 border border-emerald-100">
                 {t.product.save} {gift.discount}%
               </span>
@@ -730,7 +746,9 @@ export default function GiftDetailPage() {
                   onClick={() => handleActionWithLogin(handleSubmitReview)}
                   className="py-3.5 px-8 rounded-xl bg-[var(--olive)] text-white font-bold text-[13px] tracking-widest shadow-md shadow-[var(--olive)]/20 hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer disabled:opacity-50"
                 >
-                  {isSubmittingReview ? "SUBMITTING..." : t.product.submit_review}
+                  {isSubmittingReview
+                    ? "SUBMITTING..."
+                    : t.product.submit_review}
                 </button>
               </form>
             </div>
@@ -818,7 +836,7 @@ export default function GiftDetailPage() {
                       )}
                     </div>
 
-                    <div className="flex max-w-[80vh] overflow-x-auto gap-3 pb-4 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] w-full shrink-0 py-2 px-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 w-full shrink-0 py-2">
                       {giftCards.map((card) => (
                         <button
                           key={card.giftcardid}
@@ -826,39 +844,34 @@ export default function GiftDetailPage() {
                           onClick={() =>
                             setSelectedGiftCardId(card.giftcardid || null)
                           }
-                          className={`relative p-3 rounded-2xl border-2 transition-all duration-300 cursor-pointer flex flex-col items-center gap-2.5 text-center group min-w-[110px] max-w-[125px] snap-center shrink-0 ${selectedGiftCardId === card.giftcardid ? "border-[var(--olive)] bg-[#fdfdfc] shadow-md scale-105 z-10" : "border-gray-100 bg-white hover:border-[var(--olive)]/30 hover:bg-gray-50/50 hover:shadow-sm"}`}
+                          className={`relative p-4 rounded-[1.25rem] border transition-all duration-300 cursor-pointer flex flex-col items-center gap-3 text-center group bg-white ${selectedGiftCardId === card.giftcardid ? "border-[var(--olive)] ring-1 ring-[var(--olive)] shadow-md" : "border-gray-200 hover:border-[var(--olive)]/50 hover:shadow-sm"}`}
                         >
                           <div
-                            className={`absolute top-2 right-2 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors shrink-0 z-10 ${selectedGiftCardId === card.giftcardid ? "border-[var(--olive)] bg-[var(--olive)]" : "border-gray-200 bg-white group-hover:border-gray-300"}`}
+                            className={`absolute top-3 right-3 w-5 h-5 rounded-full border flex items-center justify-center transition-colors z-10 ${selectedGiftCardId === card.giftcardid ? "border-[var(--olive)] bg-[var(--olive)] text-white" : "border-gray-300 bg-transparent"}`}
                           >
                             {selectedGiftCardId === card.giftcardid && (
-                              <Check
-                                className="w-2.5 h-2.5 text-white"
-                                strokeWidth={4}
-                              />
+                              <Check className="w-3 h-3" strokeWidth={3} />
                             )}
                           </div>
-                          <div className="w-16 h-16 rounded-[1rem] bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden shadow-inner relative group-hover:shadow-md transition-all mt-1">
+                          <div className="w-20 h-20 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden relative group-hover:shadow-inner transition-all">
                             {card.cardimage ? (
                               <img
                                 src={getImageUrl(card.cardimage)}
                                 alt={card.cardname}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
                             ) : (
-                              <Gift className="w-6 h-6 text-gray-400" />
+                              <Gift
+                                className="w-8 h-8 text-gray-300"
+                                strokeWidth={1.5}
+                              />
                             )}
                           </div>
-                          <div className="w-full mt-1">
-                            <h4 className="text-xs font-black text-gray-900 leading-tight mb-1.5 line-clamp-2 px-1">
-                              {card.cardname}
-                            </h4>
-                            <div className="flex items-center justify-center">
-                              <span className="text-[10px] font-black text-[var(--olive)] uppercase tracking-widest px-2 py-0.5 bg-[var(--olive)]/10 rounded-md">
-                                + ₹{card.cardprice}
-                              </span>
-                            </div>
-                          </div>
+                          <h4
+                            className={`text-xs font-bold mt-1 line-clamp-2 px-1 ${selectedGiftCardId === card.giftcardid ? "text-[var(--olive)]" : "text-gray-700"}`}
+                          >
+                            {card.cardname}
+                          </h4>
                         </button>
                       ))}
                     </div>
@@ -866,6 +879,38 @@ export default function GiftDetailPage() {
 
                   {/* Right Side - Message & Checkout */}
                   <div className="md:w-[320px] shrink-0 flex flex-col justify-end pb-2">
+                    {selectedGiftCardId
+                      ? (() => {
+                          const selectedCard = giftCards.find(
+                            (c) => c.giftcardid === selectedGiftCardId,
+                          );
+                          if (!selectedCard) return null;
+                          return (
+                            <div className="mb-6 animate-fade-in-up">
+                              <label className="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">
+                                Card Preview
+                              </label>
+                              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-md bg-gray-100 flex items-center justify-center border border-gray-200">
+                                {selectedCard.cardimage ? (
+                                  <img
+                                    src={getImageUrl(selectedCard.cardimage)}
+                                    alt={selectedCard.cardname}
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <Gift className="w-12 h-12 text-gray-300" />
+                                )}
+                                <div className="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+                                  <p className="text-white text-center font-bold text-lg leading-snug drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] break-words w-full px-2 line-clamp-4">
+                                    {giftMessage}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })()
+                      : null}
+
                     <div className="mb-6">
                       <label className="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">
                         Handwritten Note (Optional)

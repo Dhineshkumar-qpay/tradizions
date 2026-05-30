@@ -46,4 +46,5 @@ export const API_ROUTES = {
   CALCULATORORDERS: "/monthly/orders",
   NEWSLETTER: "/auth/newsletter",
   HEALTHGOALS: "/goal/gethealth-goals",
+  HEALTHGOALPRODUCTS: "/product/health-goal-products",
 };

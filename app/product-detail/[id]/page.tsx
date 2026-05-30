@@ -153,7 +153,10 @@ export default function ProductDetailPage() {
         }
       } catch (err: any) {
         console.error("Error adding to cart:", err);
-        alert(err?.response?.data?.message || "An error occurred while adding to cart.");
+        alert(
+          err?.response?.data?.message ||
+            "An error occurred while adding to cart.",
+        );
       } finally {
         setIsAddingToCart(false);
       }
@@ -183,7 +186,10 @@ export default function ProductDetailPage() {
         }
       } catch (err: any) {
         console.error("Error adding to cart:", err);
-        alert(err?.response?.data?.message || "An error occurred while adding to cart.");
+        alert(
+          err?.response?.data?.message ||
+            "An error occurred while adding to cart.",
+        );
       } finally {
         setIsAddingToCart(false);
       }
@@ -213,7 +219,10 @@ export default function ProductDetailPage() {
         productname: product?.productname || "",
       };
       // Note: Assuming ADDPRODUCTRATING is added to API_ROUTES
-      const response = await API.post(API_ROUTES.ADDPRODUCTRATING || "/review/add-product-rating", payload);
+      const response = await API.post(
+        API_ROUTES.ADDPRODUCTRATING || "/review/add-product-rating",
+        payload,
+      );
       if (response.status === 200) {
         alert("Review submitted successfully!");
         setShowReviewForm(false);
@@ -228,7 +237,10 @@ export default function ProductDetailPage() {
       }
     } catch (err: any) {
       console.error("Error submitting review:", err);
-      alert(err?.response?.data?.message || "An error occurred while submitting review.");
+      alert(
+        err?.response?.data?.message ||
+          "An error occurred while submitting review.",
+      );
     } finally {
       setIsSubmittingReview(false);
     }
@@ -432,11 +444,13 @@ export default function ProductDetailPage() {
                 </span>
               </div>
               <div className="flex gap-2">
-                <button 
+                <button
                   onClick={handleFavourite}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer ${isFavourite ? 'bg-red-50 text-red-500' : 'bg-gray-50 text-gray-500 hover:bg-red-50 hover:text-red-500'}`}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer ${isFavourite ? "bg-red-50 text-red-500" : "bg-gray-50 text-gray-500 hover:bg-red-50 hover:text-red-500"}`}
                 >
-                  <Heart className={`w-5 h-5 ${isFavourite ? 'fill-current' : ''}`} />
+                  <Heart
+                    className={`w-5 h-5 ${isFavourite ? "fill-current" : ""}`}
+                  />
                 </button>
                 <button
                   onClick={handleShare}
@@ -464,27 +478,20 @@ export default function ProductDetailPage() {
             )}
 
             <div className="flex items-end gap-4 mb-8">
-              <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
-                ₹{product?.sellingprice}
-              </span>
-              {product?.price !== undefined &&
-                product?.sellingprice !== undefined &&
-                product.price > product.sellingprice && (
-                  <>
-                    <span className="text-lg text-gray-400 font-medium line-through mb-1">
-                      ₹{product?.price}
-                    </span>
-                    <span className="text-[10px] font-bold tracking-widest text-emerald-500 uppercase bg-emerald-50 px-2 py-1 rounded-md mb-1 border border-emerald-100">
-                      {t.product.save}{" "}
-                      {Math.round(
-                        ((product.price - product.sellingprice) /
-                          product.price) *
-                          100,
-                      )}
-                      %
-                    </span>
-                  </>
-                )}
+              {product.sellingprice ? (
+                <>
+                  <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
+                    ₹{product.sellingprice}
+                  </span>
+                  <span className="text-lg text-gray-400 font-medium line-through mb-1">
+                    ₹{product.price}
+                  </span>
+                </>
+              ) : (
+                <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
+                  ₹{product.price}
+                </span>
+              )}
             </div>
 
             <div className="h-px w-full bg-gray-100 mb-8" />
@@ -507,20 +514,26 @@ export default function ProductDetailPage() {
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
-                <button 
-                  disabled={isAddingToCart || (product?.availablestock ?? 0) <= 0}
+                <button
+                  disabled={
+                    isAddingToCart || (product?.availablestock ?? 0) <= 0
+                  }
                   onClick={handleAddToCart}
-                  className={`flex-1 py-4 rounded-2xl bg-white border-2 border-[var(--olive)] text-[var(--olive)] font-bold text-[13px] tracking-widest hover:bg-[var(--olive)]/5 transition-all flex items-center justify-center gap-2 group ${ (product?.availablestock ?? 0) <= 0 ? "cursor-not-allowed opacity-50 border-stone-200 text-stone-400" : "cursor-pointer" } disabled:opacity-50`}
+                  className={`flex-1 py-4 rounded-2xl bg-white border-2 border-[var(--olive)] text-[var(--olive)] font-bold text-[13px] tracking-widest hover:bg-[var(--olive)]/5 transition-all flex items-center justify-center gap-2 group ${(product?.availablestock ?? 0) <= 0 ? "cursor-not-allowed opacity-50 border-stone-200 text-stone-400" : "cursor-pointer"} disabled:opacity-50`}
                 >
                   {isAddingToCart ? (
                     <div className="w-5 h-5 border-2 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   )}
-                  {(product?.availablestock ?? 0) <= 0 ? "OUT OF STOCK" : isAddingToCart ? "ADDING..." : (t.product.add_to_cart || "ADD TO CART")}
+                  {(product?.availablestock ?? 0) <= 0
+                    ? "OUT OF STOCK"
+                    : isAddingToCart
+                      ? "ADDING..."
+                      : t.product.add_to_cart || "ADD TO CART"}
                 </button>
               </div>
-              <button 
+              <button
                 onClick={handleBuyNow}
                 disabled={isAddingToCart || (product?.availablestock ?? 0) <= 0}
                 className={`w-full py-4 rounded-2xl bg-[var(--olive)] text-white font-bold text-[13px] tracking-widest shadow-lg shadow-[var(--olive)]/20 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 group ${(product?.availablestock ?? 0) <= 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer"} disabled:opacity-50`}
@@ -530,7 +543,9 @@ export default function ProductDetailPage() {
                 ) : (
                   <Zap className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 )}
-                {isAddingToCart ? "PROCESSING..." : (t.product.buy_now || "BUY NOW")}
+                {isAddingToCart
+                  ? "PROCESSING..."
+                  : t.product.buy_now || "BUY NOW"}
               </button>
             </div>
 
@@ -696,7 +711,9 @@ export default function ProductDetailPage() {
               </div>
             </div>
             <button
-              onClick={() => handleActionWithLogin(() => setShowReviewForm(!showReviewForm))}
+              onClick={() =>
+                handleActionWithLogin(() => setShowReviewForm(!showReviewForm))
+              }
               className="btn-standard rounded-xl font-bold text-[11px] tracking-widest shadow-md shadow-[var(--olive)]/20 hover:shadow-lg hover:-translate-y-0.5 transition-all uppercase"
             >
               {showReviewForm
@@ -792,7 +809,9 @@ export default function ProductDetailPage() {
                   onClick={() => handleActionWithLogin(handleSubmitReview)}
                   className="btn-standard rounded-xl font-bold text-[13px] tracking-widest shadow-md shadow-[var(--olive)]/20 hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer disabled:opacity-50"
                 >
-                  {isSubmittingReview ? "SUBMITTING..." : t.product.submit_review}
+                  {isSubmittingReview
+                    ? "SUBMITTING..."
+                    : t.product.submit_review}
                 </button>
               </form>
             </div>

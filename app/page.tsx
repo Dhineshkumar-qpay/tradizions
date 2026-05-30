@@ -48,6 +48,7 @@ import {
   KuralData,
   CalculatorProducts,
 } from "@/models/home_model";
+import { HealthGoalsData } from "@/models/product_detail_model";
 import { img } from "framer-motion/m";
 
 const translations: Record<string, any> = {
@@ -73,33 +74,6 @@ const whyChooseUs = [
     desc: "100+ happy households",
   },
   { icon: Zap, title: "Fast delivery", desc: "Quick turnaround time" },
-];
-
-const healthGoals = [
-  {
-    name: "Diabetes",
-    image:
-      "https://diabetesstrong.com/wp-content/uploads/2024/02/nuts-diabetes-featured.jpg",
-    desc: "Low GI foods for sugar management",
-    bg: "bg-blue-50",
-    icon: Activity,
-  },
-  {
-    name: "Weight Management",
-    image:
-      "https://milletmarket.com/cdn/shop/articles/millets-diet-for-weight-loss_46efcecf-3ee4-463a-9b21-04fcb1aff5e2.png?v=1758873537",
-    desc: "Fiber-rich millets for healthy weight",
-    bg: "bg-emerald-50",
-    icon: Scale,
-  },
-  {
-    name: "Kids Nutrition",
-    image:
-      "https://www.mevabite.com/cdn/shop/articles/1000191790.jpg?v=1731217074",
-    desc: "Wholesome malts for growing kids",
-    bg: "bg-orange-50",
-    icon: Baby,
-  },
 ];
 
 /* ── Intersection Observer Hook ── */
@@ -150,6 +124,18 @@ export default function Home() {
   const [kuralList, setKuralList] = useState<KuralData[]>([]);
   const [userReviews, setUserReviews] = useState<Review[]>([]);
   const [favouriteProductIds, setFavouriteProductIds] = useState<number[]>([]);
+  const [healthGoalsData, setHealthGoalsData] = useState<HealthGoalsData[]>([]);
+
+  const fetchHealthGoals = async () => {
+    try {
+      const response = await API.post(API_ROUTES.HEALTHGOALS);
+      if (response.status === 200) {
+        setHealthGoalsData(response.data?.data || []);
+      }
+    } catch (err) {
+      console.error("Error fetching health goals:", err);
+    }
+  };
 
   const fetchFavourites = async () => {
     if (localStorage.getItem("isLoggedIn") === "true") {
@@ -265,6 +251,7 @@ export default function Home() {
     fetchFeaturedProducts();
     fetchNewArrivalsProducts();
     fetchUserReviews();
+    fetchHealthGoals();
   }, []);
 
   useEffect(() => {
@@ -310,7 +297,7 @@ export default function Home() {
 
       <KuralTrustRow t={t} kuraldata={dailyKural} />
       <CategoriesSection t={t} categories={categories} />
-      <HealthGoalsSection t={t} />
+      <HealthGoalsSection t={t} goals={healthGoalsData} />
       <HealthBenefitsSection t={t} />
       <FeaturedSection t={t} products={featuredProducts} />
       <NewArrivalsSection t={t} products={newArrivalsProducts} />
@@ -477,33 +464,30 @@ function HealthBenefitsSection({ t }: { t: any }) {
           <div className="flex justify-center gap-4 mt-10 flex-wrap">
             <button
               onClick={() => setActiveCategory("nuts")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${
-                activeCategory === "nuts"
+              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "nuts"
                   ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
                   : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-              }`}
+                }`}
             >
               {t.sections?.nuts || "Nuts"}
             </button>
 
             <button
               onClick={() => setActiveCategory("millets")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${
-                activeCategory === "millets"
+              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "millets"
                   ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
                   : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-              }`}
+                }`}
             >
               {t.sections?.millets || "Millets"}
             </button>
 
             <button
               onClick={() => setActiveCategory("spices")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${
-                activeCategory === "spices"
+              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "spices"
                   ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
                   : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-              }`}
+                }`}
             >
               {t.sections?.spices || "Spices"}
             </button>
@@ -835,8 +819,8 @@ function ProductCard({
   const price = product.sellingprice || product.price || 0;
   const originalPrice =
     product.price !== undefined &&
-    product.sellingprice !== undefined &&
-    product.price > product.sellingprice
+      product.sellingprice !== undefined &&
+      product.price > product.sellingprice
       ? product.price
       : null;
   const image = product.productimage
@@ -1005,18 +989,17 @@ function ProductCard({
                   console.error("Error adding to cart:", err);
                   alert(
                     err?.response?.data?.message ||
-                      "An error occurred while adding to cart.",
+                    "An error occurred while adding to cart.",
                   );
                 } finally {
                   setIsAdding(false);
                 }
               });
             }}
-            className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
-              (product.availablestock ?? 0) <= 0
+            className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
                 ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                 : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
-            } disabled:opacity-50`}
+              } disabled:opacity-50`}
           >
             <span>
               {(product.availablestock ?? 0) <= 0
@@ -1102,8 +1085,8 @@ function GiftingSection({
                   const price = item.sellingprice || item.price || 0;
                   const originalPrice =
                     item.price !== undefined &&
-                    item.sellingprice !== undefined &&
-                    item.price > item.sellingprice
+                      item.sellingprice !== undefined &&
+                      item.price > item.sellingprice
                       ? item.price
                       : null;
                   const image = item.productimage
@@ -1320,12 +1303,12 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   const listToRender =
     reviews && reviews.length > 0
       ? reviews.map((r) => ({
-          name: r.username || "Anonymous User",
-          role: "Verified Buyer",
-          text: r.review || "",
-          rating: Math.round(r.rating || 5),
-          avatar: getInitials(r.username || "Anonymous"),
-        }))
+        name: r.username || "Anonymous User",
+        role: "Verified Buyer",
+        text: r.review || "",
+        rating: Math.round(r.rating || 5),
+        avatar: getInitials(r.username || "Anonymous"),
+      }))
       : [];
 
   if (listToRender.length === 0) {
@@ -1446,9 +1429,8 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
 
         {/* Global Rating Tag */}
         <div
-          className={`mt-10 flex flex-col items-center gap-3 transition-all duration-500 delay-500 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
+          className={`mt-10 flex flex-col items-center gap-3 transition-all duration-500 delay-500 ${isVisible ? "opacity-100" : "opacity-0"
+            }`}
         >
           <div className="flex -space-x-3">
             {users.map((name, i) => (
@@ -1596,8 +1578,12 @@ function KuralTrustRow({
 
 // -----------------------------------  HEALTH GOALS SECTION
 
-function HealthGoalsSection({ t }: { t: any }) {
+function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
   const { ref, isVisible } = useInView();
+
+  const displayGoals = goals && goals.length > 0 ? goals : [];
+  const defaultBgs = ["bg-blue-50", "bg-emerald-50", "bg-orange-50"];
+  const defaultIcons = [Activity, Scale, Baby];
 
   return (
     <section ref={ref} className="py-16 bg-white relative overflow-hidden">
@@ -1606,9 +1592,9 @@ function HealthGoalsSection({ t }: { t: any }) {
           className={`text-center mb-16 space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
         >
           <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
-            {t.health_goals_title.split(" ").slice(0, 2).join(" ")}{" "}
+            {t.health_goals_title?.split(" ").slice(0, 2).join(" ") || "Health"}{" "}
             <span className="gradient-text">
-              {t.health_goals_title.split(" ").slice(2).join(" ")}
+              {t.health_goals_title?.split(" ").slice(2).join(" ") || "Goals"}
             </span>
           </h2>
           <p className="text-sm font-normal text-gray-400 max-w-lg mx-auto">
@@ -1616,43 +1602,54 @@ function HealthGoalsSection({ t }: { t: any }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {healthGoals.map((goal, idx) => (
-            <Link
-              href={`/shop?goal=${goal.name.toLowerCase()}`}
-              key={idx}
-              className={`group relative h-[400px] rounded-[2.5rem] overflow-hidden transition-all duration-500 opacity-100 translate-y-0`}
-              style={{ transitionDelay: `${idx * 200}ms` }}
-            >
-              <Image
-                src={goal.image}
-                alt={goal.name}
-                fill
-                className="object-cover transition-transform duration-1000 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        {displayGoals.length === 0 ? (
+          <div className="py-12 flex flex-col items-center justify-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+            <p className="text-gray-500 font-medium text-sm">
+              No health goals found.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {displayGoals.map((goal, idx) => {
+              const bg = defaultBgs[idx % defaultBgs.length];
+              const Icon = defaultIcons[idx % defaultIcons.length];
+              const image = getImageUrl(goal.goalimage);
 
-              <div className="absolute inset-x-8 bottom-8 space-y-4">
-                <div
-                  className={`w-12 h-12 rounded-2xl ${goal.bg} flex items-center justify-center transition-all duration-500 group-hover:scale-110`}
+              return (
+                <Link
+                  href={`/health-goal-products?goalid=${goal.goalid}`}
+                  key={goal.goalid || idx}
+                  className="group block bg-white p-2.5 rounded-[2.5rem] border border-stone-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500"
+                  style={{ transitionDelay: `${idx * 150}ms` }}
                 >
-                  <goal.icon className="w-6 h-6 text-gray-900" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-1">
-                    {goal.name}
-                  </h3>
-                  <p className="text-sm text-white/70 font-light leading-relaxed">
-                    {goal.desc}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  {t.explore_all} <ArrowRight className="w-4 h-4" />
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+                  <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden bg-stone-50">
+                    <img
+                      src={image}
+                      alt={goal.goalname || ""}
+                      className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+                    />
+                  </div>
+
+                  <div className="px-4 pt-5 pb-4">
+                    <h3 className="text-xl font-black text-gray-900 tracking-tight group-hover:text-[var(--olive)] transition-colors duration-300 line-clamp-1">
+                      {goal.goalname}
+                    </h3>
+                    <p className="mt-2 text-xs text-gray-500 font-medium leading-relaxed line-clamp-2 min-h-[2.5rem]">
+                      {goal.description}
+                    </p>
+
+                    <div className="mt-5 flex items-center gap-2 pt-4 border-t border-stone-100">
+                      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400 group-hover:text-[var(--olive)] transition-colors duration-300">
+                        {t.explore_all || "Explore"}
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[var(--olive)] group-hover:translate-x-2 transition-all duration-300" />
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -2205,7 +2202,7 @@ function NutritionPlanner({ t }: { t: any }) {
                       console.error("Error adding to monthly cart", err);
                       alert(
                         err?.response?.data?.message ||
-                          "An error occurred while adding to monthly cart.",
+                        "An error occurred while adding to monthly cart.",
                       );
                     } finally {
                       setIsBuying(false);
@@ -2480,8 +2477,8 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
               const price = product.sellingprice || product.price || 0;
               const originalPrice =
                 product.price !== undefined &&
-                product.sellingprice !== undefined &&
-                product.price > product.sellingprice
+                  product.sellingprice !== undefined &&
+                  product.price > product.sellingprice
                   ? product.price
                   : null;
               const image = product.productimage
@@ -2635,18 +2632,17 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
                                 console.error("Error adding to cart:", err);
                                 alert(
                                   err?.response?.data?.message ||
-                                    "An error occurred.",
+                                  "An error occurred.",
                                 );
                               } finally {
                                 setAddingToCartId(null);
                               }
                             });
                           }}
-                          className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
-                            (product.availablestock ?? 0) <= 0
+                          className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
                               ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                               : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
-                          } disabled:opacity-50`}
+                            } disabled:opacity-50`}
                         >
                           <span>
                             {(product.availablestock ?? 0) <= 0
@@ -2932,7 +2928,14 @@ function VideoTestimonialsSection() {
         </div>
       </div> */}
 
-      <div style={{width:"100%", border:"1px grey", background:"white", boxShadow:"inset 0 0 10px #000000"}}>
+      <div
+        style={{
+          width: "100%",
+          border: "1px grey",
+          background: "white",
+          boxShadow: "inset 0 0 10px #000000",
+        }}
+      >
         <p className="text-center text-sm text-stone-500 font-medium py-12">
           Hello Dhinesh 👋
         </p>
