@@ -797,63 +797,68 @@ export default function GiftDetailPage() {
         </div>
         {/* Gift Card Dialogue */}
         {showGiftDialog && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-gray-900/60 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white rounded-[1rem] p-6 md:p-8 w-full max-w-4xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] relative animate-scale-in flex flex-col max-h-[90vh]">
-              <button
-                onClick={() => setShowGiftDialog(false)}
-                className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-colors cursor-pointer z-10"
-              >
-                <X className="w-4 h-4" />
-              </button>
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 bg-black/70 backdrop-blur-md animate-fade-in">
+            <div className="bg-white w-full max-w-5xl rounded-3xl shadow-[0_32px_80px_-15px_rgba(0,0,0,0.35)] relative flex flex-col max-h-[92vh] overflow-hidden">
 
-              <div className="text-center mb-4 shrink-0">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--olive)]/20 to-[var(--olive)]/5 flex items-center justify-center mx-auto mb-4 border border-[var(--olive)]/10 shadow-inner">
-                  <Gift
-                    className="w-6 h-6 text-[var(--olive)]"
-                    strokeWidth={1.5}
-                  />
+              {/* Modal Header */}
+              <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 shrink-0">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-[var(--olive)]/10 flex items-center justify-center border border-[var(--olive)]/20">
+                    <Gift className="w-5 h-5 text-[var(--olive)]" strokeWidth={1.5} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-gray-900 tracking-tight leading-none">Personalise Your Gift</h3>
+                    <p className="text-[11px] text-gray-400 font-medium mt-0.5">Choose a card and add your message</p>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-black text-gray-900 tracking-tight">
-                  Gift Cards
-                </h3>
+                <button
+                  onClick={() => setShowGiftDialog(false)}
+                  className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-900 hover:bg-gray-200 transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar pr-1 -mr-1">
-                <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
-                  {/* Left Side - Gift Cards */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-center mb-4 shrink-0">
-                      <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                        Select a Card
-                      </h4>
-                      {selectedGiftCardId && (
-                        <button
-                          onClick={() => setSelectedGiftCardId(0)}
-                          className="text-[10px] font-bold text-red-500 uppercase tracking-widest hover:text-red-600 hover:underline transition-colors cursor-pointer"
-                        >
-                          Remove Selection
-                        </button>
-                      )}
-                    </div>
+              {/* Modal Body */}
+              <div className="flex flex-col lg:flex-row flex-1 overflow-hidden min-h-0">
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 w-full shrink-0 py-2">
-                      {giftCards.map((card) => (
+                {/* ─── Left: Card Picker ─── */}
+                <div className="flex-1 overflow-y-auto p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-gray-100">
+                  <div className="flex items-center justify-between mb-5">
+                    <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
+                      Step 1 — Select a Gift Card
+                    </p>
+                    {selectedGiftCardId && (
+                      <button
+                        onClick={() => setSelectedGiftCardId(null)}
+                        className="text-[10px] font-bold text-red-400 uppercase tracking-widest hover:text-red-600 transition-colors cursor-pointer"
+                      >
+                        ✕ Clear
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {giftCards.map((card) => {
+                      const isSelected = selectedGiftCardId === card.giftcardid;
+                      return (
                         <button
                           key={card.giftcardid}
                           type="button"
-                          onClick={() =>
-                            setSelectedGiftCardId(card.giftcardid || null)
-                          }
-                          className={`relative p-4 rounded-[1.25rem] border transition-all duration-300 cursor-pointer flex flex-col items-center gap-3 text-center group bg-white ${selectedGiftCardId === card.giftcardid ? "border-[var(--olive)] ring-1 ring-[var(--olive)] shadow-md" : "border-gray-200 hover:border-[var(--olive)]/50 hover:shadow-sm"}`}
+                          onClick={() => setSelectedGiftCardId(card.giftcardid || null)}
+                          className={`relative group flex flex-col items-center gap-2.5 p-4 rounded-2xl border-2 transition-all duration-300 cursor-pointer text-center
+                            ${isSelected
+                              ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-md"
+                              : "border-transparent bg-gray-50 hover:bg-gray-100 hover:border-gray-200"
+                            }`}
                         >
-                          <div
-                            className={`absolute top-3 right-3 w-5 h-5 rounded-full border flex items-center justify-center transition-colors z-10 ${selectedGiftCardId === card.giftcardid ? "border-[var(--olive)] bg-[var(--olive)] text-white" : "border-gray-300 bg-transparent"}`}
-                          >
-                            {selectedGiftCardId === card.giftcardid && (
-                              <Check className="w-3 h-3" strokeWidth={3} />
-                            )}
+                          {/* Selection badge */}
+                          <div className={`absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center border-2 transition-all ${isSelected ? "border-[var(--olive)] bg-[var(--olive)]" : "border-gray-300 bg-white"}`}>
+                            {isSelected && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
                           </div>
-                          <div className="w-20 h-20 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden relative group-hover:shadow-inner transition-all">
+
+                          {/* Card Image */}
+                          <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-white border border-gray-100 shadow-sm flex items-center justify-center">
                             {card.cardimage ? (
                               <img
                                 src={getImageUrl(card.cardimage)}
@@ -861,84 +866,99 @@ export default function GiftDetailPage() {
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
                             ) : (
-                              <Gift
-                                className="w-8 h-8 text-gray-300"
-                                strokeWidth={1.5}
-                              />
+                              <Gift className="w-8 h-8 text-gray-300" strokeWidth={1.5} />
                             )}
                           </div>
-                          <h4
-                            className={`text-xs font-bold mt-1 line-clamp-2 px-1 ${selectedGiftCardId === card.giftcardid ? "text-[var(--olive)]" : "text-gray-700"}`}
-                          >
+
+                          {/* Card Name */}
+                          <p className={`text-[11px] font-bold leading-tight line-clamp-2 w-full ${isSelected ? "text-[var(--olive)]" : "text-gray-600"}`}>
                             {card.cardname}
-                          </h4>
+                          </p>
                         </button>
-                      ))}
-                    </div>
+                      );
+                    })}
                   </div>
+                </div>
 
-                  {/* Right Side - Message & Checkout */}
-                  <div className="md:w-[320px] shrink-0 flex flex-col justify-end pb-2">
-                    {selectedGiftCardId
-                      ? (() => {
-                          const selectedCard = giftCards.find(
-                            (c) => c.giftcardid === selectedGiftCardId,
-                          );
-                          if (!selectedCard) return null;
-                          return (
-                            <div className="mb-6 animate-fade-in-up">
-                              <label className="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">
-                                Card Preview
-                              </label>
-                              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-md bg-gray-100 flex items-center justify-center border border-gray-200">
-                                {selectedCard.cardimage ? (
-                                  <img
-                                    src={getImageUrl(selectedCard.cardimage)}
-                                    alt={selectedCard.cardname}
-                                    className="w-full h-full object-cover"
-                                  />
-                                ) : (
-                                  <Gift className="w-12 h-12 text-gray-300" />
-                                )}
-                                <div className="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
-                                  <p className="text-white text-center font-bold text-lg leading-snug drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] break-words w-full px-2 line-clamp-4">
-                                    {giftMessage}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })()
-                      : null}
+                {/* ─── Right: Preview + Message ─── */}
+                <div className="lg:w-[340px] shrink-0 flex flex-col gap-6 p-6 lg:p-8 overflow-y-auto">
 
-                    <div className="mb-6">
-                      <label className="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">
-                        Handwritten Note (Optional)
-                      </label>
-                      <div className="relative">
-                        <textarea
-                          rows={3}
-                          placeholder="Enter your heartfelt message here..."
-                          value={giftMessage}
-                          onChange={(e) => setGiftMessage(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl bg-[#faf9f6] border border-gray-200 focus:border-[#556B2F] focus:ring-4 focus:ring-[#556B2F]/10 outline-none text-sm font-medium text-gray-800 placeholder:text-gray-400 resize-none transition-all shadow-inner"
-                        ></textarea>
+                  {/* Step Label */}
+                  <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest shrink-0">
+                    Step 2 — Preview & Message
+                  </p>
+
+                  {/* Live Preview Card */}
+                  <div className="relative w-full aspect-[3/2] rounded-2xl overflow-hidden border border-gray-200 bg-gradient-to-br from-gray-100 to-gray-200 shadow-md flex items-center justify-center shrink-0">
+                    {selectedGiftCardId ? (() => {
+                      const sel = giftCards.find(c => c.giftcardid === selectedGiftCardId);
+                      return sel?.cardimage ? (
+                        <img
+                          src={getImageUrl(sel.cardimage)}
+                          alt={sel.cardname}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : (
+                        <Gift className="w-14 h-14 text-gray-300" strokeWidth={1} />
+                      );
+                    })() : (
+                      <div className="flex flex-col items-center gap-2 text-gray-300 select-none">
+                        <Gift className="w-12 h-12" strokeWidth={1} />
+                        <p className="text-[10px] font-bold uppercase tracking-widest">No card selected</p>
                       </div>
-                    </div>
+                    )}
 
-                    <button
-                      onClick={handleCheckoutWithGiftCard}
-                      disabled={isAddingToCart}
-                      className="w-full py-4 rounded-xl bg-[var(--olive)] text-white font-bold text-[13px] tracking-widest shadow-lg shadow-[#4a5d23]/30 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
-                    >
-                      {isAddingToCart ? (
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3" />
-                      ) : null}
-                      {isAddingToCart
-                        ? "PROCESSING..."
-                        : "CONTINUE TO CHECKOUT"}
-                    </button>
+                    {/* Message overlay – centered on image */}
+                    {selectedGiftCardId && giftMessage.trim() && (
+                      <div className="absolute inset-0 flex items-center justify-center px-6 py-5 pointer-events-none">
+                        <div className="bg-black/30 backdrop-blur-[2px] rounded-xl px-4 py-3 w-full">
+                          <p className="text-white text-center text-sm font-semibold leading-snug drop-shadow-sm break-words line-clamp-4">
+                            {giftMessage}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Bottom gradient ribbon with name */}
+                    {selectedGiftCardId && (() => {
+                      const sel = giftCards.find(c => c.giftcardid === selectedGiftCardId);
+                      return sel ? (
+                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pt-8 pb-3 px-4">
+                          <p className="text-white text-[10px] font-black uppercase tracking-widest truncate">{sel.cardname}</p>
+                        </div>
+                      ) : null;
+                    })()}
                   </div>
+
+                  {/* Message textarea */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
+                      Your Message <span className="normal-case font-normal text-gray-300">(optional)</span>
+                    </label>
+                    <textarea
+                      rows={4}
+                      placeholder="Write something heartfelt…"
+                      value={giftMessage}
+                      onChange={(e) => setGiftMessage(e.target.value)}
+                      maxLength={200}
+                      className="w-full px-4 py-3 rounded-xl bg-[#faf9f6] border border-gray-200 focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none text-sm font-medium text-gray-800 placeholder:text-gray-300 resize-none transition-all"
+                    />
+                    <p className="text-[10px] text-gray-300 text-right font-medium">{giftMessage.length}/200</p>
+                  </div>
+
+                  {/* CTA */}
+                  <button
+                    onClick={handleCheckoutWithGiftCard}
+                    disabled={isAddingToCart}
+                    className="w-full py-4 rounded-2xl bg-[var(--olive)] text-white font-black text-[12px] tracking-[0.15em] uppercase shadow-lg shadow-[var(--olive)]/25 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none mt-auto"
+                  >
+                    {isAddingToCart ? (
+                      <div className="w-5 h-5 border-2 border-white/60 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      <Zap className="w-4 h-4" />
+                    )}
+                    {isAddingToCart ? "Processing…" : "Continue to Checkout"}
+                  </button>
                 </div>
               </div>
             </div>
