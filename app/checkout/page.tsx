@@ -56,7 +56,9 @@ export default function CheckoutPage() {
   const [selectedDistrictId, setSelectedDistrictId] = useState<number>(0);
   const [selectedStateName, setSelectedStateName] = useState("");
   const [selectedDistrictName, setSelectedDistrictName] = useState("");
-  const [statesList, setStatesList] = useState<string[]>(Object.keys(locationData));
+  const [statesList, setStatesList] = useState<string[]>(
+    Object.keys(locationData),
+  );
   const [districtsList, setDistrictsList] = useState<string[]>([]);
 
   const router = useRouter();
@@ -134,7 +136,7 @@ export default function CheckoutPage() {
       console.error("Error saving address:", err);
       alert(
         err?.response?.data?.message ||
-        "An error occurred while saving address.",
+          "An error occurred while saving address.",
       );
     }
   };
@@ -202,9 +204,8 @@ export default function CheckoutPage() {
   const t = translations[selectedLang] || translations["EN"];
 
   // Total calculations consistent with cart page
-  const deliveryCharges = cartItems.length > 0 ? 90 : 0;
-  const taxableAmount = totalAmount + deliveryCharges;
-  const grandTotal = taxableAmount + deliveryCharges; // Following the user's latest logic in cart page
+  const deliveryCharges = 0; // Free shipping
+  const grandTotal = totalAmount; 
 
   const handlePlaceOrder = async () => {
     if (selectionMode === "single" && !selectedAddressId) {
@@ -231,9 +232,9 @@ export default function CheckoutPage() {
         addressids:
           selectionMode === "multi"
             ? multipleAddress.map(({ addressid, productid }) => ({
-              addressid,
-              productid,
-            }))
+                addressid,
+                productid,
+              }))
             : [],
       };
       const response = await API.post(API_ROUTES.PLACEORDER, body);
@@ -249,7 +250,7 @@ export default function CheckoutPage() {
       console.error("Error placing order:", err);
       alert(
         err?.response?.data?.message ||
-        "An error occurred while placing your order.",
+          "An error occurred while placing your order.",
       );
     } finally {
       setIsPlacingOrder(false);
@@ -267,32 +268,25 @@ export default function CheckoutPage() {
   if (orderPlaced) {
     return (
       <main className="min-h-screen bg-[#f7f7f5] flex items-center justify-center p-25 overflow-hidden relative">
-
         {/* Background Glow */}
         <div className="absolute top-[-80px] left-[-80px] w-[180px] h-[180px] bg-[var(--olive)]/10 rounded-full blur-3xl" />
         <div className="absolute bottom-[-80px] right-[-80px] w-[180px] h-[180px] bg-[var(--olive-dark)]/10 rounded-full blur-3xl" />
 
         <div className="relative w-full max-w-sm">
-
           {/* Card */}
           <div className="relative bg-white rounded-[28px] border border-stone-200/70 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.12)] overflow-hidden">
-
             {/* Top Border */}
             <div className="h-1.5 bg-gradient-to-r from-[var(--olive)] via-[var(--olive)] to-[var(--olive-dark)]" />
 
             <div className="px-6 pt-8 pb-6 text-center">
-
               {/* Success Icon */}
               <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
-
                 {/* Ring Animation */}
                 <div className="absolute inset-0 rounded-full border-2 border-[var(--olive)]/30 animate-ping" />
 
                 {/* Circle */}
                 <div className="relative z-10 w-20 h-20 rounded-full bg-gradient-to-br from-[var(--olive)] to-[var(--olive-dark)] flex items-center justify-center shadow-[0_15px_30px_rgba(85,107,47,0.35)]">
-
                   <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
-
                     {/* Check */}
                     <svg
                       className="w-7 h-7 text-[var(--olive)]"
@@ -327,7 +321,6 @@ export default function CheckoutPage() {
 
               {/* Order Info */}
               <div className="bg-stone-50 rounded-2xl border border-stone-200 p-4 mb-6 text-left">
-
                 <div className="flex justify-between items-center mb-3">
                   <span className="text-[10px] uppercase tracking-[0.18em] text-stone-400 font-bold">
                     Order ID
@@ -363,7 +356,6 @@ export default function CheckoutPage() {
 
               {/* Buttons */}
               <div className="flex flex-col gap-3">
-
                 <Link
                   href={`/order-detail?id=${placedOrderId}`}
                   className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]"
@@ -383,12 +375,12 @@ export default function CheckoutPage() {
         </div>
 
         <style jsx>{`
-      @keyframes draw {
-        to {
-          stroke-dashoffset: 0;
-        }
-      }
-    `}</style>
+          @keyframes draw {
+            to {
+              stroke-dashoffset: 0;
+            }
+          }
+        `}</style>
       </main>
     );
   }
@@ -426,31 +418,42 @@ export default function CheckoutPage() {
               <div className="space-y-6">
                 {/* Option 1: Single Address */}
                 <div
-                  className={`border-2 rounded-2xl p-6 transition-all ${cartItems.length > 1 && selectionMode !== "single"
-                    ? "border-stone-100 hover:border-stone-200 cursor-pointer"
-                    : "border-[var(--olive)] bg-[#fcfcfb]"
-                    }`}
-                  onClick={() => cartItems.length > 1 && setSelectionMode("single")}
+                  className={`border-2 rounded-2xl p-6 transition-all ${
+                    cartItems.length > 1 && selectionMode !== "single"
+                      ? "border-stone-100 hover:border-stone-200 cursor-pointer"
+                      : "border-[var(--olive)] bg-[#fcfcfb]"
+                  }`}
+                  onClick={() =>
+                    cartItems.length > 1 && setSelectionMode("single")
+                  }
                 >
                   <div className="flex items-center gap-4 mb-4">
                     {cartItems.length > 1 && (
                       <div
-                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${selectionMode === "single"
-                          ? "border-[var(--olive)] bg-[var(--olive)]"
-                          : "border-stone-300"
-                          }`}
+                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                          selectionMode === "single"
+                            ? "border-[var(--olive)] bg-[var(--olive)]"
+                            : "border-stone-300"
+                        }`}
                       >
                         {selectionMode === "single" && (
-                          <Check className="w-3 h-3 text-white" strokeWidth={4} />
+                          <Check
+                            className="w-3 h-3 text-white"
+                            strokeWidth={4}
+                          />
                         )}
                       </div>
                     )}
                     <div>
                       <h3 className="text-sm font-bold text-stone-900">
-                        {cartItems.length > 1 ? "Apply one address to all products" : t.checkout?.delivery_address || "Delivery Address"}
+                        {cartItems.length > 1
+                          ? "Apply one address to all products"
+                          : t.checkout?.delivery_address || "Delivery Address"}
                       </h3>
                       <p className="text-xs text-stone-500">
-                        {cartItems.length > 1 ? "All items will be delivered to the same address" : "Select where you want your item delivered"}
+                        {cartItems.length > 1
+                          ? "All items will be delivered to the same address"
+                          : "Select where you want your item delivered"}
                       </p>
                     </div>
                   </div>
@@ -458,9 +461,14 @@ export default function CheckoutPage() {
                   {(selectionMode === "single" || cartItems.length <= 1) && (
                     <div className={cartItems.length > 1 ? "ml-10" : ""}>
                       <SearchableDropdown
-                        options={addresses.map((addr) => ({ label: `${addr.title}, ${addr.addressline}, ${addr.city}`, value: addr.addressid }))}
+                        options={addresses.map((addr) => ({
+                          label: `${addr.title}, ${addr.addressline}, ${addr.city}`,
+                          value: addr.addressid,
+                        }))}
                         value={selectedAddressId}
-                        placeholder={t.checkout?.select_address || "Select an address"}
+                        placeholder={
+                          t.checkout?.select_address || "Select an address"
+                        }
                         onChange={(val) => setSelectedAddressId(Number(val))}
                       />
                     </div>
@@ -479,21 +487,26 @@ export default function CheckoutPage() {
 
                     {/* Option 2: Multi Address */}
                     <div
-                      className={`border-2 rounded-2xl p-6 cursor-pointer transition-all ${selectionMode === "multi"
-                        ? "border-[var(--olive)] bg-[#fcfcfb]"
-                        : "border-stone-100 hover:border-stone-200"
-                        }`}
+                      className={`border-2 rounded-2xl p-6 cursor-pointer transition-all ${
+                        selectionMode === "multi"
+                          ? "border-[var(--olive)] bg-[#fcfcfb]"
+                          : "border-stone-100 hover:border-stone-200"
+                      }`}
                       onClick={() => setSelectionMode("multi")}
                     >
                       <div className="flex items-center gap-4 mb-4">
                         <div
-                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${selectionMode === "multi"
-                            ? "border-[var(--olive)] bg-[var(--olive)]"
-                            : "border-stone-300"
-                            }`}
+                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                            selectionMode === "multi"
+                              ? "border-[var(--olive)] bg-[var(--olive)]"
+                              : "border-stone-300"
+                          }`}
                         >
                           {selectionMode === "multi" && (
-                            <Check className="w-3 h-3 text-white" strokeWidth={4} />
+                            <Check
+                              className="w-3 h-3 text-white"
+                              strokeWidth={4}
+                            />
                           )}
                         </div>
                         <div>
@@ -541,13 +554,19 @@ export default function CheckoutPage() {
                                 </div>
                                 <div className="w-full sm:w-48">
                                   <SearchableDropdown
-                                    options={addresses.map((addr) => ({ label: `${addr.title}, ${addr.addressline}, ${addr.city}`, value: addr.addressid }))}
+                                    options={addresses.map((addr) => ({
+                                      label: `${addr.title}, ${addr.addressline}, ${addr.city}`,
+                                      value: addr.addressid,
+                                    }))}
                                     value={
                                       multipleAddress.find(
                                         (entry) => entry.cartid === item.cartid,
                                       )?.addressid || ""
                                     }
-                                    placeholder={t.checkout?.select_address || "Select Address"}
+                                    placeholder={
+                                      t.checkout?.select_address ||
+                                      "Select Address"
+                                    }
                                     onChange={(val) => {
                                       const addrId = Number(val);
                                       const productid =
@@ -681,7 +700,9 @@ export default function CheckoutPage() {
                         <SearchableDropdown
                           options={statesList}
                           value={selectedStateName}
-                          placeholder={t.checkout?.select_state || "Select State"}
+                          placeholder={
+                            t.checkout?.select_state || "Select State"
+                          }
                           onChange={(val) => {
                             setSelectedStateName(val);
                             setDistrictsList(locationData[val] || []);
@@ -696,7 +717,9 @@ export default function CheckoutPage() {
                         <SearchableDropdown
                           options={districtsList}
                           value={selectedDistrictName}
-                          placeholder={t.checkout?.select_district || "Select District"}
+                          placeholder={
+                            t.checkout?.select_district || "Select District"
+                          }
                           disabled={!selectedStateName}
                           onChange={(val) => {
                             setSelectedDistrictName(val);
@@ -831,7 +854,7 @@ export default function CheckoutPage() {
                           <p className="text-[13px] font-bold text-stone-900 whitespace-nowrap">
                             ₹
                             {item.sellingprice === 0 ||
-                              item.sellingprice === undefined
+                            item.sellingprice === undefined
                               ? item.price?.toLocaleString()
                               : item.sellingprice?.toLocaleString()}
                           </p>
@@ -844,8 +867,7 @@ export default function CheckoutPage() {
                           <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-[var(--olive)]/10 border border-[var(--olive)]/20 mt-1">
                             <Gift className="w-3 h-3 text-[var(--olive)]" />
                             <span className="text-[9px] font-black text-[var(--olive)] uppercase tracking-widest">
-                              {item.giftcard.cardname} (+₹
-                              {item.giftcard.cardprice})
+                              {item.giftcard.cardname}
                             </span>
                           </div>
                         )}
@@ -872,8 +894,12 @@ export default function CheckoutPage() {
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-stone-500 font-medium">{t.checkout?.shipping || "Shipping"}</span>
-                  <span className="font-bold text-emerald-600">{t.checkout?.free || "FREE"}</span>
+                  <span className="text-stone-500 font-medium">
+                    {t.checkout?.shipping || "Shipping"}
+                  </span>
+                  <span className="font-bold text-emerald-600">
+                    {t.checkout?.free || "FREE"}
+                  </span>
                 </div>
               </div>
 
@@ -894,7 +920,9 @@ export default function CheckoutPage() {
               <div className="flex items-center gap-2 mb-6 text-emerald-600 border-t border-b border-stone-100 py-4">
                 <ShieldCheck className="w-5 h-5" />
                 <div>
-                  <p className="text-xs font-bold">{t.cart?.secure_payment || "Safe and Secure Payments"}</p>
+                  <p className="text-xs font-bold">
+                    {t.cart?.secure_payment || "Safe and Secure Payments"}
+                  </p>
                   <p className="text-[10px] text-stone-500">
                     100% Secure. Your data is safe with us.
                   </p>

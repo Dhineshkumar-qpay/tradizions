@@ -658,9 +658,6 @@ function OrderDetailContent() {
                           </p>
                         )}
                       </div>
-                      <p className="text-white font-bold text-lg shrink-0">
-                        ₹{item.giftcard.cardprice?.toLocaleString()}
-                      </p>
                     </div>
                   </div>
                 )}

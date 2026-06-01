@@ -19,7 +19,7 @@ import {
   ShieldCheck,
   Check,
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
@@ -28,6 +28,7 @@ import { useParams, useRouter } from "next/navigation";
 import { API } from "@/service/api_service";
 import { API_ROUTES } from "@/routes/api_routes";
 import { formatDistanceToNow } from "date-fns";
+import { Upload } from "lucide-react";
 
 const translations: Record<string, any> = {
   EN: en,
@@ -79,7 +80,7 @@ export default function GiftDetailPage() {
             setIsFavourite(true);
           }
         }
-      } catch (err) {}
+      } catch (err) { }
     };
     fetchFavs();
   }, [gift, id]);
@@ -141,7 +142,7 @@ export default function GiftDetailPage() {
         console.error("Error adding to cart:", err);
         alert(
           err?.response?.data?.message ||
-            "An error occurred while adding to cart.",
+          "An error occurred while adding to cart.",
         );
       } finally {
         setIsAddingToCart(false);
@@ -170,6 +171,7 @@ export default function GiftDetailPage() {
             cartid: cartId,
             giftcardid: selectedGiftCardId,
             giftmessage: giftMessage,
+            sendername: senderName,
           });
         }
         window.dispatchEvent(new Event("cartUpdated"));
@@ -181,7 +183,7 @@ export default function GiftDetailPage() {
       console.error("Error adding to cart:", err);
       alert(
         err?.response?.data?.message ||
-          "An error occurred while proceeding to checkout.",
+        "An error occurred while proceeding to checkout.",
       );
     } finally {
       setIsAddingToCart(false);
@@ -292,7 +294,7 @@ export default function GiftDetailPage() {
       console.error("Error submitting review:", err);
       alert(
         err?.response?.data?.message ||
-          "An error occurred while submitting review.",
+        "An error occurred while submitting review.",
       );
     } finally {
       setIsSubmittingReview(false);
@@ -315,22 +317,76 @@ export default function GiftDetailPage() {
     null,
   );
   const [giftMessage, setGiftMessage] = useState("");
+  const [senderName, setSenderName] = useState("");
+
+  const [isUploadingGiftCard, setIsUploadingGiftCard] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const fetchGiftCards = async () => {
+    try {
+      const response = await API.post(API_ROUTES.GIFT_CARDS);
+      if (response.status === 200 && response.data?.data) {
+        setGiftCards(response.data.data);
+      }
+    } catch (err) {
+      console.error("Error fetching gift cards:", err);
+    }
+  };
 
   useEffect(() => {
-    const fetchGiftCards = async () => {
-      try {
-        const response = await API.post(API_ROUTES.GIFT_CARDS);
-        if (response.status === 200 && response.data?.data) {
-          setGiftCards(response.data.data);
-        }
-      } catch (err) {
-        console.error("Error fetching gift cards:", err);
-      }
-    };
     if (gift) {
       fetchGiftCards();
     }
   }, [gift]);
+
+  const handleUploadGiftCard = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingGiftCard(true);
+    try {
+      const formData = new FormData();
+      formData.append("cardimage", file);
+
+      const response = await API.post(API_ROUTES.UPLOADGIFTCARDIMAGE, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 200 && response.data?.data?.giftcardid) {
+        const newCardId = response.data.data.giftcardid;
+        const newCardImage = response.data.data.cardimage;
+
+        setGiftCards((prev) => [
+          {
+            giftcardid: newCardId,
+            cardname: "Your Custom Card",
+            cardimage: newCardImage,
+            status: "active",
+          },
+          ...prev,
+        ]);
+
+        setSelectedGiftCardId(newCardId);
+        if (window.innerWidth < 1024) {
+          setTimeout(() => {
+            document.getElementById("step-2-preview")?.scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        }
+      } else {
+        alert("Failed to upload gift card.");
+      }
+    } catch (err: any) {
+      console.error("Error uploading gift card:", err);
+      alert(err?.response?.data?.message || "An error occurred during upload.");
+    } finally {
+      setIsUploadingGiftCard(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -509,7 +565,7 @@ export default function GiftDetailPage() {
 
             <div className="flex items-end gap-4 mb-8">
               {gift.giftsellingprice === 0 ||
-              gift.giftsellingprice == undefined ? (
+                gift.giftsellingprice == undefined ? (
                 <>
                   <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
                     ₹{gift.giftprice}
@@ -798,7 +854,7 @@ export default function GiftDetailPage() {
         {/* Gift Card Dialogue */}
         {showGiftDialog && (
           <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 bg-black/70 backdrop-blur-md animate-fade-in">
-            <div className="bg-white w-full max-w-5xl rounded-3xl shadow-[0_32px_80px_-15px_rgba(0,0,0,0.35)] relative flex flex-col max-h-[92vh] overflow-hidden">
+            <div className="bg-white w-full max-w-5xl rounded-xl shadow-[0_32px_80px_-15px_rgba(0,0,0,0.35)] relative flex flex-col max-h-[92vh] overflow-hidden">
 
               {/* Modal Header */}
               <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 shrink-0">
@@ -820,10 +876,10 @@ export default function GiftDetailPage() {
               </div>
 
               {/* Modal Body */}
-              <div className="flex flex-col lg:flex-row flex-1 overflow-hidden min-h-0">
+              <div className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden min-h-0">
 
                 {/* ─── Left: Card Picker ─── */}
-                <div className="flex-1 overflow-y-auto p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-gray-100">
+                <div className="flex-1 lg:overflow-y-auto p-4 sm:p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-gray-100">
                   <div className="flex items-center justify-between mb-5">
                     <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
                       Step 1 — Select a Gift Card
@@ -838,15 +894,47 @@ export default function GiftDetailPage() {
                     )}
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 xl:grid-cols-5 gap-3">
+                    {/* Upload button */}
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isUploadingGiftCard}
+                      className="relative group flex flex-col items-center gap-2 p-3 rounded-2xl border-2 border-dashed border-gray-300 hover:border-[var(--olive)] bg-gray-50 hover:bg-[var(--olive)]/5 transition-all duration-300 cursor-pointer text-center disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        className="hidden"
+                        onChange={handleUploadGiftCard}
+                      />
+                      <div className="w-full aspect-[4/2] rounded-xl overflow-hidden bg-white border border-gray-100 shadow-sm flex items-center justify-center">
+                        {isUploadingGiftCard ? (
+                          <div className="w-6 h-6 border-2 border-gray-300 border-t-[var(--olive)] rounded-full animate-spin" />
+                        ) : (
+                          <Upload className="w-6 h-6 text-gray-400 group-hover:text-[var(--olive)] transition-colors" />
+                        )}
+                      </div>
+                      <p className="text-[11px] font-bold leading-tight line-clamp-2 w-full text-gray-600 group-hover:text-[var(--olive)] transition-colors">
+                        Upload Your Own
+                      </p>
+                    </button>
                     {giftCards.map((card) => {
                       const isSelected = selectedGiftCardId === card.giftcardid;
                       return (
                         <button
                           key={card.giftcardid}
                           type="button"
-                          onClick={() => setSelectedGiftCardId(card.giftcardid || null)}
-                          className={`relative group flex flex-col items-center gap-2.5 p-4 rounded-2xl border-2 transition-all duration-300 cursor-pointer text-center
+                          onClick={() => {
+                            setSelectedGiftCardId(card.giftcardid || null);
+                            if (window.innerWidth < 1024) {
+                              setTimeout(() => {
+                                document.getElementById("step-2-preview")?.scrollIntoView({ behavior: "smooth" });
+                              }, 100);
+                            }
+                          }}
+                          className={`relative group flex flex-col items-center gap-2 p-3 rounded-2xl border-2 transition-all duration-300 cursor-pointer text-center
                             ${isSelected
                               ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-md"
                               : "border-transparent bg-gray-50 hover:bg-gray-100 hover:border-gray-200"
@@ -858,12 +946,12 @@ export default function GiftDetailPage() {
                           </div>
 
                           {/* Card Image */}
-                          <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-white border border-gray-100 shadow-sm flex items-center justify-center">
+                          <div className="w-full aspect-[4/2] rounded-xl overflow-hidden bg-white border border-gray-100 shadow-sm flex items-center justify-center">
                             {card.cardimage ? (
                               <img
                                 src={getImageUrl(card.cardimage)}
                                 alt={card.cardname}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                               />
                             ) : (
                               <Gift className="w-8 h-8 text-gray-300" strokeWidth={1.5} />
@@ -881,7 +969,7 @@ export default function GiftDetailPage() {
                 </div>
 
                 {/* ─── Right: Preview + Message ─── */}
-                <div className="lg:w-[340px] shrink-0 flex flex-col gap-6 p-6 lg:p-8 overflow-y-auto">
+                <div id="step-2-preview" className="w-full lg:w-[340px] shrink-0 flex flex-col gap-5 sm:gap-6 p-4 sm:p-6 lg:p-8 lg:overflow-y-auto">
 
                   {/* Step Label */}
                   <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest shrink-0">
@@ -896,7 +984,7 @@ export default function GiftDetailPage() {
                         <img
                           src={getImageUrl(sel.cardimage)}
                           alt={sel.cardname}
-                          className="absolute inset-0 w-full h-full object-cover"
+                          className="absolute inset-0 w-full h-full object-contain"
                         />
                       ) : (
                         <Gift className="w-14 h-14 text-gray-300" strokeWidth={1} />
@@ -908,13 +996,20 @@ export default function GiftDetailPage() {
                       </div>
                     )}
 
-                    {/* Message overlay – centered on image */}
-                    {selectedGiftCardId && giftMessage.trim() && (
-                      <div className="absolute inset-0 flex items-center justify-center px-6 py-5 pointer-events-none">
-                        <div className="bg-black/30 backdrop-blur-[2px] rounded-xl px-4 py-3 w-full">
-                          <p className="text-white text-center text-sm font-semibold leading-snug drop-shadow-sm break-words line-clamp-4">
-                            {giftMessage}
-                          </p>
+                    {/* Message + Sender overlay – centered on card image */}
+                    {selectedGiftCardId && (giftMessage.trim() || senderName.trim()) && (
+                      <div className="absolute inset-0 flex items-center justify-center px-5 py-4 pointer-events-none">
+                        <div className="bg-black/35 backdrop-blur-[2px] rounded-xl px-4 py-3 w-full flex flex-col items-center gap-1.5 overflow-hidden">
+                          {giftMessage.trim() && (
+                            <p className="text-white text-center text-[13px] font-semibold leading-snug drop-shadow break-words whitespace-pre-wrap w-full">
+                              {giftMessage}
+                            </p>
+                          )}
+                          {senderName.trim() && (
+                            <p className="text-white/90 text-center text-[11px] font-bold italic leading-snug drop-shadow break-words w-full">
+                              By {senderName}
+                            </p>
+                          )}
                         </div>
                       </div>
                     )}
@@ -944,6 +1039,21 @@ export default function GiftDetailPage() {
                       className="w-full px-4 py-3 rounded-xl bg-[#faf9f6] border border-gray-200 focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none text-sm font-medium text-gray-800 placeholder:text-gray-300 resize-none transition-all"
                     />
                     <p className="text-[10px] text-gray-300 text-right font-medium">{giftMessage.length}/200</p>
+                  </div>
+
+                  {/* Sender Name input */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
+                      Sender Name <span className="normal-case font-normal text-gray-300">(optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Dhinesh"
+                      value={senderName}
+                      onChange={(e) => setSenderName(e.target.value)}
+                      maxLength={50}
+                      className="w-full px-4 py-3 rounded-xl bg-[#faf9f6] border border-gray-200 focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none text-sm font-medium text-gray-800 placeholder:text-gray-300 transition-all"
+                    />
                   </div>
 
                   {/* CTA */}

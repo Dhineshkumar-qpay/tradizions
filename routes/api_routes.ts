@@ -12,7 +12,7 @@ export const API_ROUTES = {
   SUBCATEGORIES: "/category/getallsubcategories",
   PRODUCT_DETAIL: "/product/product-detail",
   GIFT_DETAIL: "/product/gift-detail",
-  GIFT_CARDS: "/product/gift-cards",
+  GIFT_CARDS: "/product/get-gift-cards",
   NEWARRIVALS: "/product/new-arrivals",
   FEATURED: "/product/featured",
   USERS: "/users",
@@ -47,4 +47,5 @@ export const API_ROUTES = {
   NEWSLETTER: "/auth/newsletter",
   HEALTHGOALS: "/goal/gethealth-goals",
   HEALTHGOALPRODUCTS: "/product/health-goal-products",
+  UPLOADGIFTCARDIMAGE: "/product/upload-gift-card",
 };
