@@ -141,9 +141,15 @@ export default function Navbar() {
       setShouldRedirectToAccount(e.detail?.redirect ?? false);
       setIsDrawerOpen(true);
     };
-    window.addEventListener("openLoginSidebar", handleOpenLogin as EventListener);
+    window.addEventListener(
+      "openLoginSidebar",
+      handleOpenLogin as EventListener,
+    );
     return () =>
-      window.removeEventListener("openLoginSidebar", handleOpenLogin as EventListener);
+      window.removeEventListener(
+        "openLoginSidebar",
+        handleOpenLogin as EventListener,
+      );
   }, []);
 
   useEffect(() => {
@@ -445,7 +451,9 @@ export default function Navbar() {
                 </span>
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-all duration-300 ${
-                    isLangOpen ? "rotate-180 text-[var(--olive)]" : "text-gray-400"
+                    isLangOpen
+                      ? "rotate-180 text-[var(--olive)]"
+                      : "text-gray-400"
                   }`}
                 />
               </button>
@@ -605,9 +613,10 @@ export default function Navbar() {
                                     className={`text-xs font-black ${product.stock <= 0 || product.availablestock <= 0 ? "text-gray-400" : "text-gray-900"}`}
                                   >
                                     ₹
-                                    {product.selllingprice !== 0
-                                      ? product.sellingprice?.toLocaleString()
-                                      : product.price.toLocaleString()}
+                                    {product.sellingprice === 0 ||
+                                    product.sellingprice == null
+                                      ? product.price.toLocaleString()
+                                      : product.sellingprice?.toLocaleString()}
                                   </span>
                                   {product.price != null &&
                                     product.sellingprice != null &&
@@ -666,7 +675,7 @@ export default function Navbar() {
             </div>
 
             <Link href="/cart" className="relative">
-              <div className="relative group p-2.5 rounded-full hover:bg-gray-100 transition-colors cursor-pointer hidden md:block">
+              <div className="relative group p-2.5 rounded-full hover:bg-gray-100 transition-colors cursor-pointer block">
                 <ShoppingCart className="w-5 h-5 text-[var(--olive)] group-hover:text-[var(--orange)] transition-colors duration-300" />
                 <span className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--orange)] text-[10px] font-bold text-white ring-2 ring-white">
                   {cartCount}

@@ -8,6 +8,9 @@ const API = axios.create({
 });
 
 API.interceptors.request.use((config) => {
+  if (config.data) {
+    console.log("📦 Request Body Payload:", config.data);
+  }
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("token");
     if (token) {
@@ -16,5 +19,20 @@ API.interceptors.request.use((config) => {
   }
   return config;
 });
+
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      } else {
+        console.error("Unauthorized access - token may be invalid or expired.");
+      }
+    }
+    return Promise.reject(error);
+  },
+);
 
 export { API };

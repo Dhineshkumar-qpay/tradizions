@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Heart, ShoppingCart, ArrowRight, Search, ChevronLeft, ChevronRight, Filter } from "lucide-react";
+import {
+  Heart,
+  ShoppingCart,
+  ArrowRight,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+} from "lucide-react";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
@@ -27,7 +35,9 @@ const getImageUrl = (imagePath: string) => {
   }
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:3003";
   const cleanedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
-  const cleanedPath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath;
+  const cleanedPath = imagePath.startsWith("/")
+    ? imagePath.slice(1)
+    : imagePath;
   return `${cleanedBase}/${cleanedPath}`;
 };
 
@@ -122,7 +132,9 @@ export default function FeaturedProductsPage() {
 
   // Client-side filtering and searching (since API only handles pagination)
   const filteredProducts = products.filter((p) => {
-    const nameMatch = (p.productname || p.name || "").toLowerCase().includes(searchQuery.toLowerCase());
+    const nameMatch = (p.productname || p.name || "")
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
     return nameMatch;
   });
 
@@ -143,7 +155,8 @@ export default function FeaturedProductsPage() {
                   {t.featured_products || "Featured Products"}
                 </span>
                 <h1 className="text-base md:text-lg font-black text-stone-900 tracking-tight leading-tight">
-                  {t.featured_desc || "Explore our top picks carefully selected for you."}
+                  {t.featured_desc ||
+                    "Explore our top picks carefully selected for you."}
                 </h1>
               </div>
             </div>
@@ -185,16 +198,25 @@ export default function FeaturedProductsPage() {
                     ].map((item) => (
                       <button
                         key={item.id}
-                        onClick={() => { setSortBy(item.id); setCurrentPage(1); }}
+                        onClick={() => {
+                          setSortBy(item.id);
+                          setCurrentPage(1);
+                        }}
                         className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
                           sortBy === item.id
                             ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                             : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
                         }`}
                       >
-                        <span className="text-[11px] font-bold">{item.label}</span>
-                        <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${sortBy === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
-                          {sortBy === item.id && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+                        <span className="text-[11px] font-bold">
+                          {item.label}
+                        </span>
+                        <div
+                          className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${sortBy === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}
+                        >
+                          {sortBy === item.id && (
+                            <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>
+                          )}
                         </div>
                       </button>
                     ))}
@@ -215,16 +237,25 @@ export default function FeaturedProductsPage() {
                     ].map((item) => (
                       <button
                         key={item.id}
-                        onClick={() => { setPriceRange(item.id); setCurrentPage(1); }}
+                        onClick={() => {
+                          setPriceRange(item.id);
+                          setCurrentPage(1);
+                        }}
                         className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
                           priceRange === item.id
                             ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                             : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
                         }`}
                       >
-                        <span className="text-[11px] font-bold">{item.label}</span>
-                        <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${priceRange === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
-                          {priceRange === item.id && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+                        <span className="text-[11px] font-bold">
+                          {item.label}
+                        </span>
+                        <div
+                          className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${priceRange === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}
+                        >
+                          {priceRange === item.id && (
+                            <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>
+                          )}
                         </div>
                       </button>
                     ))}
@@ -261,12 +292,23 @@ export default function FeaturedProductsPage() {
             ) : paginatedProducts.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 gap-y-12">
                 {paginatedProducts.map((product) => {
-                  const id = product.productid !== undefined ? product.productid : product.id;
+                  const id =
+                    product.productid !== undefined
+                      ? product.productid
+                      : product.id;
                   const name = product.productname || product.name;
                   const price = product.sellingprice || product.price || 0;
-                  const originalPrice = product.price !== undefined && product.sellingprice !== undefined && product.price > product.sellingprice ? product.price : null;
-                  const image = product.productimage ? getImageUrl(product.productimage) : product.image || "/placeholder.png";
-                  const isFav = id !== undefined && favouriteProductIds.includes(id);
+                  const originalPrice =
+                    product.price !== undefined &&
+                    product.sellingprice !== undefined &&
+                    product.price > product.sellingprice
+                      ? product.price
+                      : null;
+                  const image = product.productimage
+                    ? getImageUrl(product.productimage)
+                    : product.image || "/placeholder.png";
+                  const isFav =
+                    id !== undefined && favouriteProductIds.includes(id);
 
                   return (
                     <Link
@@ -296,24 +338,37 @@ export default function FeaturedProductsPage() {
                               handleActionWithLogin(async () => {
                                 if (id === undefined) return;
                                 try {
-                                  const response = await API.post(API_ROUTES.ADDFAVOURITE, { productid: id });
+                                  const response = await API.post(
+                                    API_ROUTES.ADDFAVOURITE,
+                                    { productid: id },
+                                  );
                                   if (response.status === 200) {
-                                    window.dispatchEvent(new Event("favoritesUpdated"));
+                                    window.dispatchEvent(
+                                      new Event("favoritesUpdated"),
+                                    );
                                   }
                                 } catch (err) {
-                                  console.error("Error adding to wishlist:", err);
+                                  console.error(
+                                    "Error adding to wishlist:",
+                                    err,
+                                  );
                                 }
                               });
                             }}
                             className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-400 hover:text-red-500 transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
                           >
-                            <Heart className={`w-4 h-4 ${isFav ? "fill-red-500 text-red-500" : ""}`} />
+                            <Heart
+                              className={`w-4 h-4 ${isFav ? "fill-red-500 text-red-500" : ""}`}
+                            />
                           </button>
                         </div>
                         <div className="absolute top-3 left-3 z-20 flex flex-col gap-2">
                           {originalPrice && originalPrice > price && (
                             <span className="px-2.5 py-1 rounded-full bg-[var(--orange)] text-white text-[9px] font-black tracking-wider shadow-lg">
-                              {Math.round(((originalPrice - price) / originalPrice) * 100)}% OFF
+                              {Math.round(
+                                ((originalPrice - price) / originalPrice) * 100,
+                              )}
+                              % OFF
                             </span>
                           )}
                         </div>
@@ -326,20 +381,27 @@ export default function FeaturedProductsPage() {
                             {name}
                           </h3>
                           <div className="flex items-center gap-2 mt-1">
-                            {product.weight && (product.unit || product.unitname) && (
-                              <span className="inline-block bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md text-[10px] font-bold border border-stone-200 shrink-0">
-                                {product.weight} {product.unit || product.unitname}
-                              </span>
-                            )}
+                            {product.weight &&
+                              (product.unit || product.unitname) && (
+                                <span className="inline-block bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md text-[10px] font-bold border border-stone-200 shrink-0">
+                                  {product.weight}{" "}
+                                  {product.unit || product.unitname}
+                                </span>
+                              )}
                             <p className="text-[11px] text-gray-400 font-medium line-clamp-1 flex-1">
-                              {product.desc || "Tradizions premium selection for health."}
+                              {product.desc ||
+                                "Tradizions premium selection for health."}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-baseline gap-2">
-                          <span className="text-xl font-black text-gray-900">₹{price.toLocaleString()}</span>
+                          <span className="text-xl font-black text-gray-900">
+                            ₹{price.toLocaleString()}
+                          </span>
                           {originalPrice && originalPrice > price && (
-                            <span className="text-xs text-gray-400 line-through font-medium">₹{originalPrice.toLocaleString()}</span>
+                            <span className="text-xs text-gray-400 line-through font-medium">
+                              ₹{originalPrice.toLocaleString()}
+                            </span>
                           )}
                         </div>
                         <div className="pt-2 mt-auto">
@@ -351,21 +413,31 @@ export default function FeaturedProductsPage() {
                               if ((product.availablestock ?? 0) <= 0) return;
                               handleActionWithLogin(async () => {
                                 try {
-                                  const response = await API.post(API_ROUTES.ADDTOCART, {
-                                    bid: product.bid || 1,
-                                    productid: id,
-                                    giftid: null,
-                                    quantity: 1,
-                                    itemtype: "product",
-                                  });
+                                  const response = await API.post(
+                                    API_ROUTES.ADDTOCART,
+                                    {
+                                      bid: product.bid || 1,
+                                      productid: id,
+                                      giftid: null,
+                                      quantity: 1,
+                                      itemtype: "product",
+                                    },
+                                  );
                                   if (response.status === 200) {
-                                    window.dispatchEvent(new Event("cartUpdated"));
+                                    window.dispatchEvent(
+                                      new Event("cartUpdated"),
+                                    );
                                   } else {
-                                    alert("Failed to add product to cart. Please try again.");
+                                    alert(
+                                      "Failed to add product to cart. Please try again.",
+                                    );
                                   }
                                 } catch (err: any) {
                                   console.error("Error adding to cart:", err);
-                                  alert(err?.response?.data?.message || "An error occurred while adding to cart.");
+                                  alert(
+                                    err?.response?.data?.message ||
+                                      "An error occurred while adding to cart.",
+                                  );
                                 }
                               });
                             }}
@@ -375,7 +447,11 @@ export default function FeaturedProductsPage() {
                                 : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
                             } disabled:opacity-50`}
                           >
-                            <span>{(product.availablestock ?? 0) <= 0 ? "OUT OF STOCK" : "ADD TO CART"}</span>
+                            <span>
+                              {(product.availablestock ?? 0) <= 0
+                                ? "OUT OF STOCK"
+                                : "ADD TO CART"}
+                            </span>
                             <ShoppingCart className="w-3 h-3 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
                           </button>
                         </div>
@@ -385,7 +461,9 @@ export default function FeaturedProductsPage() {
                 })}
               </div>
             ) : (
-              <div className="text-center py-20 text-gray-500">No products found matching your criteria.</div>
+              <div className="text-center py-20 text-gray-500">
+                No products found matching your criteria.
+              </div>
             )}
 
             {/* PAGINATION */}

@@ -390,5 +390,121 @@
     "out_of_stock": "OUT OF STOCK",
     "off": "OFF",
     "view_all": "View all results in shop"
+  },
+  "health_benefits_data": {
+    "nuts": [
+      {
+        "name": "Almond",
+        "desc": "Rich in healthy fats and vitamin E, supports brain function and heart health."
+      },
+      {
+        "name": "Cashew",
+        "desc": "Provides essential minerals like magnesium and zinc, supports bone health."
+      },
+      {
+        "name": "Pistachio",
+        "desc": "Helps in weight management and improves gut health."
+      },
+      {
+        "name": "Walnut",
+        "desc": "High in omega-3 fatty acids, supports heart and brain health."
+      },
+      {
+        "name": "Raisins",
+        "desc": "Aids digestion and provides natural energy."
+      },
+      {
+        "name": "Dates",
+        "desc": "Rich in iron, boosts energy and supports digestion."
+      },
+      {
+        "name": "Fig",
+        "desc": "High in fiber, helps regulate digestion and blood sugar levels."
+      },
+      {
+        "name": "Apricot",
+        "desc": "Rich in antioxidants, supports eye and skin health."
+      }
+    ],
+    "millets": [
+      {
+        "name": "Foxtail Millet",
+        "desc": "Low glycemic index, helps control blood sugar levels."
+      },
+      {
+        "name": "Pearl Millet (Bajra)",
+        "desc": "Rich in fiber, supports digestion and heart health."
+      },
+      {
+        "name": "Finger Millet (Ragi)",
+        "desc": "High in calcium, strengthens bones and teeth."
+      },
+      {
+        "name": "Kodo Millet",
+        "desc": "Aids weight loss and improves digestion."
+      },
+      {
+        "name": "Little Millet",
+        "desc": "Rich in iron, helps improve hemoglobin levels."
+      },
+      {
+        "name": "Barnyard Millet",
+        "desc": "Low in calories, ideal for weight management and detox."
+      },
+      {
+        "name": "Proso Millet",
+        "desc": "Supports metabolism and provides sustained energy."
+      },
+      {
+        "name": "Sorghum (Jowar)",
+        "desc": "Rich in antioxidants, helps reduce inflammation and supports heart health."
+      },
+      {
+        "name": "Millet Flour",
+        "desc": "Gluten-free, easy to digest and supports overall nutrition."
+      }
+    ],
+    "spices": [
+      {
+        "name": "Turmeric",
+        "desc": "Contains curcumin that helps reduce inflammation and boosts immunity."
+      },
+      {
+        "name": "Cinnamon",
+        "desc": "Helps control blood sugar levels and supports heart health."
+      },
+      {
+        "name": "Black Pepper",
+        "desc": "Improves digestion and enhances nutrient absorption."
+      },
+      {
+        "name": "Cardamom",
+        "desc": "Supports digestion and helps maintain fresh breath."
+      },
+      {
+        "name": "Clove",
+        "desc": "Rich in antioxidants and helps improve oral health."
+      },
+      {
+        "name": "Cumin",
+        "desc": "Boosts metabolism and supports healthy digestion."
+      },
+      {
+        "name": "Ginger",
+        "desc": "Reduces nausea and helps relieve inflammation naturally."
+      },
+      {
+        "name": "Nutmeg",
+        "desc": "Promotes better sleep and supports brain health."
+      },
+      {
+        "name": "Fenugreek",
+        "desc": "Helps regulate blood sugar and improves digestion."
+      },
+      {
+        "name": "Mustard Seeds",
+        "desc": "Contains antioxidants and helps reduce inflammation."
+      }
+    ]
   }
 }

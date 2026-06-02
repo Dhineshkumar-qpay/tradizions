@@ -180,100 +180,135 @@ export default function CorporateOrdersPage() {
   const formRef = useInView();
 
   return (
-    <main className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
-      {/* ── HERO SECTION ── */}
+    <main className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden ">
+      {/* ── HERO SECTION (Light & Modern Split) ── */}
       <section
         ref={heroRef.ref}
-        className="relative pt-32 pb-24 lg:pt-40 lg:pb-40 overflow-hidden flex items-center justify-center bg-[#0a0a0a] text-white"
+        className="relative pt-28 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-[var(--site-bg)] z-10"
       >
-        {/* Background Image/Overlay */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2001&auto=format&fit=crop"
-            fill
-            alt="Corporate Gifting Background"
-            className="object-cover opacity-20 grayscale"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black/60" />
-        </div>
+        {/* Background Accents */}
+        <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-bl from-[var(--olive)]/10 to-transparent rounded-bl-[120px] -z-10" />
+        <div className="absolute -top-20 -left-20 w-96 h-96 bg-[var(--orange)]/5 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        {/* Floating shapes */}
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-[var(--olive)]/20 rounded-full blur-[100px] animate-float pointer-events-none" />
-        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-[var(--orange)]/10 rounded-full blur-[120px] animate-float delay-700 pointer-events-none" />
-
-        <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
-          <div
-            className={`inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 text-white border border-white/20 text-[11px] font-bold tracking-[0.25em] uppercase mb-8 shadow-sm transition-all duration-1000 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-          >
-            <Briefcase className="w-4 h-4 text-[var(--orange)]" />
-            {t.corporate_orders.solutions}
-          </div>
-
-          <h1
-            className={`text-xl md:text-2xl lg:text-3xl font-extrabold text-white leading-[1.05] tracking-tight mb-8 transition-all duration-1000 delay-200 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-          >
-            {t.corporate_orders.elevate} <br />
-            <span className="text-[var(--orange)]">
-              {t.corporate_orders.relationships}
-            </span>
-          </h1>
-
-          <p
-            className={`text-md md:text-md text-white/60 leading-relaxed font-light max-w-3xl mx-auto transition-all duration-1000 delay-400 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-          >
-            {t.corporate_orders.hero_desc}
-          </p>
-
-          <div
-            className={`mt-12 transition-all duration-1000 delay-600 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-          >
-            <button
-              onClick={() =>
-                document
-                  .getElementById("corporate-form")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="px-10 py-4 rounded-full bg-[var(--olive)] text-white font-seminbold text-xs tracking-[0.2em] uppercase hover:bg-[var(--olive-dark)] transition-all hover:scale-105 active:scale-95 shadow-xl shadow-[var(--olive)]/20 cursor-pointer"
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
+            {/* Left Content */}
+            <div
+              className={`flex-1 space-y-8 transition-all duration-1000 ease-out ${loaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}
             >
-              {t.corporate_orders.get_quote}
-            </button>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--olive)]/10 text-[var(--olive)] border border-[var(--olive)]/20 shadow-sm">
+                <Briefcase className="w-4 h-4" />
+                <span className="text-[10px] font-extrabold tracking-[0.2em] uppercase">
+                  {t.corporate_orders.solutions || "Corporate Solutions"}
+                </span>
+              </div>
+
+              <h1 className="text-4xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-[1.1] tracking-tight">
+                {t.corporate_orders.elevate || "Elevate Your"} <br />
+                <span className="text-[var(--olive)] bg-clip-text text-transparent bg-gradient-to-r from-[var(--olive-dark)] to-[var(--olive)]">
+                  {t.corporate_orders.relationships || "Business Relationships"}
+                </span>
+              </h1>
+
+              <p className="text-base md:text-lg text-gray-500 font-medium leading-relaxed max-w-xl">
+                {t.corporate_orders.hero_desc || "Make a lasting impression with premium organic and traditional gifting solutions tailored for your corporate needs."}
+              </p>
+
+              <div className="pt-4 flex items-center gap-6">
+                <button
+                  onClick={() =>
+                    document.getElementById("corporate-form")?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="group px-8 py-4 rounded-2xl bg-[var(--olive)] text-white font-extrabold text-xs tracking-widest uppercase hover:bg-[var(--olive-dark)] shadow-[0_10px_30px_rgba(85,107,47,0.25)] hover:shadow-[0_15px_40px_rgba(85,107,47,0.35)] hover:-translate-y-1 active:scale-[0.98] transition-all duration-300 flex items-center gap-3"
+                >
+                  {t.corporate_orders.get_quote || "Get Custom Quote"}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+
+            {/* Right Image/Graphic */}
+            <div
+              className={`flex-1 relative w-full max-w-lg lg:max-w-none transition-all duration-1000 delay-300 ease-out ${loaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}
+            >
+              <div className="relative aspect-square md:aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white group">
+                <Image
+                  src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  fill
+                  alt="Corporate Gifting"
+                  className="object-cover group-hover:scale-105 transition-transform duration-[2000ms]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--olive)]/30 to-transparent mix-blend-multiply" />
+              </div>
+
+              {/* Floating Badge 1 */}
+              <div className="absolute -bottom-8 -left-8 md:bottom-12 md:-left-12 bg-white/90 backdrop-blur-md p-5 rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] border border-white animate-float">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center text-[var(--orange)] shadow-inner">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-extrabold text-gray-900 tracking-tight">Premium</p>
+                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Quality Assured</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Badge 2 */}
+              <div className="absolute -top-6 -right-6 bg-white/90 backdrop-blur-md p-4 rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] border border-white animate-float delay-1000 hidden md:block">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-[var(--olive)] shadow-inner">
+                    <CheckCircle2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-extrabold text-gray-900 tracking-tight">100% Organic</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── BENEFITS SECTION ── */}
-      <section ref={benefitsRef.ref} className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      {/* ── BENEFITS SECTION (Modern Cards) ── */}
+      <section ref={benefitsRef.ref} className="py-24 bg-white relative z-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                icon: Award,
-                title: t.corporate_orders.benefit1_title,
-                desc: t.corporate_orders.benefit1_desc,
-              },
-              {
-                icon: Globe,
-                title: t.corporate_orders.benefit2_title,
-                desc: t.corporate_orders.benefit2_desc,
+                icon: Building2,
+                title: t.corporate_orders.benefit1_title || "Custom Branding",
+                desc: t.corporate_orders.benefit1_desc || "Personalize packaging with your company logo and custom messaging.",
+                color: "var(--olive)",
+                bg: "bg-emerald-50",
               },
               {
                 icon: Users,
-                title: t.corporate_orders.benefit3_title,
-                desc: t.corporate_orders.benefit3_desc,
+                title: t.corporate_orders.benefit3_title || "Bulk Discounts",
+                desc: t.corporate_orders.benefit3_desc || "Enjoy exclusive pricing tiers tailored for large corporate orders.",
+                color: "var(--orange)",
+                bg: "bg-amber-50",
+              },
+              {
+                icon: Truck,
+                title: t.corporate_orders.benefit2_title || "Global Delivery",
+                desc: t.corporate_orders.benefit2_desc || "Seamless multi-address shipping directly to your clients or employees.",
+                color: "var(--olive)",
+                bg: "bg-emerald-50",
               },
             ].map((benefit, i) => (
               <div
                 key={i}
-                className={`flex flex-col items-center text-center space-y-6 transition-all duration-1000 ${benefitsRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
-                style={{ transitionDelay: `${i * 200}ms` }}
+                className={`bg-gray-50/50 p-8 rounded-[2rem] border border-gray-100 hover:border-gray-200 hover:bg-white hover:shadow-xl transition-all duration-500 group ${benefitsRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
+                style={{ transitionDelay: `${i * 150}ms` }}
               >
-                <div className="w-16 h-16 rounded-2xl bg-gray-50 flex items-center justify-center text-[var(--olive)] shadow-inner">
+                <div className={`w-16 h-16 rounded-2xl ${benefit.bg} flex items-center justify-center shadow-inner mb-6 group-hover:scale-110 transition-transform duration-500`} style={{ color: benefit.color }}>
                   <benefit.icon className="w-8 h-8" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900">
+                <h3 className="text-xl font-extrabold text-gray-900 mb-3 tracking-tight">
                   {benefit.title}
                 </h3>
-                <p className="text-gray-500 font-light leading-relaxed max-w-xs">
+                <p className="text-gray-500 text-sm font-medium leading-relaxed">
                   {benefit.desc}
                 </p>
               </div>
@@ -282,302 +317,294 @@ export default function CorporateOrdersPage() {
         </div>
       </section>
 
-      {/* ── PRODUCT LISTING SECTION ── */}
-      <section ref={productsRef.ref} className="py-32 bg-[var(--site-bg)]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20 space-y-4">
-            <p className="text-[12px] font-normal text-[var(--olive)] tracking-[0.3em] uppercase">
-              {t.corporate_orders.collection}
-            </p>
-            <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
-              {t.corporate_orders.popular_choices}{" "}
-              <span className="gradient-text">
-                {t.corporate_orders.choices}
-              </span>
-            </h2>
+      {/* ── PRODUCT LISTING (Glass UI) ── */}
+      <section ref={productsRef.ref} className="py-24 bg-gray-50 relative">
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+        
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+            <div className="space-y-3">
+              <p className="text-[10px] font-extrabold text-[var(--olive)] tracking-[0.3em] uppercase">
+                {t.corporate_orders.collection || "Curated Collection"}
+              </p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight tracking-tight">
+                {t.corporate_orders.popular_choices || "Popular Corporate"} <br/>
+                <span className="text-[var(--orange)]">
+                  {t.corporate_orders.choices || "Gifting Choices"}
+                </span>
+              </h2>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {corporateProducts.map((item, i) => {
               const itemImage = item.productimage?.startsWith("http")
                 ? item.productimage
                 : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`;
 
               return (
-                <Link
-                  href={`/gift-detail/${item.productid}`}
+                <div
                   key={i}
-                  className={`group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-700 ${productsRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
-                  style={{ transitionDelay: `${i * 150}ms` }}
+                  className={`group bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden flex flex-col ${productsRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
+                  style={{ transitionDelay: `${i * 100}ms` }}
                 >
-                  {/* Image Container */}
-                  <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
+                  {/* Image Area */}
+                  <Link href={`/gift-detail/${item.productid}`} className="relative aspect-square overflow-hidden bg-gray-100 block">
                     <img
                       src={itemImage || "/placeholder.png"}
                       alt={item.productname}
-                      className=" h-full w-full object-cover transition-all duration-[1200ms] group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4 flex flex-col flex-1 space-y-3">
-                    <div className="space-y-1">
-                      <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
-                        {item.productname}
-                      </h3>
-                      <p className="text-[11px] text-gray-400 font-medium line-clamp-1">
-                        {item.description}
-                      </p>
-                    </div>
-
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-xl font-black text-gray-900">
-                        ₹
-                        {item.sellingprice > 0
-                          ? item.sellingprice.toLocaleString()
-                          : item.price.toLocaleString()}
-                      </span>
-                      <span className="text-[10px] text-gray-400 font-medium">
-                        Starting from
-                      </span>
-                    </div>
-
-                    {/* Add to Cart Button */}
-                    <div className="pt-2 mt-auto">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Hover Add button for desktop */}
+                    <div className="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 px-4">
                       <button
                         disabled={isAddingToCart === item.productid}
                         onClick={(e) => handleBuyNow(item, e)}
-                        className="w-full bg-[#FCFBF9] border border-gray-100 text-gray-900 py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300 group/btn cursor-pointer disabled:opacity-50"
+                        className="w-full bg-white/95 backdrop-blur text-gray-900 py-3 px-4 rounded-xl font-extrabold text-[10px] tracking-widest flex items-center justify-center gap-2 hover:bg-[var(--olive)] hover:text-white transition-all shadow-lg disabled:opacity-70 cursor-pointer disabled:cursor-not-allowed"
                       >
-                        <span>
-                          {isAddingToCart === item.productid
-                            ? "PROCESSING..."
-                            : "BUY NOW"}
+                        {isAddingToCart === item.productid ? (
+                          <div className="w-4 h-4 border-2 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <>
+                             BUY NOW <ShoppingCart className="w-3.5 h-3.5" />
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </Link>
+
+                  {/* Details Area */}
+                  <div className="p-5 flex flex-col flex-1 bg-white relative z-10">
+                    <h3 className="text-base font-extrabold text-gray-900 line-clamp-1 mb-1 group-hover:text-[var(--olive)] transition-colors">
+                      {item.productname}
+                    </h3>
+                    <p className="text-xs text-gray-500 font-medium line-clamp-2 mb-4 flex-1 leading-relaxed">
+                      {item.description}
+                    </p>
+
+                    <div className="flex items-end justify-between pt-4 border-t border-gray-100">
+                      <div>
+                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Starting At</p>
+                        <span className="text-xl font-extrabold text-gray-900 tracking-tight">
+                          ₹{item.sellingprice > 0 ? item.sellingprice.toLocaleString() : item.price.toLocaleString()}
                         </span>
-                        <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
+                      </div>
+                      
+                      {/* Mobile add button (always visible) */}
+                      <button
+                        onClick={(e) => handleBuyNow(item, e)}
+                        disabled={isAddingToCart === item.productid}
+                        className="lg:hidden w-10 h-10 rounded-xl bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-[var(--olive)] hover:text-white transition-colors"
+                      >
+                        <ShoppingCart className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
-                </Link>
+                </div>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* ── INQUIRY FORM SECTION ── */}
-      <section id="corporate-form" className="py-32 bg-[var(--site-bg)]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-            {/* Reduced Premium Contact Card - Above Form */}
-            <div
-              className={`mb-16 transition-all duration-1000 ${formRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
-            >
-              <div className="premium-card bg-white rounded-[1rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-gray-100 relative overflow-hidden group max-w-3xl mx-auto">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--olive)]/5 rounded-bl-full -z-10 group-hover:bg-[var(--olive)]/10 transition-colors" />
+      {/* ── INQUIRY FORM (Split Layout) ── */}
+      <section id="corporate-form" className="py-24 bg-white relative">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div
+            ref={formRef.ref}
+            className={`bg-white rounded-[2.5rem] shadow-[0_20px_80px_rgba(0,0,0,0.08)] border border-gray-100 overflow-hidden flex flex-col lg:flex-row transition-all duration-1000 ${formRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
+          >
+            {/* Left Info Side - Enhanced Premium Card */}
+            <div className="lg:w-2/5 relative overflow-hidden flex flex-col justify-between p-10 lg:p-14 group/connect">
+              {/* Premium Backgrounds */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--olive-dark)] via-[var(--olive)] to-[#4a5c28] z-0" />
+              <img 
+                src="https://images.unsplash.com/photo-1702566038578-7139b3b6a738?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                alt="Connect" 
+                className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-20 group-hover/connect:scale-110 transition-transform duration-[2000ms] z-0" 
+              />
+              
+              {/* Abstract decorative elements */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--orange)]/20 rounded-bl-[100px] z-0 blur-xl group-hover/connect:bg-[var(--orange)]/30 transition-colors duration-700" />
+              <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-white/10 rounded-tr-[100px] z-0 blur-2xl" />
+              
+              <div className="relative z-10 space-y-6 mb-12">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
+                  <span className="w-2 h-2 rounded-full bg-[var(--orange)] animate-pulse" />
+                  <h3 className="text-[10px] font-extrabold tracking-[0.25em] uppercase text-white">
+                    {t.contact_us.connect || "Connect With Us"}
+                  </h3>
+                </div>
+                
+                <h2 className="text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight text-white drop-shadow-md">
+                  Let's Discuss Your <br/>
+                  <span className="text-[var(--orange)]">Gifting Needs</span>
+                </h2>
+                
+                <div className="w-12 h-1 bg-gradient-to-r from-[var(--orange)] to-transparent rounded-full" />
+                
+                <p className="text-sm font-medium text-white/90 leading-relaxed max-w-sm drop-shadow-sm">
+                  {t.corporate_orders.custom_quote_desc || "Fill out the form with your requirements and our corporate sales team will get back to you within 24 hours."}
+                </p>
+              </div>
 
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
-                  <div className="space-y-4 text-center md:text-left flex-1">
-                    <h3 className="text-[10px] font-bold text-[var(--olive)] tracking-[0.3em] uppercase">
-                      {t.contact_us.connect}
-                    </h3>
-                    <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
-                      {t.corporate_orders.custom_quote_heading}{" "}
-                      <span className="gradient-text">
-                        {t.corporate_orders.custom_quote_sub}
-                      </span>
-                    </h2>
-                    <p className="text-sm text-gray-400 font-light max-w-md">
-                      {t.corporate_orders.custom_quote_desc}{" "}
-                      <span className="font-bold text-gray-900">
-                        {t.corporate_orders.hours_24}
-                      </span>
-                    </p>
+              <div className="relative z-10 space-y-4">
+                {/* Glassmorphic Contact Item 1 */}
+                <div className="flex items-center gap-5 p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 group/contact hover:-translate-y-1">
+                  <div className="w-12 h-12 rounded-xl bg-white text-[var(--olive)] flex items-center justify-center shadow-lg group-hover/contact:scale-110 transition-transform duration-300">
+                    <Mail className="w-5 h-5" />
                   </div>
+                  <div>
+                    <p className="text-[10px] font-bold tracking-widest uppercase text-white/70 mb-0.5">Email Us</p>
+                    <a href="mailto:qpay@tradizions.com" className="text-[15px] font-bold text-white hover:text-[var(--orange)] transition-colors drop-shadow-sm">
+                      qpay@tradizions.com
+                    </a>
+                  </div>
+                </div>
 
-                  <div className="grid grid-cols-1 gap-6 shrink-0 w-full md:w-auto">
-                    <div className="flex items-center gap-4 group/item">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[var(--olive)] flex items-center justify-center transition-all duration-500 group-hover/item:scale-110 group-hover/item:bg-[var(--olive)] group-hover/item:text-white">
-                        <Mail className="w-5 h-5" />
-                      </div>
-                      <a
-                        href="mailto:qpay@tradizions.com"
-                        className="text-md font-bold text-gray-900 hover:text-[var(--olive)] transition-colors"
-                      >
-                        qpay@tradizions.com
-                      </a>
-                    </div>
-
-                    <div className="flex items-center gap-4 group/item">
-                      <div className="w-10 h-10 rounded-xl bg-amber-50 text-[var(--orange)] flex items-center justify-center transition-all duration-500 group-hover/item:scale-110 group-hover/item:bg-[var(--orange)] group-hover/item:text-white">
-                        <Phone className="w-5 h-5" />
-                      </div>
-                      <a
-                        href="tel:+919940620019"
-                        className="text-md font-bold text-gray-900 hover:text-[var(--olive)] transition-colors"
-                      >
-                        +91 9940620019
-                      </a>
-                    </div>
+                {/* Glassmorphic Contact Item 2 */}
+                <div className="flex items-center gap-5 p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 group/contact hover:-translate-y-1">
+                  <div className="w-12 h-12 rounded-xl bg-white text-[var(--olive)] flex items-center justify-center shadow-lg group-hover/contact:scale-110 transition-transform duration-300">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold tracking-widest uppercase text-white/70 mb-0.5">Call Us</p>
+                    <a href="tel:+919940620019" className="text-[15px] font-bold text-white hover:text-[var(--orange)] transition-colors drop-shadow-sm">
+                      +91 9940620019
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Inquiry Form below */}
-            <div
-              ref={formRef.ref}
-              className={`transition-all duration-1000 delay-300 max-w-3xl mx-auto ${formRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
-            >
-              <div className="bg-white rounded-[1rem] p-8 md:p-12 shadow-[0_30px_70px_rgba(0,0,0,0.1)] border border-gray-100 relative min-h-[500px] flex flex-col justify-center">
-                {isSubmitted ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-center animate-fade-in">
-                    <div className="w-20 h-20 bg-emerald-50 text-[var(--olive)] rounded-full flex items-center justify-center mb-6 border border-emerald-100 shadow-sm animate-scale-in">
-                      <CheckCircle2 className="w-10 h-10 animate-pulse" />
-                    </div>
-                    <h3 className="text-2xl font-extrabold text-gray-900 mb-3 tracking-tight">
-                      Inquiry Submitted Successfully!
-                    </h3>
-                    <p className="text-sm text-gray-400 max-w-sm mb-8 leading-relaxed font-light">
-                      Thank you for your corporate query. We have received your
-                      request and our team will get back to you soon!
-                    </p>
-                    <button
-                      onClick={() => setIsSubmitted(false)}
-                      className="px-8 py-3.5 rounded-xl bg-[var(--olive)] text-white text-[11px] font-black tracking-[0.2em] uppercase hover:bg-[var(--olive-dark)] transition-all shadow-lg cursor-pointer hover:-translate-y-0.5"
-                    >
-                      Submit Another Inquiry
-                    </button>
+            {/* Right Form Side */}
+            <div className="lg:w-3/5 p-10 lg:p-14 bg-white flex items-center">
+              {isSubmitted ? (
+                <div className="w-full flex flex-col items-center justify-center text-center animate-fade-in py-12">
+                  <div className="w-24 h-24 bg-emerald-50 text-[var(--olive)] rounded-full flex items-center justify-center mb-8 border border-emerald-100 shadow-inner">
+                    <CheckCircle2 className="w-12 h-12 animate-pulse" />
                   </div>
-                ) : (
-                  <form className="space-y-6" onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-                          {t.corporate_orders.company_name}
-                        </label>
-                        <input
-                          type="text"
-                          value={companyName}
-                          onChange={(e) => setCompanyName(e.target.value)}
-                          placeholder="Tradizions Inc."
-                          className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-                          {t.corporate_orders.contact_person}
-                        </label>
-                        <input
-                          type="text"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          placeholder="John Doe"
-                          className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <div className="space-y-2 md:col-span-1">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-                          {t.corporate_orders.work_email}
-                        </label>
-                        <input
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="john@company.com"
-                          className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium"
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2 md:col-span-1">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-                          Phone / Mobile
-                        </label>
-                        <input
-                          type="tel"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          placeholder="9025821501"
-                          className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium"
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2 md:col-span-1">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-                          {t.corporate_orders.quantity}
-                        </label>
-                        <div className="relative">
-                          <select
-                            value={quantity}
-                            onChange={(e) => setQuantity(e.target.value)}
-                            className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium appearance-none"
-                          >
-                            <option value="10 - 50">10 - 50</option>
-                            <option value="50 - 200">50 - 200</option>
-                            <option value="200 - 500">200 - 500</option>
-                            <option value="500+">500+</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
+                  <h3 className="text-3xl font-extrabold text-gray-900 mb-4 tracking-tight">
+                    Inquiry Received!
+                  </h3>
+                  <p className="text-gray-500 text-sm font-medium max-w-md mx-auto mb-10 leading-relaxed">
+                    Thank you for reaching out. Our dedicated corporate team is reviewing your requirements and will contact you shortly.
+                  </p>
+                  <button
+                    onClick={() => setIsSubmitted(false)}
+                    className="px-8 py-4 rounded-2xl bg-gray-900 text-white text-[11px] font-extrabold tracking-[0.2em] uppercase hover:bg-gray-800 transition-all shadow-lg cursor-pointer"
+                  >
+                    Submit Another Inquiry
+                  </button>
+                </div>
+              ) : (
+                <form className="w-full space-y-6" onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-                        {t.corporate_orders.tell_us}
+                      <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">
+                        {t.corporate_orders.company_name || "Company Name"} *
                       </label>
-                      <textarea
-                        rows={4}
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Special packaging, event date, etc."
-                        className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium resize-none"
+                      <input
+                        type="text"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        placeholder="Tradizions Inc."
+                        className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-[var(--olive)]/10 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium placeholder:text-gray-300 shadow-sm"
                         required
-                      ></textarea>
+                      />
                     </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">
+                        {t.corporate_orders.contact_person || "Contact Person"} *
+                      </label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="John Doe"
+                        className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-[var(--olive)]/10 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium placeholder:text-gray-300 shadow-sm"
+                        required
+                      />
+                    </div>
+                  </div>
 
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-5 rounded-2xl bg-[var(--olive)] text-white font-bold text-[12px] tracking-[0.25em] shadow-xl shadow-[var(--olive)]/20 hover:shadow-2xl hover:-translate-y-1 active:scale-[0.98] transition-all uppercase cursor-pointer disabled:opacity-50"
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">
+                        {t.corporate_orders.work_email || "Work Email"} *
+                      </label>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="john@company.com"
+                        className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-[var(--olive)]/10 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium placeholder:text-gray-300 shadow-sm"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">
+                        Phone / Mobile *
+                      </label>
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="9025821501"
+                        className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-[var(--olive)]/10 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium placeholder:text-gray-300 shadow-sm"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">
+                      {t.corporate_orders.quantity || "Expected Quantity"} *
+                    </label>
+                    <select
+                      value={quantity}
+                      onChange={(e) => setQuantity(e.target.value)}
+                      className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-[var(--olive)]/10 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium text-gray-700 shadow-sm appearance-none"
+                      required
                     >
-                      {isSubmitting
-                        ? "SUBMITTING..."
-                        : t.corporate_orders.submit_inquiry}
-                    </button>
-                  </form>
-                )}
-              </div>
+                      <option value="10 - 50">10 - 50 Units</option>
+                      <option value="50 - 200">50 - 200 Units</option>
+                      <option value="200 - 500">200 - 500 Units</option>
+                      <option value="500+">500+ Units</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">
+                      {t.corporate_orders.tell_us || "Additional Requirements"} *
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Special packaging, event date, budget constraints..."
+                      className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-[var(--olive)]/10 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium placeholder:text-gray-300 shadow-sm resize-none"
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full py-5 rounded-2xl bg-[var(--orange)] text-white font-extrabold text-[12px] tracking-[0.2em] shadow-[0_10px_30px_rgba(255,140,0,0.25)] hover:shadow-[0_15px_40px_rgba(255,140,0,0.35)] hover:-translate-y-1 active:scale-[0.98] transition-all uppercase cursor-pointer disabled:opacity-50 mt-4"
+                  >
+                    {isSubmitting
+                      ? "Sending Inquiry..."
+                      : t.corporate_orders.submit_inquiry || "Submit Inquiry"}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
       </section>
-
-      {/* ── TRUST BAR ── */}
-      {/* <section className="py-20 bg-[var(--site-bg)]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-wrap justify-center gap-12 opacity-40 grayscale">
-            <span className="text-xl font-bold tracking-widest">
-              TRUSTED BY
-            </span>
-            <span className="text-xl font-black tracking-tighter italic">
-              CORP-X
-            </span>
-            <span className="text-xl font-black tracking-tighter italic">
-              TECH-GLOBAL
-            </span>
-            <span className="text-xl font-black tracking-tighter italic">
-              VITALITY
-            </span>
-            <span className="text-xl font-black tracking-tighter italic">
-              HERITAGE-CO
-            </span>
-          </div>
-        </div>
-      </section> */}
     </main>
   );
 }
