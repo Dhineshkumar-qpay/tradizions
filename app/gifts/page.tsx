@@ -173,15 +173,11 @@ export default function GiftsPage() {
   useEffect(() => {
     const fetchCategoriesAndInit = async () => {
       try {
-        const response = await API.post(API_ROUTES.CATEGORIES);
+        const response = await API.post(API_ROUTES.CATEGORIES,{type: "gift"});
         if (response.status === 200) {
           const allCats = response.data["data"] || [];
 
-          const updatedCats = allCats.filter(
-            (cat: any) => cat.categoryid === 4 || cat.categoryid === 5,
-          );
-
-          setCategories(updatedCats);
+          setCategories(response.data["data"] || []);
 
           const giftCat = allCats.find(
             (cat: any) =>

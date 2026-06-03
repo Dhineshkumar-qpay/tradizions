@@ -182,7 +182,7 @@ export default function Home() {
   // Fetch categories on mount
 
   const fetchCategories = async () => {
-    const response = await API.post(API_ROUTES.CATEGORIES);
+    const response = await API.post(API_ROUTES.CATEGORIES, { type: "all" });
     if (response.status === 200) {
       console.log("Fetched categories:", response.data);
       setCategories(response.data["data"] || []);

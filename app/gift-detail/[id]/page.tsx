@@ -564,7 +564,7 @@ export default function GiftDetailPage() {
             )}
 
             <div className="flex items-end gap-4 mb-8">
-              {gift.giftsellingprice === 0 ||
+              {gift.giftsellingprice === 0.00 ||
                 gift.giftsellingprice == undefined ? (
                 <>
                   <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">

@@ -194,7 +194,7 @@ export default function ShopPage() {
 
   const fetchCategories = async () => {
     try {
-      const response = await API.post(API_ROUTES.CATEGORIES);
+      const response = await API.post(API_ROUTES.CATEGORIES, { type: "all" });
       if (response.status === 200) {
         setCategories(response.data["data"] || []);
       } else {

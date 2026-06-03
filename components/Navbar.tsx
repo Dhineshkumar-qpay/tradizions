@@ -249,7 +249,7 @@ export default function Navbar() {
   useEffect(() => {
     const fetchCats = async () => {
       try {
-        const response = await API.post(API_ROUTES.CATEGORIES);
+        const response = await API.post(API_ROUTES.CATEGORIES, { type: "all" });
         if (response.status === 200) {
           setApiCategories(response.data["data"] || []);
         }
