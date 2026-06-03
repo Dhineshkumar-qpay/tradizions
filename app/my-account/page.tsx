@@ -21,7 +21,7 @@ import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import { FavouriteProductModel, FavouriteProduct } from "@/models/cart_model";
 import { ProfileModel } from "@/models/auth_model";
 import { OrdersModel, OrdersData } from "@/models/order_item_model";
@@ -814,7 +814,7 @@ export default function ProfilePage() {
             const itemImage = item.productimage
               ? item.productimage.startsWith("http")
                 ? item.productimage
-                : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`
+                : `${IMAGE_URL || ""}${item.productimage}`
               : "/placeholder.png";
 
             return (
@@ -965,7 +965,7 @@ export default function ProfilePage() {
                                     src={
                                       item.productimage?.startsWith("http")
                                         ? item.productimage
-                                        : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`
+                                        : `${IMAGE_URL || ""}${item.productimage}`
                                     }
                                     alt={item.productname || "Product"}
                                     className="w-full h-full object-cover mix-blend-multiply"
@@ -1072,7 +1072,7 @@ export default function ProfilePage() {
                                     src={
                                       item.productimage?.startsWith("http")
                                         ? item.productimage
-                                        : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`
+                                        : `${IMAGE_URL || ""}${item.productimage}`
                                     }
                                     alt={item.productname || "Product"}
                                     className="w-full h-full object-cover mix-blend-multiply"

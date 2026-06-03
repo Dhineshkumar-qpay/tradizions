@@ -24,7 +24,7 @@ import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import { CorporateProductModel } from "@/models/corporate_product_model";
 import { useRouter } from "next/navigation";
 
@@ -340,7 +340,7 @@ export default function CorporateOrdersPage() {
             {corporateProducts.map((item, i) => {
               const itemImage = item.productimage?.startsWith("http")
                 ? item.productimage
-                : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`;
+                : `${IMAGE_URL || ""}${item.productimage}`;
 
               return (
                 <div

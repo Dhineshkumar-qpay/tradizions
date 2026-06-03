@@ -7,7 +7,7 @@ import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import { AddressData, States, Districts } from "@/models/address_model";
 import { CheckoutProduct } from "@/models/checkout_model";
 import { useRouter } from "next/navigation";
@@ -524,7 +524,7 @@ export default function CheckoutPage() {
                           {cartItems.map((item, idx) => {
                             const itemImage = item.image?.startsWith("http")
                               ? item.image
-                              : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.image}`;
+                              : `${IMAGE_URL || ""}${item.image}`;
                             return (
                               <div
                                 key={item.cartid || idx}
@@ -832,7 +832,7 @@ export default function CheckoutPage() {
                 {cartItems.map((item, idx) => {
                   const itemImage = item.image?.startsWith("http")
                     ? item.image
-                    : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.image}`;
+                    : `${IMAGE_URL || ""}${item.image}`;
 
                   return (
                     <div

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import { AddressData, States, Districts } from "@/models/address_model";
 import { MonthlyCartModel, MonthlyCartData } from "@/models/calculator_model";
 import locationDataRaw from "../../public/location/india_states_districts.json";
@@ -368,7 +368,7 @@ export default function MonthlyCartPage() {
                 {cartData?.items?.map((item, idx) => {
                   const itemImage = item.productimage?.startsWith("http")
                     ? item.productimage
-                    : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.productimage}`;
+                    : `${IMAGE_URL || ""}${item.productimage}`;
                   return (
                     <div key={item.monthlycartid || idx} className="flex gap-4 p-3 rounded-xl border border-stone-100 bg-stone-50/50">
                       <div className="w-16 h-16 rounded-lg bg-white overflow-hidden shrink-0 border border-stone-100">

@@ -25,7 +25,7 @@ import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import { Cart } from "@/models/cart_model";
 
 const translations: Record<string, any> = {
@@ -354,7 +354,7 @@ export default function CartPage() {
                   const itemImage = item.image
                     ? item.image.startsWith("http")
                       ? item.image
-                      : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.image}`
+                      : `${IMAGE_URL || ""}${item.image}`
                     : "/placeholder.png";
                   const isUpdating = updatingCartId === item.cartid;
                   const isExpanded = expandedGifts.includes(item.cartid || 0);
@@ -623,7 +623,7 @@ export default function CartPage() {
                                                   "http",
                                                 )
                                                   ? gc.cardimage
-                                                  : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${gc.cardimage || ""}`
+                                                  : `${IMAGE_URL || ""}${gc.cardimage || ""}`
                                               }
                                               className="w-full h-full object-cover"
                                               alt={gc.cardname || ""}

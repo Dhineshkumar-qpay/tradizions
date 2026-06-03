@@ -15,7 +15,7 @@ import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES ,IMAGE_URL} from "@/routes/api_routes";
 import { HomeProductModel } from "@/models/home_model";
 
 const translations: Record<string, any> = {
@@ -33,8 +33,7 @@ const getImageUrl = (imagePath: string) => {
   ) {
     return imagePath;
   }
-  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:3003";
-  const cleanedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+  const cleanedBase = IMAGE_URL.endsWith("/") ? IMAGE_URL.slice(0, -1) : IMAGE_URL;
   const cleanedPath = imagePath.startsWith("/")
     ? imagePath.slice(1)
     : imagePath;

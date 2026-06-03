@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import { ResponseModel, VerifyOTPModel } from "@/models/auth_model";
 
 // Import language JSON files
@@ -587,7 +587,7 @@ export default function Navbar() {
                               <div className="w-16 h-16 rounded-xl overflow-hidden relative flex-shrink-0 border border-stone-100/80 bg-stone-50 shadow-sm transition-transform duration-300 group-hover:scale-102">
                                 <img
                                   src={
-                                    process.env.NEXT_PUBLIC_IMAGE_URL +
+                                   IMAGE_URL +
                                       product.productimage || "/placeholder.jpg"
                                   }
                                   alt={product.productname}

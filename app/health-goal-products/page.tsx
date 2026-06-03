@@ -3,9 +3,17 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Heart, ShoppingCart, Activity, Search, ChevronLeft, ChevronRight, Filter } from "lucide-react";
+import {
+  Heart,
+  ShoppingCart,
+  Activity,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+} from "lucide-react";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 
 const getImageUrl = (imagePath: string) => {
   if (!imagePath) return "/placeholder.png";
@@ -16,9 +24,12 @@ const getImageUrl = (imagePath: string) => {
   ) {
     return imagePath;
   }
-  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:3003";
-  const cleanedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
-  const cleanedPath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath;
+  const cleanedBase = IMAGE_URL.endsWith("/")
+    ? IMAGE_URL.slice(0, -1)
+    : IMAGE_URL;
+  const cleanedPath = imagePath.startsWith("/")
+    ? imagePath.slice(1)
+    : imagePath;
   return `${cleanedBase}/${cleanedPath}`;
 };
 
@@ -54,13 +65,13 @@ function HealthGoalProductsContent() {
       setIsLoading(false);
       return;
     }
-    
+
     setIsLoading(true);
     try {
       // Send goalid to fetch specific products
       const payload: any = { goalid: Number(goalid) };
       const response = await API.post(API_ROUTES.HEALTHGOALPRODUCTS, payload);
-      
+
       if (response.data && response.data.success) {
         setProducts(response.data.products || response.data.data || []);
       } else if (response.data && Array.isArray(response.data.data)) {
@@ -105,12 +116,17 @@ function HealthGoalProductsContent() {
   };
 
   const filteredProducts = products.filter((p) => {
-    const nameMatch = (p.productname || p.name || "").toLowerCase().includes(searchQuery.toLowerCase());
+    const nameMatch = (p.productname || p.name || "")
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
     return nameMatch;
   });
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const paginatedProducts = filteredProducts.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE,
+  );
 
   return (
     <main className="min-h-screen bg-[#fafaf9] pt-16">
@@ -162,12 +178,23 @@ function HealthGoalProductsContent() {
           ) : paginatedProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-4 gap-6 gap-y-12">
               {paginatedProducts.map((product) => {
-                const id = product.productid !== undefined ? product.productid : product.id;
+                const id =
+                  product.productid !== undefined
+                    ? product.productid
+                    : product.id;
                 const name = product.productname || product.name;
                 const price = product.sellingprice || product.price || 0;
-                const originalPrice = product.price !== undefined && product.sellingprice !== undefined && product.price > product.sellingprice ? product.price : null;
-                const image = product.productimage ? getImageUrl(product.productimage) : product.image || "/placeholder.png";
-                const isFav = id !== undefined && favouriteProductIds.includes(id);
+                const originalPrice =
+                  product.price !== undefined &&
+                  product.sellingprice !== undefined &&
+                  product.price > product.sellingprice
+                    ? product.price
+                    : null;
+                const image = product.productimage
+                  ? getImageUrl(product.productimage)
+                  : product.image || "/placeholder.png";
+                const isFav =
+                  id !== undefined && favouriteProductIds.includes(id);
 
                 return (
                   <Link
@@ -197,9 +224,14 @@ function HealthGoalProductsContent() {
                             handleActionWithLogin(async () => {
                               if (id === undefined) return;
                               try {
-                                const response = await API.post(API_ROUTES.ADDFAVOURITE, { productid: id });
+                                const response = await API.post(
+                                  API_ROUTES.ADDFAVOURITE,
+                                  { productid: id },
+                                );
                                 if (response.status === 200) {
-                                  window.dispatchEvent(new Event("favoritesUpdated"));
+                                  window.dispatchEvent(
+                                    new Event("favoritesUpdated"),
+                                  );
                                 }
                               } catch (err) {
                                 console.error("Error adding to wishlist:", err);
@@ -208,13 +240,18 @@ function HealthGoalProductsContent() {
                           }}
                           className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-400 hover:text-red-500 transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
                         >
-                          <Heart className={`w-4 h-4 ${isFav ? "fill-red-500 text-red-500" : ""}`} />
+                          <Heart
+                            className={`w-4 h-4 ${isFav ? "fill-red-500 text-red-500" : ""}`}
+                          />
                         </button>
                       </div>
                       <div className="absolute top-3 left-3 z-20 flex flex-col gap-2">
                         {originalPrice && originalPrice > price && (
                           <span className="px-2.5 py-1 rounded-full bg-[var(--orange)] text-white text-[9px] font-black tracking-wider shadow-lg">
-                            {Math.round(((originalPrice - price) / originalPrice) * 100)}% OFF
+                            {Math.round(
+                              ((originalPrice - price) / originalPrice) * 100,
+                            )}
+                            % OFF
                           </span>
                         )}
                       </div>
@@ -227,20 +264,28 @@ function HealthGoalProductsContent() {
                           {name}
                         </h3>
                         <div className="flex items-center gap-2 mt-1">
-                          {product.weight && (product.unit || product.unitname) && (
-                            <span className="inline-block bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md text-[10px] font-bold border border-stone-200 shrink-0">
-                              {product.weight} {product.unit || product.unitname}
-                            </span>
-                          )}
+                          {product.weight &&
+                            (product.unit || product.unitname) && (
+                              <span className="inline-block bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md text-[10px] font-bold border border-stone-200 shrink-0">
+                                {product.weight}{" "}
+                                {product.unit || product.unitname}
+                              </span>
+                            )}
                           <p className="text-[11px] text-gray-400 font-medium line-clamp-1 flex-1">
-                            {product.desc || product.description || "Tradizions premium selection for health."}
+                            {product.desc ||
+                              product.description ||
+                              "Tradizions premium selection for health."}
                           </p>
                         </div>
                       </div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-xl font-black text-gray-900">₹{price.toLocaleString()}</span>
+                        <span className="text-xl font-black text-gray-900">
+                          ₹{price.toLocaleString()}
+                        </span>
                         {originalPrice && originalPrice > price && (
-                          <span className="text-xs text-gray-400 line-through font-medium">₹{originalPrice.toLocaleString()}</span>
+                          <span className="text-xs text-gray-400 line-through font-medium">
+                            ₹{originalPrice.toLocaleString()}
+                          </span>
                         )}
                       </div>
                       <div className="pt-2 mt-auto">
@@ -252,21 +297,31 @@ function HealthGoalProductsContent() {
                             if ((product.availablestock ?? 0) <= 0) return;
                             handleActionWithLogin(async () => {
                               try {
-                                const response = await API.post(API_ROUTES.ADDTOCART, {
-                                  bid: product.bid || 1,
-                                  productid: id,
-                                  giftid: null,
-                                  quantity: 1,
-                                  itemtype: "product",
-                                });
+                                const response = await API.post(
+                                  API_ROUTES.ADDTOCART,
+                                  {
+                                    bid: product.bid || 1,
+                                    productid: id,
+                                    giftid: null,
+                                    quantity: 1,
+                                    itemtype: "product",
+                                  },
+                                );
                                 if (response.status === 200) {
-                                  window.dispatchEvent(new Event("cartUpdated"));
+                                  window.dispatchEvent(
+                                    new Event("cartUpdated"),
+                                  );
                                 } else {
-                                  alert("Failed to add product to cart. Please try again.");
+                                  alert(
+                                    "Failed to add product to cart. Please try again.",
+                                  );
                                 }
                               } catch (err: any) {
                                 console.error("Error adding to cart:", err);
-                                alert(err?.response?.data?.message || "An error occurred while adding to cart.");
+                                alert(
+                                  err?.response?.data?.message ||
+                                    "An error occurred while adding to cart.",
+                                );
                               }
                             });
                           }}
@@ -276,7 +331,11 @@ function HealthGoalProductsContent() {
                               : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
                           } disabled:opacity-50`}
                         >
-                          <span>{(product.availablestock ?? 0) <= 0 ? "OUT OF STOCK" : "ADD TO CART"}</span>
+                          <span>
+                            {(product.availablestock ?? 0) <= 0
+                              ? "OUT OF STOCK"
+                              : "ADD TO CART"}
+                          </span>
                           <ShoppingCart className="w-3 h-3 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
                         </button>
                       </div>
@@ -286,33 +345,38 @@ function HealthGoalProductsContent() {
               })}
             </div>
           ) : (
-            <div className="text-center py-20 text-gray-500">No products found matching your criteria.</div>
+            <div className="text-center py-20 text-gray-500">
+              No products found matching your criteria.
+            </div>
           )}
 
           {/* PAGINATION */}
-          {paginatedProducts.length > 0 && filteredProducts.length > ITEMS_PER_PAGE && (
-            <div className="flex items-center justify-center gap-3 pt-16">
-              <button
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => prev - 1)}
-                className="px-6 py-3 rounded-full border border-gray-100 bg-white text-[10px] font-bold tracking-widest text-gray-400 hover:bg-gray-50 disabled:opacity-30 transition-all flex items-center gap-2 cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4" /> PREVIOUS
-              </button>
-              <div className="flex items-center gap-2">
-                <button className="w-10 h-10 rounded-full font-bold text-[10px] transition-all border bg-[var(--olive)] text-white border-[var(--olive)] shadow-lg shadow-emerald-900/10">
-                  {currentPage}
+          {paginatedProducts.length > 0 &&
+            filteredProducts.length > ITEMS_PER_PAGE && (
+              <div className="flex items-center justify-center gap-3 pt-16">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((prev) => prev - 1)}
+                  className="px-6 py-3 rounded-full border border-gray-100 bg-white text-[10px] font-bold tracking-widest text-gray-400 hover:bg-gray-50 disabled:opacity-30 transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <ChevronLeft className="w-4 h-4" /> PREVIOUS
+                </button>
+                <div className="flex items-center gap-2">
+                  <button className="w-10 h-10 rounded-full font-bold text-[10px] transition-all border bg-[var(--olive)] text-white border-[var(--olive)] shadow-lg shadow-emerald-900/10">
+                    {currentPage}
+                  </button>
+                </div>
+                <button
+                  disabled={
+                    startIndex + ITEMS_PER_PAGE >= filteredProducts.length
+                  }
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                  className="px-6 py-3 rounded-full border border-gray-100 bg-white text-[10px] font-bold tracking-widest text-gray-400 hover:bg-gray-50 disabled:opacity-30 transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  NEXT <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
-              <button
-                disabled={startIndex + ITEMS_PER_PAGE >= filteredProducts.length}
-                onClick={() => setCurrentPage((prev) => prev + 1)}
-                className="px-6 py-3 rounded-full border border-gray-100 bg-white text-[10px] font-bold tracking-widest text-gray-400 hover:bg-gray-50 disabled:opacity-30 transition-all flex items-center gap-2 cursor-pointer"
-              >
-                NEXT <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          )}
+            )}
         </div>
       </div>
     </main>
@@ -321,7 +385,13 @@ function HealthGoalProductsContent() {
 
 export default function HealthGoalProductsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin"></div></div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="w-8 h-8 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      }
+    >
       <HealthGoalProductsContent />
     </Suspense>
   );

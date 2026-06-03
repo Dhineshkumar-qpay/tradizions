@@ -22,7 +22,7 @@ import {
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
@@ -258,7 +258,7 @@ function OrderDetailContent() {
             totalquantitykg: item.totalquantitykg,
             image: item.product?.productimage?.startsWith("http")
               ? item.product.productimage
-              : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.product?.productimage}`,
+              : `${IMAGE_URL || ""}${item.product?.productimage}`,
           })),
           billing: {
             subtotal: orderData.items.reduce(
@@ -627,7 +627,7 @@ function OrderDetailContent() {
                           src={
                             item.giftcard.cardimage?.startsWith("http")
                               ? item.giftcard.cardimage
-                              : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${item.giftcard.cardimage}`
+                              : `${IMAGE_URL || ""}${item.giftcard.cardimage}`
                           }
                           alt={item.giftcard.cardname}
                           className="w-full h-full object-cover"

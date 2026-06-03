@@ -26,7 +26,7 @@ import hi from "@/languages/hi.json";
 import { GiftDetailModel, GiftCardsData } from "@/models/product_detail_model";
 import { useParams, useRouter } from "next/navigation";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import { formatDistanceToNow } from "date-fns";
 import { Upload } from "lucide-react";
 
@@ -45,7 +45,7 @@ const getImageUrl = (imagePath: string) => {
   ) {
     return imagePath;
   }
-  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL + imagePath;
+  const baseUrl = IMAGE_URL + imagePath;
   return baseUrl;
 };
 

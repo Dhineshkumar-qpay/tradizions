@@ -39,7 +39,7 @@ import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import {
   HomeProductModel,
   ReviewModel,
@@ -105,8 +105,7 @@ const getImageUrl = (imagePath: string) => {
     return imagePath;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:3003";
-  const cleanedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+  const cleanedBase = IMAGE_URL.endsWith("/") ? IMAGE_URL.slice(0, -1) : IMAGE_URL;
   const cleanedPath = imagePath.startsWith("/")
     ? imagePath.slice(1)
     : imagePath;
@@ -281,8 +280,14 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
-      <HeroSection t={t} />
+    <>
+      <title>Tradizions | Premium Organic Millets & Traditional Wellness</title>
+      <meta name="description" content="Discover premium organic millets, cold-pressed oils, and authentic traditional wellness products. Sourced directly from ethical organic farmers." />
+      <meta property="og:title" content="Tradizions | Premium Organic Millets & Traditional Wellness" />
+      <meta property="og:description" content="Discover premium organic millets, cold-pressed oils, and authentic traditional wellness products. Sourced directly from ethical organic farmers." />
+      <meta property="og:image" content="/home-banner.png" />
+      <div className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
+        <HeroSection t={t} />
 
       {/* Brand Promise Section */}
       <section className="py-8 md:py-10 bg-white relative overflow-hidden border-b border-stone-50">
@@ -313,7 +318,8 @@ export default function Home() {
       <CertificationsSection />
       {/* <VideoTestimonialsSection /> */}
       <SustainabilityAndPackagingSection />
-    </div>
+      </div>
+    </>
   );
 }
 
@@ -510,8 +516,7 @@ const getCategoryImageUrl = (imagePath: string) => {
     return imagePath;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:3003";
-  const cleanedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+  const cleanedBase = IMAGE_URL.endsWith("/") ? IMAGE_URL.slice(0, -1) : IMAGE_URL;
   const cleanedPath = imagePath.startsWith("/")
     ? imagePath.slice(1)
     : imagePath;
@@ -1848,7 +1853,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         <div className="h-[60px] w-full relative mb-3 mt-4 bg-white rounded-lg overflow-hidden flex items-center justify-center">
                           <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 opacity-50"></div>
                           <img
-                            src={`${process.env.NEXT_PUBLIC_IMAGE_URL ?? ""}${product.productimage ?? ""}`}
+                            src={`${IMAGE_URL ?? ""}${product.productimage ?? ""}`}
                             alt={product.productname ?? "product image"}
                             className="object-contain mix-blend-multiply opacity-80 group-hover:scale-110 transition-transform duration-500 w-full h-full absolute inset-0 p-1"
                           />
@@ -1954,7 +1959,7 @@ function NutritionPlanner({ t }: { t: any }) {
                           <div className="flex items-center gap-4">
                             <div className="w-12 h-12 relative rounded-xl bg-stone-50 border border-stone-100 overflow-hidden flex-shrink-0">
                               <img
-                                src={`${process.env.NEXT_PUBLIC_IMAGE_URL ?? ""}${product.productimage ?? ""}`}
+                                src={`${IMAGE_URL ?? ""}${product.productimage ?? ""}`}
                                 alt={product.productname || ""}
                                 className="object-cover p-1"
                               />

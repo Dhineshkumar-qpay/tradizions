@@ -20,7 +20,7 @@ import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
-import { API_ROUTES } from "@/routes/api_routes";
+import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import { ShopProductModel, Data, Product } from "@/models/shop_product_model";
 
 const translations: Record<string, any> = {
@@ -308,7 +308,7 @@ export default function ShopPage() {
       image: p.productimage
         ? p.productimage.startsWith("http")
           ? p.productimage
-          : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${p.productimage}`
+          : `${IMAGE_URL || ""}${p.productimage}`
         : "/placeholder.png",
       price: displayPrice,
       originalPrice,
