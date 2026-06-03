@@ -1209,7 +1209,7 @@ export default function ProfilePage() {
                           Total Amount
                         </p>
                         <p className="text-xl font-black text-stone-900">
-                          ₹{order.totalamount?.toLocaleString()}
+                          ₹{order.totalamount}
                         </p>
                       </div>
                       <div className="flex flex-col items-end gap-2">

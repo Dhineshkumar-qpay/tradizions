@@ -152,7 +152,7 @@ export default function GiftDetailPage() {
 
   const router = useRouter();
 
-  const handleCheckoutWithGiftCard = async () => {
+  const processCheckout = async () => {
     if (!gift) return;
     setIsAddingToCart(true);
     try {
@@ -187,6 +187,14 @@ export default function GiftDetailPage() {
       );
     } finally {
       setIsAddingToCart(false);
+    }
+  };
+
+  const handleCheckoutWithGiftCard = () => {
+    if (selectedGiftCardId) {
+      setShowFullPreview(true);
+    } else {
+      processCheckout();
     }
   };
 
@@ -319,6 +327,7 @@ export default function GiftDetailPage() {
   const [giftMessage, setGiftMessage] = useState("");
   const [senderName, setSenderName] = useState("");
 
+  const [showFullPreview, setShowFullPreview] = useState(false);
   const [isUploadingGiftCard, setIsUploadingGiftCard] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -339,7 +348,9 @@ export default function GiftDetailPage() {
     }
   }, [gift]);
 
-  const handleUploadGiftCard = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadGiftCard = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -348,11 +359,15 @@ export default function GiftDetailPage() {
       const formData = new FormData();
       formData.append("cardimage", file);
 
-      const response = await API.post(API_ROUTES.UPLOADGIFTCARDIMAGE, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const response = await API.post(
+        API_ROUTES.UPLOADGIFTCARDIMAGE,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
+      );
 
       if (response.status === 200 && response.data?.data?.giftcardid) {
         const newCardId = response.data.data.giftcardid;
@@ -371,7 +386,9 @@ export default function GiftDetailPage() {
         setSelectedGiftCardId(newCardId);
         if (window.innerWidth < 1024) {
           setTimeout(() => {
-            document.getElementById("step-2-preview")?.scrollIntoView({ behavior: "smooth" });
+            document
+              .getElementById("step-2-preview")
+              ?.scrollIntoView({ behavior: "smooth" });
           }, 100);
         }
       } else {
@@ -564,7 +581,7 @@ export default function GiftDetailPage() {
             )}
 
             <div className="flex items-end gap-4 mb-8">
-              {gift.giftsellingprice === 0.00 ||
+              {gift.giftsellingprice === 0.0 ||
                 gift.giftsellingprice == undefined ? (
                 <>
                   <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
@@ -855,16 +872,22 @@ export default function GiftDetailPage() {
         {showGiftDialog && (
           <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 bg-black/70 backdrop-blur-md animate-fade-in">
             <div className="bg-white w-full max-w-5xl rounded-xl shadow-[0_32px_80px_-15px_rgba(0,0,0,0.35)] relative flex flex-col max-h-[92vh] overflow-hidden">
-
               {/* Modal Header */}
               <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 shrink-0">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-2xl bg-[var(--olive)]/10 flex items-center justify-center border border-[var(--olive)]/20">
-                    <Gift className="w-5 h-5 text-[var(--olive)]" strokeWidth={1.5} />
+                    <Gift
+                      className="w-5 h-5 text-[var(--olive)]"
+                      strokeWidth={1.5}
+                    />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-gray-900 tracking-tight leading-none">Personalise Your Gift</h3>
-                    <p className="text-[11px] text-gray-400 font-medium mt-0.5">Choose a card and add your message</p>
+                    <h3 className="text-lg font-black text-gray-900 tracking-tight leading-none">
+                      Personalise Your Gift
+                    </h3>
+                    <p className="text-[11px] text-gray-400 font-medium mt-0.5">
+                      Choose a card and add your message
+                    </p>
                   </div>
                 </div>
                 <button
@@ -877,7 +900,6 @@ export default function GiftDetailPage() {
 
               {/* Modal Body */}
               <div className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden min-h-0">
-
                 {/* ─── Left: Card Picker ─── */}
                 <div className="flex-1 lg:overflow-y-auto p-4 sm:p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-gray-100">
                   <div className="flex items-center justify-between mb-5">
@@ -930,7 +952,9 @@ export default function GiftDetailPage() {
                             setSelectedGiftCardId(card.giftcardid || null);
                             if (window.innerWidth < 1024) {
                               setTimeout(() => {
-                                document.getElementById("step-2-preview")?.scrollIntoView({ behavior: "smooth" });
+                                document
+                                  .getElementById("step-2-preview")
+                                  ?.scrollIntoView({ behavior: "smooth" });
                               }, 100);
                             }
                           }}
@@ -941,8 +965,15 @@ export default function GiftDetailPage() {
                             }`}
                         >
                           {/* Selection badge */}
-                          <div className={`absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center border-2 transition-all ${isSelected ? "border-[var(--olive)] bg-[var(--olive)]" : "border-gray-300 bg-white"}`}>
-                            {isSelected && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
+                          <div
+                            className={`absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center border-2 transition-all ${isSelected ? "border-[var(--olive)] bg-[var(--olive)]" : "border-gray-300 bg-white"}`}
+                          >
+                            {isSelected && (
+                              <Check
+                                className="w-3 h-3 text-white"
+                                strokeWidth={3}
+                              />
+                            )}
                           </div>
 
                           {/* Card Image */}
@@ -954,12 +985,17 @@ export default function GiftDetailPage() {
                                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                               />
                             ) : (
-                              <Gift className="w-8 h-8 text-gray-300" strokeWidth={1.5} />
+                              <Gift
+                                className="w-8 h-8 text-gray-300"
+                                strokeWidth={1.5}
+                              />
                             )}
                           </div>
 
                           {/* Card Name */}
-                          <p className={`text-[11px] font-bold leading-tight line-clamp-2 w-full ${isSelected ? "text-[var(--olive)]" : "text-gray-600"}`}>
+                          <p
+                            className={`text-[11px] font-bold leading-tight line-clamp-2 w-full ${isSelected ? "text-[var(--olive)]" : "text-gray-600"}`}
+                          >
                             {card.cardname}
                           </p>
                         </button>
@@ -969,8 +1005,10 @@ export default function GiftDetailPage() {
                 </div>
 
                 {/* ─── Right: Preview + Message ─── */}
-                <div id="step-2-preview" className="w-full lg:w-[340px] shrink-0 flex flex-col gap-5 sm:gap-6 p-4 sm:p-6 lg:p-8 lg:overflow-y-auto">
-
+                <div
+                  id="step-2-preview"
+                  className="w-full lg:w-[340px] shrink-0 flex flex-col gap-5 sm:gap-6 p-4 sm:p-6 lg:p-8 lg:overflow-y-auto"
+                >
                   {/* Step Label */}
                   <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest shrink-0">
                     Step 2 — Preview & Message
@@ -978,57 +1016,75 @@ export default function GiftDetailPage() {
 
                   {/* Live Preview Card */}
                   <div className="relative w-full aspect-[3/2] rounded-2xl overflow-hidden border border-gray-200 bg-gradient-to-br from-gray-100 to-gray-200 shadow-md flex items-center justify-center shrink-0">
-                    {selectedGiftCardId ? (() => {
-                      const sel = giftCards.find(c => c.giftcardid === selectedGiftCardId);
-                      return sel?.cardimage ? (
-                        <img
-                          src={getImageUrl(sel.cardimage)}
-                          alt={sel.cardname}
-                          className="absolute inset-0 w-full h-full object-contain"
-                        />
-                      ) : (
-                        <Gift className="w-14 h-14 text-gray-300" strokeWidth={1} />
-                      );
-                    })() : (
+                    {selectedGiftCardId ? (
+                      (() => {
+                        const sel = giftCards.find(
+                          (c) => c.giftcardid === selectedGiftCardId,
+                        );
+                        return sel?.cardimage ? (
+                          <img
+                            src={getImageUrl(sel.cardimage)}
+                            alt={sel.cardname}
+                            className="absolute inset-0 w-full h-full object-contain"
+                          />
+                        ) : (
+                          <Gift
+                            className="w-14 h-14 text-gray-300"
+                            strokeWidth={1}
+                          />
+                        );
+                      })()
+                    ) : (
                       <div className="flex flex-col items-center gap-2 text-gray-300 select-none">
                         <Gift className="w-12 h-12" strokeWidth={1} />
-                        <p className="text-[10px] font-bold uppercase tracking-widest">No card selected</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest">
+                          No card selected
+                        </p>
                       </div>
                     )}
 
                     {/* Message + Sender overlay – centered on card image */}
-                    {selectedGiftCardId && (giftMessage.trim() || senderName.trim()) && (
-                      <div className="absolute inset-0 flex items-center justify-center px-5 py-4 pointer-events-none">
-                        <div className="bg-black/35 backdrop-blur-[2px] rounded-xl px-4 py-3 w-full flex flex-col items-center gap-1.5 overflow-hidden">
-                          {giftMessage.trim() && (
-                            <p className="text-white text-center text-[13px] font-semibold leading-snug drop-shadow break-words whitespace-pre-wrap w-full">
-                              {giftMessage}
-                            </p>
-                          )}
-                          {senderName.trim() && (
-                            <p className="text-white/90 text-center text-[11px] font-bold italic leading-snug drop-shadow break-words w-full">
-                              By {senderName}
-                            </p>
-                          )}
+                    {selectedGiftCardId &&
+                      (giftMessage.trim() || senderName.trim()) && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-4">
+                          <div className="w-[60%] sm:w-[50%] flex flex-col items-center justify-center gap-1">
+                            {giftMessage.trim() && (
+                              <p className="text-[var(--olive)] text-center text-[9px] sm:text-[10px] font-bold leading-snug drop-shadow-sm break-words whitespace-pre-wrap w-full">
+                                {giftMessage}
+                              </p>
+                            )}
+                            {senderName.trim() && (
+                              <p className="text-orange-500 text-center text-[9px] sm:text-[10px] font-black italic leading-snug drop-shadow-sm break-words w-full">
+                                By {senderName}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
                     {/* Bottom gradient ribbon with name */}
-                    {selectedGiftCardId && (() => {
-                      const sel = giftCards.find(c => c.giftcardid === selectedGiftCardId);
-                      return sel ? (
-                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pt-8 pb-3 px-4">
-                          <p className="text-white text-[10px] font-black uppercase tracking-widest truncate">{sel.cardname}</p>
-                        </div>
-                      ) : null;
-                    })()}
+                    {selectedGiftCardId &&
+                      (() => {
+                        const sel = giftCards.find(
+                          (c) => c.giftcardid === selectedGiftCardId,
+                        );
+                        return sel ? (
+                          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pt-8 pb-3 px-4">
+                            <p className="text-white text-[10px] font-black uppercase tracking-widest truncate">
+                              {sel.cardname}
+                            </p>
+                          </div>
+                        ) : null;
+                      })()}
                   </div>
 
                   {/* Message textarea */}
                   <div className="flex flex-col gap-2">
                     <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
-                      Your Message <span className="normal-case font-normal text-gray-300">(optional)</span>
+                      Your Message{" "}
+                      <span className="normal-case font-normal text-gray-300">
+                        (optional)
+                      </span>
                     </label>
                     <textarea
                       rows={4}
@@ -1038,13 +1094,18 @@ export default function GiftDetailPage() {
                       maxLength={200}
                       className="w-full px-4 py-3 rounded-xl bg-[#faf9f6] border border-gray-200 focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none text-sm font-medium text-gray-800 placeholder:text-gray-300 resize-none transition-all"
                     />
-                    <p className="text-[10px] text-gray-300 text-right font-medium">{giftMessage.length}/200</p>
+                    <p className="text-[10px] text-gray-300 text-right font-medium">
+                      {giftMessage.length}/200
+                    </p>
                   </div>
 
                   {/* Sender Name input */}
                   <div className="flex flex-col gap-2">
                     <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
-                      Sender Name <span className="normal-case font-normal text-gray-300">(optional)</span>
+                      Sender Name{" "}
+                      <span className="normal-case font-normal text-gray-300">
+                        (optional)
+                      </span>
                     </label>
                     <input
                       type="text"
@@ -1070,6 +1131,78 @@ export default function GiftDetailPage() {
                     {isAddingToCart ? "Processing…" : "Continue to Checkout"}
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Full Screen Gift Card Preview Modal */}
+        {showFullPreview && selectedGiftCardId && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in">
+            <div className="relative w-full max-w-xl flex flex-col items-center">
+              <button
+                onClick={() => setShowFullPreview(false)}
+                className="absolute -top-12 right-0 text-white/70 hover:text-white transition-colors cursor-pointer flex items-center gap-2 font-bold text-sm"
+              >
+                <X className="w-6 h-6" /> Close Preview
+              </button>
+
+              <div className="w-full aspect-[3/2] rounded-[2rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.5)] relative bg-gray-100 flex items-center justify-center">
+                {(() => {
+                  const sel = giftCards.find(
+                    (c) => c.giftcardid === selectedGiftCardId,
+                  );
+                  return sel?.cardimage ? (
+                    <img
+                      src={getImageUrl(sel.cardimage)}
+                      alt={sel.cardname}
+                      className="absolute inset-0 w-full h-full object-contain bg-white"
+                    />
+                  ) : (
+                    <Gift className="w-20 h-20 text-gray-300" strokeWidth={1} />
+                  );
+                })()}
+
+                {(giftMessage.trim() || senderName.trim()) && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-8">
+                    <div className="w-[60%] md:w-[45%] flex flex-col items-center justify-center gap-1.5 md:gap-2">
+                      {giftMessage.trim() && (
+                        <p className="text-[var(--olive)] text-center text-xs md:text-sm font-bold leading-relaxed drop-shadow-sm break-words whitespace-pre-wrap w-full">
+                          {giftMessage}
+                        </p>
+                      )}
+                      {senderName.trim() && (
+                        <p className="text-orange-500 text-center text-[10px] md:text-xs font-black italic leading-snug drop-shadow-sm break-words w-full mt-1">
+                          By {senderName}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-8 flex gap-4 w-full max-w-md">
+                <button
+                  onClick={() => setShowFullPreview(false)}
+                  className="flex-1 py-4 rounded-2xl bg-white/10 text-white border border-white/20 font-bold text-[13px] tracking-widest hover:bg-white/20 transition-all cursor-pointer uppercase"
+                >
+                  Edit Message
+                </button>
+                <button
+                  onClick={() => {
+                    setShowFullPreview(false);
+                    processCheckout();
+                  }}
+                  disabled={isAddingToCart}
+                  className="flex-[2] py-4 rounded-2xl bg-[var(--olive)] text-white font-black text-[13px] tracking-[0.15em] shadow-lg shadow-[var(--olive)]/30 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 cursor-pointer uppercase disabled:opacity-50"
+                >
+                  {isAddingToCart ? (
+                    <div className="w-5 h-5 border-2 border-white/60 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <Zap className="w-5 h-5" />
+                  )}
+                  {isAddingToCart ? "Processing…" : "Confirm & Checkout"}
+                </button>
               </div>
             </div>
           </div>

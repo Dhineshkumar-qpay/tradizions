@@ -2826,7 +2826,7 @@ function VideoTestimonialsSection() {
         }}
       >
         <p className="text-center text-sm text-stone-500 font-medium py-12">
-          Hello Dhinesh 👋
+          Hello 👋
         </p>
       </div>
     </section>

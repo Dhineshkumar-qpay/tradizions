@@ -97,7 +97,7 @@ export default function CheckoutPage() {
       const payload = {
         addressid: 0,
         title: title || "Home",
-        fullname: name || "Dhineshkumar",
+        fullname: name ,
         mobilenumber: mobileNumber || "9025821501",
         email: addressEmail,
         addressline: addressLine,

@@ -262,11 +262,11 @@ function OrderDetailContent() {
           })),
           billing: {
             subtotal: orderData.items.reduce(
-              (acc, item) => acc + (item.totalprice ?? 0),
+              (acc, item) => acc + (parseFloat(item.totalprice?.toString() || "0") ?? 0),
               0,
             ),
             total: orderData.items.reduce(
-              (acc, item) => acc + (item.totalprice ?? 0),
+              (acc, item) => acc + (parseFloat(item.totalprice?.toString() || "0") ?? 0),
               0,
             ),
           },
@@ -690,7 +690,7 @@ function OrderDetailContent() {
                   {[
                     {
                       label: "Subtotal",
-                      val: `₹${orderInfo.billing.subtotal.toLocaleString()}`,
+                      val: `₹${orderInfo.billing.subtotal.toFixed(2).toLocaleString()}`,
                     },
                     { label: "Delivery", val: "FREE" },
                     { label: "Tax (GST)", val: "₹0" },
@@ -727,7 +727,7 @@ function OrderDetailContent() {
                     Total
                   </span>
                   <span className="text-2xl font-black text-white">
-                    ₹{orderInfo.billing.total.toLocaleString()}
+                    ₹{orderInfo.billing.total.toFixed(2).toLocaleString()}
                   </span>
                 </div>
               </div>

@@ -211,7 +211,10 @@ export default function CartPage() {
     setCartItems((prev) => {
       const updated = prev.map((item) => {
         if (item.cartid === cartid) {
-          const price = (item.sellingprice ?? 0) > 0 ? (item.sellingprice ?? 0) : (item.price ?? 0);
+          const price =
+            (item.sellingprice ?? 0) > 0
+              ? (item.sellingprice ?? 0)
+              : (item.price ?? 0);
           if (newQty <= 0) {
             setTotalAmount((t) => Math.max(0, t - price * currentQty));
           } else {
@@ -244,7 +247,9 @@ export default function CartPage() {
   const updateGiftCard = async (cartid: number, giftcardid: number) => {
     // Optimistic update
     setCartItems((prev) =>
-      prev.map((item) => (item.cartid === cartid ? { ...item, giftcardid } : item))
+      prev.map((item) =>
+        item.cartid === cartid ? { ...item, giftcardid } : item,
+      ),
     );
 
     setUpdatingCartId(cartid);
@@ -420,13 +425,25 @@ export default function CartPage() {
 
                             <div className="flex flex-col sm:flex-row sm:items-end justify-between mt-4 md:mt-6 gap-4">
                               <div>
+                                {totalPrice !==
+                                  totalPrice / (item.quantity ?? 1) && (
+                                  <p className="text-sm md:text-md font-black font-semibold text-[var(--orange)] tracking-tight my-2">
+                                    ₹
+                                    {(totalPrice / (item.quantity ?? 1))
+                                      .toFixed(2)
+                                      .toLocaleString()}{" "}
+                                  </p>
+                                )}
                                 <p className="text-xl md:text-2xl font-black text-stone-900 tracking-tight">
-                                  ₹{totalPrice.toLocaleString()}
+                                  ₹{totalPrice.toFixed(2).toLocaleString()}
                                 </p>
                                 {hasDiscount && (
                                   <div className="flex items-center gap-2 mt-1">
                                     <p className="text-xs text-stone-400 line-through">
-                                      ₹{originalTotal.toLocaleString()}
+                                      ₹
+                                      {originalTotal
+                                        .toFixed(2)
+                                        .toLocaleString()}
                                     </p>
                                     <span className="text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-md">
                                       SAVE ₹
@@ -575,7 +592,7 @@ export default function CartPage() {
                                         }
                                       />
                                       {uploadingGiftForCartId ===
-                                        item.cartid ? (
+                                      item.cartid ? (
                                         <div className="w-6 h-6 border-2 border-stone-300 border-t-[var(--orange)] rounded-full animate-spin" />
                                       ) : (
                                         <Upload className="w-6 h-6 text-stone-400 group-hover/upload:text-[var(--orange)] transition-colors" />
@@ -612,10 +629,10 @@ export default function CartPage() {
                                           </div>
                                           {item.giftcardid ===
                                             gc.giftcardid && (
-                                              <div className="absolute top-1.5 right-1.5 z-10 bg-[var(--olive)] rounded-full p-0.5 shadow-sm">
-                                                <Check className="w-3 h-3 text-white" />
-                                              </div>
-                                            )}
+                                            <div className="absolute top-1.5 right-1.5 z-10 bg-[var(--olive)] rounded-full p-0.5 shadow-sm">
+                                              <Check className="w-3 h-3 text-white" />
+                                            </div>
+                                          )}
                                           <div className="h-[60%] bg-stone-100 w-full relative">
                                             <img
                                               src={
@@ -769,7 +786,6 @@ export default function CartPage() {
                         if (cartItems.length > 0) {
                           setIsProceeding(true);
                           try {
-
                             const updatePromises = cartItems
                               .filter((item) => item.itemtype === "gift")
                               .map((item) =>
