@@ -8,7 +8,7 @@ import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
 import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
-import { AddressData, States, Districts } from "@/models/address_model";
+import { AddressData } from "@/models/address_model";
 import { CheckoutProduct } from "@/models/checkout_model";
 import { useRouter } from "next/navigation";
 import locationDataRaw from "../../public/location/india_states_districts.json";

@@ -1,33 +1,22 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   Leaf,
   Droplets,
-  Nut,
   CheckCircle2,
   HeartHandshake,
-  Sprout,
-  Target,
   Award,
   Users,
   ShieldCheck,
-  ChevronRight,
-  Globe,
-  Sparkles,
-  Package,
-  Soup,
   Star,
-  Video,
-  Upload,
 } from "lucide-react";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
 import { API_ROUTES } from "@/routes/api_routes";
+
 
 const translations: Record<string, any> = {
   EN: en,
@@ -212,7 +201,7 @@ export default function AboutUsPage() {
       {/* ── HERO SECTION ── */}
       <section
         ref={heroRef.ref}
-        className="relative pt-32 pb-24 lg:pt-40 lg:pb-40 overflow-hidden flex items-center justify-center bg-white"
+        className="relative pt-32 pb-32 overflow-hidden flex items-center justify-center bg-white"
       >
         {/* Abstract Background Elements */}
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-[var(--olive)]/5 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/2 pointer-events-none" />

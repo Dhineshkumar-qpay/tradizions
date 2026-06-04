@@ -357,9 +357,25 @@ export default function ProfilePage() {
       const response = await API.post(API_ROUTES.GETALLORDERS, {
         ordertype: ordertype,
       });
+      console.log(response.data);
+
       if (response.status === 200) {
         const orderModel: OrdersModel = response.data;
-        setOrders(orderModel.data || []);
+        const rawData = Array.isArray(orderModel.data)
+          ? orderModel.data
+          : (orderModel.data as any)?.orders || [];
+        const parsedOrders = rawData.map((order: any) => {
+          let parsedItems = order.items;
+          if (typeof parsedItems === "string") {
+            try {
+              parsedItems = JSON.parse(parsedItems);
+            } catch (e) {
+              parsedItems = [];
+            }
+          }
+          return { ...order, items: parsedItems };
+        });
+        setOrders(parsedOrders);
       }
     } catch (err) {
       console.error("Error fetching orders:", err);
@@ -376,7 +392,21 @@ export default function ProfilePage() {
       });
       if (response.status === 200) {
         const orderModel: OrdersModel = response.data;
-        setMonthlyOrders(orderModel.data || []);
+        const rawData = Array.isArray(orderModel.data)
+          ? orderModel.data
+          : (orderModel.data as any)?.orders || [];
+        const parsedOrders = rawData.map((order: any) => {
+          let parsedItems = order.items;
+          if (typeof parsedItems === "string") {
+            try {
+              parsedItems = JSON.parse(parsedItems);
+            } catch (e) {
+              parsedItems = [];
+            }
+          }
+          return { ...order, items: parsedItems };
+        });
+        setMonthlyOrders(parsedOrders);
       }
     } catch (err) {
       console.error("Error fetching monthly orders:", err);
@@ -411,7 +441,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn");
     if (loggedIn !== "true") {
-      router.push("/");
+      window.location.href = "/";
     } else {
       setMobile(localStorage.getItem("userMobile") || "9876543210");
       fetchProfile();
@@ -1002,7 +1032,9 @@ export default function ProfilePage() {
                               </p>
                             </div>
                             <div className="flex items-center justify-between">
-                              <div className={`inline-flex items-center px-2 py-1 rounded-md border ${getStatusStyles(order.orderstatus)}`}>
+                              <div
+                                className={`inline-flex items-center px-2 py-1 rounded-md border ${getStatusStyles(order.orderstatus)}`}
+                              >
                                 <span className="text-[9px] font-bold tracking-widest uppercase">
                                   {order.orderstatus}
                                 </span>
@@ -1109,7 +1141,9 @@ export default function ProfilePage() {
                             </p>
                           </div>
                           <div className="flex items-center justify-between">
-                            <div className={`inline-flex items-center px-2 py-1 rounded-md border ${getStatusStyles(order.orderstatus)}`}>
+                            <div
+                              className={`inline-flex items-center px-2 py-1 rounded-md border ${getStatusStyles(order.orderstatus)}`}
+                            >
                               <span className="text-[9px] font-bold tracking-widest uppercase">
                                 {order.orderstatus}
                               </span>

@@ -25,7 +25,7 @@ import { API } from "@/service/api_service";
 import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 import { ProductDetailModel } from "@/models/product_detail_model";
 import { formatDistanceToNow } from "date-fns";
-
+import { formatPrice } from "@/utils/price";
 
 type props = {
   params: { slug: string };
@@ -486,15 +486,15 @@ export default function ProductDetailPage() {
               {product.sellingprice ? (
                 <>
                   <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
-                    ₹{product.sellingprice}
+                    ₹{formatPrice(product.sellingprice)}
                   </span>
                   <span className="text-lg text-gray-400 font-medium line-through mb-1">
-                    ₹{product.price}
+                    ₹{formatPrice(product.price || 0)}
                   </span>
                 </>
               ) : (
                 <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
-                  ₹{product.price}
+                  ₹{formatPrice(product.price || 0)}
                 </span>
               )}
             </div>

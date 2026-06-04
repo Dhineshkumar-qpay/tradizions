@@ -298,7 +298,7 @@ export default function CartPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-[var(--site-bg)] pt-24 pb-32">
+      <main className="min-h-screen bg-[var(--site-bg)] pt-32 pb-32">
         {/* Top Header */}
         <div className="max-w-7xl mx-auto px-4 md:px-8 mb-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -329,27 +329,40 @@ export default function CartPage() {
               <div className="w-12 h-12 border-4 border-stone-200 border-t-[var(--olive)] rounded-full animate-spin" />
             </div>
           ) : cartItems.length === 0 ? (
-            <div className="max-w-3xl mx-auto glass rounded-3xl shadow-xl py-32 flex flex-col items-center justify-center text-center px-8 premium-card animate-scale-in">
-              <div className="w-24 h-24 rounded-[2rem] bg-stone-50 border-2 border-stone-100 flex items-center justify-center mb-8 shadow-inner relative overflow-hidden group">
-                <div className="absolute inset-0 bg-[var(--olive)]/5 group-hover:bg-[var(--olive)]/10 transition-colors" />
-                <ShoppingCart
-                  className="w-10 h-10 text-stone-300 group-hover:text-[var(--olive)] transition-colors relative z-10 animate-float"
-                  strokeWidth={1.5}
-                />
+            <div className="max-w-lg mx-auto bg-white/60 backdrop-blur-3xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[2.5rem] py-16 md:py-20 flex flex-col items-center justify-center text-center px-8 relative overflow-hidden group animate-fade-in-up">
+              {/* Decorative Background Elements */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-lg pointer-events-none">
+                <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-[var(--olive)]/10 rounded-full blur-3xl animate-pulse-glow" />
+                <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-[var(--orange)]/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: "1s" }} />
               </div>
-              <h3 className="text-3xl font-black text-stone-900 mb-3 tracking-tight">
-                Your cart is empty
+              
+              <div className="relative mb-6">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--olive)]/20 to-[var(--orange)]/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 ease-out" />
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-white to-stone-50 border border-white shadow-xl flex items-center justify-center relative z-10 group-hover:-translate-y-2 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+                  <ShoppingBag className="w-8 h-8 text-stone-300 group-hover:text-[var(--olive)] transition-colors duration-500" strokeWidth={1.5} />
+                  <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-lg border border-stone-100 animate-bounce">
+                    <ShoppingBag className="w-3.5 h-3.5 text-[var(--orange)]" />
+                  </div>
+                </div>
+              </div>
+
+              <h3 className="text-2xl md:text-3xl font-black text-stone-900 mb-3 tracking-tight">
+                Your cart is waiting!
               </h3>
-              <p className="text-stone-500 text-sm font-medium mb-10 max-w-sm leading-relaxed">
-                Looks like you haven't added anything to your cart yet. Explore
-                our top products and find something you love!
+              <p className="text-stone-500 text-sm font-medium mb-8 max-w-sm leading-relaxed">
+                Discover our handpicked selection of premium wellness products, organic millets, and beautiful gifts.
               </p>
-              <Link
-                href="/shop"
-                className="btn-standard rounded-2xl font-black text-[13px] uppercase tracking-widest shadow-lg shadow-[var(--olive)]/20 animate-pulse-glow"
-              >
-                Start Shopping <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
+
+              <div className="flex flex-col sm:flex-row gap-4 items-center justify-center relative z-10 w-full sm:w-auto">
+                <Link
+                  href="/shop"
+                  className="w-full sm:w-auto px-6 py-3 bg-[var(--olive)] hover:bg-[var(--olive-dark)] text-white rounded-full font-bold text-[12px] uppercase tracking-widest shadow-[0_8px_20px_rgba(85,107,47,0.25)] hover:shadow-[0_12px_25px_rgba(85,107,47,0.35)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+                >
+                  Explore Shop
+                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                </Link>
+                
+              </div>
             </div>
           ) : (
             <div className="flex flex-col lg:flex-row gap-10 items-start">

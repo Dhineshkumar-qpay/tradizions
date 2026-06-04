@@ -5,15 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Briefcase,
-  ChevronRight,
   Award,
-  Globe,
   Truck,
-  ShieldCheck,
-  Star,
   CheckCircle2,
   ArrowRight,
-  Gift,
   Building2,
   Users,
   ShoppingCart,

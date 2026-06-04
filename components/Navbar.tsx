@@ -304,11 +304,11 @@ export default function Navbar() {
   const displayCategories =
     apiCategories.length > 0
       ? apiCategories.map((cat, idx) => ({
-          name: cat.categoryname,
-          href: `/shop?category=${encodeURIComponent(cat.categoryname)}`,
-          desc: cat.description || "Explore premium organic products",
-          icon: iconList[idx % iconList.length],
-        }))
+        name: cat.categoryname,
+        href: `/shop?category=${encodeURIComponent(cat.categoryname)}`,
+        desc: cat.description || "Explore premium organic products",
+        icon: iconList[idx % iconList.length],
+      }))
       : staticCategories;
 
   const navItems = [
@@ -326,55 +326,68 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-40 transition-all duration-500 backdrop-blur-xl bg-white/70 border-b border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.03)] hover:bg-white/80 ">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-8">
-          {/* Logo Section */}
-          <Link href="/" className="flex-shrink-0 group">
-            <div className="relative overflow-hidden transition-transform duration-500 group-hover:scale-105">
-              <Image
-                src="/app-logo.png"
-                alt="Logo"
-                width={90}
-                height={40}
-                className="object-contain"
-              />
-            </div>
-          </Link>
+      <div className="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+        {/* Top Announcement Bar */}
+        <div className="w-full bg-[var(--olive-dark)] text-white text-[11px] md:text-[13px] font-medium py-2 text-center tracking-wide">
+          Powered By-TRADIZIONS. Freshness Delivered Daily! | Free Shipping on Orders ₹999+ | 100% Natural, No Preservatives!
+        </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center px-6 py-2 space-x-8">
+        <nav className="w-full h-[75px] bg-white border-b border-gray-100 shadow-sm px-6 lg:px-12 flex items-center justify-between pointer-events-auto relative">
+          
+          <div className="flex items-center gap-8 lg:gap-12">
+            {/* Logo Section */}
+            <div className="flex-shrink-0 z-10">
+              <Link href="/" className="block">
+                <div className="relative overflow-hidden transition-transform duration-500">
+                  <Image
+                    src="/app-logo.png"
+                    alt="Logo"
+                    width={110}
+                    height={45}
+                    className="object-contain"
+                  />
+                </div>
+              </Link>
+            </div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-6 z-0 pt-1">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`group relative text-[13px] tracking-widest font-semibold transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--orange)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
+                  className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[#1a1a1a]" : "text-[#4a4a4a] hover:text-[#1a1a1a]"}`}
                 >
                   {item.name}
-                  <span
-                    className={`absolute -bottom-1.5 left-0 h-[2px] transition-all duration-300 bg-[var(--orange)] rounded-full ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}
-                  />
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#1a1a1a]" />
+                  )}
                 </Link>
               );
             })}
 
             {/* Categories Megamenu Dropdown */}
             <div className="relative group/mega">
-              <button className="flex items-center gap-1.5 text-[13px] tracking-widest font-semibold text-gray-500 hover:text-[var(--olive)] transition-all duration-300 whitespace-nowrap">
+              <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[#4a4a4a] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
                 {t.categories}
                 <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/mega:rotate-180" />
               </button>
 
               {/* Redesigned Premium Dropdown */}
-              <div className="absolute top-full -left-4 pt-4 opacity-0 translate-y-4 pointer-events-none group-hover/mega:opacity-100 group-hover/mega:translate-y-0 group-hover/mega:pointer-events-auto transition-all duration-500">
-                <div className="w-56 bg-white/95 backdrop-blur-xl rounded-none shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#e0d4b7] p-2 space-y-1">
+              <div className="absolute top-full -left-4 pt-5 opacity-0 translate-y-2 pointer-events-none group-hover/mega:opacity-100 group-hover/mega:translate-y-0 group-hover/mega:pointer-events-auto transition-all duration-300">
+                <div className="w-56 bg-[#faf8f3] backdrop-blur-xl rounded-2xl shadow-[0_16px_48px_rgba(85,107,47,0.14)] border border-[#e8dfc8] py-2 overflow-hidden">
+                  <div className="px-4 py-2 mb-1 border-b border-[#e8dfc8]">
+                    <span className="text-[9px] font-black tracking-[0.2em] uppercase text-[var(--olive)]/60">{t.categories}</span>
+                  </div>
                   {displayCategories.map((cat) => (
                     <Link
                       key={cat.href}
                       href={cat.href}
-                      className="block px-3 py-2 text-[11px] font-bold text-gray-700 hover:bg-gray-50 hover:text-[var(--olive)] rounded-lg transition-all"
+                      className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
                     >
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
                       {cat.name}
                     </Link>
                   ))}
@@ -384,23 +397,28 @@ export default function Navbar() {
 
             {/* Gifting Dropdown */}
             <div className="relative group/gifting">
-              <button className="flex items-center gap-1.5 text-[13px] tracking-widest font-semibold text-gray-500 hover:text-[var(--olive)] transition-all duration-300 whitespace-nowrap">
+              <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[#4a4a4a] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
                 {t.gifting}
                 <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/gifting:rotate-180" />
               </button>
 
-              <div className="absolute top-full left-0 pt-4 opacity-0 translate-y-4 pointer-events-none group-hover/gifting:opacity-100 group-hover/gifting:translate-y-0 group-hover/gifting:pointer-events-auto transition-all duration-500">
-                <div className="w-44 bg-white/95 backdrop-blur-xl  shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#e0d4b7] p-2 space-y-1">
+              <div className="absolute top-full left-0 pt-5 opacity-0 translate-y-2 pointer-events-none group-hover/gifting:opacity-100 group-hover/gifting:translate-y-0 group-hover/gifting:pointer-events-auto transition-all duration-300">
+                <div className="w-48 bg-[#faf8f3] backdrop-blur-xl rounded-2xl shadow-[0_16px_48px_rgba(85,107,47,0.14)] border border-[#e8dfc8] py-2 overflow-hidden">
+                  <div className="px-4 py-2 mb-1 border-b border-[#e8dfc8]">
+                    <span className="text-[9px] font-black tracking-[0.2em] uppercase text-[var(--olive)]/60">{t.gifting}</span>
+                  </div>
                   <Link
                     href="/gifts"
-                    className="block px-3 py-2 text-[11px] font-bold text-gray-700 hover:bg-gray-50 hover:text-[var(--olive)] rounded-lg transition-all"
+                    className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
                   >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
                     {t.occasional}
                   </Link>
                   <Link
                     href="/corporate-orders"
-                    className="block px-3 py-2 text-[11px] font-bold text-gray-700 hover:bg-gray-50 hover:text-[var(--olive)] rounded-lg transition-all"
+                    className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
                   >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
                     {t.corporate}
                   </Link>
                 </div>
@@ -413,111 +431,102 @@ export default function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`group relative text-[13px] tracking-widest font-semibold transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--orange)]" : "text-gray-500 hover:text-[var(--olive)]"}`}
+                  className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[#1a1a1a]" : "text-[#4a4a4a] hover:text-[#1a1a1a]"}`}
                 >
                   {item.name}
-                  <span
-                    className={`absolute -bottom-1.5 left-0 h-[2px] transition-all duration-300 bg-[var(--orange)] rounded-full ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}
-                  />
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#1a1a1a]" />
+                  )}
                 </Link>
               );
             })}
           </div>
+          </div>
 
-          {/* Right Section */}
-          <div className="flex items-center gap-4 lg:gap-6 ml-auto">
+          {/* RIGHT: Right Section */}
+          <div className="flex items-center gap-3 lg:gap-5 flex-1 justify-end z-10">
             {/* Professional Language Selection */}
-            <div className="hidden md:block relative">
+            <div className="hidden md:block relative group/langdrop">
               <button
-                onClick={() => setIsLangOpen(!isLangOpen)}
-                onBlur={() => setTimeout(() => setIsLangOpen(false), 200)}
-                className={`flex items-center h-10 gap-2 px-4 rounded-full border transition-all duration-300 ${
-                  isLangOpen
-                    ? "bg-white border-[var(--olive)] shadow-[0_2px_15px_rgba(85,107,47,0.12)]"
-                    : "bg-white/60 border-[#e0d4b7]/60 hover:bg-white hover:border-[#e0d4b7] shadow-sm"
-                }`}
+                className="group flex items-center h-10 gap-2 px-4 rounded-full bg-white/70 backdrop-blur-md border border-[#e0d4b7] hover:border-[var(--olive)] hover:shadow-md transition-all duration-500 cursor-default"
               >
                 <Globe
-                  className={`w-4 h-4 transition-colors duration-300 ${
-                    isLangOpen ? "text-[var(--olive)]" : "text-gray-500"
-                  }`}
+                  className="w-[15px] h-[15px] text-[#6b6455] group-hover:text-[var(--olive)] transition-colors duration-300"
                 />
-                <span
-                  className={`text-[11px] font-bold tracking-widest uppercase transition-colors duration-300 ${
-                    isLangOpen ? "text-[var(--olive)]" : "text-gray-700"
-                  }`}
-                >
+                <span className="text-[11px] font-black tracking-[0.2em] uppercase text-[#4a4438] group-hover:text-[var(--olive)] transition-colors duration-300">
                   {selectedLang}
                 </span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-all duration-300 ${
-                    isLangOpen
-                      ? "rotate-180 text-[var(--olive)]"
-                      : "text-gray-400"
-                  }`}
+                  className="w-3 h-3 text-[#9e9080] group-hover:rotate-180 transition-transform duration-300"
                 />
               </button>
 
-              {isLangOpen && (
-                <div className="absolute top-full right-0 mt-2 w-36 bg-white/95 backdrop-blur-xl border border-[#e0d4b7]/50 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] z-50 overflow-hidden animate-fade-in-up">
-                  <div className="p-1.5 space-y-0.5">
+              {/* Stylish Dropdown Card */}
+              <div className="absolute top-full right-0 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover/langdrop:opacity-100 group-hover/langdrop:translate-y-0 group-hover/langdrop:pointer-events-auto transition-all duration-300 z-50">
+                <div className="w-40 bg-white/95 backdrop-blur-2xl border border-white/40 rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--olive)]/5 to-[var(--orange)]/5 pointer-events-none" />
+                  <div className="p-2 relative z-10 flex flex-col gap-1">
                     {languages.map((lang) => {
                       const isActive = selectedLang === lang.code;
                       return (
                         <button
                           key={lang.code}
                           onClick={() => handleLangChange(lang.code)}
-                          className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-[11px] font-bold tracking-wider transition-all duration-200 ${
-                            isActive
-                              ? "bg-[var(--olive)]/10 text-[var(--olive)]"
-                              : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                          }`}
+                          className={`relative w-full flex items-center justify-between px-4 py-2.5 rounded-[1rem] text-[10px] font-black tracking-widest uppercase transition-all duration-300 overflow-hidden group/item ${isActive
+                            ? "text-white shadow-md"
+                            : "text-stone-500 hover:text-[var(--olive)] hover:bg-white/80"
+                            }`}
                         >
-                          {lang.name}
                           {isActive && (
-                            <div className="w-1.5 h-1.5 rounded-full bg-[var(--olive)] shadow-[0_0_8px_rgba(85,107,47,0.6)]" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-[var(--olive)] to-[#6b853b] -z-10" />
+                          )}
+                          <span className="relative z-10">{lang.name}</span>
+                          {isActive && (
+                            <Check className="w-3.5 h-3.5 text-white relative z-10" />
                           )}
                         </button>
                       );
                     })}
                   </div>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Professional Dynamic Searchbar */}
             <div className="relative group flex items-center">
               <div
-                className={`flex items-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-full border bg-white/80 backdrop-blur-md overflow-hidden ${
-                  isSearchOpen
-                    ? "w-48 md:w-72 border-[var(--olive)] shadow-[0_4px_20px_rgba(85,107,47,0.15)] ring-4 ring-[var(--olive)]/10"
-                    : "w-10 h-10 border-[#e0d4b7] shadow-sm hover:shadow-md hover:border-[var(--olive)]/50"
-                }`}
-              >
-                <button
-                  onClick={() => setIsSearchOpen(true)}
-                  className={`flex-shrink-0 h-10 w-10 flex items-center justify-center transition-colors duration-300 ${
-                    isSearchOpen
-                      ? "text-[var(--olive)] pointer-events-none"
-                      : "text-gray-500 hover:text-[var(--olive)]"
+                className={`flex items-center transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] rounded-full bg-white/70 backdrop-blur-xl overflow-hidden shadow-sm relative group-hover:bg-white/90 ${isSearchOpen
+                  ? "w-48 md:w-80 border-transparent ring-[1.5px] ring-[var(--olive)] shadow-[0_8px_30px_rgba(85,107,47,0.2)]"
+                  : "w-10 h-10 border border-[#ddd5be] hover:border-[var(--olive)]/50 hover:shadow-md cursor-pointer"
                   }`}
+                onClick={() => {
+                  if (!isSearchOpen) setIsSearchOpen(true);
+                }}
+              >
+                {/* Search Icon */}
+                <button
+                  className={`flex-shrink-0 h-10 w-10 flex items-center justify-center transition-all duration-300 ${isSearchOpen
+                    ? "text-[var(--olive)] bg-[var(--olive)]/5"
+                    : "text-gray-500 hover:text-[var(--olive)]"
+                    }`}
                   aria-label="Search"
                 >
-                  <Search className="w-[18px] h-[18px]" />
+                  <Search className={`w-[16px] h-[16px] transition-transform duration-300 ${isSearchOpen ? "scale-110" : "scale-100 group-hover:scale-110"}`} />
                 </button>
 
+                {/* Input Field */}
                 <input
                   type="text"
-                  placeholder={t.searchPlaceholder}
+                  placeholder={t.searchPlaceholder || "Search products..."}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`w-full bg-transparent py-2 pr-2 text-[13px] font-medium text-gray-700 placeholder-gray-400 focus:outline-none transition-all duration-500 ${
-                    isSearchOpen
-                      ? "opacity-100 translate-x-0"
-                      : "opacity-0 translate-x-4 pointer-events-none"
-                  }`}
+                  className={`w-full bg-transparent py-2.5 pr-2 text-[13px] font-bold tracking-wide text-gray-800 placeholder-gray-400 focus:outline-none transition-all duration-500 ${isSearchOpen
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-10 pointer-events-none absolute"
+                    }`}
                 />
 
+                {/* Close Button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -525,20 +534,19 @@ export default function Navbar() {
                     setSearchQuery("");
                     setSuggestions([]);
                   }}
-                  className={`flex-shrink-0 h-8 w-8 mr-1 flex items-center justify-center rounded-full transition-all duration-300 hover:bg-gray-100 text-gray-400 hover:text-gray-600 ${
-                    isSearchOpen
-                      ? "opacity-100 scale-100"
-                      : "opacity-0 scale-50 pointer-events-none"
-                  }`}
+                  className={`flex-shrink-0 h-7 w-7 mr-1.5 flex items-center justify-center rounded-full bg-stone-100 transition-all duration-300 hover:bg-[var(--orange)] text-gray-500 hover:text-white ${isSearchOpen
+                    ? "opacity-100 scale-100 translate-x-0"
+                    : "opacity-0 scale-50 translate-x-4 pointer-events-none absolute right-0"
+                    }`}
                   aria-label="Close search"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-3.5 h-3.5" />
                 </button>
               </div>
 
               {/* Absolutely positioned Suggestions Dropdown */}
               {isSearchOpen && searchQuery.trim() !== "" && (
-                <div className="absolute top-full right-0 mt-2 w-72 md:w-85 bg-white/95 backdrop-blur-xl border border-[#e0d4b7] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden animate-fade-in-up">
+                <div className="absolute top-full right-0 mt-2 w-80 md:w-[420px] bg-white border border-gray-200 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.1)] z-50 overflow-hidden animate-fade-in-up">
                   {isSearching ? (
                     <div className="flex items-center justify-center py-8 text-stone-400 gap-2.5 text-xs font-semibold">
                       <Loader2 className="w-4 h-4 animate-spin text-[var(--olive)]" />
@@ -551,24 +559,25 @@ export default function Navbar() {
                   ) : (
                     <>
                       {/* Header title */}
-                      <div className="px-4 py-2.5 border-b border-stone-100 flex items-center justify-between bg-stone-50/50">
-                        <span className="text-[10px] font-black tracking-widest text-stone-400 uppercase">
-                          {t.navbar?.suggested || "Suggested Products"}
-                        </span>
-                        <span className="text-[9px] font-black text-[var(--olive)] bg-[var(--olive)]/10 px-2.5 py-0.5 rounded-full border border-[var(--olive)]/10">
-                          {suggestions.length} {t.navbar?.found || "Found"}
-                        </span>
+                      <div className="px-6 pt-5 pb-4 bg-white">
+                        <h3 className="text-xl font-normal text-gray-800">Products</h3>
                       </div>
 
                       {/* Suggestions list */}
-                      <div className="max-h-[340px] overflow-y-auto divide-y divide-stone-50 p-1.5">
+                      <div className="max-h-[420px] overflow-y-auto px-6 pb-4 flex flex-col gap-6">
                         {suggestions.slice(0, 5).map((product) => {
                           const isGift =
                             product.categoryid === 4 ||
-                            product.categoryid === 5;
+                            product.categoryid === 5 ||
+                            product.itemtype === "gift" ||
+                            (product.category && product.category.toLowerCase().includes("gift"));
                           const detailUrl = isGift
-                            ? `/gift-detail/${product.productid}`
-                            : `/product-detail/${product.productid}`;
+                            ? `/gift-detail/${product.productid}?productid=${product.productid}&bid=1`
+                            : `/product-detail/${product.productid}?productid=${product.productid}&bid=1`;
+
+                          const finalPrice = product.sellingprice === 0 || product.sellingprice == null
+                            ? product.price
+                            : product.sellingprice;
 
                           return (
                             <Link
@@ -579,75 +588,29 @@ export default function Navbar() {
                                 setSearchQuery("");
                                 setSuggestions([]);
                               }}
-                              className="flex items-center gap-3 p-2 rounded-xl hover:bg-stone-50/80 transition-all duration-300 group relative border border-transparent hover:border-stone-100"
+                              className="flex items-start gap-5 group"
                             >
-                              {/* Left line accent on hover */}
-                              <div className="absolute left-0 top-2 bottom-2 w-0.5 bg-[var(--olive)] rounded-full scale-y-0 group-hover:scale-y-100 transition-transform duration-300" />
-
-                              <div className="w-16 h-16 rounded-xl overflow-hidden relative flex-shrink-0 border border-stone-100/80 bg-stone-50 shadow-sm transition-transform duration-300 group-hover:scale-102">
+                              <div className="w-[85px] h-[85px] flex-shrink-0 bg-stone-50 flex items-center justify-center overflow-hidden border border-gray-100">
                                 <img
                                   src={
-                                   IMAGE_URL +
-                                      product.productimage || "/placeholder.jpg"
+                                    IMAGE_URL +
+                                    (product.productimage || "/placeholder.jpg")
                                   }
                                   alt={product.productname}
-                                  className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${product.stock <= 0 || product.availablestock <= 0 ? "grayscale opacity-60" : ""}`}
+                                  className={`w-full h-full object-cover mix-blend-multiply ${product.stock <= 0 || product.availablestock <= 0 ? "grayscale opacity-60" : ""}`}
                                 />
-                                {(product.stock <= 0 ||
-                                  product.availablestock <= 0) && (
-                                  <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px] z-10">
-                                    <span className="bg-red-500/90 text-white text-[7px] font-black px-1.5 py-0.5 rounded-sm tracking-wider shadow-sm text-center leading-none">
-                                      {t.navbar?.out_of_stock || "OUT OF STOCK"}
-                                    </span>
-                                  </div>
-                                )}
                               </div>
-                              <div className="flex-1 min-w-0">
-                                <h4
-                                  className={`text-xs font-bold truncate group-hover:text-[var(--olive)] transition-colors leading-snug ${product.stock <= 0 || product.availablestock <= 0 ? "text-gray-400" : "text-gray-800"}`}
-                                >
+                              
+                              <div className="flex-1 flex flex-col pt-0.5">
+                                <span className="text-[13px] text-gray-500 font-normal">
+                                  {product.brandname || product.category || "Tradizions"}
+                                </span>
+                                <h4 className="text-[15px] text-gray-800 font-normal leading-snug line-clamp-2 mt-1 group-hover:text-[var(--olive)] transition-colors">
                                   {product.productname}
                                 </h4>
-                                <div className="flex items-center gap-2 mt-1 leading-none">
-                                  <span
-                                    className={`text-xs font-black ${product.stock <= 0 || product.availablestock <= 0 ? "text-gray-400" : "text-gray-900"}`}
-                                  >
-                                    ₹
-                                    {product.sellingprice === 0 ||
-                                    product.sellingprice == null
-                                      ? product.price.toLocaleString()
-                                      : product.sellingprice?.toLocaleString()}
-                                  </span>
-                                  {product.price != null &&
-                                    product.sellingprice != null &&
-                                    product.price > 0 &&
-                                    product.sellingprice > 0 &&
-                                    product.price > product.sellingprice && (
-                                      <>
-                                        <span className="text-[10px] font-bold text-stone-300 line-through">
-                                          ₹{product.price.toLocaleString()}
-                                        </span>
-
-                                        {!(
-                                          product.stock <= 0 ||
-                                          product.availablestock <= 0
-                                        ) && (
-                                          <span className="text-[8px] font-black bg-[var(--orange)] text-white px-1.5 py-0.5 rounded-sm tracking-wider shadow-sm">
-                                            {Math.round(
-                                              ((product.price -
-                                                product.sellingprice) /
-                                                product.price) *
-                                                100,
-                                            )}
-                                            % {t.navbar?.off || "OFF"}
-                                          </span>
-                                        )}
-                                      </>
-                                    )}
-                                </div>
-                              </div>
-                              <div className="w-7 h-7 rounded-full bg-stone-50 flex items-center justify-center text-stone-400 opacity-0 group-hover:opacity-100 group-hover:bg-[var(--olive)]/10 group-hover:text-[var(--olive)] transition-all duration-300">
-                                <ChevronRight className="w-4 h-4" />
+                                <span className="text-[14px] text-gray-800 font-normal mt-1.5">
+                                  Price - ₹{finalPrice?.toLocaleString()}
+                                </span>
                               </div>
                             </Link>
                           );
@@ -655,17 +618,16 @@ export default function Navbar() {
                       </div>
 
                       {/* Footer shortcuts */}
-                      <div className="px-4 py-2 border-t border-stone-100 bg-stone-50/50 flex items-center justify-center">
+                      <div className="px-6 py-5 border-t border-gray-200 bg-white flex justify-center">
                         <Link
                           href={`/shop?search=${encodeURIComponent(searchQuery)}`}
                           onClick={() => {
                             setIsSearchOpen(false);
                             setSuggestions([]);
                           }}
-                          className="text-[10px] font-black text-[var(--olive)] hover:text-[var(--orange)] tracking-widest uppercase flex items-center gap-1.5 transition-colors duration-300"
+                          className="text-[15px] text-gray-800 hover:text-[var(--olive)] transition-colors underline underline-offset-4"
                         >
-                          {t.navbar?.view_all || "View all results in shop"}
-                          <ChevronRight className="w-3.5 h-3.5" />
+                          View all results
                         </Link>
                       </div>
                     </>
@@ -675,15 +637,17 @@ export default function Navbar() {
             </div>
 
             <Link href="/cart" className="relative">
-              <div className="relative group p-2.5 rounded-full hover:bg-gray-100 transition-colors cursor-pointer block">
-                <ShoppingCart className="w-5 h-5 text-[var(--olive)] group-hover:text-[var(--orange)] transition-colors duration-300" />
-                <span className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--orange)] text-[10px] font-bold text-white ring-2 ring-white">
-                  {cartCount}
-                </span>
+              <div className="relative group p-2.5 rounded-full border border-[#e8dfc8] bg-white/70 hover:bg-[var(--olive)] hover:border-[var(--olive)] transition-all duration-300 cursor-pointer block shadow-sm">
+                <ShoppingCart className="w-[18px] h-[18px] text-[var(--olive)] group-hover:text-white transition-colors duration-300" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--orange)] text-[9px] font-black text-white ring-2 ring-[#faf8f3]">
+                    {cartCount}
+                  </span>
+                )}
               </div>
             </Link>
 
-            <div className="relative hidden sm:block">
+            <div className="relative">
               <button
                 onClick={() => {
                   if (isLoggedIn) {
@@ -693,7 +657,7 @@ export default function Navbar() {
                     setIsDrawerOpen(true);
                   }
                 }}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 border border-gray-100 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white transition-all duration-500 shadow-[0_4px_10px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_20px_rgba(85,107,47,0.2)]"
+                className="flex items-center justify-center w-9 h-9 rounded-full border border-[#e8dfc8] bg-white/70 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300 shadow-sm hover:shadow-[0_6px_20px_rgba(85,107,47,0.25)]"
               >
                 <User className="w-5 h-5" />
               </button>
@@ -701,18 +665,18 @@ export default function Navbar() {
 
             <button
               onClick={() => setOpen(!open)}
-              className="lg:hidden p-2.5 rounded-full bg-gray-50 text-[var(--olive)] hover:bg-gray-100 transition-colors"
+              className="lg:hidden p-2.5 rounded-full border border-[#e8dfc8] bg-white/70 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300 shadow-sm"
             >
-              {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
-        </div>
+        </nav>
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${open ? "max-h-screen border-t border-gray-100 shadow-2xl" : "max-h-0"}`}
+          className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out pointer-events-auto mx-4 md:mx-8 ${open ? "max-h-screen shadow-xl mt-2 rounded-[2rem] border border-stone-200/80" : "max-h-0"}`}
         >
-          <div className="bg-white/95 backdrop-blur-md px-6 py-10 overflow-y-auto max-h-[85vh] space-y-6">
+          <div className="bg-[#faf8f3]/98 backdrop-blur-md px-6 py-8 overflow-y-auto max-h-[85vh] space-y-5">
             <div className="grid grid-cols-1 gap-4">
               <Link
                 href="/"
@@ -809,11 +773,10 @@ export default function Navbar() {
                     <button
                       key={lang.code}
                       onClick={() => handleLangChange(lang.code)}
-                      className={`flex-1 py-3 rounded-xl border text-[11px] font-bold tracking-widest transition-all ${
-                        selectedLang === lang.code
-                          ? "bg-[var(--olive)] text-white border-[var(--olive)] shadow-lg shadow-[var(--olive)]/20"
-                          : "bg-white text-gray-500 border-[#e0d4b7] hover:bg-gray-50"
-                      }`}
+                      className={`flex-1 py-3 rounded-xl border text-[11px] font-bold tracking-widest transition-all ${selectedLang === lang.code
+                        ? "bg-[var(--olive)] text-white border-[var(--olive)] shadow-lg shadow-[var(--olive)]/20"
+                        : "bg-white text-gray-500 border-[#e0d4b7] hover:bg-gray-50"
+                        }`}
                     >
                       {lang.name}
                     </button>
@@ -838,7 +801,7 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-      </nav>
+      </div>
 
       {/* --- Overlay --- */}
       {isDrawerOpen && (
@@ -850,9 +813,8 @@ export default function Navbar() {
 
       {/* --- Right Side Drawer --- */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white z-[70] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform ${
-          isDrawerOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white z-[70] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform ${isDrawerOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex flex-col h-full relative overflow-hidden">
           {/* Close button */}

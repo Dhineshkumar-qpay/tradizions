@@ -1,10 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
-  Star,
   ShoppingCart,
   Heart,
   ChevronLeft,
@@ -19,7 +17,7 @@ import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
 import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
-import { ShopProductModel, Data, Product } from "@/models/shop_product_model";
+import { ShopProductModel, Product } from "@/models/shop_product_model";
 
 const translations: Record<string, any> = {
   EN: en,

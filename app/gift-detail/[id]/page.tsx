@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   Star,
   Gift,
-  Truck,
   ShoppingCart,
   Heart,
   Share2,
@@ -16,7 +14,6 @@ import {
   Sparkles,
   X,
   Zap,
-  ShieldCheck,
   Check,
 } from "lucide-react";
 import { useEffect, useRef } from "react";
@@ -1047,9 +1044,9 @@ export default function GiftDetailPage() {
                     {selectedGiftCardId &&
                       (giftMessage.trim() || senderName.trim()) && (
                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-4">
-                          <div className="w-[60%] sm:w-[50%] flex flex-col items-center justify-center gap-1">
+                          <div className="w-[60%] sm:w-[50%] flex flex-col items-center justify-center gap-1 mt-12">
                             {giftMessage.trim() && (
-                              <p className="text-[var(--olive)] text-center text-[9px] sm:text-[10px] font-bold leading-snug drop-shadow-sm break-words whitespace-pre-wrap w-full">
+                              <p className="text-[var(--olive)] text-center text-[10px] font-bold leading-snug drop-shadow-sm break-words whitespace-pre-wrap w-full">
                                 {giftMessage}
                               </p>
                             )}
@@ -1165,9 +1162,9 @@ export default function GiftDetailPage() {
 
                 {(giftMessage.trim() || senderName.trim()) && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-8">
-                    <div className="w-[60%] md:w-[45%] flex flex-col items-center justify-center gap-1.5 md:gap-2">
+                    <div className="w-[60%] md:w-[45%] flex flex-col items-center justify-center gap-1.5 md:gap-2 mt-20 md:mt-28">
                       {giftMessage.trim() && (
-                        <p className="text-[var(--olive)] text-center text-xs md:text-sm font-bold leading-relaxed drop-shadow-sm break-words whitespace-pre-wrap w-full">
+                        <p className="text-[var(--olive)] text-center text-[10px] font-bold leading-relaxed drop-shadow-sm break-words whitespace-pre-wrap w-full">
                           {giftMessage}
                         </p>
                       )}

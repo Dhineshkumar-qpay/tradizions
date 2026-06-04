@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
   Heart,
   ShoppingCart,
-  ArrowRight,
   Search,
   ChevronLeft,
   ChevronRight,
@@ -16,7 +15,6 @@ import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
 import { API_ROUTES ,IMAGE_URL} from "@/routes/api_routes";
-import { HomeProductModel } from "@/models/home_model";
 
 const translations: Record<string, any> = {
   EN: en,

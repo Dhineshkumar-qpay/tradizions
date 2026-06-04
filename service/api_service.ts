@@ -26,7 +26,6 @@ API.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       if (typeof window !== "undefined") {
         localStorage.removeItem("token");
-        window.location.href = "/login";
       } else {
         console.error("Unauthorized access - token may be invalid or expired.");
       }

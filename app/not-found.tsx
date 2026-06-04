@@ -101,15 +101,22 @@ export default function NotFound() {
         <div className="pt-12">
           <div className="h-px w-12 bg-gray-200 mx-auto mb-8" />
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-3">
-            {["Shop All", "Millets", "Wellness Gifts", "Pooja"].map((item) => (
-              <Link
-                key={item}
-                href={`/${item.toLowerCase().replace(" ", "-")}`}
-                className="text-[11px] font-bold text-gray-400 hover:text-[var(--orange)] tracking-widest uppercase transition-colors"
-              >
-                {item}
-              </Link>
-            ))}
+            {["Shop All", "Millets", "Wellness Gifts", "Pooja Needs"].map((item) => {
+              let link = "/";
+              if (item === "Shop All") link = "/shop";
+              if (item === "Millets") link = "/shop?category=Millets";
+              if (item === "Wellness Gifts") link = "/gifts";
+              if (item === "Pooja Needs") link = "/shop?category=Pooja%20Needs";
+              return (
+                <Link
+                  key={item}
+                  href={link}
+                  className="text-[11px] font-bold text-gray-400 hover:text-[var(--orange)] tracking-widest uppercase transition-colors"
+                >
+                  {item}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

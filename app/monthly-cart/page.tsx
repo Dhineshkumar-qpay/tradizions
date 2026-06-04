@@ -6,8 +6,8 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { API } from "@/service/api_service";
 import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
-import { AddressData, States, Districts } from "@/models/address_model";
-import { MonthlyCartModel, MonthlyCartData } from "@/models/calculator_model";
+import { AddressData } from "@/models/address_model";
+import { MonthlyCartData } from "@/models/calculator_model";
 import locationDataRaw from "../../public/location/india_states_districts.json";
 import SearchableDropdown from "@/components/SearchableDropdown";
 
@@ -114,14 +114,14 @@ export default function MonthlyCartPage() {
         const data = response.data?.data || null;
         setCartData(data);
         if (!data || !data.items || data.items.length === 0) {
-          router.push("/");
+          window.location.href = "/";
         }
       } else {
-        router.push("/");
+        window.location.href = "/";
       }
     } catch (err) {
       console.error("Error fetching cart:", err);
-      router.push("/");
+      window.location.href = "/";
     }
   };
 

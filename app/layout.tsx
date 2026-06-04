@@ -18,9 +18,24 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Tradizions — Premium Organic Millets, Dry Fruits & Traditional Gifts",
+  title: {
+    default: "Tradizions - Millets, Malts, Dry Fruits, Gift Hampers",
+    template: "%s | Tradizions",
+  },
   description:
     "Discover the richness of ancient Indian millets, wholesome malts, premium dry fruits, and artisanal gift hampers. Rooted in tradition, crafted for wellness.",
+  twitter: {
+    card: "summary_large_image",
+    title: "Tradizions - Millets, Malts, Dry Fruits, Gift Hampers",
+    description:
+      "Discover the richness of ancient Indian millets, wholesome malts, premium dry fruits, and artisanal gift hampers. Rooted in tradition, crafted for wellness.",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        alt: "Tradizions - Millets, Malts, Dry Fruits, Gift Hampers",
+      },
+    ],
+  },
   keywords: [
     "Tradizions",
     "Tradizions Millets",

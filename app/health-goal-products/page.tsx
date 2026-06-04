@@ -6,11 +6,9 @@ import { useSearchParams } from "next/navigation";
 import {
   Heart,
   ShoppingCart,
-  Activity,
   Search,
   ChevronLeft,
   ChevronRight,
-  Filter,
 } from "lucide-react";
 import { API } from "@/service/api_service";
 import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";

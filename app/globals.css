@@ -335,3 +335,22 @@ s body {
 .link-underline:hover::after {
   width: 100%;
 }
+
+/* ── Navbar Aurora Animation ── */
+@keyframes navAurora {
+  0% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  25% {
+    transform: translate(15%, 5%) scale(1.08);
+  }
+  50% {
+    transform: translate(8%, -8%) scale(1.04);
+  }
+  75% {
+    transform: translate(-10%, 4%) scale(1.06);
+  }
+  100% {
+    transform: translate(0%, 0%) scale(1);
+  }
+}

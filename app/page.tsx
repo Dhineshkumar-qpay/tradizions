@@ -280,14 +280,8 @@ export default function Home() {
   }
 
   return (
-    <>
-      <title>Tradizions | Premium Organic Millets & Traditional Wellness</title>
-      <meta name="description" content="Discover premium organic millets, cold-pressed oils, and authentic traditional wellness products. Sourced directly from ethical organic farmers." />
-      <meta property="og:title" content="Tradizions | Premium Organic Millets & Traditional Wellness" />
-      <meta property="og:description" content="Discover premium organic millets, cold-pressed oils, and authentic traditional wellness products. Sourced directly from ethical organic farmers." />
-      <meta property="og:image" content="/home-banner.png" />
-      <div className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
-        <HeroSection t={t} />
+    <div className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
+      <HeroSection t={t} />
 
       {/* Brand Promise Section */}
       <section className="py-8 md:py-10 bg-white relative overflow-hidden border-b border-stone-50">
@@ -318,8 +312,7 @@ export default function Home() {
       <CertificationsSection />
       {/* <VideoTestimonialsSection /> */}
       <SustainabilityAndPackagingSection />
-      </div>
-    </>
+    </div>
   );
 }
 
@@ -355,8 +348,8 @@ function HealthBenefitsSection({ t }: { t: any }) {
             <button
               onClick={() => setActiveCategory("nuts")}
               className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "nuts"
-                  ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
-                  : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
+                ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
+                : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
                 }`}
             >
               {t.sections?.nuts || "Nuts"}
@@ -365,8 +358,8 @@ function HealthBenefitsSection({ t }: { t: any }) {
             <button
               onClick={() => setActiveCategory("millets")}
               className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "millets"
-                  ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
-                  : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
+                ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
+                : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
                 }`}
             >
               {t.sections?.millets || "Millets"}
@@ -375,8 +368,8 @@ function HealthBenefitsSection({ t }: { t: any }) {
             <button
               onClick={() => setActiveCategory("spices")}
               className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "spices"
-                  ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
-                  : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
+                ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
+                : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
                 }`}
             >
               {t.sections?.spices || "Spices"}
@@ -388,20 +381,40 @@ function HealthBenefitsSection({ t }: { t: any }) {
       {/* AUTO SCROLL CARDS */}
       <div className="relative group overflow-hidden">
         <div className="flex animate-marquee group-hover:[animation-play-state:paused]">
-          {[...activeBenefits, ...activeBenefits].map((benefit, idx) => (
-            <div
-              key={benefit.name + idx}
-              className="flex-shrink-0 w-[280px] md:w-[320px] mx-4 p-6 rounded-[2rem] bg-white border border-stone-300 hover:border-[var(--olive)]/20 transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)]"
-            >
-              <h3 className="text-lg font-bold text-gray-900 mb-4">
-                {benefit.name}
-              </h3>
+          {[...activeBenefits, ...activeBenefits].map((benefit, idx) => {
+            let bgImageUrl = "/health-advantage/nuts_health.jpeg";
+            if (activeCategory === "millets") {
+              bgImageUrl = "/health-advantage/millets_health.jpeg";
+            } else if (activeCategory === "spices") {
+              bgImageUrl = "/health-advantage/spices_health.jpeg";
+            }
 
-              <p className="text-sm text-gray-500 leading-relaxed font-normal">
-                {benefit.desc}
-              </p>
-            </div>
-          ))}
+            return (
+              <div
+                key={benefit.name + idx}
+                className="flex-shrink-0 w-[300px] md:w-[350px] mx-4 h-[210px] rounded-[2rem] relative overflow-hidden group hover:shadow-[0_20px_40px_rgba(85,107,47,0.15)] hover:-translate-y-2 transition-all duration-500"
+              >
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0 bg-[#e8e4c9]">
+                  <img src={bgImageUrl} alt={activeCategory} className="w-full h-full object-cover group-hover:scale-110 group-hover:-rotate-2 transition-transform duration-[800ms] ease-out" />
+                  {/* Subtle dark overlay at the very bottom to ground the glass panel */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+                </div>
+
+                {/* Floating Glass Panel */}
+                <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-col justify-center p-4 rounded-[1.25rem] bg-white/80 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-white/60 group-hover:bg-white/95 group-hover:shadow-[0_15px_40px_rgba(85,107,47,0.12)] group-hover:-translate-y-1 transition-all duration-500">
+                  <h3 className="text-[16px] font-black text-[#2b3513] mb-1 leading-tight tracking-wide">
+                    {benefit.name}
+                  </h3>
+                  <p className="text-[12px] text-[#4d5e27] leading-snug font-semibold line-clamp-2">
+                    {benefit.desc}
+                  </p>
+                  {/* Elegant Divider Line */}
+                  <div className="w-8 h-[2.5px] bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] mt-2 rounded-full opacity-90" />
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* LEFT GRADIENT */}
@@ -760,9 +773,18 @@ function ProductCard({
     }
   };
 
+  const isGiftOrPooja =
+    product.categoryid === 4 ||
+    product.categoryid === 5 ||
+    product.itemtype === "gift" ||
+    (product.category && product.category.toLowerCase().includes("gift"));
+  const detailUrl = isGiftOrPooja
+    ? `/gift-detail/${id}?productid=${id}&bid=${product.bid || 1}`
+    : `/product-detail/${id}?productid=${id}&bid=${product.bid || 1}`;
+
   return (
     <Link
-      href={`/product-detail/${id}?productid=${id}&bid=${product.bid || 1}`}
+      href={detailUrl}
       className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
       style={{ transitionDelay: isVisible ? `${delay}ms` : "0ms" }}
     >
@@ -886,8 +908,8 @@ function ProductCard({
               });
             }}
             className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
-                ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-                : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
+              ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
+              : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
               } disabled:opacity-50`}
           >
             <span>
@@ -994,7 +1016,7 @@ function GiftingSection({
                         href={
                           id
                             ? `/gift-detail/${id}?productid=${id}&bid=${item.bid || 1}`
-                            : "/gift-detail"
+                            : "/gifts"
                         }
                         className="group relative block bg-[#faf9f6] rounded-[2rem] p-4 border border-transparent hover:border-stone-100 hover:bg-white transition-all duration-500 hover:shadow-xl h-full"
                       >
@@ -1080,7 +1102,7 @@ function WhyChooseUsSection({ t }: { t: any }) {
           >
             <div className="relative aspect-[3/4] rounded-[3.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[16px] border-white max-w-sm mx-auto lg:max-w-none">
               <Image
-                src="/why-choose-us.jpg"
+                src="https://images.unsplash.com/photo-1626023873533-f5cc77cc2458?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Quality organic products"
                 fill
                 className="object-cover"
@@ -1208,7 +1230,7 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
     <section ref={ref} className="py-16 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div
-          className={`max-w-2xl mx-auto text-center mb-20 space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
+          className={`max-w-2xl mx-auto text-center space-y-2 transition-all duration-500 opacity-100 translate-y-0`}
         >
           <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
             {t.loved.split(" ").slice(0, 2).join(" ")}{" "}
@@ -1234,85 +1256,91 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                 ...listToRender,
                 ...listToRender,
                 ...listToRender,
-              ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="w-72 aspect-square flex-shrink-0 bg-white border border-stone-100 rounded-xl p-8 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col justify-between group/card hover:-translate-y-2"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1">
-                        {[...Array(item.rating)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className="w-2.5 h-2.5 text-amber-400 fill-amber-400"
-                          />
-                        ))}
+              ].map((item, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="w-72 aspect-square flex-shrink-0 bg-gradient-to-br from-[#556b2f] to-[#e67e00] border border-transparent rounded-2xl p-8 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(85,107,47,0.4)] transition-all duration-500 flex flex-col justify-between group/card hover:-translate-y-2 relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
+                    <div className="space-y-4 relative z-10">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1">
+                          {[...Array(item.rating)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className="w-2.5 h-2.5 text-amber-300 fill-amber-300"
+                            />
+                          ))}
+                        </div>
+                        <Quote className="w-6 h-6 text-white/20 fill-current group-hover/card:text-white/30 transition-colors" />
                       </div>
-                      <Quote className="w-6 h-6 text-stone-100 fill-current group-hover/card:text-[var(--olive)]/10 transition-colors" />
-                    </div>
-                    <p className="text-stone-600 text-xs font-medium leading-relaxed whitespace-normal italic line-clamp-5">
-                      &ldquo;{item.text}&rdquo;
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-4 pt-6 border-t border-stone-50">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--olive)] to-emerald-700 flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-emerald-900/10 transition-transform group-hover/card:scale-110">
-                      {item.avatar}
-                    </div>
-                    <div className="text-left">
-                      <h4 className="text-[9px] font-bold text-gray-900 group-hover/card:text-[var(--olive)] transition-colors">
-                        {item.name}
-                      </h4>
-                      <p className="text-[9px] font-bold text-gray-400 tracking-[0.2em] uppercase">
-                        {item.role}
+                      <p className="text-white/90 text-xs font-medium leading-relaxed whitespace-normal italic line-clamp-5">
+                        &ldquo;{item.text}&rdquo;
                       </p>
                     </div>
+
+                    <div className="flex items-center gap-4 pt-6 border-t border-white/20 relative z-10">
+                      <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-sm font-bold text-white shadow-lg transition-transform group-hover/card:scale-110">
+                        {item.avatar}
+                      </div>
+                      <div className="text-left">
+                        <h4 className="text-[10px] font-black text-white group-hover/card:text-white transition-colors">
+                          {item.name}
+                        </h4>
+                        <p className="text-[9px] font-bold text-white/70 tracking-[0.2em] uppercase mt-0.5">
+                          {item.role}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         ) : (
           /* HORIZONTAL STATIC GRID */
           <div className="flex flex-row flex-wrap justify-center gap-6 py-10 px-6">
-            {listToRender.map((item, idx) => (
-              <div
-                key={idx}
-                className="w-72 aspect-square bg-white border border-stone-100 rounded-xl p-8 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col justify-between group/card hover:-translate-y-2"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1">
-                      {[...Array(item.rating)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-2.5 h-2.5 text-amber-400 fill-amber-400"
-                        />
-                      ))}
+            {listToRender.map((item, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className="w-72 aspect-square bg-gradient-to-br from-[#556b2f] to-[#e67e00] border border-transparent rounded-2xl p-8 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(85,107,47,0.4)] transition-all duration-500 flex flex-col justify-between group/card hover:-translate-y-2 relative overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
+                  <div className="space-y-4 relative z-10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1">
+                        {[...Array(item.rating)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className="w-2.5 h-2.5 text-amber-300 fill-amber-300"
+                          />
+                        ))}
+                      </div>
+                      <Quote className="w-6 h-6 text-white/20 fill-current group-hover/card:text-white/30 transition-colors" />
                     </div>
-                    <Quote className="w-6 h-6 text-stone-100 fill-current group-hover/card:text-[var(--olive)]/10 transition-colors" />
-                  </div>
-                  <p className="text-stone-600 text-xs font-medium leading-relaxed whitespace-normal italic line-clamp-5">
-                    &ldquo;{item.text}&rdquo;
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-4 pt-6 border-t border-stone-50">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--olive)] to-emerald-700 flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-emerald-900/10 transition-transform group-hover/card:scale-110">
-                    {item.avatar}
-                  </div>
-                  <div className="text-left">
-                    <h4 className="text-[9px] font-bold text-gray-900 group-hover/card:text-[var(--olive)] transition-colors">
-                      {item.name}
-                    </h4>
-                    <p className="text-[9px] font-bold text-gray-400 tracking-[0.2em] uppercase">
-                      {item.role}
+                    <p className="text-white/90 text-xs font-medium leading-relaxed whitespace-normal italic line-clamp-5">
+                      &ldquo;{item.text}&rdquo;
                     </p>
                   </div>
+
+                  <div className="flex items-center gap-4 pt-6 border-t border-white/20 relative z-10">
+                    <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-sm font-bold text-white shadow-lg transition-transform group-hover/card:scale-110">
+                      {item.avatar}
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-[10px] font-black text-white group-hover/card:text-white transition-colors">
+                        {item.name}
+                      </h4>
+                      <p className="text-[9px] font-bold text-white/70 tracking-[0.2em] uppercase mt-0.5">
+                        {item.role}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
@@ -1508,22 +1536,31 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                 <Link
                   href={`/health-goal-products?goalid=${goal.goalid}`}
                   key={goal.goalid || idx}
-                  className="group block bg-white p-2.5 rounded-[2.5rem] border border-stone-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500"
+                  className="group block bg-white rounded-[2rem] overflow-hidden border border-stone-100 shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(85,107,47,0.12)] hover:-translate-y-2 transition-all duration-500 relative"
                   style={{ transitionDelay: `${idx * 150}ms` }}
                 >
-                  <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden bg-stone-50">
+                  {/* Image Section */}
+                  <div className="relative h-[240px] overflow-hidden bg-stone-50">
                     <img
                       src={image}
                       alt={goal.goalname || ""}
-                      className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105"
                     />
+                    {/* Subtle Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 group-hover:opacity-0 transition-opacity duration-500" />
                   </div>
 
-                  <div className="px-4 pt-5 pb-4">
-                    <h3 className="text-xl font-black text-gray-900 tracking-tight group-hover:text-[var(--olive)] transition-colors duration-300 line-clamp-1">
+                  {/* Overlapping Floating Icon */}
+                  <div className="absolute top-[215px] right-8 w-12 h-12 rounded-2xl bg-white shadow-xl flex items-center justify-center text-[var(--olive)] group-hover:-translate-y-1 group-hover:text-white group-hover:bg-[var(--olive)] transition-all duration-500 border border-stone-100">
+                    <Icon className="w-5 h-5" />
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="pt-8 pb-8 px-8">
+                    <h3 className="text-xl font-extrabold text-gray-900 tracking-tight group-hover:text-[var(--olive)] transition-colors duration-300 pr-12">
                       {goal.goalname}
                     </h3>
-                    <p className="mt-2 text-xs text-gray-500 font-medium leading-relaxed line-clamp-2 min-h-[2.5rem]">
+                    <p className="mt-3 text-sm text-gray-500 font-medium leading-relaxed line-clamp-2 min-h-[2.5rem]">
                       {goal.description}
                     </p>
 
@@ -1569,9 +1606,9 @@ function NutritionPlanner({ t }: { t: any }) {
     const fetchProducts = async () => {
       try {
         const [resNuts, resMillets, resSpices] = await Promise.all([
-          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 1, bid: 1 }),
-          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 2, bid: 1 }),
-          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 3, bid: 1 }),
+          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 1, bid: 1 }).catch(() => ({ data: { data: [] } })),
+          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 2, bid: 1 }).catch(() => ({ data: { data: [] } })),
+          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 3, bid: 1 }).catch(() => ({ data: { data: [] } })),
         ]);
 
         const nuts = (resNuts.data?.data || []).map((p: any) => ({
@@ -1680,17 +1717,51 @@ function NutritionPlanner({ t }: { t: any }) {
   };
 
   return (
-    <section ref={ref} className="py-12 bg-gray-50/50 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-8">
-        {/* Main Calculator Header */}
-        <div className="text-center mb-4 space-y-4">
-          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+    <section ref={ref} className="py-20 bg-gradient-to-br from-[var(--olive)]/10 via-[#faf8f3] to-[var(--orange)]/10 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
+        {/* Main Calculator Header & Description */}
+        <div className="text-center mb-10 space-y-6">
+          <h2 className="text-2xl md:text-4xl font-extrabold text-gray-900 leading-tight">
             Monthly <span className="gradient-text">Product Calculator</span>
           </h2>
-          <p className="text-sm font-normal text-gray-400 max-w-lg mx-auto">
-            Plan your family's monthly nutritional needs and budget
-            effortlessly.
-          </p>
+
+          <div className="max-w-3xl mx-auto bg-white/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-10 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] text-left relative overflow-hidden">
+            {/* Decorative background in the card */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--olive)]/10 rounded-full blur-2xl"></div>
+
+            <h3 className="text-lg md:text-xl font-black text-gray-900 mb-4 text-center relative z-10">
+              Planning healthy snacks for your family just got easier!
+            </h3>
+            <p className="text-[11px] font-black text-gray-400 mb-8 text-center uppercase tracking-[0.2em] relative z-10">
+              Use our smart calculator to find out:
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 relative z-10">
+              {[
+                "The right quantity of nuts & dry fruits, millets based on your family size",
+                "Approximate daily or monthly consumption in grams",
+                "Estimated cost based on your selected products",
+                "A balanced mix for kids, adults, and elders"
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-4 bg-white/80 p-5 rounded-2xl shadow-sm border border-stone-100 hover:border-[var(--olive)]/30 transition-colors duration-300">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                    <Check className="w-4 h-4 text-[var(--olive)]" />
+                  </div>
+                  <span className="text-xs text-gray-600 font-medium leading-relaxed">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-stone-50/80 rounded-2xl p-5 border border-stone-100 mb-8 relative z-10">
+              <p className="text-sm text-gray-600 font-medium text-center leading-relaxed">
+                Simply choose your preferred nuts, enter the number of family members, and get an instant estimate of quantity and price.
+              </p>
+            </div>
+
+            <p className="text-[12px] font-black tracking-[0.3em] uppercase text-center relative z-10">
+              <span className="text-gray-400">Eat healthy.</span> <span className="text-[var(--olive)] mx-2">Plan smart.</span> <span className="text-[var(--orange)]">Shop better.</span>
+            </p>
+          </div>
         </div>
 
         {/* Step 1: Select Products You Want */}
@@ -2529,8 +2600,8 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
                             });
                           }}
                           className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
-                              ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-                              : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
+                            ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
+                            : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
                             } disabled:opacity-50`}
                         >
                           <span>
@@ -2826,7 +2897,7 @@ function VideoTestimonialsSection() {
         }}
       >
         <p className="text-center text-sm text-stone-500 font-medium py-12">
-          Hello 👋
+          Hello Dhinesh 👋
         </p>
       </div>
     </section>

@@ -6,12 +6,10 @@ import {
   MapPin,
   Phone,
   Mail,
-  Clock,
   Send,
   Briefcase,
   MessageSquare,
   Heart,
-  Globe,
   CheckCircle2,
   ChevronRight,
 } from "lucide-react";
@@ -117,7 +115,7 @@ export default function ContactUsPage() {
       {/* ── HERO SECTION ── */}
       <section
         ref={headerRef.ref}
-        className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden flex items-center justify-center bg-white"
+        className="relative pt-32 pb-32 overflow-hidden flex items-center justify-center bg-white"
       >
         {/* Abstract Background Elements */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[var(--olive)]/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
@@ -488,7 +486,7 @@ export default function ContactUsPage() {
       </section>
 
       {/* ── MAP SECTION ── */}
-      <section className="py-20 max-w-7xl mx-auto px-6 mb-20">
+      <section className="py-20 max-w-7xl mx-auto px-6 pb-32">
         <div className="relative h-[300px] w-full rounded-[1rem] overflow-hidden shadow-2xl group border border-white">
           <Image
             src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2033&auto=format&fit=crop"

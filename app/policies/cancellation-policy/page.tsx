@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const content: Record<string, any> = {
   EN: {
@@ -218,7 +218,7 @@ export default function CancellationPolicyPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-white pt-24 pb-24 text-gray-800">
+    <main className="min-h-screen bg-white pt-32 pb-32 text-gray-800">
       <div className="max-w-4xl mx-auto px-6">
         {/* Professional Header */}
         <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900">
