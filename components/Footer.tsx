@@ -126,6 +126,7 @@ export default function Footer() {
                 { name: t.aboutUs, path: "/about-us" },
                 { name: t.contactUs, path: "/contact-us" },
                 { name: t.myAccount, path: "/my-account" },
+                { name: t.blog || "Blog", path: "/blog" },
               ].map((link) => (
                 <li key={link.path}>
                   <Link
@@ -243,6 +244,7 @@ export default function Footer() {
               { name: t.aboutUs, path: "/about-us" },
               { name: t.contactUs, path: "/contact-us" },
               { name: t.myAccount, path: "/my-account" },
+              { name: t.blog || "Blog", path: "/blog" },
             ].map((link) => (
               <Link
                 key={link.path}

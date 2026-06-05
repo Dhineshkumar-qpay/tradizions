@@ -38,6 +38,20 @@ const getImageUrl = (imagePath: string) => {
   return `${cleanedBase}/${cleanedPath}`;
 };
 
+const ProductSkeleton = () => (
+  <div className="bg-white border border-stone-200 rounded-2xl overflow-hidden flex flex-col animate-pulse h-full shadow-sm">
+    <div className="aspect-[4/3] bg-stone-200" />
+    <div className="p-4 space-y-3 flex flex-col flex-1">
+      <div className="space-y-2">
+        <div className="h-4 bg-stone-200 rounded-md w-3/4" />
+        <div className="h-3 bg-stone-100 rounded-md w-5/6" />
+      </div>
+      <div className="h-5 bg-stone-200 rounded-md w-1/3 mt-2" />
+      <div className="h-10 bg-stone-200 rounded-xl w-full mt-auto" />
+    </div>
+  </div>
+);
+
 export default function FeaturedProductsPage() {
   const [selectedLang, setSelectedLang] = useState("EN");
   const [products, setProducts] = useState<any[]>([]);
@@ -283,8 +297,10 @@ export default function FeaturedProductsPage() {
 
             {/* PRODUCTS GRID */}
             {isLoading ? (
-              <div className="flex justify-center py-20">
-                <div className="w-8 h-8 border-4 border-[var(--olive)] border-t-transparent rounded-full animate-spin"></div>
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 gap-y-12">
+                {Array.from({ length: 6 }).map((_, idx) => (
+                  <ProductSkeleton key={idx} />
+                ))}
               </div>
             ) : paginatedProducts.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 gap-y-12">

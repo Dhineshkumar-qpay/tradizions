@@ -98,7 +98,7 @@ export default function ProductDetailPage() {
             setIsFavourite(true);
           }
         }
-      } catch (err) {}
+      } catch (err) { }
     };
     fetchFavs();
   }, [product]);
@@ -160,7 +160,7 @@ export default function ProductDetailPage() {
         console.error("Error adding to cart:", err);
         alert(
           err?.response?.data?.message ||
-            "An error occurred while adding to cart.",
+          "An error occurred while adding to cart.",
         );
       } finally {
         setIsAddingToCart(false);
@@ -193,7 +193,7 @@ export default function ProductDetailPage() {
         console.error("Error adding to cart:", err);
         alert(
           err?.response?.data?.message ||
-            "An error occurred while adding to cart.",
+          "An error occurred while adding to cart.",
         );
       } finally {
         setIsAddingToCart(false);
@@ -244,7 +244,7 @@ export default function ProductDetailPage() {
       console.error("Error submitting review:", err);
       alert(
         err?.response?.data?.message ||
-          "An error occurred while submitting review.",
+        "An error occurred while submitting review.",
       );
     } finally {
       setIsSubmittingReview(false);

@@ -1093,93 +1093,64 @@ function WhyChooseUsSection({ t }: { t: any }) {
   const { ref, isVisible } = useInView();
 
   return (
-    <section ref={ref} className="py-16 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
-          {/* Left Side: Dynamic Image & Stats (4 columns) */}
-          <div
-            className={`lg:col-span-4 relative transition-all duration-500 opacity-100 translate-x-0`}
-          >
-            <div className="relative aspect-[3/4] rounded-[3.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[16px] border-white max-w-sm mx-auto lg:max-w-none">
+    <section ref={ref} className="py-20 bg-gradient-to-b from-white to-[#fdfbf6] relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
+          
+          {/* Left Side: Elegant Arch Image */}
+          <div className={`w-full lg:w-5/12 relative transition-all duration-700 opacity-100 translate-x-0`}>
+            <div className="relative aspect-[3/4] rounded-t-full rounded-b-[2.5rem] overflow-hidden shadow-[0_20px_60px_-15px_rgba(85,107,47,0.2)] border-[10px] border-white mx-auto max-w-sm group">
               <Image
                 src="https://images.unsplash.com/photo-1626023873533-f5cc77cc2458?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Quality organic products"
                 fill
-                className="object-cover"
+                className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-              {/* Floating Certification Badge */}
-              <div className="absolute top-8 right-8 w-24 h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex flex-col items-center justify-center text-white p-2">
-                <Shield className="w-6 h-6 mb-1 text-amber-400" />
-                <span className="text-[7px] font-black uppercase tracking-widest text-center">
-                  Certified Quality
-                </span>
-              </div>
-
-              {/* Bottom Stat Card */}
-              <div className="absolute bottom-8 inset-x-8 p-6 glass rounded-3xl border border-white/20 shadow-2xl">
-                <div className="flex items-center gap-5">
-                  <div className="w-14 h-14 rounded-full bg-emerald-500 flex items-center justify-center text-white shadow-xl">
-                    <BadgeCheck className="w-8 h-8" />
-                  </div>
-                  <div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-white">
-                        100%
-                      </span>
-                      <span className="text-xs font-bold text-white/70">
-                        Pure
-                      </span>
-                    </div>
-                    <p className="text-[9px] text-white/50 font-black uppercase tracking-widest">
-                      Organic Certified Sourcing
-                    </p>
-                  </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--olive-dark)]/60 via-transparent to-transparent opacity-90" />
+              
+              {/* Floating Stat Card inside Image */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] bg-white/95 backdrop-blur-md p-4 rounded-[1.5rem] shadow-2xl flex items-center gap-4 border border-white/50 group-hover:-translate-y-1 transition-transform duration-500">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#556b2f] to-[#3a4a20] flex items-center justify-center text-white flex-shrink-0 shadow-inner">
+                  <BadgeCheck className="w-6 h-6 drop-shadow-sm" />
+                </div>
+                <div>
+                  <h4 className="text-[15px] font-black text-[#2b3513] leading-none mb-1">100% Pure</h4>
+                  <p className="text-[10px] text-[#556b2f] font-bold uppercase tracking-widest">Organic Certified</p>
                 </div>
               </div>
             </div>
-
-            {/* Background elements */}
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-[var(--olive)]/10 rounded-full blur-3xl -z-10" />
-            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-amber-100/30 rounded-full blur-[80px] -z-10" />
+            {/* Soft background glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-[#e4dec2]/40 to-[#f6f2dd]/50 rounded-full blur-3xl -z-10" />
           </div>
 
-          {/* Right Side: Content & Features (8 columns) */}
-          <div
-            className={`lg:col-span-8 space-y-12 transition-all duration-500 delay-300 opacity-100 translate-x-0`}
-          >
-            <div className="space-y-6">
-              <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+          {/* Right Side: Content & Features */}
+          <div className={`w-full lg:w-7/12 space-y-12 transition-all duration-700 delay-200 opacity-100 translate-x-0`}>
+            <div className="space-y-5 text-center lg:text-left">
+              <h2 className="text-3xl md:text-4xl lg:text-[42px] font-black text-[#2b3513] leading-[1.15] tracking-tight">
                 {t.why_choose.split(" ").slice(0, 1).join(" ")}
-                <span className="gradient-text">
+                <span className="text-[var(--olive)]">
                   {" "}
                   {t.why_choose.split(" ").slice(1).join(" ")}
                 </span>
               </h2>
-              <p className="text-gray-400 text-md font-normal leading-relaxed max-w-xl">
+              <p className="text-[#6b6455] text-sm md:text-[15px] font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
                 {t.why_desc}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10">
               {whyChooseUs.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="group relative p-8 rounded-[2.5rem] bg-stone-50 border border-stone-100 hover:bg-white hover:border-[var(--olive)]/20 transition-all duration-500 hover:shadow-xl"
-                >
-                  <div className="flex items-start gap-6">
-                    <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[var(--olive)] flex-shrink-0 group-hover:bg-[var(--olive)] group-hover:text-white transition-all duration-500">
-                      <item.icon className="w-6 h-6" />
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-md font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
-                        {t.features[idx * 2]}
-                      </h4>
-                      <p className="text-[11px] text-gray-400 font-bold leading-snug">
-                        {t.features[idx * 2 + 1]}
-                      </p>
-                    </div>
+                <div key={idx} className="flex gap-5 group items-start">
+                  <div className="flex-shrink-0 w-[60px] h-[60px] rounded-[1.5rem] bg-[#f4ecd9] border border-[#e8dfc8] text-[#556b2f] flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-[#556b2f] group-hover:to-[#3a4a20] group-hover:text-white group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-[0_10px_20px_rgba(85,107,47,0.2)] transition-all duration-500">
+                    <item.icon className="w-7 h-7 drop-shadow-sm" />
+                  </div>
+                  <div className="space-y-1.5 pt-1">
+                    <h4 className="text-[16px] font-black text-[#2b3513] group-hover:text-[var(--olive)] transition-colors">
+                      {t.features[idx * 2]}
+                    </h4>
+                    <p className="text-[13px] text-[#6b6455] font-medium leading-snug">
+                      {t.features[idx * 2 + 1]}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -1260,35 +1231,37 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                 return (
                   <div
                     key={idx}
-                    className="w-72 aspect-square flex-shrink-0 bg-gradient-to-br from-[#556b2f] to-[#e67e00] border border-transparent rounded-2xl p-8 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(85,107,47,0.4)] transition-all duration-500 flex flex-col justify-between group/card hover:-translate-y-2 relative overflow-hidden"
+                    className="w-[300px] md:w-[340px] flex-shrink-0 bg-white border border-[#e4dec2] rounded-[1.5rem] p-8 shadow-[0_4px_15px_rgba(85,107,47,0.03)] hover:shadow-[0_20px_40px_rgba(85,107,47,0.08)] hover:border-[#d4cda9] transition-all duration-500 flex flex-col justify-between group/card hover:-translate-y-2 relative overflow-hidden"
                   >
-                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-                    <div className="space-y-4 relative z-10">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1">
-                          {[...Array(item.rating)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className="w-2.5 h-2.5 text-amber-300 fill-amber-300"
-                            />
-                          ))}
-                        </div>
-                        <Quote className="w-6 h-6 text-white/20 fill-current group-hover/card:text-white/30 transition-colors" />
+                    {/* Subtle top accent line */}
+                    <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Large Watermark Quote */}
+                    <Quote className="absolute -top-2 -right-2 w-24 h-24 text-[var(--olive)] opacity-[0.03] rotate-12 group-hover/card:opacity-[0.06] group-hover/card:scale-110 transition-all duration-500" />
+
+                    <div className="space-y-5 relative z-10">
+                      <div className="flex items-center gap-1">
+                        {[...Array(item.rating)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className="w-3.5 h-3.5 text-amber-400 fill-amber-400 drop-shadow-sm"
+                          />
+                        ))}
                       </div>
-                      <p className="text-white/90 text-xs font-medium leading-relaxed whitespace-normal italic line-clamp-5">
+                      <p className="text-[#6b6455] text-[13.5px] font-medium leading-relaxed italic line-clamp-5">
                         &ldquo;{item.text}&rdquo;
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-4 pt-6 border-t border-white/20 relative z-10">
-                      <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-sm font-bold text-white shadow-lg transition-transform group-hover/card:scale-110">
+                    <div className="flex items-center gap-4 pt-6 mt-4 border-t border-stone-100 relative z-10">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#f4ecd9] to-[#e8dfc8] flex items-center justify-center text-[15px] font-black text-[#556b2f] shadow-inner border-[2px] border-white">
                         {item.avatar}
                       </div>
                       <div className="text-left">
-                        <h4 className="text-[10px] font-black text-white group-hover/card:text-white transition-colors">
+                        <h4 className="text-[13px] font-black text-[#2b3513]">
                           {item.name}
                         </h4>
-                        <p className="text-[9px] font-bold text-white/70 tracking-[0.2em] uppercase mt-0.5">
+                        <p className="text-[10px] font-bold text-[#7a8a55] tracking-[0.15em] uppercase mt-0.5">
                           {item.role}
                         </p>
                       </div>
@@ -1305,35 +1278,37 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
               return (
                 <div
                   key={idx}
-                  className="w-72 aspect-square bg-gradient-to-br from-[#556b2f] to-[#e67e00] border border-transparent rounded-2xl p-8 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(85,107,47,0.4)] transition-all duration-500 flex flex-col justify-between group/card hover:-translate-y-2 relative overflow-hidden"
+                  className="w-[300px] md:w-[340px] flex-shrink-0 bg-white border border-[#e4dec2] rounded-[1.5rem] p-8 shadow-[0_4px_15px_rgba(85,107,47,0.03)] hover:shadow-[0_20px_40px_rgba(85,107,47,0.08)] hover:border-[#d4cda9] transition-all duration-500 flex flex-col justify-between group/card hover:-translate-y-2 relative overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-                  <div className="space-y-4 relative z-10">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1">
-                        {[...Array(item.rating)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className="w-2.5 h-2.5 text-amber-300 fill-amber-300"
-                          />
-                        ))}
-                      </div>
-                      <Quote className="w-6 h-6 text-white/20 fill-current group-hover/card:text-white/30 transition-colors" />
+                  {/* Subtle top accent line */}
+                  <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Large Watermark Quote */}
+                  <Quote className="absolute -top-2 -right-2 w-24 h-24 text-[var(--olive)] opacity-[0.03] rotate-12 group-hover/card:opacity-[0.06] group-hover/card:scale-110 transition-all duration-500" />
+
+                  <div className="space-y-5 relative z-10">
+                    <div className="flex items-center gap-1">
+                      {[...Array(item.rating)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-3.5 h-3.5 text-amber-400 fill-amber-400 drop-shadow-sm"
+                        />
+                      ))}
                     </div>
-                    <p className="text-white/90 text-xs font-medium leading-relaxed whitespace-normal italic line-clamp-5">
+                    <p className="text-[#6b6455] text-[13.5px] font-medium leading-relaxed italic line-clamp-5">
                       &ldquo;{item.text}&rdquo;
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-4 pt-6 border-t border-white/20 relative z-10">
-                    <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-sm font-bold text-white shadow-lg transition-transform group-hover/card:scale-110">
+                  <div className="flex items-center gap-4 pt-6 mt-4 border-t border-stone-100 relative z-10">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#f4ecd9] to-[#e8dfc8] flex items-center justify-center text-[15px] font-black text-[#556b2f] shadow-inner border-[2px] border-white">
                       {item.avatar}
                     </div>
                     <div className="text-left">
-                      <h4 className="text-[10px] font-black text-white group-hover/card:text-white transition-colors">
+                      <h4 className="text-[13px] font-black text-[#2b3513]">
                         {item.name}
                       </h4>
-                      <p className="text-[9px] font-bold text-white/70 tracking-[0.2em] uppercase mt-0.5">
+                      <p className="text-[10px] font-bold text-[#7a8a55] tracking-[0.15em] uppercase mt-0.5">
                         {item.role}
                       </p>
                     </div>

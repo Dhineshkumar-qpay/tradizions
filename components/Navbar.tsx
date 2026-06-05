@@ -333,7 +333,7 @@ export default function Navbar() {
         </div>
 
         <nav className="w-full h-[75px] bg-white border-b border-gray-100 shadow-sm px-6 lg:px-12 flex items-center justify-between pointer-events-auto relative">
-          
+
           <div className="flex items-center gap-8 lg:gap-12">
             {/* Logo Section */}
             <div className="flex-shrink-0 z-10">
@@ -352,95 +352,95 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-6 z-0 pt-1">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[#1a1a1a]" : "text-[#4a4a4a] hover:text-[#1a1a1a]"}`}
-                >
-                  {item.name}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#1a1a1a]" />
-                  )}
-                </Link>
-              );
-            })}
+              {navItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[#1a1a1a]" : "text-[#4a4a4a] hover:text-[#1a1a1a]"}`}
+                  >
+                    {item.name}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#1a1a1a]" />
+                    )}
+                  </Link>
+                );
+              })}
 
-            {/* Categories Megamenu Dropdown */}
-            <div className="relative group/mega">
-              <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[#4a4a4a] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
-                {t.categories}
-                <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/mega:rotate-180" />
-              </button>
+              {/* Categories Megamenu Dropdown */}
+              <div className="relative group/mega">
+                <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[#4a4a4a] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
+                  {t.categories}
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/mega:rotate-180" />
+                </button>
 
-              {/* Redesigned Premium Dropdown */}
-              <div className="absolute top-full -left-4 pt-5 opacity-0 translate-y-2 pointer-events-none group-hover/mega:opacity-100 group-hover/mega:translate-y-0 group-hover/mega:pointer-events-auto transition-all duration-300">
-                <div className="w-56 bg-[#faf8f3] backdrop-blur-xl rounded-2xl shadow-[0_16px_48px_rgba(85,107,47,0.14)] border border-[#e8dfc8] py-2 overflow-hidden">
-                  <div className="px-4 py-2 mb-1 border-b border-[#e8dfc8]">
-                    <span className="text-[9px] font-black tracking-[0.2em] uppercase text-[var(--olive)]/60">{t.categories}</span>
+                {/* Redesigned Premium Dropdown */}
+                <div className="absolute top-full -left-4 pt-5 opacity-0 translate-y-2 pointer-events-none group-hover/mega:opacity-100 group-hover/mega:translate-y-0 group-hover/mega:pointer-events-auto transition-all duration-300">
+                  <div className="w-56 bg-[#faf8f3] backdrop-blur-xl rounded-2xl shadow-[0_16px_48px_rgba(85,107,47,0.14)] border border-[#e8dfc8] py-2 overflow-hidden">
+                    <div className="px-4 py-2 mb-1 border-b border-[#e8dfc8]">
+                      <span className="text-[9px] font-black tracking-[0.2em] uppercase text-[var(--olive)]/60">{t.categories}</span>
+                    </div>
+                    {displayCategories.map((cat) => (
+                      <Link
+                        key={cat.href}
+                        href={cat.href}
+                        className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
+                        {cat.name}
+                      </Link>
+                    ))}
                   </div>
-                  {displayCategories.map((cat) => (
+                </div>
+              </div>
+
+              {/* Gifting Dropdown */}
+              <div className="relative group/gifting">
+                <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[#4a4a4a] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
+                  {t.gifting}
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/gifting:rotate-180" />
+                </button>
+
+                <div className="absolute top-full left-0 pt-5 opacity-0 translate-y-2 pointer-events-none group-hover/gifting:opacity-100 group-hover/gifting:translate-y-0 group-hover/gifting:pointer-events-auto transition-all duration-300">
+                  <div className="w-48 bg-[#faf8f3] backdrop-blur-xl rounded-2xl shadow-[0_16px_48px_rgba(85,107,47,0.14)] border border-[#e8dfc8] py-2 overflow-hidden">
+                    <div className="px-4 py-2 mb-1 border-b border-[#e8dfc8]">
+                      <span className="text-[9px] font-black tracking-[0.2em] uppercase text-[var(--olive)]/60">{t.gifting}</span>
+                    </div>
                     <Link
-                      key={cat.href}
-                      href={cat.href}
+                      href="/gifts"
                       className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
-                      {cat.name}
+                      {t.occasional}
                     </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Gifting Dropdown */}
-            <div className="relative group/gifting">
-              <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[#4a4a4a] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
-                {t.gifting}
-                <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/gifting:rotate-180" />
-              </button>
-
-              <div className="absolute top-full left-0 pt-5 opacity-0 translate-y-2 pointer-events-none group-hover/gifting:opacity-100 group-hover/gifting:translate-y-0 group-hover/gifting:pointer-events-auto transition-all duration-300">
-                <div className="w-48 bg-[#faf8f3] backdrop-blur-xl rounded-2xl shadow-[0_16px_48px_rgba(85,107,47,0.14)] border border-[#e8dfc8] py-2 overflow-hidden">
-                  <div className="px-4 py-2 mb-1 border-b border-[#e8dfc8]">
-                    <span className="text-[9px] font-black tracking-[0.2em] uppercase text-[var(--olive)]/60">{t.gifting}</span>
+                    <Link
+                      href="/corporate-orders"
+                      className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
+                      {t.corporate}
+                    </Link>
                   </div>
-                  <Link
-                    href="/gifts"
-                    className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
-                    {t.occasional}
-                  </Link>
-                  <Link
-                    href="/corporate-orders"
-                    className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
-                    {t.corporate}
-                  </Link>
                 </div>
               </div>
-            </div>
 
-            {secondaryNavItems.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[#1a1a1a]" : "text-[#4a4a4a] hover:text-[#1a1a1a]"}`}
-                >
-                  {item.name}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#1a1a1a]" />
-                  )}
-                </Link>
-              );
-            })}
-          </div>
+              {secondaryNavItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[#1a1a1a]" : "text-[#4a4a4a] hover:text-[#1a1a1a]"}`}
+                  >
+                    {item.name}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#1a1a1a]" />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
 
           {/* RIGHT: Right Section */}
@@ -600,7 +600,7 @@ export default function Navbar() {
                                   className={`w-full h-full object-cover mix-blend-multiply ${product.stock <= 0 || product.availablestock <= 0 ? "grayscale opacity-60" : ""}`}
                                 />
                               </div>
-                              
+
                               <div className="flex-1 flex flex-col pt-0.5">
                                 <span className="text-[13px] text-gray-500 font-normal">
                                   {product.brandname || product.category || "Tradizions"}
