@@ -453,8 +453,8 @@ export default function CorporateOrdersPage() {
                   </div>
                   <div>
                     <p className="text-[10px] font-bold tracking-widest uppercase text-white/70 mb-0.5">Email Us</p>
-                    <a href="mailto:qpay@tradizions.com" className="text-[15px] font-bold text-white hover:text-[var(--orange)] transition-colors drop-shadow-sm">
-                      qpay@tradizions.com
+                    <a href="mailto:tradizions@gmail.com" className="text-[15px] font-bold text-white hover:text-[var(--orange)] transition-colors drop-shadow-sm">
+                      tradizions@gmail.com
                     </a>
                   </div>
                 </div>

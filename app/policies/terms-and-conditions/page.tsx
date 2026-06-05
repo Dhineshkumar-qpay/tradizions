@@ -102,7 +102,7 @@ const content: Record<string, any> = {
         id: 15,
         title: "15. Contact",
         content: "If you have any questions, please contact us:",
-        email: "qpay@tradizions.com",
+        email: "tradizions@gmail.com",
         phone: "+91 99406 20019"
       }
     ]
@@ -206,7 +206,7 @@ const content: Record<string, any> = {
         id: 15,
         title: "15. தொடர்பு",
         content: "உங்களுக்கு ஏதேனும் கேள்விகள் இருந்தால், எங்களைத் தொடர்பு கொள்ளவும்:",
-        email: "qpay@tradizions.com",
+        email: "tradizions@gmail.com",
         phone: "+91 99406 20019"
       }
     ]
@@ -310,7 +310,7 @@ const content: Record<string, any> = {
         id: 15,
         title: "15. संपर्क",
         content: "यदि आपके कोई प्रश्न हैं, तो कृपया हमसे संपर्क करें:",
-        email: "qpay@tradizions.com",
+        email: "tradizions@gmail.com",
         phone: "+91 99406 20019"
       }
     ]

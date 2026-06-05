@@ -148,7 +148,7 @@ const content: Record<string, any> = {
       },
       {
         q: "How can I contact customer support?",
-        a: "If you have any questions, please contact us at qpay@tradizions.com or via WhatsApp at +91 99406 20019.",
+        a: "If you have any questions, please contact us at tradizions@gmail.com or via WhatsApp at +91 99406 20019.",
       },
     ]
   },
@@ -296,7 +296,7 @@ const content: Record<string, any> = {
       },
       {
         q: "வாடிக்கையாளர் ஆதரவை நான் எப்படி தொடர்பு கொள்வது?",
-        a: "உங்களுக்கு ஏதேனும் கேள்விகள் இருந்தால், எங்களை qpay@tradizions.com அல்லது வாட்ஸ்அப் மூலம் +91 99406 20019 என்ற எண்ணில் தொடர்பு கொள்ளவும்.",
+        a: "உங்களுக்கு ஏதேனும் கேள்விகள் இருந்தால், எங்களை tradizions@gmail.com அல்லது வாட்ஸ்அப் மூலம் +91 99406 20019 என்ற எண்ணில் தொடர்பு கொள்ளவும்.",
       },
     ]
   },
@@ -444,7 +444,7 @@ const content: Record<string, any> = {
       },
       {
         q: "मैं ग्राहक सहायता से कैसे संपर्क कर सकता हूँ?",
-        a: "यदि आपके कोई प्रश्न हैं, तो कृपया हमें qpay@tradizions.com पर संपर्क करें या +91 99406 20019 पर व्हाट्सएप के माध्यम से संपर्क करें।",
+        a: "यदि आपके कोई प्रश्न हैं, तो कृपया हमें tradizions@gmail.com पर संपर्क करें या +91 99406 20019 पर व्हाट्सएप के माध्यम से संपर्क करें।",
       },
     ]
   }
@@ -529,10 +529,10 @@ export default function FAQsPage() {
             <p>
               <span className="font-bold">Email:</span>{" "}
               <a
-                href="mailto:qpay@tradizions.com"
+                href="mailto:tradizions@gmail.com"
                 className="font-normal text-[var(--sky-blue)]"
               >
-                qpay@tradizions.com
+                tradizions@gmail.com
               </a>
             </p>
             <p>

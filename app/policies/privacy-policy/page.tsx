@@ -55,7 +55,7 @@ const content: Record<string, any> = {
         title: "5. Your Rights",
         intro: "You can:",
         list: ["Access or update your data", "Opt out of marketing messages", "Request deletion of your data"],
-        footer: "Contact: qpay@tradizions.com"
+        footer: "Contact: tradizions@gmail.com"
       },
       {
         id: 6,
@@ -84,7 +84,7 @@ const content: Record<string, any> = {
         id: 10,
         title: "10. Contact Us",
         content: "If you have any questions, please contact us:",
-        email: "qpay@tradizions.com",
+        email: "tradizions@gmail.com",
         phone: "+91 99406 20019"
       }
     ]
@@ -141,7 +141,7 @@ const content: Record<string, any> = {
         title: "5. உங்கள் உரிமைகள்",
         intro: "நீங்கள் செய்யக்கூடியவை:",
         list: ["உங்கள் தரவை அணுகலாம் அல்லது புதுப்பிக்கலாம்", "விளம்பரச் செய்திகளிலிருந்து விலகலாம்", "உங்கள் தரவை நீக்கக் கோரலாம்"],
-        footer: "தொடர்புக்கு: qpay@tradizions.com"
+        footer: "தொடர்புக்கு: tradizions@gmail.com"
       },
       {
         id: 6,
@@ -170,7 +170,7 @@ const content: Record<string, any> = {
         id: 10,
         title: "10. எங்களைத் தொடர்பு கொள்ள",
         content: "உங்களுக்கு ஏதேனும் கேள்விகள் இருந்தால், எங்களைத் தொடர்பு கொள்ளவும்:",
-        email: "qpay@tradizions.com",
+        email: "tradizions@gmail.com",
         phone: "+91 99406 20019"
       }
     ]
@@ -227,7 +227,7 @@ const content: Record<string, any> = {
         title: "5. आपके अधिकार",
         intro: "आप कर सकते हैं:",
         list: ["अपना डेटा एक्सेस या अपडेट करें", "प्रचार संदेशों से बाहर निकलें", "अपना डेटा हटाने का अनुरोध करें"],
-        footer: "संपर्क: qpay@tradizions.com"
+        footer: "संपर्क: tradizions@gmail.com"
       },
       {
         id: 6,
@@ -256,7 +256,7 @@ const content: Record<string, any> = {
         id: 10,
         title: "10. हमसे संपर्क करें",
         content: "यदि आपके कोई प्रश्न हैं, तो कृपया हमसे संपर्क करें:",
-        email: "qpay@tradizions.com",
+        email: "tradizions@gmail.com",
         phone: "+91 99406 20019"
       }
     ]

@@ -229,7 +229,7 @@ export default function ContactUsPage() {
                       Email Support
                     </p>
                     <p className="text-sm font-bold text-gray-900">
-                      qpay@tradizions.com
+                      tradizions@gmail.com
                     </p>
                   </div>
                 </div>
