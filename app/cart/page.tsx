@@ -298,7 +298,7 @@ export default function CartPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-[var(--site-bg)] pt-32 pb-32">
+      <main className="min-h-screen bg-[var(--site-bg)] pt-32 lg:pt-44 pb-32">
         {/* Top Header */}
         <div className="max-w-7xl mx-auto px-4 md:px-8 mb-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">

@@ -10,6 +10,15 @@ import { AddressData } from "@/models/address_model";
 import { MonthlyCartData } from "@/models/calculator_model";
 import locationDataRaw from "../../public/location/india_states_districts.json";
 import SearchableDropdown from "@/components/SearchableDropdown";
+import en from "@/languages/en.json";
+import ta from "@/languages/ta.json";
+import hi from "@/languages/hi.json";
+
+const translations: Record<string, any> = {
+  EN: en,
+  TA: ta,
+  HI: hi,
+};
 
 const locationData: Record<string, string[]> = locationDataRaw as any;
 
@@ -22,6 +31,7 @@ export default function MonthlyCartPage() {
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [placedOrderId, setPlacedOrderId] = useState<number | null>(null);
+  const [selectedLang, setSelectedLang] = useState("EN");
 
   // Address Form States
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -134,6 +144,23 @@ export default function MonthlyCartPage() {
     init();
   }, []);
 
+  useEffect(() => {
+    const savedLang = localStorage.getItem("selectedLang");
+    if (savedLang && translations[savedLang]) {
+      setSelectedLang(savedLang);
+    }
+    const handleLangChange = () => {
+      const lang = localStorage.getItem("selectedLang");
+      if (lang && translations[lang]) {
+        setSelectedLang(lang);
+      }
+    };
+    window.addEventListener("languageChange", handleLangChange);
+    return () => window.removeEventListener("languageChange", handleLangChange);
+  }, []);
+
+  const t = translations[selectedLang] || translations["EN"];
+
   const handlePlaceOrder = async () => {
     if (!selectedAddressId) {
       alert("Please select a delivery address.");
@@ -168,7 +195,7 @@ export default function MonthlyCartPage() {
 
   if (orderPlaced) {
     return (
-      <main className="min-h-screen bg-[#f7f7f5] flex items-center justify-center p-25 overflow-hidden relative">
+      <main className="min-h-screen bg-[#f7f7f5] flex justify-center pt-32 lg:pt-40 pb-12 px-4 sm:px-8 overflow-hidden relative">
         <div className="absolute top-[-80px] left-[-80px] w-[180px] h-[180px] bg-[var(--olive)]/10 rounded-full blur-3xl" />
         <div className="absolute bottom-[-80px] right-[-80px] w-[180px] h-[180px] bg-[var(--olive-dark)]/10 rounded-full blur-3xl" />
         <div className="relative w-full max-w-sm">
@@ -185,8 +212,8 @@ export default function MonthlyCartPage() {
                   </div>
                 </div>
               </div>
-              <h1 className="text-2xl font-black text-stone-900 mb-2 tracking-tight">Order Confirmed</h1>
-              <p className="text-stone-500 text-xs leading-relaxed max-w-[240px] mx-auto mb-6">Your monthly order has been placed successfully.</p>
+              <h1 className="text-2xl font-black text-stone-900 mb-2 tracking-tight">{t.order_confirmed || "Order Confirmed"}</h1>
+              <p className="text-stone-500 text-xs leading-relaxed max-w-[240px] mx-auto mb-6">{t.monthly_order_confirmed_desc || "Your monthly order has been placed successfully."}</p>
               <div className="bg-stone-50 rounded-2xl border border-stone-200 p-4 mb-6 text-left">
                 <div className="flex justify-between items-center mb-3">
                   <span className="text-[10px] uppercase tracking-[0.18em] text-stone-400 font-bold">Order ID</span>
@@ -199,8 +226,8 @@ export default function MonthlyCartPage() {
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <Link href={`/order-detail?id=${placedOrderId}`} className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]">Track Order</Link>
-                <Link href="/shop" className="w-full h-12 rounded-xl bg-white border border-stone-200 text-stone-700 text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center hover:bg-stone-50 transition-all duration-300">Continue Shopping</Link>
+                <Link href={`/order-detail?id=${placedOrderId}`} className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]">{t.track_order || "Track Order"}</Link>
+                <Link href="/shop" className="w-full h-12 rounded-xl bg-white border border-stone-200 text-stone-700 text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center hover:bg-stone-50 transition-all duration-300">{t.continue_shopping || "Continue Shopping"}</Link>
               </div>
             </div>
           </div>
@@ -211,7 +238,7 @@ export default function MonthlyCartPage() {
   }
 
   return (
-    <main className="min-h-screen bg-stone-50 pt-12 lg:pt-20 pb-20">
+    <main className="min-h-screen bg-stone-50 pt-32 lg:pt-40 pb-20">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
           {/* Left Column - Forms */}

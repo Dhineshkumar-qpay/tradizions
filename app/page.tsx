@@ -377,12 +377,12 @@ function HealthBenefitsSection({ t }: { t: any }) {
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--dark-brown)] leading-tight">
-              Nature's finest,{" "}
-              <span className="gradient-text">science-backed</span>{" "}
-              nutrition
+              {t.health_advantage_headline_1 || "Nature's finest, "}{" "}
+              <span className="gradient-text">{t.health_advantage_headline_2 || "science-backed"}</span>{" "}
+              {t.health_advantage_headline_3 || "nutrition"}
             </h2>
             <p className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed max-w-md">
-              Every ingredient is hand-selected from certified farms and packed fresh to preserve maximum nutritional value.
+              {t.health_advantage_desc || "Every ingredient is hand-selected from certified farms and packed fresh to preserve maximum nutritional value."}
             </p>
           </div>
 

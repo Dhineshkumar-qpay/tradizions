@@ -52,3 +52,6 @@ export const API_ROUTES = {
 
 export const BASE_URL = "https://demo.sevanta.in/api";
 export const IMAGE_URL = "https://demo.sevanta.in/api";
+
+// export const BASE_URL = "http://localhost:3003/api";
+// export const IMAGE_URL = "http://localhost:3003";

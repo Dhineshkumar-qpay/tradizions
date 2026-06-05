@@ -12,6 +12,15 @@ import {
 } from "lucide-react";
 import { API } from "@/service/api_service";
 import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
+import en from "@/languages/en.json";
+import ta from "@/languages/ta.json";
+import hi from "@/languages/hi.json";
+
+const translations: Record<string, any> = {
+  EN: en,
+  TA: ta,
+  HI: hi,
+};
 
 const getImageUrl = (imagePath: string) => {
   if (!imagePath) return "/placeholder.png";
@@ -52,6 +61,7 @@ function HealthGoalProductsContent() {
   const [products, setProducts] = useState<any[]>([]);
   const [favouriteProductIds, setFavouriteProductIds] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedLang, setSelectedLang] = useState("EN");
 
   // Filters, Search, Pagination
   const [searchQuery, setSearchQuery] = useState("");
@@ -114,6 +124,23 @@ function HealthGoalProductsContent() {
     fetchProducts();
   }, [goalid]);
 
+  useEffect(() => {
+    const savedLang = localStorage.getItem("selectedLang");
+    if (savedLang && translations[savedLang]) {
+      setSelectedLang(savedLang);
+    }
+    const handleLangChange = () => {
+      const lang = localStorage.getItem("selectedLang");
+      if (lang && translations[lang]) {
+        setSelectedLang(lang);
+      }
+    };
+    window.addEventListener("languageChange", handleLangChange);
+    return () => window.removeEventListener("languageChange", handleLangChange);
+  }, []);
+
+  const t = translations[selectedLang] || translations["EN"];
+
   const handleActionWithLogin = (action: () => void) => {
     if (localStorage.getItem("isLoggedIn") !== "true") {
       window.dispatchEvent(new Event("openLoginSidebar"));
@@ -141,27 +168,47 @@ function HealthGoalProductsContent() {
   );
 
   return (
-    <main className="min-h-screen bg-[#fafaf9] pt-16">
-      {/* HEADER */}
-      <div className="relative bg-transparent">
-        <div className="max-w-7xl mx-auto px-6 pt-2 pb-1">
-          <div className="relative rounded-2xl overflow-hidden border border-stone-200/80 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500">
-            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[var(--gold)] via-[var(--olive)] to-[var(--gold)]" />
-            <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] pointer-events-none" />
-            <div className="relative px-6 py-4 md:py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="space-y-1.5 max-w-3xl">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-stone-100 text-[9px] font-black tracking-widest text-stone-500 uppercase">
-                  <span className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full animate-pulse" />
-                  Health Goal Products
-                </span>
-                <h1 className="text-base md:text-lg font-black text-stone-900 tracking-tight leading-tight">
-                  Products targeted for your wellness
-                </h1>
-              </div>
+    <main className="min-h-screen bg-[#fafaf9] pt-24 lg:pt-20">
+      {/* ──── Health Goals Hero / Header ──── */}
+      <section className="relative pt-15 pb-6 px-6 sm:px-12 lg:px-20 overflow-hidden bg-white border-b border-stone-100">
+        <div className="absolute top-0 right-0 w-[400px] h-full bg-gradient-to-l from-[var(--beige)]/60 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[300px] h-1 bg-gradient-to-r from-[var(--olive)] via-[var(--orange)] to-transparent" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex items-center gap-2 text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-4">
+            <span>Home</span>
+            <span>/</span>
+            <span className="text-[var(--olive)]">Health Goals</span>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div className="space-y-2">
+              <h1 className="text-xl md:text-2xl font-extrabold text-[var(--dark-brown)] leading-tight tracking-tight">
+                {t.health_goal_products || "Health Goal Products"}
+              </h1>
+              <p className="text-sm text-stone-500 max-w-lg font-medium leading-relaxed">
+                {t.health_goal_products_desc || "Products targeted for your wellness"}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3 md:justify-end shrink-0">
+              {[
+                { icon: "🌿", label: "100% Natural" },
+                { icon: "📦", label: "Fast Delivery" },
+                { icon: "⭐", label: "Premium Grade" },
+              ].map((badge) => (
+                <div
+                  key={badge.label}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-50 border border-stone-100 text-[10px] font-bold text-stone-600 tracking-wide"
+                >
+                  <span>{badge.icon}</span>
+                  {badge.label}
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <div className="max-w-7xl mx-auto px-2 md:px-6 py-6 md:py-10 pb-32">
         <div className="space-y-8">
@@ -214,7 +261,7 @@ function HealthGoalProductsContent() {
                   <Link
                     href={`/product-detail/${id}?productid=${id}&bid=${product.bid || 1}`}
                     key={id}
-                    className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
+                    className="group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/60"
                   >
                     {/* Image Container */}
                     <div className="relative aspect-[4/3] overflow-hidden bg-gray-50 flex items-center justify-center">
@@ -359,8 +406,18 @@ function HealthGoalProductsContent() {
               })}
             </div>
           ) : (
-            <div className="text-center py-20 text-gray-500">
-              No products found matching your criteria.
+            <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-stone-100 text-center px-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+              <div className="w-20 h-20 bg-stone-50 rounded-full flex items-center justify-center mb-6">
+                <Search className="w-8 h-8 text-stone-300" />
+              </div>
+              <h3 className="text-lg font-black text-stone-900 mb-2">{t.no_products_found || "No products found"}</h3>
+              <p className="text-sm text-stone-500 max-w-sm">{t.no_products_matching || "We couldn't find any products matching your current search criteria. Try using different keywords."}</p>
+              <button 
+                onClick={() => setSearchQuery("")}
+                className="mt-6 px-6 py-3 rounded-xl bg-[var(--olive)]/10 text-[var(--olive)] font-bold text-xs uppercase tracking-widest hover:bg-[var(--olive)] hover:text-white transition-colors"
+              >
+                {t.clear_search || "Clear Search"}
+              </button>
             </div>
           )}
 
