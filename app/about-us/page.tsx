@@ -201,7 +201,7 @@ export default function AboutUsPage() {
       {/* ── HERO SECTION ── */}
       <section
         ref={heroRef.ref}
-        className="relative pt-32 pb-32 overflow-hidden flex items-center justify-center bg-white"
+        className="relative pt-40 lg:pt-48 pb-32 overflow-hidden flex items-center justify-center bg-white"
       >
         {/* Abstract Background Elements */}
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-[var(--olive)]/5 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/2 pointer-events-none" />

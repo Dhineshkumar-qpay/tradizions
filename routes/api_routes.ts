@@ -50,5 +50,5 @@ export const API_ROUTES = {
   UPLOADGIFTCARDIMAGE: "/product/upload-gift-card",
 };
 
-export const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://demo.sevanta.in/api";
-export const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "https://demo.sevanta.in/api";
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+export const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "http://demo.sevanta.in/api";

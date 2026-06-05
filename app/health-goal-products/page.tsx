@@ -163,7 +163,7 @@ function HealthGoalProductsContent() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-10 pb-32">
+      <div className="max-w-7xl mx-auto px-2 md:px-6 py-6 md:py-10 pb-32">
         <div className="space-y-8">
           {/* SEARCH BAR */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
@@ -184,13 +184,13 @@ function HealthGoalProductsContent() {
 
           {/* PRODUCTS GRID */}
           {isLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-4 gap-6 gap-y-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-4 gap-2 gap-y-4 md:gap-6 md:gap-y-12">
               {Array.from({ length: 8 }).map((_, idx) => (
                 <ProductSkeleton key={idx} />
               ))}
             </div>
           ) : paginatedProducts.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-4 gap-6 gap-y-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-4 gap-2 gap-y-4 md:gap-6 md:gap-y-12">
               {paginatedProducts.map((product) => {
                 const id =
                   product.productid !== undefined
@@ -342,7 +342,7 @@ function HealthGoalProductsContent() {
                           className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
                             (product.availablestock ?? 0) <= 0
                               ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-                              : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
+                              : "bg-[var(--olive)]/10 border-[var(--olive)]/20 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
                           } disabled:opacity-50`}
                         >
                           <span>

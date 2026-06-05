@@ -179,7 +179,7 @@ export default function CorporateOrdersPage() {
       {/* ── HERO SECTION (Light & Modern Split) ── */}
       <section
         ref={heroRef.ref}
-        className="relative pt-28 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-[var(--site-bg)] z-10"
+        className="relative pt-36 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-[var(--site-bg)] z-10"
       >
         {/* Background Accents */}
         <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-bl from-[var(--olive)]/10 to-transparent rounded-bl-[120px] -z-10" />

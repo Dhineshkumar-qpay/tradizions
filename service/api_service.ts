@@ -8,9 +8,6 @@ const API = axios.create({
 });
 
 API.interceptors.request.use((config) => {
-  if (config.data) {
-    console.log("📦 Request Body Payload:", config.data);
-  }
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("token");
     if (token) {

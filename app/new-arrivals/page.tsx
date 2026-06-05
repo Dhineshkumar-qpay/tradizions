@@ -142,29 +142,49 @@ export default function NewArrivalsPage() {
   const paginatedProducts = filteredProducts;
 
   return (
-    <main className="min-h-screen bg-[#fafaf9] pt-16">
-      {/* HEADER */}
-      <div className="relative bg-transparent">
-        <div className="max-w-7xl mx-auto px-6 pt-2 pb-1">
-          <div className="relative rounded-2xl overflow-hidden border border-stone-200/80 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500">
-            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[var(--gold)] via-[var(--olive)] to-[var(--gold)]" />
-            <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] pointer-events-none" />
-            <div className="relative px-6 py-4 md:py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="space-y-1.5 max-w-3xl">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-stone-100 text-[9px] font-black tracking-widest text-stone-500 uppercase">
-                  <span className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full animate-pulse" />
-                  {t.new_arrivals || "New Arrivals"}
-                </span>
-                <h1 className="text-base md:text-lg font-black text-stone-900 tracking-tight leading-tight">
-                  {t.new_arrivals_desc || "Discover our latest premium products."}
-                </h1>
-              </div>
+    <main className="min-h-screen bg-[#fafaf9] pt-24 lg:pt-20">
+      {/* ──── New Arrivals Hero / Header ──── */}
+      <section className="relative pt-15 pb-6 px-6 sm:px-12 lg:px-20 overflow-hidden bg-white border-b border-stone-100">
+        <div className="absolute top-0 right-0 w-[400px] h-full bg-gradient-to-l from-[var(--beige)]/60 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[300px] h-1 bg-gradient-to-r from-[var(--olive)] via-[var(--orange)] to-transparent" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex items-center gap-2 text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-4">
+            <span>Home</span>
+            <span>/</span>
+            <span className="text-[var(--olive)]">{t.new_arrivals || "New Arrivals"}</span>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div className="space-y-2">
+              <h1 className="text-xl md:text-2xl font-extrabold text-[var(--dark-brown)] leading-tight tracking-tight">
+                {t.new_arrivals || "New Arrivals"}
+              </h1>
+              <p className="text-sm text-stone-500 max-w-lg font-medium leading-relaxed">
+                {t.new_arrivals_desc || "Discover our latest premium products."}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3 md:justify-end shrink-0">
+              {[
+                { icon: "🌿", label: "100% Natural" },
+                { icon: "📦", label: "Fast Delivery" },
+                { icon: "⭐", label: "Premium Grade" },
+              ].map((badge) => (
+                <div
+                  key={badge.label}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-50 border border-stone-100 text-[10px] font-bold text-stone-600 tracking-wide"
+                >
+                  <span>{badge.icon}</span>
+                  {badge.label}
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-6 py-10 pb-32">
+      <div className="max-w-7xl mx-auto px-2 md:px-6 py-6 md:py-10 pb-32">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* SIDEBAR FILTERS */}
           <aside className="w-full lg:w-56 shrink-0 space-y-6">
@@ -268,13 +288,13 @@ export default function NewArrivalsPage() {
 
             {/* PRODUCTS GRID */}
             {isLoading ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 gap-y-12">
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-2 gap-y-4 md:gap-6 md:gap-y-12">
                 {Array.from({ length: 6 }).map((_, idx) => (
                   <ProductSkeleton key={idx} />
                 ))}
               </div>
             ) : paginatedProducts.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 gap-y-12">
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-2 gap-y-4 md:gap-6 md:gap-y-12">
                 {paginatedProducts.map((product) => {
                   const id = product.productid !== undefined ? product.productid : product.id;
                   const name = product.productname || product.name;
@@ -287,7 +307,7 @@ export default function NewArrivalsPage() {
                     <Link
                       href={`/product-detail/${id}?productid=${id}&bid=${product.bid || 1}`}
                       key={id}
-                      className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
+                      className="group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
                     >
                       {/* Image Container */}
                       <div className="relative aspect-[4/3] overflow-hidden bg-gray-50 flex items-center justify-center">
@@ -387,7 +407,7 @@ export default function NewArrivalsPage() {
                             className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
                               (product.availablestock ?? 0) <= 0
                                 ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-                                : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
+                                : "bg-[var(--olive)]/10 border-[var(--olive)]/20 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
                             } disabled:opacity-50`}
                           >
                             <span>{(product.availablestock ?? 0) <= 0 ? "OUT OF STOCK" : "ADD TO CART"}</span>

@@ -366,8 +366,8 @@ export default function ProductDetailPage() {
     .map((img) => getImageUrl(img as string));
 
   return (
-    <main className="min-h-screen bg-[#faf9f6] pt-20 pb-20">
-      <div className="max-w-7xl mx-auto px-6">
+    <main className="min-h-screen bg-[#faf9f6] pt-28 lg:pt-20 pb-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-[11px] font-bold tracking-widest text-gray-400 uppercase mb-8">
           <Link
@@ -387,7 +387,7 @@ export default function ProductDetailPage() {
           <span className="text-[var(--olive)]">{product.productname}</span>
         </nav>
 
-        <div className="bg-white rounded-[2.5rem] p-6 lg:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col lg:flex-row gap-12">
+        <div className="bg-white rounded-3xl sm:rounded-[2.5rem] p-4 sm:p-6 lg:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left: Image Gallery */}
           <div className="w-full lg:w-1/2 flex flex-col-reverse sm:flex-row gap-4">
             {/* Thumbnails */}
@@ -405,7 +405,7 @@ export default function ProductDetailPage() {
 
             {/* Main Image */}
             <div
-              className="relative flex-1 aspect-[4/5] sm:aspect-auto sm:h-[600px] rounded-[2rem] overflow-hidden bg-[#faf9f6] justify-center items-center flex cursor-zoom-in"
+              className="relative flex-1 aspect-[4/5] sm:aspect-auto sm:h-[600px] rounded-[1rem] overflow-hidden bg-[#faf9f6] justify-center items-center flex cursor-zoom-in"
               onClick={() => setShowImage(true)}
             >
               <img
@@ -684,7 +684,7 @@ export default function ProductDetailPage() {
         </div>
 
         {/* REVIEWS SECTION */}
-        <div className="mt-12 bg-white rounded-[2.5rem] p-6 lg:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100">
+        <div className="mt-8 lg:mt-12 bg-white rounded-3xl sm:rounded-[2.5rem] p-4 sm:p-6 lg:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-6">
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">

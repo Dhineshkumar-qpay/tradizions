@@ -298,6 +298,29 @@ export default function Home() {
       <CategoriesSection t={t} categories={categories} />
       <HealthGoalsSection t={t} goals={healthGoalsData} />
       <HealthBenefitsSection t={t} />
+
+      {/* ──── Full Size Banner with Shop Button ──── */}
+      <section className="relative w-full h-[60vh] md:h-[80vh] min-h-[500px] overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 hover:scale-105"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1649103989985-e8d5b778f5c7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}
+        />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 space-y-8 z-10">
+          <div className="space-y-4 max-w-3xl">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-lg">
+              {t.banner_title || "Pure Nutrition, Rooted in Tradition"}
+            </h2>
+            <p className="text-base md:text-xl text-white/90 font-medium max-w-2xl mx-auto drop-shadow-md">
+              {t.banner_subtitle || "Elevate your daily wellness with our premium, carefully sourced natural ingredients. Good for you, and good for your family."}
+            </p>
+          </div>
+          <a href="/shop" className="bg-[var(--olive)] text-white px-10 py-3 text-sm md:text-base font-semibold tracking-[0.2em] uppercase rounded-full hover:bg-[var(--olive-dark)] transition-all duration-500 shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-1">
+            {t.shop_now || "Shop Now"}
+          </a>
+        </div>
+      </section>
+
       <FeaturedSection t={t} products={featuredProducts} />
       <NewArrivalsSection t={t} products={newArrivalsProducts} />
       <WhyChooseUsSection t={t} />
@@ -316,112 +339,117 @@ export default function Home() {
   );
 }
 
-//  HEALTH BENEFITS SECTION (NEW)
+//  HEALTH BENEFITS SECTION (REDESIGNED)
 //  ══════════════════════════════════════════════════════════════ */
 function HealthBenefitsSection({ t }: { t: any }) {
   const [activeCategory, setActiveCategory] = useState<
     "nuts" | "millets" | "spices"
   >("nuts");
 
-  const benefitsMap = {
+  const benefitsMap: Record<string, any[]> = {
     nuts: t.health_benefits_data?.nuts || [],
     millets: t.health_benefits_data?.millets || [],
     spices: t.health_benefits_data?.spices || [],
   };
 
+  const categoryMeta: Record<string, { emoji: string; color: string; accent: string; stat: string; label: string; lightGradient: string }> = {
+    nuts: { emoji: "🌰", color: "from-amber-700 to-amber-500", accent: "bg-amber-500", stat: "18g", label: "Avg. Protein / 100g", lightGradient: "from-amber-50 to-orange-50/30" },
+    millets: { emoji: "🌾", color: "from-[var(--olive-dark)] to-[var(--olive)]", accent: "bg-[var(--olive)]", stat: "72%", label: "Fibre Rich Varieties", lightGradient: "from-[var(--olive)]/10 to-[var(--beige)]/30" },
+    spices: { emoji: "🌶️", color: "from-orange-700 to-[var(--orange)]", accent: "bg-[var(--orange)]", stat: "3x", label: "More Antioxidants", lightGradient: "from-rose-50 to-orange-50/40" },
+  };
+
   const activeBenefits = benefitsMap[activeCategory];
+  const meta = categoryMeta[activeCategory];
+
+  const categories: Array<"nuts" | "millets" | "spices"> = ["nuts", "millets", "spices"];
 
   return (
-    <section className="py-12 bg-[#fafaf9] overflow-hidden">
-      {/* HEADER */}
-      <div className="max-w-7xl mx-auto px-6 mb-16">
-        <div className="text-center space-y-4">
-          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
-            {t.health_advantage?.split(" ")[0]}{" "}
-            <span className="gradient-text">
-              {t.health_advantage?.split(" ").slice(1).join(" ")}
-            </span>
-          </h2>
+    <section className="py-16 bg-[#fafaf9] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
 
-          {/* CATEGORY BUTTONS */}
-          <div className="flex justify-center gap-4 mt-10 flex-wrap">
-            <button
-              onClick={() => setActiveCategory("nuts")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "nuts"
-                ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
-                : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-                }`}
-            >
-              {t.sections?.nuts || "Nuts"}
-            </button>
-
-            <button
-              onClick={() => setActiveCategory("millets")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "millets"
-                ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
-                : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-                }`}
-            >
-              {t.sections?.millets || "Millets"}
-            </button>
-
-            <button
-              onClick={() => setActiveCategory("spices")}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all duration-500 cursor-pointer ${activeCategory === "spices"
-                ? "bg-[var(--olive)] text-white shadow-lg shadow-[var(--olive)]/20 scale-105"
-                : "bg-white text-gray-400 hover:text-gray-600 border border-stone-100"
-                }`}
-            >
-              {t.sections?.spices || "Spices"}
-            </button>
+        {/* ── Top Row: Label + Headline ── */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+          <div className="space-y-3 max-w-xl">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--olive)]/8 border border-[var(--olive)]/15">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)] animate-pulse" />
+              <span className="text-[10px] font-black tracking-[0.2em] uppercase text-[var(--olive)]">
+                {t.health_advantage || "The Health Advantage"}
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--dark-brown)] leading-tight">
+              Nature's finest,{" "}
+              <span className="gradient-text">science-backed</span>{" "}
+              nutrition
+            </h2>
+            <p className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed max-w-md">
+              Every ingredient is hand-selected from certified farms and packed fresh to preserve maximum nutritional value.
+            </p>
           </div>
+
+          {/* ── Stat Pill ── */}
+          <div className={`flex-shrink-0 flex items-center gap-4 px-6 py-4 rounded-2xl bg-gradient-to-br ${meta.color} text-white shadow-lg transition-all duration-500`}>
+            <span className="text-3xl">{meta.emoji}</span>
+            <div>
+              <p className="text-3xl font-black leading-none">{meta.stat}</p>
+              <p className="text-[10px] font-bold opacity-80 tracking-widest uppercase mt-0.5">{meta.label}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Category Tabs (inline pill style) ── */}
+        <div className="flex gap-2 mb-10 flex-wrap">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`relative px-6 py-2.5 rounded-xl text-[11px] font-black tracking-[0.18em] uppercase transition-all duration-400 cursor-pointer ${activeCategory === cat
+                ? "bg-[var(--olive)] text-white shadow-md"
+                : "bg-white text-stone-500 border border-stone-150 hover:border-[var(--olive)] hover:text-[var(--olive)]"
+                }`}
+            >
+              {activeCategory === cat && (
+                <span className={`absolute left-3 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white`} />
+              )}
+              <span className={activeCategory === cat ? "pl-3" : ""}>{t.sections?.[cat] || cat}</span>
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* AUTO SCROLL CARDS */}
+      {/* ── Scrolling Cards Strip ── */}
       <div className="relative group overflow-hidden">
-        <div className="flex animate-marquee group-hover:[animation-play-state:paused]">
-          {[...activeBenefits, ...activeBenefits].map((benefit, idx) => {
-            let bgImageUrl = "/health-advantage/nuts_health.jpeg";
-            if (activeCategory === "millets") {
-              bgImageUrl = "/health-advantage/millets_health.jpeg";
-            } else if (activeCategory === "spices") {
-              bgImageUrl = "/health-advantage/spices_health.jpeg";
-            }
-
+        <div className="flex animate-marquee group-hover:[animation-play-state:paused] py-4">
+          {[...activeBenefits, ...activeBenefits].map((benefit: any, idx: number) => {
             return (
               <div
                 key={benefit.name + idx}
-                className="flex-shrink-0 w-[300px] md:w-[350px] mx-4 h-[210px] rounded-[2rem] relative overflow-hidden group hover:shadow-[0_20px_40px_rgba(85,107,47,0.15)] hover:-translate-y-2 transition-all duration-500"
+                className={`flex-shrink-0 w-[260px] md:w-[300px] mx-3 h-[180px] bg-gradient-to-br ${meta.lightGradient} border border-white/50 rounded-2xl p-6 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-1 hover:border-[var(--olive)]/30 transition-all duration-400 group/card flex flex-col`}
               >
-                {/* Background Image */}
-                <div className="absolute inset-0 z-0 bg-[#e8e4c9]">
-                  <img src={bgImageUrl} alt={activeCategory} className="w-full h-full object-cover group-hover:scale-110 group-hover:-rotate-2 transition-transform duration-[800ms] ease-out" />
-                  {/* Subtle dark overlay at the very bottom to ground the glass panel */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+                {/* Decorative accents */}
+                <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${meta.color} opacity-5 rounded-bl-[60px] pointer-events-none`} />
+                <div className={`absolute left-0 top-0 w-1 h-full ${meta.accent} opacity-0 group-hover/card:opacity-100 transition-opacity duration-300`} />
+
+                <div className="flex items-start justify-between mb-3 relative z-10">
+                  <div className={`shrink-0 w-8 h-8 rounded-lg bg-[var(--olive)]/10 flex items-center justify-center`}>
+                    <Check className={`w-4 h-4 text-[var(--olive)]`} strokeWidth={3} />
+                  </div>
+                  <span className="text-[20px] opacity-20 group-hover/card:opacity-40 transition-opacity grayscale group-hover/card:grayscale-0">{meta.emoji}</span>
                 </div>
 
-                {/* Floating Glass Panel */}
-                <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-col justify-center p-4 rounded-[1.25rem] bg-white/80 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-white/60 group-hover:bg-white/95 group-hover:shadow-[0_15px_40px_rgba(85,107,47,0.12)] group-hover:-translate-y-1 transition-all duration-500">
-                  <h3 className="text-[16px] font-black text-[#2b3513] mb-1 leading-tight tracking-wide">
-                    {benefit.name}
-                  </h3>
-                  <p className="text-[12px] text-[#4d5e27] leading-snug font-semibold line-clamp-2">
-                    {benefit.desc}
-                  </p>
-                  {/* Elegant Divider Line */}
-                  <div className="w-8 h-[2.5px] bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] mt-2 rounded-full opacity-90" />
-                </div>
+                <h3 className="text-[14px] font-bold text-[var(--dark-brown)] leading-tight mb-1.5 relative z-10">
+                  {benefit.name}
+                </h3>
+                <p className="text-[11px] text-stone-500 leading-snug font-medium line-clamp-3 relative z-10">
+                  {benefit.desc}
+                </p>
               </div>
             );
           })}
         </div>
 
-        {/* LEFT GRADIENT */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#fafaf9] to-transparent pointer-events-none" />
-
-        {/* RIGHT GRADIENT */}
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#fafaf9] to-transparent pointer-events-none" />
+        {/* Fade edges */}
+        <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#fafaf9] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#fafaf9] to-transparent pointer-events-none z-10" />
       </div>
     </section>
   );
@@ -661,7 +689,7 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
             </p>
           </div>
         ) : (
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-2 md:gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {displayProducts.map((product, idx) => (
               <div
                 key={
@@ -669,7 +697,7 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
                     ? product.productid
                     : product.id
                 }
-                className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0"
+                className="w-[60vw] sm:w-[calc(50%-0.25rem)] md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0"
               >
                 <ProductCard
                   product={product}
@@ -681,10 +709,10 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
             ))}
             {/* View All Card */}
             {displayProducts.length > 10 && (
-              <div className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0 flex">
+              <div className="w-[60vw] sm:w-[calc(50%-0.25rem)] md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0 flex">
                 <Link
                   href="/featured"
-                  className="flex-1 group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/30 min-h-[350px]"
+                  className="flex-1 group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/50 min-h-[350px]"
                 >
                   <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-[var(--olive)] transition-colors duration-300 shadow-sm group-hover:shadow-md">
                     <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
@@ -785,7 +813,7 @@ function ProductCard({
   return (
     <Link
       href={detailUrl}
-      className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
+      className="group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
       style={{ transitionDelay: isVisible ? `${delay}ms` : "0ms" }}
     >
       {/* Image Container */}
@@ -909,7 +937,7 @@ function ProductCard({
             }}
             className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
               ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-              : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
+              : "bg-[var(--olive)]/10 border-[var(--olive)]/20 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
               } disabled:opacity-50`}
           >
             <span>
@@ -1096,7 +1124,7 @@ function WhyChooseUsSection({ t }: { t: any }) {
     <section ref={ref} className="py-20 bg-gradient-to-b from-white to-[#fdfbf6] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
-          
+
           {/* Left Side: Elegant Arch Image */}
           <div className={`w-full lg:w-5/12 relative transition-all duration-700 opacity-100 translate-x-0`}>
             <div className="relative aspect-[3/4] rounded-t-full rounded-b-[2.5rem] overflow-hidden shadow-[0_20px_60px_-15px_rgba(85,107,47,0.2)] border-[10px] border-white mx-auto max-w-sm group">
@@ -1107,7 +1135,7 @@ function WhyChooseUsSection({ t }: { t: any }) {
                 className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--olive-dark)]/60 via-transparent to-transparent opacity-90" />
-              
+
               {/* Floating Stat Card inside Image */}
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] bg-white/95 backdrop-blur-md p-4 rounded-[1.5rem] shadow-2xl flex items-center gap-4 border border-white/50 group-hover:-translate-y-1 transition-transform duration-500">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#556b2f] to-[#3a4a20] flex items-center justify-center text-white flex-shrink-0 shadow-inner">
@@ -1235,7 +1263,7 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                   >
                     {/* Subtle top accent line */}
                     <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
-                    
+
                     {/* Large Watermark Quote */}
                     <Quote className="absolute -top-2 -right-2 w-24 h-24 text-[var(--olive)] opacity-[0.03] rotate-12 group-hover/card:opacity-[0.06] group-hover/card:scale-110 transition-all duration-500" />
 
@@ -1282,7 +1310,7 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                 >
                   {/* Subtle top accent line */}
                   <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
-                  
+
                   {/* Large Watermark Quote */}
                   <Quote className="absolute -top-2 -right-2 w-24 h-24 text-[var(--olive)] opacity-[0.03] rotate-12 group-hover/card:opacity-[0.06] group-hover/card:scale-110 transition-all duration-500" />
 
@@ -1692,7 +1720,7 @@ function NutritionPlanner({ t }: { t: any }) {
   };
 
   return (
-    <section ref={ref} className="py-20 bg-gradient-to-br from-[var(--olive)]/10 via-[#faf8f3] to-[var(--orange)]/10 relative overflow-hidden">
+    <section ref={ref} className="py-20 bg-gradient-to-br from-[var(--olive)]/20 via-[#f2efe6] to-[var(--orange)]/20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
         {/* Main Calculator Header & Description */}
         <div className="text-center mb-10 space-y-6">
@@ -2402,7 +2430,7 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
             </p>
           </div>
         ) : (
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-2 md:gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {displayProducts.map((product, idx) => {
               const id =
                 product.productid !== undefined
@@ -2432,11 +2460,11 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
               return (
                 <div
                   key={id}
-                  className="w-[calc(50%-0.75rem)] md:w-[calc(25%-1.125rem)] snap-start flex-shrink-0"
+                  className="w-[60vw] sm:w-[calc(50%-0.25rem)] md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0"
                 >
                   <Link
                     href={detailUrl}
-                    className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] h-full"
+                    className="group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] h-full"
                     style={{
                       transitionDelay: isVisible ? `${idx * 150}ms` : "0ms",
                     }}
@@ -2576,7 +2604,7 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
                           }}
                           className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
                             ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-                            : "bg-[#FCFBF9] border-gray-100 text-gray-900 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
+                            : "bg-[var(--olive)]/10 border-[var(--olive)]/20 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
                             } disabled:opacity-50`}
                         >
                           <span>
@@ -2600,10 +2628,10 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
             })}
             {/* View All Card */}
             {displayProducts.length > 10 && (
-              <div className="w-[calc(50%-0.75rem)] md:w-[calc(25%-1.125rem)] snap-start flex-shrink-0 flex">
+              <div className="w-[60vw] sm:w-[calc(50%-0.25rem)] md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0 flex">
                 <Link
                   href="/new-arrivals"
-                  className="flex-1 group relative bg-white border border-gray-100 rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/30 min-h-[350px]"
+                  className="flex-1 group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/50 min-h-[350px]"
                 >
                   <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-[var(--olive)] transition-colors duration-300 shadow-sm group-hover:shadow-md">
                     <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />

@@ -1387,8 +1387,8 @@ export default function ProfilePage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#faf9f6] pt-20 pb-20">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row gap-8">
+    <main className="min-h-screen bg-[#faf9f6] pt-36 lg:pt-40 pb-20">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 flex flex-col md:flex-row gap-6 md:gap-8">
         {/* Left Sidebar Menu */}
         <div className="w-full md:w-72 shrink-0">
           <div className="p-8 bg-white rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.04)] border border-gray-100 mb-6 flex flex-col items-center text-center relative overflow-hidden">
@@ -1508,7 +1508,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Right Content Area */}
-        <div className="flex-1 bg-white rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.04)] border border-gray-100 p-8 md:p-12 min-h-[600px]">
+        <div className="flex-1 bg-white rounded-3xl md:rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.04)] border border-gray-100 p-4 sm:p-8 md:p-12 min-h-[600px]">
           {activeTab === "profile" && renderProfileForm()}
           {activeTab === "addresses" && renderAddresses()}
           {activeTab === "wishlist" && renderWishlist()}

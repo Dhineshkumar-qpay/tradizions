@@ -302,7 +302,7 @@ function OrderDetailContent() {
   const isMonthly = orderInfo.ordertype === "monthly";
 
   return (
-    <main className="min-h-screen bg-[var(--site-bg)] pt-24 pb-24">
+    <main className="min-h-screen bg-[var(--site-bg)] pt-36 lg:pt-40 pb-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Breadcrumb */}
         <div className="mb-8 flex items-center justify-between">

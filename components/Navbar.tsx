@@ -73,9 +73,20 @@ export default function Navbar() {
     window.addEventListener("loginSuccess", fetchCartCount);
     return () => {
       window.removeEventListener("cartUpdated", fetchCartCount);
-      window.removeEventListener("loginSuccess", fetchCartCount);
     };
   }, []);
+
+  // Prevent body scroll when search is open
+  useEffect(() => {
+    if (isSearchOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isSearchOpen]);
 
   // Search States & Logic
   const [searchQuery, setSearchQuery] = useState("");
@@ -492,148 +503,17 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Professional Dynamic Searchbar */}
-            <div className="relative group flex items-center">
-              <div
-                className={`flex items-center transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] rounded-full bg-white/70 backdrop-blur-xl overflow-hidden shadow-sm relative group-hover:bg-white/90 ${isSearchOpen
-                  ? "w-48 md:w-80 border-transparent ring-[1.5px] ring-[var(--olive)] shadow-[0_8px_30px_rgba(85,107,47,0.2)]"
-                  : "w-10 h-10 border border-[#ddd5be] hover:border-[var(--olive)]/50 hover:shadow-md cursor-pointer"
-                  }`}
+            {/* Search Button */}
+            <div className="relative">
+              <button
                 onClick={() => {
                   if (!isSearchOpen) setIsSearchOpen(true);
                 }}
+                className="flex items-center justify-center w-9 h-9 rounded-full border border-[#e8dfc8] bg-white/70 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300 shadow-sm"
+                aria-label="Search"
               >
-                {/* Search Icon */}
-                <button
-                  className={`flex-shrink-0 h-10 w-10 flex items-center justify-center transition-all duration-300 ${isSearchOpen
-                    ? "text-[var(--olive)] bg-[var(--olive)]/5"
-                    : "text-gray-500 hover:text-[var(--olive)]"
-                    }`}
-                  aria-label="Search"
-                >
-                  <Search className={`w-[16px] h-[16px] transition-transform duration-300 ${isSearchOpen ? "scale-110" : "scale-100 group-hover:scale-110"}`} />
-                </button>
-
-                {/* Input Field */}
-                <input
-                  type="text"
-                  placeholder={t.searchPlaceholder || "Search products..."}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`w-full bg-transparent py-2.5 pr-2 text-[13px] font-bold tracking-wide text-gray-800 placeholder-gray-400 focus:outline-none transition-all duration-500 ${isSearchOpen
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 translate-x-10 pointer-events-none absolute"
-                    }`}
-                />
-
-                {/* Close Button */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsSearchOpen(false);
-                    setSearchQuery("");
-                    setSuggestions([]);
-                  }}
-                  className={`flex-shrink-0 h-7 w-7 mr-1.5 flex items-center justify-center rounded-full bg-stone-100 transition-all duration-300 hover:bg-[var(--orange)] text-gray-500 hover:text-white ${isSearchOpen
-                    ? "opacity-100 scale-100 translate-x-0"
-                    : "opacity-0 scale-50 translate-x-4 pointer-events-none absolute right-0"
-                    }`}
-                  aria-label="Close search"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Absolutely positioned Suggestions Dropdown */}
-              {isSearchOpen && searchQuery.trim() !== "" && (
-                <div className="absolute top-full right-0 mt-2 w-80 md:w-[420px] bg-white border border-gray-200 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.1)] z-50 overflow-hidden animate-fade-in-up">
-                  {isSearching ? (
-                    <div className="flex items-center justify-center py-8 text-stone-400 gap-2.5 text-xs font-semibold">
-                      <Loader2 className="w-4 h-4 animate-spin text-[var(--olive)]" />
-                      <span>{t.navbar?.searching || "Searching..."}</span>
-                    </div>
-                  ) : suggestions.length === 0 ? (
-                    <div className="flex items-center justify-center py-8 text-stone-400 text-xs font-semibold">
-                      {t.navbar?.no_products || "No products found"}
-                    </div>
-                  ) : (
-                    <>
-                      {/* Header title */}
-                      <div className="px-6 pt-5 pb-4 bg-white">
-                        <h3 className="text-xl font-normal text-gray-800">Products</h3>
-                      </div>
-
-                      {/* Suggestions list */}
-                      <div className="max-h-[420px] overflow-y-auto px-6 pb-4 flex flex-col gap-6">
-                        {suggestions.slice(0, 5).map((product) => {
-                          const isGift =
-                            product.categoryid === 4 ||
-                            product.categoryid === 5 ||
-                            product.itemtype === "gift" ||
-                            (product.category && product.category.toLowerCase().includes("gift"));
-                          const detailUrl = isGift
-                            ? `/gift-detail/${product.productid}?productid=${product.productid}&bid=1`
-                            : `/product-detail/${product.productid}?productid=${product.productid}&bid=1`;
-
-                          const finalPrice = product.sellingprice === 0 || product.sellingprice == null
-                            ? product.price
-                            : product.sellingprice;
-
-                          return (
-                            <Link
-                              key={product.productid}
-                              href={detailUrl}
-                              onClick={() => {
-                                setIsSearchOpen(false);
-                                setSearchQuery("");
-                                setSuggestions([]);
-                              }}
-                              className="flex items-start gap-5 group"
-                            >
-                              <div className="w-[85px] h-[85px] flex-shrink-0 bg-stone-50 flex items-center justify-center overflow-hidden border border-gray-100">
-                                <img
-                                  src={
-                                    IMAGE_URL +
-                                    (product.productimage || "/placeholder.jpg")
-                                  }
-                                  alt={product.productname}
-                                  className={`w-full h-full object-cover mix-blend-multiply ${product.stock <= 0 || product.availablestock <= 0 ? "grayscale opacity-60" : ""}`}
-                                />
-                              </div>
-
-                              <div className="flex-1 flex flex-col pt-0.5">
-                                <span className="text-[13px] text-gray-500 font-normal">
-                                  {product.brandname || product.category || "Tradizions"}
-                                </span>
-                                <h4 className="text-[15px] text-gray-800 font-normal leading-snug line-clamp-2 mt-1 group-hover:text-[var(--olive)] transition-colors">
-                                  {product.productname}
-                                </h4>
-                                <span className="text-[14px] text-gray-800 font-normal mt-1.5">
-                                  Price - ₹{finalPrice?.toLocaleString()}
-                                </span>
-                              </div>
-                            </Link>
-                          );
-                        })}
-                      </div>
-
-                      {/* Footer shortcuts */}
-                      <div className="px-6 py-5 border-t border-gray-200 bg-white flex justify-center">
-                        <Link
-                          href={`/shop?search=${encodeURIComponent(searchQuery)}`}
-                          onClick={() => {
-                            setIsSearchOpen(false);
-                            setSuggestions([]);
-                          }}
-                          className="text-[15px] text-gray-800 hover:text-[var(--olive)] transition-colors underline underline-offset-4"
-                        >
-                          View all results
-                        </Link>
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
+                <Search className="w-5 h-5" />
+              </button>
             </div>
 
             <Link href="/cart" className="relative">
@@ -1032,6 +912,175 @@ export default function Navbar() {
           )}
         </div>
       </div>
+
+      {/* Search Overlay */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 z-[100] flex flex-col animate-fade-in-up">
+          {/* Top Search Bar */}
+          <div className="w-full bg-white py-4 px-6 md:px-12 flex items-center justify-center shrink-0 shadow-sm relative z-20">
+            <div className="w-full max-w-[1400px] flex items-center gap-4">
+              <div className="flex-1 bg-white flex items-center px-4 py-3 border border-gray-200 focus-within:border-gray-300 transition-colors">
+                <Search className="w-5 h-5 text-gray-500 mr-3" />
+                <input
+                  type="text"
+                  autoFocus
+                  placeholder={t.searchPlaceholder || "Search products"}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 text-[16px] bg-transparent focus:outline-none text-gray-800 placeholder-gray-400"
+                />
+              </div>
+              <button
+                onClick={() => {
+                  setIsSearchOpen(false);
+                  setSearchQuery("");
+                  setSuggestions([]);
+                }}
+                className="p-2 text-gray-500 hover:text-gray-900 transition-colors shrink-0"
+              >
+                <X className="w-7 h-7 stroke-[1.5]" />
+              </button>
+            </div>
+          </div>
+
+          {/* Body Area */}
+          <div className="flex-1 relative w-full flex justify-center bg-transparent min-h-0">
+            {/* Dark background when empty */}
+            {searchQuery.trim() === "" && (
+              <div 
+                className="absolute inset-0 bg-black/70 backdrop-blur-sm z-10" 
+                onClick={() => setIsSearchOpen(false)}
+              />
+            )}
+
+            {/* Results Container */}
+            {searchQuery.trim() !== "" && (
+              <div className="absolute inset-0 z-10 w-full bg-[#fcfcfc] flex justify-center overflow-y-auto">
+                {isSearching ? (
+                  <div className="flex flex-col items-center justify-center py-32 text-[var(--olive)] w-full">
+                    <Loader2 className="w-8 h-8 animate-spin mb-4" />
+                    <p className="text-sm font-medium text-gray-500">{t.navbar?.searching || "Searching..."}</p>
+                  </div>
+                ) : suggestions.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-32 text-gray-400 w-full">
+                    <Search className="w-12 h-12 mb-4 opacity-20" />
+                    <p className="text-sm font-medium">{t.navbar?.no_products || "No products found"}</p>
+                  </div>
+                ) : (
+                  <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-8">
+                    {/* Products Grid */}
+                    <div className="w-full">
+                      <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
+                        <h3 className="font-bold text-gray-900 text-[16px]">Products</h3>
+                        <Link 
+                          href={`/shop?search=${encodeURIComponent(searchQuery)}`} 
+                          onClick={() => { setIsSearchOpen(false); setSuggestions([]); }}
+                          className="text-[13px] text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          View all products
+                        </Link>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                        {suggestions.map((product) => {
+                          const isGift =
+                            product.categoryid === 4 ||
+                            product.categoryid === 5 ||
+                            product.itemtype === "gift" ||
+                            (product.category && product.category.toLowerCase().includes("gift"));
+                          const detailUrl = isGift
+                            ? `/gift-detail/${product.productid}?productid=${product.productid}&bid=1`
+                            : `/product-detail/${product.productid}?productid=${product.productid}&bid=1`;
+
+                          const finalPrice = product.sellingprice === 0 || product.sellingprice == null
+                            ? product.price
+                            : product.sellingprice;
+
+                          return (
+                            <Link
+                              key={product.productid}
+                              href={detailUrl}
+                              onClick={() => {
+                                setIsSearchOpen(false);
+                                setSearchQuery("");
+                                setSuggestions([]);
+                              }}
+                              className="group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/60"
+                            >
+                              <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
+                                <img
+                                  src={IMAGE_URL + (product.productimage || "/placeholder.jpg")}
+                                  alt={product.productname}
+                                  className={`w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110 ${(product.stock <= 0 || product.availablestock <= 0) ? "grayscale opacity-60" : ""}`}
+                                />
+                                {(() => {
+                                  const origPrice = product.price || 0;
+                                  const salePrice = product.sellingprice === 0 || product.sellingprice == null ? origPrice : product.sellingprice;
+                                  const discountPercent = origPrice > salePrice ? Math.round(((origPrice - salePrice) / origPrice) * 100) : 0;
+                                  if (discountPercent > 0 && product.stock > 0 && product.availablestock > 0) {
+                                    return (
+                                      <span className="absolute top-3 left-3 z-20 px-2.5 py-1 rounded-full bg-[var(--orange)] text-white text-[9px] font-black tracking-wider shadow-lg">
+                                        {discountPercent}% OFF
+                                      </span>
+                                    );
+                                  }
+                                  return null;
+                                })()}
+                                {(product.stock <= 0 || product.availablestock <= 0) && (
+                                  <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[2px] z-10">
+                                    <span className="bg-red-500/90 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] shadow-xl">
+                                      OUT OF STOCK
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="p-4 flex flex-col flex-1 space-y-3">
+                                <div className="space-y-1">
+                                  <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
+                                    {product.productname}
+                                  </h3>
+                                  <p className="text-[12px] text-gray-400 font-medium line-clamp-1 flex-1">
+                                    {product.description || product.desc || product.brandname || product.category || "Premium dry fruits gift hamper packed with..."}
+                                  </p>
+                                </div>
+                                
+                                <div className="flex items-baseline gap-2 pt-1">
+                                  <span className="text-[20px] font-black text-gray-900">
+                                    ₹{finalPrice?.toLocaleString()}
+                                  </span>
+                                  {product.price > finalPrice && (
+                                    <span className="text-[13px] text-gray-400 line-through font-medium">
+                                      ₹{product.price?.toLocaleString()}
+                                    </span>
+                                  )}
+                                </div>
+
+                                <div className="pt-2 mt-auto">
+                                  <div className={`w-full py-3 px-4 rounded-xl font-bold text-[11px] tracking-widest flex items-center justify-between transition-colors duration-300 group/btn ${(product.stock <= 0 || product.availablestock <= 0)
+                                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                      : "bg-[#f4f6f1] text-[#4b553e] hover:bg-[#e8ece1] cursor-pointer"
+                                    }`}
+                                  >
+                                    <span>
+                                      {(product.stock <= 0 || product.availablestock <= 0)
+                                        ? "OUT OF STOCK"
+                                        : "ADD TO CART"}
+                                    </span>
+                                    <ShoppingCart className="w-4 h-4 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
+                                  </div>
+                                </div>
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }
