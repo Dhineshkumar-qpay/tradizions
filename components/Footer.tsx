@@ -37,7 +37,10 @@ export default function Footer() {
 
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [toastMessage, setToastMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [toastMessage, setToastMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,14 +51,26 @@ export default function Footer() {
 
     try {
       await API.post(API_ROUTES.NEWSLETTER, { email });
-      setToastMessage({ type: "success", text: "Successfully subscribed to newsletter!" });
+      setToastMessage({
+        type: "success",
+        text: "Successfully subscribed to newsletter!",
+      });
       setEmail("");
     } catch (err: any) {
       console.log(err);
       if (err.response?.status === 400) {
-        setToastMessage({ type: "error", text: err.response?.data?.message || "Invalid email or already subscribed." });
+        setToastMessage({
+          type: "error",
+          text:
+            err.response?.data?.message ||
+            "Invalid email or already subscribed.",
+        });
       } else {
-        setToastMessage({ type: "error", text: err.response?.message??"Failed to subscribe. Please try again." });
+        setToastMessage({
+          type: "error",
+          text:
+            err.response?.message ?? "Failed to subscribe. Please try again.",
+        });
       }
     } finally {
       setIsLoading(false);
@@ -99,7 +114,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-white/70 font-light leading-relaxed max-w-sm">
-             {t.footer_description}
+              {t.footer_description}
             </p>
 
             <div className="flex items-center gap-4">
@@ -178,9 +193,7 @@ export default function Footer() {
                 {t.newsletter}
               </h4>
 
-              <p className="text-white/60 text-sm">
-                {t.newsletter_text}
-              </p>
+              <p className="text-white/60 text-sm">{t.newsletter_text}</p>
 
               <form onSubmit={handleSubscribe} className="relative">
                 <input
@@ -211,9 +224,7 @@ export default function Footer() {
             <div className="space-y-4 text-white/70">
               <div className="flex items-start gap-4">
                 <MapPin className="w-4 h-4 text-[var(--orange)] mt-1" />
-                <span className="text-sm leading-relaxed">
-                 {t.address}
-                </span>
+                <span className="text-sm leading-relaxed">{t.address}</span>
               </div>
 
               <div className="flex items-center gap-4">
@@ -226,7 +237,7 @@ export default function Footer() {
               <div className="flex items-center gap-4">
                 <Mail className="w-4 h-4 text-[var(--orange)]" />
                 <a href="mailto:support@tradizions.com" className="text-sm">
-                  support@tradizions.com
+                  tradizions@gmail.com
                 </a>
               </div>
             </div>
@@ -238,23 +249,6 @@ export default function Footer() {
           <p className="text-xs text-white/40">
             © {currentYear} TRADIZIONS. All rights reserved.
           </p>
-
-          <div className="flex items-center gap-8">
-            {[
-              { name: t.aboutUs, path: "/about-us" },
-              { name: t.contactUs, path: "/contact-us" },
-              { name: t.myAccount, path: "/my-account" },
-              { name: t.blog || "Blog", path: "/blog" },
-            ].map((link) => (
-              <Link
-                key={link.path}
-                href={link.path}
-                className="text-[10px] font-bold tracking-widest text-white/40 hover:text-white uppercase"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
 
           <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
             <Leaf className="w-3 h-3 text-[var(--orange)]" />
@@ -268,7 +262,9 @@ export default function Footer() {
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-4 right-4 z-50 animate-fade-in-up">
-          <div className={`px-6 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-bold tracking-wide ${toastMessage.type === 'success' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-red-50 text-red-600 border border-red-100'}`}>
+          <div
+            className={`px-6 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-bold tracking-wide ${toastMessage.type === "success" ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-red-50 text-red-600 border border-red-100"}`}
+          >
             {toastMessage.text}
           </div>
         </div>

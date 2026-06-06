@@ -468,6 +468,7 @@ export default function ProfilePage() {
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userMobile");
+    localStorage.removeItem("token");
     window.location.href = "/";
   };
 

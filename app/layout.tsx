@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "@/components/Footer";
 import AIChatbot from "@/components/AIChatbot";
+import AuthGate from "@/components/AuthGate";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -96,10 +97,12 @@ export default function RootLayout({
         className="min-h-full flex flex-col"
         style={{ fontFamily: "var(--font-inter), sans-serif" }}
       >
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        {/* <AIChatbot /> */}
+        <AuthGate>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          {/* <AIChatbot /> */}
+        </AuthGate>
       </body>
     </html>
   );

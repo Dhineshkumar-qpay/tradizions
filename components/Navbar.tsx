@@ -975,7 +975,7 @@ export default function Navbar() {
                         <Link 
                           href={`/shop?search=${encodeURIComponent(searchQuery)}`} 
                           onClick={() => { setIsSearchOpen(false); setSuggestions([]); }}
-                          className="text-[13px] text-blue-600 hover:text-blue-800 hover:underline"
+                          className="text-[13px] text-[var(--olive)] font-bold hover:text-blue-800 underline"
                         >
                           View all products
                         </Link>

@@ -353,9 +353,9 @@ function HealthBenefitsSection({ t }: { t: any }) {
   };
 
   const categoryMeta: Record<string, { emoji: string; color: string; accent: string; stat: string; label: string; lightGradient: string }> = {
-    nuts: { emoji: "🌰", color: "from-amber-700 to-amber-500", accent: "bg-amber-500", stat: "18g", label: "Avg. Protein / 100g", lightGradient: "from-amber-50 to-orange-50/30" },
+    nuts: { emoji: "🧆", color: "from-amber-700 to-amber-500", accent: "bg-amber-500", stat: "18g", label: "Avg. Protein / 100g", lightGradient: "from-amber-50 to-orange-50/30" },
     millets: { emoji: "🌾", color: "from-[var(--olive-dark)] to-[var(--olive)]", accent: "bg-[var(--olive)]", stat: "72%", label: "Fibre Rich Varieties", lightGradient: "from-[var(--olive)]/10 to-[var(--beige)]/30" },
-    spices: { emoji: "🌶️", color: "from-orange-700 to-[var(--orange)]", accent: "bg-[var(--orange)]", stat: "3x", label: "More Antioxidants", lightGradient: "from-rose-50 to-orange-50/40" },
+    spices: { emoji: "🫚", color: "from-orange-700 to-[var(--orange)]", accent: "bg-[var(--orange)]", stat: "3x", label: "More Antioxidants", lightGradient: "from-rose-50 to-orange-50/40" },
   };
 
   const activeBenefits = benefitsMap[activeCategory];
@@ -416,40 +416,45 @@ function HealthBenefitsSection({ t }: { t: any }) {
         </div>
       </div>
 
-      {/* ── Scrolling Cards Strip ── */}
-      <div className="relative group overflow-hidden">
-        <div className="flex animate-marquee group-hover:[animation-play-state:paused] py-4">
+      {/* ── Scrolling Cards Strip (Redesigned) ── */}
+      <div className="relative group overflow-hidden mt-6">
+        <div className="flex animate-marquee group-hover:[animation-play-state:paused] py-8">
           {[...activeBenefits, ...activeBenefits].map((benefit: any, idx: number) => {
             return (
               <div
                 key={benefit.name + idx}
-                className={`flex-shrink-0 w-[260px] md:w-[300px] mx-3 h-[180px] bg-gradient-to-br ${meta.lightGradient} border border-white/50 rounded-2xl p-6 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-1 hover:border-[var(--olive)]/30 transition-all duration-400 group/card flex flex-col`}
+                className="flex-shrink-0 w-[280px] md:w-[320px] mx-4 min-h-[190px] relative overflow-hidden rounded-[24px] bg-white/60 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-500 group/card flex flex-col p-7"
               >
-                {/* Decorative accents */}
-                <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${meta.color} opacity-5 rounded-bl-[60px] pointer-events-none`} />
-                <div className={`absolute left-0 top-0 w-1 h-full ${meta.accent} opacity-0 group-hover/card:opacity-100 transition-opacity duration-300`} />
+                {/* Elegant glow effect behind the card */}
+                <div className={`absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-br ${meta.color} opacity-20 rounded-full blur-2xl transition-opacity duration-500`} />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent pointer-events-none" />
 
-                <div className="flex items-start justify-between mb-3 relative z-10">
-                  <div className={`shrink-0 w-8 h-8 rounded-lg bg-[var(--olive)]/10 flex items-center justify-center`}>
-                    <Check className={`w-4 h-4 text-[var(--olive)]`} strokeWidth={3} />
+                <div className="flex items-start justify-between mb-5 relative z-10">
+                  <div className="shrink-0 w-12 h-12 rounded-[14px] bg-white shadow-md border border-stone-100 flex items-center justify-center relative overflow-hidden transition-all duration-300">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${meta.color} opacity-10 transition-opacity duration-300`} />
+                    <span className="text-xl scale-110 transition-transform duration-300">{meta.emoji}</span>
                   </div>
-                  <span className="text-[20px] opacity-20 group-hover/card:opacity-40 transition-opacity grayscale group-hover/card:grayscale-0">{meta.emoji}</span>
+                  <div className={`w-8 h-8 flex items-center justify-center rounded-full bg-white border border-stone-200 opacity-100 transition-all duration-300`}>
+                    <Check className={`w-3.5 h-3.5 text-[var(--olive)] transition-colors`} strokeWidth={3} />
+                  </div>
                 </div>
 
-                <h3 className="text-[14px] font-bold text-[var(--dark-brown)] leading-tight mb-1.5 relative z-10">
-                  {benefit.name}
-                </h3>
-                <p className="text-[11px] text-stone-500 leading-snug font-medium line-clamp-3 relative z-10">
-                  {benefit.desc}
-                </p>
+                <div className="relative z-10 mt-auto">
+                  <h3 className="text-[16px] font-black text-[var(--olive)] leading-tight mb-2 transition-colors duration-300">
+                    {benefit.name}
+                  </h3>
+                  <p className="text-[12px] text-stone-500 leading-relaxed font-medium line-clamp-3">
+                    {benefit.desc}
+                  </p>
+                </div>
               </div>
             );
           })}
         </div>
 
-        {/* Fade edges */}
-        <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#fafaf9] to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#fafaf9] to-transparent pointer-events-none z-10" />
+        {/* Seamless Fade edges */}
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#fafaf9] via-[#fafaf9]/80 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#fafaf9] via-[#fafaf9]/80 to-transparent pointer-events-none z-10" />
       </div>
     </section>
   );
