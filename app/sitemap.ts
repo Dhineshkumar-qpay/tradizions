@@ -12,7 +12,8 @@ async function fetchProductUrls() {
     },
   );
 
-  const products = await response.json();
+  const json = await response.json();
+  const products = json?.data || [];
 
   return products.map(
     (product: { productid: number; bid: number; itemtype: string }) => ({
