@@ -300,7 +300,7 @@ export default function PrivacyPolicyPage() {
               <h2 className="text-lg font-bold mb-4 uppercase tracking-wider text-gray-900">
                 {section.title}
               </h2>
-              
+
               {section.highlight && (
                 <p className="mb-4 text-gray-600 font-bold italic">{section.highlight}</p>
               )}
