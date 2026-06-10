@@ -4,7 +4,12 @@ import ContactUsPageClient from "./contactusClient";
 export const metadata: Metadata = {
   title: "Contact Us - Get in Touch",
   description: "Have questions about our traditional wellness products, orders, or corporate gifting? Contact the Tradizions team today for prompt assistance.",
-  keywords: "contact tradizions, customer support, traditional products support, wellness products contact",
+  keywords: [
+    "contact tradizions",
+    "customer support",
+    "traditional products support",
+    "wellness products contact",
+  ],
   openGraph: {
     title: "Contact Us",
     description: "Reach out to us for any queries about our natural and traditional wellness products.",

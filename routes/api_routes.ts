@@ -48,6 +48,7 @@ export const API_ROUTES = {
   HEALTHGOALS: "/goal/gethealth-goals",
   HEALTHGOALPRODUCTS: "/product/health-goal-products",
   UPLOADGIFTCARDIMAGE: "/product/upload-gift-card",
+  GETALLBUSINESSPRODUCTS: "/product/getallbusinessproducts",
 };
 
 export const BASE_URL = "https://demo.sevanta.in/api";

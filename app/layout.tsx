@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "@/components/Footer";
 import AIChatbot from "@/components/AIChatbot";
 import AuthGate from "@/components/AuthGate";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,6 +38,23 @@ export const metadata: Metadata = {
         alt: "Tradizions - Millets, Dry Fruits, Gift Hampers",
       },
     ],
+  },
+  openGraph: {
+    title: "Tradizions - Millets, Dry Fruits, Gift Hampers",
+    description:
+      "Discover the richness of ancient Indian millets, wholesome malts, premium dry fruits, and artisanal gift hampers. Rooted in tradition, crafted for wellness.",
+    url: "https://tradizions.vercel.app",
+    siteName: "Tradizions",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Tradizions - Millets, Dry Fruits, Gift Hampers",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
   },
   keywords: [
     "Tradizions",
@@ -105,6 +123,7 @@ export default function RootLayout({
           {/* <AIChatbot /> */}
         </AuthGate>
       </body>
+      <GoogleAnalytics gaId="G-XXXXXXXXXX" />
     </html>
   );
 }

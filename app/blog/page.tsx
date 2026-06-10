@@ -15,7 +15,14 @@ export const metadata: Metadata = {
     "health benefits",
     "wellness trends",
   ],
-
+  openGraph: {
+    title: "Tradizions Blog - Insights on Traditional Wellness",
+    description:
+      "Discover the latest insights, tips, and stories on traditional wellness and natural products. Explore our blog for expert advice.",
+    url: "https://tradizions.vercel.app/blog",
+    siteName: "Tradizions",
+    type: "website",
+  },
   alternates: {
     canonical: "https://tradizions.vercel.app/blog",
   },
