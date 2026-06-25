@@ -887,7 +887,7 @@ export default function GiftsPage() {
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-3 md:gap-6">
               {isLoading ? (
                 Array.from({ length: 4 }).map((_, idx) => (
                   <ProductSkeleton key={idx} />
