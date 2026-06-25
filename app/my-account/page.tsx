@@ -318,37 +318,54 @@ export default function ProfilePage() {
     }
   };
 
-  const handleToggleFavorite = async (productid: number) => {
-    try {
-      const response = await API.post(API_ROUTES.ADDFAVOURITE, { productid });
-      if (response.status === 200) {
-        fetchWishlist();
-        window.dispatchEvent(new Event("favoritesUpdated"));
-      }
-    } catch (err) {
-      console.error("Error toggling favorite:", err);
+  const handleActionWithLogin = (action: () => void) => {
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.dispatchEvent(new Event("openLoginSidebar"));
+      const handleLoginSuccess = () => {
+        action();
+        window.removeEventListener("loginSuccess", handleLoginSuccess);
+      };
+      window.addEventListener("loginSuccess", handleLoginSuccess);
+    } else {
+      action();
     }
   };
 
-  const handleAddToCart = async (productid: number, itemtype: string) => {
-    setAddingToCartId(productid);
-    try {
-      const response = await API.post(API_ROUTES.ADDTOCART, {
-        bid: 1,
-        productid: itemtype == "product" ? productid : null,
-        giftid: itemtype == "gift" ? productid : null,
-        quantity: 1,
-        itemtype: itemtype,
-      });
-      if (response.status === 200) {
-        window.dispatchEvent(new Event("cartUpdated"));
-        alert("Product added to cart!");
+  const handleToggleFavorite = async (productid: number) => {
+    handleActionWithLogin(async () => {
+      try {
+        const response = await API.post(API_ROUTES.ADDFAVOURITE, { productid });
+        if (response.status === 200) {
+          fetchWishlist();
+          window.dispatchEvent(new Event("favoritesUpdated"));
+        }
+      } catch (err) {
+        console.error("Error toggling favorite:", err);
       }
-    } catch (err) {
-      console.error("Error adding to cart:", err);
-    } finally {
-      setAddingToCartId(null);
-    }
+    });
+  };
+
+  const handleAddToCart = async (productid: number, itemtype: string) => {
+    handleActionWithLogin(async () => {
+      setAddingToCartId(productid);
+      try {
+        const response = await API.post(API_ROUTES.ADDTOCART, {
+          bid: 1,
+          productid: itemtype == "product" ? productid : null,
+          giftid: itemtype == "gift" ? productid : null,
+          quantity: 1,
+          itemtype: itemtype,
+        });
+        if (response.status === 200) {
+          window.dispatchEvent(new Event("cartUpdated"));
+          alert("Product added to cart!");
+        }
+      } catch (err) {
+        console.error("Error adding to cart:", err);
+      } finally {
+        setAddingToCartId(null);
+      }
+    });
   };
 
   const fetchOrders = async (ordertype: string = "normal") => {

@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import AIChatbot from "@/components/AIChatbot";
 import AuthGate from "@/components/AuthGate";
 import { GoogleAnalytics } from '@next/third-parties/google'
+import ClickAnimation from "@/components/ClickAnimation";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -120,7 +121,8 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
-          {/* <AIChatbot /> */}
+          <AIChatbot />
+          <ClickAnimation />
         </AuthGate>
       </body>
       <GoogleAnalytics gaId="G-XXXXXXXXXX" />

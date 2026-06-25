@@ -130,43 +130,53 @@ export default function CorporateOrdersPageClient() {
     }
   };
 
-  const handleBuyNow = async (
+  const handleActionWithLogin = (action: () => void) => {
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.dispatchEvent(new Event("openLoginSidebar"));
+      const handleLoginSuccess = () => {
+        action();
+        window.removeEventListener("loginSuccess", handleLoginSuccess);
+      };
+      window.addEventListener("loginSuccess", handleLoginSuccess);
+    } else {
+      action();
+    }
+  };
+
+  const handleBuyNow = (
     item: CorporateProductModel,
     e: React.MouseEvent,
   ) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-      window.dispatchEvent(new Event("openLoginSidebar"));
-      return;
-    }
-
-    setIsAddingToCart(item.productid);
-    try {
-      const response = await API.post(API_ROUTES.ADDTOCART, {
-        bid: item.bid || 1,
-        productid: null,
-        giftid: item.productid,
-        quantity: 1,
-        itemtype: "gift",
-        isbuynow: true,
-      });
-      if (response.status === 200) {
-        window.dispatchEvent(new Event("cartUpdated"));
-        router.push("/checkout");
-      } else {
-        alert("Failed to proceed to checkout.");
+    handleActionWithLogin(async () => {
+      setIsAddingToCart(item.productid);
+      try {
+        const response = await API.post(API_ROUTES.ADDTOCART, {
+          bid: item.bid || 1,
+          productid: null,
+          giftid: item.productid,
+          quantity: 1,
+          itemtype: "gift",
+          isbuynow: true,
+        });
+        if (response.status === 200) {
+          window.dispatchEvent(new Event("cartUpdated"));
+          router.push("/checkout");
+        } else {
+          alert("Failed to proceed to checkout.");
+        }
+      } catch (err: any) {
+        console.error("Error adding to cart:", err);
+        alert(
+          err?.response?.data?.message ||
+            "An error occurred while proceeding to checkout.",
+        );
+      } finally {
+        setIsAddingToCart(null);
       }
-    } catch (err: any) {
-      console.error("Error adding to cart:", err);
-      alert(
-        err?.response?.data?.message ||
-          "An error occurred while proceeding to checkout.",
-      );
-    } finally {
-      setIsAddingToCart(null);
-    }
+    });
   };
 
   const heroRef = useInView();

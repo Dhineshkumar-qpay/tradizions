@@ -66,11 +66,13 @@ export default function ProductDetailPage() {
 
   const product = productData?.data?.productdetail;
   const reviews = productData?.data?.reviews || [];
+  const relatedProducts = productData?.data?.relatedproducts || [];
 
   const totalReviews = productData?.data?.totalreviews || reviews.length;
 
   const [mainImage, setMainImage] = useState("/placeholder.png");
   const [showImage, setShowImage] = useState(false);
+  const [favouriteProductIds, setFavouriteProductIds] = useState<number[]>([]);
   const [quantity, setQuantity] = useState(1);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [rating, setRating] = useState(0);
@@ -88,19 +90,22 @@ export default function ProductDetailPage() {
 
   // Fetch favorite status on load
   useEffect(() => {
-    if (!product || localStorage.getItem("isLoggedIn") !== "true") return;
+    if (localStorage.getItem("isLoggedIn") !== "true") return;
     const fetchFavs = async () => {
       try {
         const res = await API.post(API_ROUTES.GETFAVOURITE);
         if (res.status === 200) {
           const favs = res.data?.data || [];
-          if (favs.some((f: any) => f.productid === product.productid)) {
+          setFavouriteProductIds(favs.map((f: any) => f.productid));
+          if (product && favs.some((f: any) => f.productid === product.productid)) {
             setIsFavourite(true);
           }
         }
       } catch (err) { }
     };
     fetchFavs();
+    window.addEventListener("favoritesUpdated", fetchFavs);
+    return () => window.removeEventListener("favoritesUpdated", fetchFavs);
   }, [product]);
 
   const handleShare = async () => {
@@ -138,6 +143,7 @@ export default function ProductDetailPage() {
       }
     });
   };
+  
   const handleAddToCart = () => {
     if (!product) return;
     handleActionWithLogin(async () => {
@@ -862,6 +868,141 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* RELATED PRODUCTS SECTION */}
+      {relatedProducts.length > 0 && (
+        <section className="bg-white py-16 border-t border-stone-100 mt-12">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+                {t.related_products || "Related Products"}
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              {relatedProducts.slice(0, 4).map((relProduct) => {
+                const relId = relProduct.productid;
+                const relName = relProduct.productname;
+                const relPrice = relProduct.sellingprice || relProduct.price || 0;
+                const relOriginalPrice = relProduct.price !== undefined && relProduct.sellingprice !== undefined && relProduct.price > relProduct.sellingprice ? relProduct.price : null;
+                const relImage = relProduct.productimage ? getImageUrl(relProduct.productimage) : "/placeholder.png";
+                const isRelFav = relId !== undefined && favouriteProductIds.includes(relId);
+
+                return (
+                  <Link
+                    href={`/product-detail/${relId}?productid=${relId}&bid=${relProduct.bid || 1}`}
+                    key={relId}
+                    className="group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden bg-gray-50 flex items-center justify-center">
+                      <img
+                        src={relImage}
+                        alt={relName}
+                        className={`h-full w-full object-cover transition-all duration-[1200ms] group-hover:scale-110 ${(relProduct.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
+                      />
+                      {(relProduct.availablestock ?? 0) <= 0 && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[2px] z-10">
+                          <span className="bg-red-500/90 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] shadow-xl">
+                            OUT OF STOCK
+                          </span>
+                        </div>
+                      )}
+                      <div className="absolute top-3 right-3 z-20">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleActionWithLogin(async () => {
+                              if (relId === undefined) return;
+                              try {
+                                const response = await API.post(API_ROUTES.ADDFAVOURITE, { productid: relId });
+                                if (response.status === 200) {
+                                  window.dispatchEvent(new Event("favoritesUpdated"));
+                                }
+                              } catch (err) {
+                                console.error("Error adding to wishlist:", err);
+                              }
+                            });
+                          }}
+                          className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-400 hover:text-red-500 transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+                        >
+                          <Heart className={`w-4 h-4 ${isRelFav ? "fill-red-500 text-red-500" : ""}`} />
+                        </button>
+                      </div>
+                      <div className="absolute top-3 left-3 z-20 flex flex-col gap-2">
+                        {relOriginalPrice && relOriginalPrice > relPrice && (
+                          <span className="px-2.5 py-1 rounded-full bg-[var(--orange)] text-white text-[9px] font-black tracking-wider shadow-lg">
+                            {Math.round(((relOriginalPrice - relPrice) / relOriginalPrice) * 100)}% OFF
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="p-4 flex flex-col flex-1 space-y-3">
+                      <div className="space-y-1">
+                        <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
+                          {relName}
+                        </h3>
+                        <div className="flex items-center gap-2 mt-1">
+                          {relProduct.weight && (relProduct.unit || (relProduct as any).unitname) && (
+                            <span className="inline-block bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md text-[10px] font-bold border border-stone-200 shrink-0">
+                              {relProduct.weight} {relProduct.unit || (relProduct as any).unitname}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-xl font-black text-gray-900">₹{relPrice.toLocaleString()}</span>
+                        {relOriginalPrice && relOriginalPrice > relPrice && (
+                          <span className="text-xs text-gray-400 line-through font-medium">₹{relOriginalPrice.toLocaleString()}</span>
+                        )}
+                      </div>
+                      <div className="pt-2 mt-auto">
+                        <button
+                          disabled={(relProduct.availablestock ?? 0) <= 0}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if ((relProduct.availablestock ?? 0) <= 0) return;
+                            handleActionWithLogin(async () => {
+                              try {
+                                const response = await API.post(API_ROUTES.ADDTOCART, {
+                                  bid: relProduct.bid || 1,
+                                  productid: relId,
+                                  giftid: null,
+                                  quantity: 1,
+                                  itemtype: "product",
+                                });
+                                if (response.status === 200) {
+                                  window.dispatchEvent(new Event("cartUpdated"));
+                                } else {
+                                  alert("Failed to add product to cart. Please try again.");
+                                }
+                              } catch (err: any) {
+                                console.error("Error adding to cart:", err);
+                                alert(err?.response?.data?.message || "An error occurred while adding to cart.");
+                              }
+                            });
+                          }}
+                          className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
+                            (relProduct.availablestock ?? 0) <= 0
+                              ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
+                              : "bg-[var(--olive)]/10 border-[var(--olive)]/20 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
+                          } disabled:opacity-50`}
+                        >
+                          <span>{(relProduct.availablestock ?? 0) <= 0 ? "OUT OF STOCK" : "ADD TO CART"}</span>
+                          <ShoppingCart className="w-3 h-3 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
+                        </button>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
     </main>
   );
 }

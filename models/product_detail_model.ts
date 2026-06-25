@@ -8,6 +8,7 @@ export interface Data {
   reviews?: Review[];
   avgrating?: string;
   totalreviews?: number;
+  relatedproducts?: Relatedproduct[];
 }
 
 export interface Productdetail {
@@ -60,6 +61,23 @@ export interface Review {
   userid?: number;
 }
 
+export interface Relatedproduct {
+  price?: number;
+  sellingprice?: number;
+  productid?: number;
+  bid?: number;
+  productimage?: string;
+  productname?: string;
+  categoryid?: number;
+  subcategoryid?: number;
+  availablestock?: number;
+  weight?: number;
+  unit?: string;
+  isFavourite?: boolean;
+}
+
+// Gift Detail Model
+
 export interface GiftDetailModel {
   statusCode?: number;
   data?: Data;
@@ -70,6 +88,7 @@ export interface Data {
   reviews?: Review[];
   avgrating?: string;
   totalreviews?: number;
+  relatedgifts?: Relatedgift[];
 }
 
 export interface Giftdetail {
@@ -96,6 +115,20 @@ export interface Giftdetail {
   image3?: null;
   image4?: null;
 }
+
+export interface Relatedgift {
+  price?: number;
+  productid?: number;
+  bid?: number;
+  productimage?: string;
+  productname?: string;
+  categoryid?: number;
+  subcategoryid?: number;
+  availablestock?: number;
+  description?: string;
+}
+
+// products list
 
 export interface Productlist {
   name?: string;

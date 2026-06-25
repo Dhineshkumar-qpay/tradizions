@@ -62,24 +62,27 @@ export default function GiftDetailPage() {
   const [selectedLang, setSelectedLang] = useState("EN");
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
+  const [favouriteProductIds, setFavouriteProductIds] = useState<number[]>([]);
+  const relatedGifts = giftDetail?.data?.relatedgifts || [];
 
   // Fetch favorite status on load
   useEffect(() => {
-    if (!gift || localStorage.getItem("isLoggedIn") !== "true") return;
+    if (localStorage.getItem("isLoggedIn") !== "true") return;
     const fetchFavs = async () => {
       try {
         const res = await API.post(API_ROUTES.GETFAVOURITE);
         if (res.status === 200) {
           const favs = res.data?.data || [];
-          if (
-            favs.some((f: any) => f.productid === (gift.giftid || Number(id)))
-          ) {
+          setFavouriteProductIds(favs.map((f: any) => f.productid));
+          if (gift && favs.some((f: any) => f.productid === (gift.giftid || Number(id)))) {
             setIsFavourite(true);
           }
         }
       } catch (err) { }
     };
     fetchFavs();
+    window.addEventListener("favoritesUpdated", fetchFavs);
+    return () => window.removeEventListener("favoritesUpdated", fetchFavs);
   }, [gift, id]);
 
   const handleShare = async () => {
@@ -1205,6 +1208,126 @@ export default function GiftDetailPage() {
           </div>
         )}
       </div>
+
+      {/* RELATED GIFTS SECTION */}
+      {relatedGifts.length > 0 && (
+        <section className="bg-white py-16 border-t border-stone-100 mt-12">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+                {t.related_gifts || "Related Gifts"}
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              {relatedGifts.slice(0, 4).map((relGift) => {
+                const relId = relGift.productid;
+                const relName = relGift.productname;
+                const relPrice = relGift.price || 0;
+                const relImage = relGift.productimage ? getImageUrl(relGift.productimage) : "/placeholder.png";
+                const isRelFav = relId !== undefined && favouriteProductIds.includes(relId);
+
+                return (
+                  <Link
+                    href={`/gift-detail/${relId}?productid=${relId}&bid=${relGift.bid || 1}`}
+                    key={relId}
+                    className="group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden bg-gray-50 flex items-center justify-center">
+                      <img
+                        src={relImage}
+                        alt={relName}
+                        className={`h-full w-full object-cover transition-all duration-[1200ms] group-hover:scale-110 ${(relGift.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
+                      />
+                      {(relGift.availablestock ?? 0) <= 0 && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[2px] z-10">
+                          <span className="bg-red-500/90 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] shadow-xl">
+                            OUT OF STOCK
+                          </span>
+                        </div>
+                      )}
+                      <div className="absolute top-3 right-3 z-20">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleActionWithLogin(async () => {
+                              if (relId === undefined) return;
+                              try {
+                                const response = await API.post(API_ROUTES.ADDFAVOURITE, { productid: relId });
+                                if (response.status === 200) {
+                                  window.dispatchEvent(new Event("favoritesUpdated"));
+                                }
+                              } catch (err) {
+                                console.error("Error adding to wishlist:", err);
+                              }
+                            });
+                          }}
+                          className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-400 hover:text-red-500 transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+                        >
+                          <Heart className={`w-4 h-4 ${isRelFav ? "fill-red-500 text-red-500" : ""}`} />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="p-4 flex flex-col flex-1 space-y-3">
+                      <div className="space-y-1">
+                        <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
+                          {relName}
+                        </h3>
+                        <p className="text-[11px] text-gray-400 font-medium line-clamp-1">
+                          {relGift.description || "Thoughtfully curated gift hamper."}
+                        </p>
+                      </div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-xl font-black text-gray-900">₹{relPrice.toLocaleString()}</span>
+                      </div>
+                      <div className="pt-2 mt-auto">
+                        <button
+                          disabled={(relGift.availablestock ?? 0) <= 0}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if ((relGift.availablestock ?? 0) <= 0) return;
+                            handleActionWithLogin(async () => {
+                              try {
+                                const response = await API.post(API_ROUTES.ADDTOCART, {
+                                  bid: relGift.bid || 1,
+                                  productid: null,
+                                  giftid: relId,
+                                  quantity: 1,
+                                  itemtype: "gift",
+                                });
+                                if (response.status === 200) {
+                                  window.dispatchEvent(new Event("cartUpdated"));
+                                } else {
+                                  alert("Failed to add gift to cart. Please try again.");
+                                }
+                              } catch (err: any) {
+                                console.error("Error adding to cart:", err);
+                                alert(err?.response?.data?.message || "An error occurred while adding to cart.");
+                              }
+                            });
+                          }}
+                          className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
+                            (relGift.availablestock ?? 0) <= 0
+                              ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
+                              : "bg-[var(--olive)]/10 border-[var(--olive)]/20 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
+                          } disabled:opacity-50`}
+                        >
+                          <span>{(relGift.availablestock ?? 0) <= 0 ? "OUT OF STOCK" : "ADD TO CART"}</span>
+                          <ShoppingCart className="w-3 h-3 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
+                        </button>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
     </main>
   );
 }

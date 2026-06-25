@@ -51,8 +51,8 @@ export const API_ROUTES = {
   GETALLBUSINESSPRODUCTS: "/product/getallbusinessproducts",
 };
 
-export const BASE_URL = "https://demo.sevanta.in/api";
-export const IMAGE_URL = "https://demo.sevanta.in/api";
+// export const BASE_URL = "https://demo.sevanta.in/api";
+// export const IMAGE_URL = "https://demo.sevanta.in/api";
 
-// export const BASE_URL = "http://localhost:3003/api";
-// export const IMAGE_URL = "http://localhost:3003";
+export const BASE_URL = "http://localhost:3003/api";
+export const IMAGE_URL = "http://localhost:3003";

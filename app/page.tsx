@@ -29,6 +29,7 @@ import {
   Search,
   Trash2,
   Plus,
+  Minus,
   ArrowDown,
   LayoutGrid,
   Wheat,
@@ -105,13 +106,88 @@ const getImageUrl = (imagePath: string) => {
     return imagePath;
   }
 
-  const cleanedBase = IMAGE_URL.endsWith("/") ? IMAGE_URL.slice(0, -1) : IMAGE_URL;
+  const cleanedBase = IMAGE_URL.endsWith("/")
+    ? IMAGE_URL.slice(0, -1)
+    : IMAGE_URL;
   const cleanedPath = imagePath.startsWith("/")
     ? imagePath.slice(1)
     : imagePath;
 
   return `${cleanedBase}/${cleanedPath}`;
 };
+
+function ImageComparisonBanner() {
+  const [sliderPosition, setSliderPosition] = useState(50);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleMove = (e: any) => {
+    if (!isDragging || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+    const percent = Math.max(0, Math.min((x / rect.width) * 100, 100));
+    setSliderPosition(percent);
+  };
+
+  const handleTouchMove = (e: any) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = Math.max(0, Math.min(touch.clientX - rect.left, rect.width));
+    const percent = Math.max(0, Math.min((x / rect.width) * 100, 100));
+    setSliderPosition(percent);
+  };
+
+  return (
+    <section className="w-full relative h-[400px] md:h-[600px] overflow-hidden select-none bg-[#f4ece3] my-10">
+      <div 
+        ref={containerRef}
+        className="relative w-full h-full cursor-ew-resize group"
+        onMouseMove={handleMove}
+        onMouseDown={() => setIsDragging(true)}
+        onMouseUp={() => setIsDragging(false)}
+        onMouseLeave={() => setIsDragging(false)}
+        onTouchMove={handleTouchMove}
+      >
+        {/* Underneath image (Right side) */}
+        <div className="absolute inset-0 w-full h-full">
+          <img 
+            src="/nuts-slide.jpg" 
+            alt="Authentic Tradizions Products" 
+            className="w-full h-full object-cover object-center pointer-events-none"
+            draggable={false}
+          />
+        </div>
+
+        {/* Overlay image (Left side) */}
+        <div 
+          className="absolute inset-y-0 left-0 overflow-hidden border-r-[3px] border-white z-10 shadow-[2px_0_15px_rgba(0,0,0,0.1)]" 
+          style={{ width: `${sliderPosition}%` }}
+        >
+          <div className="absolute top-0 left-0 w-[100vw] h-full">
+            <img 
+              src="/millets-slide.jpeg" 
+              alt="Organic Millets" 
+              className="w-full h-full object-cover object-center pointer-events-none"
+              draggable={false}
+            />
+          </div>
+        </div>
+
+        {/* Slider Handle */}
+        <div 
+          className="absolute top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.15)] transition-transform hover:scale-105 z-20 cursor-ew-resize pointer-events-none"
+          style={{ left: `calc(${sliderPosition}% - 24px)` }}
+        >
+          <div className="flex gap-0.5 items-center justify-center text-stone-400">
+            <ChevronRight className="w-4 h-4 rotate-180 -mr-1" />
+            <ChevronRight className="w-4 h-4 -ml-1" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 /* ── Main Page ── */
 export default function Home() {
@@ -301,9 +377,12 @@ export default function Home() {
 
       {/* ──── Full Size Banner with Shop Button ──── */}
       <section className="relative w-full h-[60vh] md:h-[80vh] min-h-[500px] overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 hover:scale-105"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1649103989985-e8d5b778f5c7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1649103989985-e8d5b778f5c7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+          }}
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 space-y-8 z-10">
@@ -312,10 +391,14 @@ export default function Home() {
               {t.banner_title || "Pure Nutrition, Rooted in Tradition"}
             </h2>
             <p className="text-base md:text-xl text-white/90 font-medium max-w-2xl mx-auto drop-shadow-md">
-              {t.banner_subtitle || "Elevate your daily wellness with our premium, carefully sourced natural ingredients. Good for you, and good for your family."}
+              {t.banner_subtitle ||
+                "Elevate your daily wellness with our premium, carefully sourced natural ingredients. Good for you, and good for your family."}
             </p>
           </div>
-          <a href="/shop" className="bg-[var(--olive)] text-white px-10 py-3 text-sm md:text-base font-semibold tracking-[0.2em] uppercase rounded-full hover:bg-[var(--olive-dark)] transition-all duration-500 shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-1">
+          <a
+            href="/shop"
+            className="bg-[var(--olive)] text-white px-10 py-3 text-sm md:text-base font-semibold tracking-[0.2em] uppercase rounded-full hover:bg-[var(--olive-dark)] transition-all duration-500 shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-1"
+          >
             {t.shop_now || "Shop Now"}
           </a>
         </div>
@@ -323,6 +406,7 @@ export default function Home() {
 
       <FeaturedSection t={t} products={featuredProducts} />
       <NewArrivalsSection t={t} products={newArrivalsProducts} />
+      <ImageComparisonBanner />
       <WhyChooseUsSection t={t} />
       <GiftingSection
         t={t}
@@ -352,47 +436,68 @@ function HealthBenefitsSection({ t }: { t: any }) {
     spices: t.health_benefits_data?.spices || [],
   };
 
-  const categoryMeta: Record<string, { emoji: string; color: string; accent: string; stat: string; label: string; lightGradient: string }> = {
-    nuts: { emoji: "🧆", color: "from-amber-700 to-amber-500", accent: "bg-amber-500", stat: "18g", label: "Avg. Protein / 100g", lightGradient: "from-amber-50 to-orange-50/30" },
-    millets: { emoji: "🌾", color: "from-[var(--olive-dark)] to-[var(--olive)]", accent: "bg-[var(--olive)]", stat: "72%", label: "Fibre Rich Varieties", lightGradient: "from-[var(--olive)]/10 to-[var(--beige)]/30" },
-    spices: { emoji: "🫚", color: "from-orange-700 to-[var(--orange)]", accent: "bg-[var(--orange)]", stat: "3x", label: "More Antioxidants", lightGradient: "from-rose-50 to-orange-50/40" },
+  const categoryMeta: Record<
+    string,
+    {
+      emoji: string;
+      color: string;
+      accent: string;
+
+      lightGradient: string;
+    }
+  > = {
+    nuts: {
+      emoji: "🧆",
+      color: "from-amber-700 to-amber-500",
+      accent: "bg-amber-500",
+
+      lightGradient: "from-amber-50 to-orange-50/30",
+    },
+    millets: {
+      emoji: "🌾",
+      color: "from-[var(--olive-dark)] to-[var(--olive)]",
+      accent: "bg-[var(--olive)]",
+
+      lightGradient: "from-[var(--olive)]/10 to-[var(--beige)]/30",
+    },
+    spices: {
+      emoji: "🫚",
+      color: "from-orange-700 to-[var(--orange)]",
+      accent: "bg-[var(--orange)]",
+
+      lightGradient: "from-rose-50 to-orange-50/40",
+    },
   };
 
   const activeBenefits = benefitsMap[activeCategory];
   const meta = categoryMeta[activeCategory];
 
-  const categories: Array<"nuts" | "millets" | "spices"> = ["nuts", "millets", "spices"];
+  const categories: Array<"nuts" | "millets" | "spices"> = [
+    "nuts",
+    "millets",
+    "spices",
+  ];
 
   return (
     <section className="py-16 bg-[#fafaf9] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-
         {/* ── Top Row: Label + Headline ── */}
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
           <div className="space-y-3 max-w-xl">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--olive)]/8 border border-[var(--olive)]/15">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)] animate-pulse" />
-              <span className="text-[10px] font-black tracking-[0.2em] uppercase text-[var(--olive)]">
-                {t.health_advantage || "The Health Advantage"}
-              </span>
-            </div>
+            <span className="text-[10px] font-black tracking-[0.2em] uppercase text-[var(--olive)] mb-3">
+              {t.health_advantage || "The Health Advantage"}
+            </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--dark-brown)] leading-tight">
               {t.health_advantage_headline_1 || "Nature's finest, "}{" "}
-              <span className="gradient-text">{t.health_advantage_headline_2 || "science-backed"}</span>{" "}
+              <span className="gradient-text">
+                {t.health_advantage_headline_2 || "science-backed"}
+              </span>{" "}
               {t.health_advantage_headline_3 || "nutrition"}
             </h2>
             <p className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed max-w-md">
-              {t.health_advantage_desc || "Every ingredient is hand-selected from certified farms and packed fresh to preserve maximum nutritional value."}
+              {t.health_advantage_desc ||
+                "Every ingredient is hand-selected from certified farms and packed fresh to preserve maximum nutritional value."}
             </p>
-          </div>
-
-          {/* ── Stat Pill ── */}
-          <div className={`flex-shrink-0 flex items-center gap-4 px-6 py-4 rounded-2xl bg-gradient-to-br ${meta.color} text-white shadow-lg transition-all duration-500`}>
-            <span className="text-3xl">{meta.emoji}</span>
-            <div>
-              <p className="text-3xl font-black leading-none">{meta.stat}</p>
-              <p className="text-[10px] font-bold opacity-80 tracking-widest uppercase mt-0.5">{meta.label}</p>
-            </div>
           </div>
         </div>
 
@@ -403,14 +508,18 @@ function HealthBenefitsSection({ t }: { t: any }) {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`relative px-6 py-2.5 rounded-xl text-[11px] font-black tracking-[0.18em] uppercase transition-all duration-400 cursor-pointer ${activeCategory === cat
-                ? "bg-[var(--olive)] text-white shadow-md"
-                : "bg-white text-stone-500 border border-stone-150 hover:border-[var(--olive)] hover:text-[var(--olive)]"
+                  ? "bg-[var(--olive)] text-white shadow-md"
+                  : "bg-white text-stone-500 border border-stone-150 hover:border-[var(--olive)] hover:text-[var(--olive)]"
                 }`}
             >
               {activeCategory === cat && (
-                <span className={`absolute left-3 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white`} />
+                <span
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white`}
+                />
               )}
-              <span className={activeCategory === cat ? "pl-3" : ""}>{t.sections?.[cat] || cat}</span>
+              <span className={activeCategory === cat ? "pl-3" : ""}>
+                {t.sections?.[cat] || cat}
+              </span>
             </button>
           ))}
         </div>
@@ -419,37 +528,50 @@ function HealthBenefitsSection({ t }: { t: any }) {
       {/* ── Scrolling Cards Strip (Redesigned) ── */}
       <div className="relative group overflow-hidden mt-6">
         <div className="flex animate-marquee group-hover:[animation-play-state:paused] py-8">
-          {[...activeBenefits, ...activeBenefits].map((benefit: any, idx: number) => {
-            return (
-              <div
-                key={benefit.name + idx}
-                className="flex-shrink-0 w-[280px] md:w-[320px] mx-4 min-h-[190px] relative overflow-hidden rounded-[24px] bg-white/60 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-500 group/card flex flex-col p-7"
-              >
-                {/* Elegant glow effect behind the card */}
-                <div className={`absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-br ${meta.color} opacity-20 rounded-full blur-2xl transition-opacity duration-500`} />
-                <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent pointer-events-none" />
+          {[...activeBenefits, ...activeBenefits].map(
+            (benefit: any, idx: number) => {
+              return (
+                <div
+                  key={benefit.name + idx}
+                  className="flex-shrink-0 w-[280px] md:w-[320px] mx-4 min-h-[190px] relative overflow-hidden rounded-[24px] bg-white/60 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-500 group/card flex flex-col p-7"
+                >
+                  {/* Elegant glow effect behind the card */}
+                  <div
+                    className={`absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-br ${meta.color} opacity-20 rounded-full blur-2xl transition-opacity duration-500`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent pointer-events-none" />
 
-                <div className="flex items-start justify-between mb-5 relative z-10">
-                  <div className="shrink-0 w-12 h-12 rounded-[14px] bg-white shadow-md border border-stone-100 flex items-center justify-center relative overflow-hidden transition-all duration-300">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${meta.color} opacity-10 transition-opacity duration-300`} />
-                    <span className="text-xl scale-110 transition-transform duration-300">{meta.emoji}</span>
+                  <div className="flex items-start justify-between mb-5 relative z-10">
+                    <div className="shrink-0 w-12 h-12 rounded-[14px] bg-white shadow-md border border-stone-100 flex items-center justify-center relative overflow-hidden transition-all duration-300">
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${meta.color} opacity-10 transition-opacity duration-300`}
+                      />
+                      <span className="text-xl scale-110 transition-transform duration-300">
+                        {meta.emoji}
+                      </span>
+                    </div>
+                    <div
+                      className={`w-8 h-8 flex items-center justify-center rounded-full bg-white border border-stone-200 opacity-100 transition-all duration-300`}
+                    >
+                      <Check
+                        className={`w-3.5 h-3.5 text-[var(--olive)] transition-colors`}
+                        strokeWidth={3}
+                      />
+                    </div>
                   </div>
-                  <div className={`w-8 h-8 flex items-center justify-center rounded-full bg-white border border-stone-200 opacity-100 transition-all duration-300`}>
-                    <Check className={`w-3.5 h-3.5 text-[var(--olive)] transition-colors`} strokeWidth={3} />
+
+                  <div className="relative z-10 mt-auto">
+                    <h3 className="text-[16px] font-black text-[var(--olive)] leading-tight mb-2 transition-colors duration-300">
+                      {benefit.name}
+                    </h3>
+                    <p className="text-[12px] text-stone-500 leading-relaxed font-medium line-clamp-3">
+                      {benefit.desc}
+                    </p>
                   </div>
                 </div>
-
-                <div className="relative z-10 mt-auto">
-                  <h3 className="text-[16px] font-black text-[var(--olive)] leading-tight mb-2 transition-colors duration-300">
-                    {benefit.name}
-                  </h3>
-                  <p className="text-[12px] text-stone-500 leading-relaxed font-medium line-clamp-3">
-                    {benefit.desc}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+              );
+            },
+          )}
         </div>
 
         {/* Seamless Fade edges */}
@@ -473,7 +595,7 @@ function HeroSection({ t }: { t: any }) {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/home-banner.png"
+          src="/home-banner.jpeg"
           alt="Premium Tradizions - Organic Millets & Traditional Wellness"
           fill
           className={`object-cover transition-all duration-[2000ms] ${loaded ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}
@@ -491,51 +613,118 @@ function HeroSection({ t }: { t: any }) {
       <div className="absolute bottom-20 left-1/3 w-60 h-60 bg-emerald-500/10 rounded-full blur-[80px] animate-float delay-300 pointer-events-none" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 pb-20">
-        <div className="max-w-3xl space-y-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20 pb-20">
+        <div className="max-w-2xl space-y-7">
           {/* Headline */}
-          <h1
-            className={`text-2xl sm:text-3xl md:text-2xl lg:text-3xl font-extrabold text-white leading-[0.95] tracking-wide transition-all duration-500 delay-200 opacity-100 translate-y-0`}
-          >
+          <h1 className="text-4xl sm:text-4xl md:text-4xl font-black text-white leading-[1.1] tracking-tight">
             {t.hero_title_1} <br />
-            <span className="relative inline-block">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-white to-amber-300 tracking-wider">
+            <span className="relative inline-block mt-2">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-200">
                 {t.hero_title_2}
               </span>
             </span>
           </h1>
 
           {/* Subtitle */}
-          <p
-            className={`text-md md:text-md text-white/60 max-w-1xl leading-relaxed font-light transition-all duration-500 delay-400 opacity-100 translate-y-0`}
-          >
+          <p className="text-base md:text-lg text-white/70 max-w-xl leading-relaxed font-medium">
             {t.hero_subtitle}
           </p>
 
-          {/* CTA Buttons */}
-          <div
-            className={`flex flex-wrap gap-3 pt-4 transition-all duration-500 delay-600 opacity-100 translate-y-0`}
-          >
-            <Link
-              href="/shop"
-              className="btn-standard group relative flex items-center gap-2 rounded-full font-semibold text-xs tracking-[0.12em] transition-all duration-500 hover:-translate-y-1 active:scale-95 overflow-hidden"
-            >
-              <span className="relative z-10">{t.shop} </span>
-              <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
-            </Link>
+          {/* CTA Buttons & Social Proof */}
+          <div className="space-y-6 pt-4">
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/shop"
+                className="group relative flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-gradient-to-r from-[var(--olive)] to-emerald-600 text-white font-bold text-xs tracking-widest uppercase overflow-hidden shadow-[0_10px_30px_rgba(85,107,47,0.3)] hover:shadow-[0_15px_40px_rgba(85,107,47,0.5)] transition-all duration-300 hover:-translate-y-1"
+              >
+                <span className="relative z-10">{t.shop}</span>
+                <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+              </Link>
 
-            <Link
-              href="/gifts"
-              className="btn-standard group flex items-center gap-2 rounded-full font-semibold text-xs tracking-[0.12em] transition-all duration-500 hover:-translate-y-1 active:scale-95"
-              style={{
-                backgroundColor: "transparent",
-                border: "1px solid rgba(255,255,255,0.3)",
-              }}
-            >
-              <Gift className="w-4 h-4" />
-              {t.gifting}
-            </Link>
+              <Link
+                href="/gifts"
+                className="group relative flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-white/5 backdrop-blur-md border border-white/20 text-white font-bold text-xs tracking-widest uppercase hover:bg-white/10 transition-all duration-300 hover:-translate-y-1"
+              >
+                <Gift className="w-4 h-4 text-amber-300" />
+                <span className="relative z-10">{t.gifting}</span>
+              </Link>
+            </div>
           </div>
+        </div>
+      </div>
+
+      {/* Right side floating glass orbs and constellation lines */}
+      <div className="mt-5 hidden lg:flex absolute right-16 top-1/2 -translate-y-1/2 w-[450px] h-[450px] items-center justify-center pointer-events-none z-10">
+        {/* Ambient glow */}
+        <div className="absolute w-[300px] h-[300px] bg-gradient-to-br from-[var(--olive)]/30 to-[var(--orange)]/20 rounded-full blur-[80px] animate-pulse" />
+
+        {/* Decorative constellation lines connecting orbs */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none opacity-30 z-0"
+          viewBox="0 0 450 450"
+        >
+          <path
+            d="M 225 225 L 350 110"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeDasharray="4 4"
+          />
+          <path
+            d="M 225 225 L 360 340"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeDasharray="4 4"
+          />
+          <path
+            d="M 225 225 L 110 320"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeDasharray="4 4"
+          />
+        </svg>
+
+        {/* Central Logo Orb */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.2)] flex items-center justify-center animate-float z-30">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent rounded-full" />
+          <img
+            src="/app-logo.png"
+            alt="logo"
+            className="h-24 object-contain drop-shadow-2xl relative z-10 brightness-0 invert"
+          />
+          {/* Echo rings */}
+          <div className="absolute inset-[-20px] border border-white/20 rounded-full" />
+          <div className="absolute inset-[-44px] border border-white/10 rounded-full border-dashed" />
+        </div>
+
+        {/* Top Right Orb */}
+        <div className="absolute top-10 right-10 w-28 h-28 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center gap-1.5 animate-float delay-300 z-20">
+          <Wheat className="w-6 h-6 text-amber-300" />
+          <span className="text-white text-[9px] font-black tracking-widest uppercase text-center leading-tight">
+            100%
+            <br />
+            Organic
+          </span>
+        </div>
+
+        {/* Bottom Right Orb */}
+        <div className="absolute bottom-12 right-6 w-24 h-24 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center gap-1 animate-float delay-700 z-20">
+          <Shield className="w-5 h-5 text-emerald-300" />
+          <span className="text-white text-[8px] font-black tracking-widest uppercase text-center leading-tight">
+            Premium
+            <br />
+            Quality
+          </span>
+        </div>
+
+        {/* Bottom Left Orb */}
+        <div className="absolute bottom-20 left-8 w-32 h-32 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center gap-1.5 animate-float delay-1000 z-20">
+          <Award className="w-7 h-7 text-[var(--orange)]" />
+          <span className="text-white text-[10px] font-black tracking-widest uppercase text-center leading-tight">
+            Certified
+            <br />
+            Pure
+          </span>
         </div>
       </div>
 
@@ -562,7 +751,9 @@ const getCategoryImageUrl = (imagePath: string) => {
     return imagePath;
   }
 
-  const cleanedBase = IMAGE_URL.endsWith("/") ? IMAGE_URL.slice(0, -1) : IMAGE_URL;
+  const cleanedBase = IMAGE_URL.endsWith("/")
+    ? IMAGE_URL.slice(0, -1)
+    : IMAGE_URL;
   const cleanedPath = imagePath.startsWith("/")
     ? imagePath.slice(1)
     : imagePath;
@@ -764,6 +955,7 @@ function ProductCard({
 
   const [isAdding, setIsAdding] = useState(false);
   const [favouriteProductIds, setFavouriteProductIds] = useState<number[]>([]);
+  const [quantity, setQuantity] = useState(1);
 
   const fetchFavourites = async () => {
     if (localStorage.getItem("isLoggedIn") === "true") {
@@ -818,27 +1010,37 @@ function ProductCard({
   return (
     <Link
       href={detailUrl}
-      className="group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
+      className="group relative bg-white border border-stone-200/75 hover:border-[var(--olive)]/50 rounded-[1.25rem] overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(85,107,47,0.08)] p-2.5 h-full"
       style={{ transitionDelay: isVisible ? `${delay}ms` : "0ms" }}
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gradient-to-br from-stone-50 to-stone-100 justify-center items-center flex">
         <img
           src={image}
           alt={name}
-          className={`h-full w-full object-cover transition-all duration-[1200ms] group-hover:scale-110 ${(product.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
+          className={`h-full w-full object-cover transition-all duration-700 group-hover:scale-105 ${(product.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
         />
 
+        {/* Elegant Dark Vignette Overlay on Hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
         {(product.availablestock ?? 0) <= 0 && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[2px] z-10">
-            <span className="bg-red-500/90 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] shadow-xl">
-              OUT OF STOCK
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[1px] z-10">
+            <span className="bg-rose-600 text-white text-[9px] font-black px-3 py-1.5 rounded-full tracking-[0.2em] shadow-lg uppercase">
+              Out Of Stock
             </span>
           </div>
         )}
 
-        {/* Floating Actions */}
-        <div className="absolute top-3 right-3 z-20">
+        {/* Top Left Discount Badge */}
+        {originalPrice && originalPrice > price && (
+          <div className="absolute top-2.5 left-2.5 z-20 bg-gradient-to-r from-[var(--orange)] to-[var(--orange-dark)] text-white text-[9px] font-extrabold px-2.5 py-1 rounded-full shadow-[0_4px_10px_rgba(255,140,0,0.25)] tracking-wider">
+            -{Math.round(((originalPrice - price) / originalPrice) * 100)}% OFF
+          </div>
+        )}
+
+        {/* Top Right Favourite Button */}
+        <div className="absolute top-2.5 right-2.5 z-20">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -857,57 +1059,116 @@ function ProductCard({
                 }
               });
             }}
-            className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-400 hover:text-red-500 transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+            className={`w-8 h-8 rounded-full shadow-md border flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 cursor-pointer ${isFav
+                ? "bg-rose-50 border-rose-200 text-rose-500"
+                : "bg-white/80 backdrop-blur-sm border-white/60 text-stone-400 hover:text-rose-500 hover:bg-white"
+              }`}
           >
             <Heart
-              className={`w-4 h-4 ${isFav ? "fill-red-500 text-red-500" : ""}`}
+              className={`w-3.5 h-3.5 transition-colors ${isFav ? "fill-rose-500 text-rose-500" : ""
+                }`}
             />
           </button>
         </div>
 
-        <div className="absolute top-3 left-3 z-20 flex flex-col gap-2">
-          {originalPrice && originalPrice > price && (
-            <span className="px-2.5 py-1 rounded-full bg-[var(--orange)] text-white text-[9px] font-black tracking-wider shadow-lg">
-              {Math.round(((originalPrice - price) / originalPrice) * 100)}% OFF
-            </span>
-          )}
-          {product.isNew && (
-            <span className="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[8px] font-black text-[var(--olive)] tracking-widest shadow-sm">
-              NEW
-            </span>
-          )}
+        {/* Quick View Bar */}
+        <div className="absolute bottom-0 left-0 right-0 bg-white/70 backdrop-blur-md border-t border-white/50 text-stone-900 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] text-[10px] font-bold py-2 text-center translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20 tracking-widest uppercase">
+          Quick View
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-4 flex flex-col flex-1 space-y-3">
-        <div className="space-y-1">
-          <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
+      {/* Content Area */}
+      <div className="px-1.5 pt-3.5 pb-1 flex flex-col flex-1">
+        {/* Subcategory & Title */}
+        <div className="space-y-1 mb-2">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[9px] font-bold text-[var(--orange)] uppercase tracking-widest">
+              {product.category || "Organic"}
+            </span>
+            {product.weight && (product.unit || product.unitname) && (
+              <span className="bg-[var(--beige)] text-[var(--olive-dark)] px-2 py-0.5 rounded-md text-[9px] font-extrabold border border-[var(--olive)]/15">
+                {product.weight} {product.unit || product.unitname}
+              </span>
+            )}
+          </div>
+          <h3 className="text-[14px] font-bold text-stone-900 group-hover:text-[var(--olive)] transition-colors duration-350 line-clamp-1 leading-tight">
             {name}
           </h3>
-          <p className="text-[11px] text-gray-400 font-medium line-clamp-1">
-            {product.description || "Tradizions premium selection for health."}
-          </p>
-          {product.weight && product.unit && (
-            <span className="inline-block mt-1 bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md text-[10px] font-bold border border-stone-200">
-              {product.weight} {product.unit}
-            </span>
-          )}
         </div>
 
-        <div className="flex items-baseline gap-2">
-          <span className="text-xl font-black text-gray-900">
+        {/* Ratings & Stock Status Row */}
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <p className="text-[10px] text-stone-500 font-medium line-clamp-2 leading-relaxed flex-1 pr-2">
+            {product.desc ||
+              product.description ||
+              "Tradizions premium selection for health. Discover natural goodness."}
+          </p>
+
+          {/* Stock Pill Badge */}
+          <div
+            className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-extrabold border ${(product.availablestock ?? 0) > 0
+                ? "bg-emerald-50 text-emerald-700 border-emerald-200/60"
+                : "bg-rose-50 text-rose-700 border-rose-200/60"
+              }`}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${(product.availablestock ?? 0) > 0
+                  ? "bg-emerald-500 animate-pulse"
+                  : "bg-rose-500"
+                }`}
+            />
+            {(product.availablestock ?? 0) > 0 ? "In Stock" : "Out of Stock"}
+          </div>
+        </div>
+
+        {/* Price Details */}
+        <div className="flex items-baseline gap-2 mb-4">
+          <span className="text-[18px] font-black text-stone-900">
             ₹{price.toLocaleString()}
           </span>
-          {originalPrice && originalPrice > price && (
-            <span className="text-xs text-gray-400 line-through font-medium">
-              ₹{originalPrice.toLocaleString()}
-            </span>
+          {originalPrice && (
+            <>
+              <span className="text-[12px] text-stone-400 line-through font-medium">
+                ₹{originalPrice.toLocaleString()}
+              </span>
+              {originalPrice > price && (
+                <span className="text-[9px] bg-emerald-50 text-emerald-700 font-extrabold px-1.5 py-0.5 rounded-md border border-emerald-100">
+                  {Math.round(((originalPrice - price) / originalPrice) * 100)}%
+                  OFF
+                </span>
+              )}
+            </>
           )}
         </div>
 
-        {/* Add to Cart Button */}
-        <div className="pt-2 mt-auto">
+        {/* Add to Cart Actions */}
+        <div className="flex items-center gap-2 mt-auto pt-2 border-t border-stone-100">
+          {/* Quantity Stepper */}
+          <div
+            className="flex items-center border border-stone-200 rounded-full bg-stone-50 overflow-hidden h-9 shrink-0 shadow-sm"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
+            <button
+              onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+              className="px-2.5 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
+            >
+              <Minus className="w-3 h-3" />
+            </button>
+            <span className="text-[12px] font-extrabold text-stone-800 w-6 text-center">
+              {quantity}
+            </span>
+            <button
+              onClick={() => setQuantity((prev) => prev + 1)}
+              className="px-2.5 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
+            >
+              <Plus className="w-3 h-3" />
+            </button>
+          </div>
+
+          {/* Add To Cart CTA */}
           <button
             disabled={isAdding || (product.availablestock ?? 0) <= 0}
             onClick={(e) => {
@@ -921,7 +1182,7 @@ function ProductCard({
                     bid: product.bid || 1,
                     productid: product.itemtype === "gift" ? null : id,
                     giftid: product.itemtype === "gift" ? id : null,
-                    quantity: 1,
+                    quantity: quantity,
                     itemtype: product.itemtype || "product",
                   });
                   if (response.status === 200) {
@@ -940,23 +1201,23 @@ function ProductCard({
                 }
               });
             }}
-            className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
-              ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-              : "bg-[var(--olive)]/10 border-[var(--olive)]/20 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
-              } disabled:opacity-50`}
+            className={`flex-1 h-9 rounded-full font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${(product.availablestock ?? 0) <= 0
+                ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200 shadow-none"
+                : "bg-[var(--olive)] hover:bg-[var(--olive-dark)] text-white shadow-[0_6px_20px_rgba(85,107,47,0.25)] hover:shadow-[0_8px_25px_rgba(85,107,47,0.4)] hover:-translate-y-0.5 cursor-pointer"
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
           >
+            {isAdding ? (
+              <div className="w-3.5 h-3.5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
+            ) : (
+              <ShoppingCart className="w-3.5 h-3.5" />
+            )}
             <span>
               {(product.availablestock ?? 0) <= 0
-                ? "OUT OF STOCK"
+                ? "Sold Out"
                 : isAdding
-                  ? "ADDING..."
-                  : "ADD TO CART"}
+                  ? "Adding..."
+                  : "Add to Cart"}
             </span>
-            {isAdding ? (
-              <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-            ) : (
-              <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
-            )}
           </button>
         </div>
       </div>
@@ -1126,12 +1387,16 @@ function WhyChooseUsSection({ t }: { t: any }) {
   const { ref, isVisible } = useInView();
 
   return (
-    <section ref={ref} className="py-20 bg-gradient-to-b from-white to-[#fdfbf6] relative overflow-hidden">
+    <section
+      ref={ref}
+      className="py-20 bg-gradient-to-b from-white to-[#fdfbf6] relative overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
-
           {/* Left Side: Elegant Arch Image */}
-          <div className={`w-full lg:w-5/12 relative transition-all duration-700 opacity-100 translate-x-0`}>
+          <div
+            className={`w-full lg:w-5/12 relative transition-all duration-700 opacity-100 translate-x-0`}
+          >
             <div className="relative aspect-[3/4] rounded-t-full rounded-b-[2.5rem] overflow-hidden shadow-[0_20px_60px_-15px_rgba(85,107,47,0.2)] border-[10px] border-white mx-auto max-w-sm group">
               <Image
                 src="https://images.unsplash.com/photo-1626023873533-f5cc77cc2458?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -1147,8 +1412,12 @@ function WhyChooseUsSection({ t }: { t: any }) {
                   <BadgeCheck className="w-6 h-6 drop-shadow-sm" />
                 </div>
                 <div>
-                  <h4 className="text-[15px] font-black text-[#2b3513] leading-none mb-1">100% Pure</h4>
-                  <p className="text-[10px] text-[#556b2f] font-bold uppercase tracking-widest">Organic Certified</p>
+                  <h4 className="text-[15px] font-black text-[#2b3513] leading-none mb-1">
+                    100% Pure
+                  </h4>
+                  <p className="text-[10px] text-[#556b2f] font-bold uppercase tracking-widest">
+                    Organic Certified
+                  </p>
                 </div>
               </div>
             </div>
@@ -1157,7 +1426,9 @@ function WhyChooseUsSection({ t }: { t: any }) {
           </div>
 
           {/* Right Side: Content & Features */}
-          <div className={`w-full lg:w-7/12 space-y-12 transition-all duration-700 delay-200 opacity-100 translate-x-0`}>
+          <div
+            className={`w-full lg:w-7/12 space-y-12 transition-all duration-700 delay-200 opacity-100 translate-x-0`}
+          >
             <div className="space-y-5 text-center lg:text-left">
               <h2 className="text-3xl md:text-4xl lg:text-[42px] font-black text-[#2b3513] leading-[1.15] tracking-tight">
                 {t.why_choose.split(" ").slice(0, 1).join(" ")}
@@ -1453,47 +1724,55 @@ function KuralTrustRow({
   return (
     <section
       ref={ref}
-      className="bg-[#fafaf9] border-y border-stone-200/60 py-6 relative z-30 overflow-hidden"
+      className="py-12 relative z-30 overflow-hidden bg-[#fafaf9] flex justify-center"
     >
-      {/* Subtle Background Decorative Element */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-      <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+      <div className="max-w-2xl w-full px-6">
+        <div className="relative group mx-auto w-full animate-float">
+          {/* Animated gradient border glow */}
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-orange-400 to-[var(--olive)] rounded-[2rem] blur opacity-20 group-hover:opacity-60 transition duration-1000 animate-pulse" />
 
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
-        <div
-          className={`flex flex-col xl:flex-row items-stretch justify-between gap-6 transition-all duration-500 opacity-100 translate-y-0`}
-        >
-          {/* Left Side: Premium Kural Card */}
-          <div className="flex-1 relative group">
-            <div className="h-full bg-white rounded-2xl p-4 md:p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-stone-100 flex flex-col justify-center transition-all duration-500 hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] hover:-translate-y-1">
-              <div className="flex items-start gap-4">
-                <div className="relative flex-shrink-0">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center text-amber-600 shadow-sm border border-amber-100/50 group-hover:rotate-6 transition-transform duration-500">
-                    <ScrollText className="w-4 h-4" />
-                  </div>
-                </div>
-
-                <div className="space-y-2 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="w-4 h-px bg-amber-200" />
-                    <span className="text-[9px] font-black text-amber-600 uppercase tracking-[0.3em] leading-none">
-                      {t.kural_title}
-                    </span>
-                  </div>
-                  <div className="relative">
-                    <Quote className="absolute -top-1 -left-3 w-5 h-5 text-stone-100/80 -z-10 rotate-180" />
-                    <div className="text-sm md:text-base font-bold text-stone-800 leading-snug tracking-tight">
-                      {formatKural(kuraldata?.kural)}
-                    </div>
-                    {kuraldata?.meaning && (
-                      <p className="text-stone-500 text-[11px] md:text-xs font-medium mt-1 leading-relaxed">
-                        {kuraldata.meaning}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
+          {/* The Card */}
+          <div className="relative bg-white/90 backdrop-blur-xl rounded-[2.5rem] p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-stone-200/60 flex flex-col items-center text-center overflow-hidden transition-transform duration-500 group-hover:-translate-y-2 z-10">
+            {/* Light Based Background Image */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+              <img
+                src="/kural-book.jpg"
+                alt="kural"
+                className="w-full h-full object-cover opacity-50 transition-transform duration-1000 group-hover:scale-105 mix-blend-multiply"
+              />
+              <div className="absolute inset-0 bg-white/70 backdrop-blur-[4px]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/50 to-white/90" />
             </div>
+
+            {/* Top decorative element */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-80 z-10 rounded-b-full" />
+
+            {/* Icon */}
+            <div className="relative z-10 w-14 h-14 rounded-full bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/60 flex items-center justify-center mb-6 group-hover:rotate-[360deg] transition-transform duration-1000 shadow-md">
+              <ScrollText className="w-6 h-6 text-amber-600" />
+              <Quote className="absolute -bottom-1 -right-2 w-7 h-7 text-amber-300 drop-shadow-sm" />
+            </div>
+
+            {/* Title */}
+            <div className="relative z-10 flex items-center gap-4 mb-5">
+              <span className="w-8 h-px bg-amber-300" />
+              <span className="text-[11px] font-black text-amber-700 uppercase tracking-[0.35em] leading-none drop-shadow-sm">
+                {t.kural_title}
+              </span>
+              <span className="w-8 h-px bg-amber-300" />
+            </div>
+
+            {/* Kural Text */}
+            <div className="relative z-10 text-base md:text-lg font-extrabold text-stone-900 leading-[1.9] tracking-tight mb-7 w-full drop-shadow-[0_2px_10px_rgba(255,255,255,0.8)]">
+              {formatKural(kuraldata?.kural)}
+            </div>
+
+            {/* Meaning */}
+            {kuraldata?.meaning && (
+              <div className="relative z-10 text-xs md:text-sm text-stone-700 font-bold leading-relaxed bg-white/70 backdrop-blur-md p-5 rounded-2xl border-l-[4px] border-l-amber-400 border-y border-r border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] w-full group-hover:bg-amber-50/60 transition-colors duration-500 text-left">
+                {kuraldata.meaning}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1507,36 +1786,40 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
   const { ref, isVisible } = useInView();
 
   const displayGoals = goals && goals.length > 0 ? goals : [];
-  const defaultBgs = ["bg-blue-50", "bg-emerald-50", "bg-orange-50"];
   const defaultIcons = [Activity, Scale, Baby];
 
   return (
-    <section ref={ref} className="py-16 bg-white relative overflow-hidden">
+    <section ref={ref} className="py-24 bg-[#fafaf9] relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/3" />
+
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div
-          className={`text-center mb-16 space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
-        >
-          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
-            {t.health_goals_title?.split(" ").slice(0, 2).join(" ") || "Health"}{" "}
-            <span className="gradient-text">
-              {t.health_goals_title?.split(" ").slice(2).join(" ") || "Goals"}
-            </span>
-          </h2>
-          <p className="text-sm font-normal text-gray-400 max-w-lg mx-auto">
-            {t.health_goals_desc}
-          </p>
+        {/* Header */}
+        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
+          <div className="space-y-4 max-w-2xl">
+            <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+              {t.health_goals_title?.split(" ").slice(0, 2).join(" ") ||
+                "Health"}{" "}
+              <span className="gradient-text">
+                {t.health_goals_title?.split(" ").slice(2).join(" ") || "Goals"}
+              </span>
+            </h2>
+            <p className="text-base font-medium text-stone-500 max-w-lg">
+              {t.health_goals_desc}
+            </p>
+          </div>
         </div>
 
         {displayGoals.length === 0 ? (
-          <div className="py-12 flex flex-col items-center justify-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-            <p className="text-gray-500 font-medium text-sm">
+          <div className="py-12 flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-stone-200">
+            <p className="text-stone-500 font-medium text-sm">
               No health goals found.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {displayGoals.map((goal, idx) => {
-              const bg = defaultBgs[idx % defaultBgs.length];
               const Icon = defaultIcons[idx % defaultIcons.length];
               const image = getImageUrl(goal.goalimage);
 
@@ -1544,39 +1827,46 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                 <Link
                   href={`/health-goal-products?goalid=${goal.goalid}`}
                   key={goal.goalid || idx}
-                  className="group block bg-white rounded-[2rem] overflow-hidden border border-stone-100 shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(85,107,47,0.12)] hover:-translate-y-2 transition-all duration-500 relative"
-                  style={{ transitionDelay: `${idx * 150}ms` }}
+                  className="group relative flex flex-col sm:flex-row bg-white rounded-[2rem] overflow-hidden border border-stone-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-10px_rgba(85,107,47,0.15)] hover:-translate-y-1 transition-all duration-500"
                 >
-                  {/* Image Section */}
-                  <div className="relative h-[240px] overflow-hidden bg-stone-50">
+                  {/* Image Section (Left) */}
+                  <div className="relative w-full sm:w-[45%] h-[240px] sm:h-auto overflow-hidden bg-stone-100 shrink-0">
                     <img
                       src={image}
                       alt={goal.goalname || ""}
-                      className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
-                    {/* Subtle Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 group-hover:opacity-0 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/10 mix-blend-multiply" />
+
+                    {/* Floating Icon over Image */}
+                    <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md shadow-lg flex items-center justify-center text-[var(--olive)] group-hover:bg-[var(--orange)] group-hover:text-white transition-colors duration-300">
+                      <Icon className="w-4 h-4" />
+                    </div>
                   </div>
 
-                  {/* Overlapping Floating Icon */}
-                  <div className="absolute top-[215px] right-8 w-12 h-12 rounded-2xl bg-white shadow-xl flex items-center justify-center text-[var(--olive)] group-hover:-translate-y-1 group-hover:text-white group-hover:bg-[var(--olive)] transition-all duration-500 border border-stone-100">
-                    <Icon className="w-5 h-5" />
-                  </div>
+                  {/* Content Section (Right) */}
+                  <div className="flex-1 p-6 sm:p-8 flex flex-col justify-center relative">
+                    {/* Subtle Number background */}
+                    <div className="absolute top-4 right-6 text-[80px] font-black text-stone-50 leading-none pointer-events-none select-none transition-transform duration-700 group-hover:-translate-y-2 group-hover:text-stone-100/50">
+                      0{idx + 1}
+                    </div>
 
-                  {/* Content Section */}
-                  <div className="pt-8 pb-8 px-8">
-                    <h3 className="text-xl font-extrabold text-gray-900 tracking-tight group-hover:text-[var(--olive)] transition-colors duration-300 pr-12">
-                      {goal.goalname}
-                    </h3>
-                    <p className="mt-3 text-sm text-gray-500 font-medium leading-relaxed line-clamp-2 min-h-[2.5rem]">
-                      {goal.description}
-                    </p>
+                    <div className="relative z-10">
+                      <h3 className="text-xl sm:text-2xl font-black text-stone-900 tracking-tight transition-colors duration-300 mb-3 pr-10">
+                        {goal.goalname}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-stone-500 font-medium leading-relaxed line-clamp-3 mb-6">
+                        {goal.description}
+                      </p>
 
-                    <div className="mt-5 flex items-center gap-2 pt-4 border-t border-stone-100">
-                      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400 group-hover:text-[var(--olive)] transition-colors duration-300">
-                        {t.explore_all || "Explore"}
-                      </span>
-                      <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[var(--olive)] group-hover:translate-x-2 transition-all duration-300" />
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full border-2 border-stone-100 flex items-center justify-center group-hover:border-[var(--orange)] group-hover:bg-[var(--orange-dark)] transition-all duration-300">
+                          <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-white group-hover:translate-x-0.5 transition-all duration-300" />
+                        </div>
+                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-stone-400 group-hover:text-[var(--olive)] transition-colors duration-300">
+                          {t.explore_all || "Explore"}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -1614,9 +1904,18 @@ function NutritionPlanner({ t }: { t: any }) {
     const fetchProducts = async () => {
       try {
         const [resNuts, resMillets, resSpices] = await Promise.all([
-          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 1, bid: 1 }).catch(() => ({ data: { data: [] } })),
-          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 2, bid: 1 }).catch(() => ({ data: { data: [] } })),
-          API.post(API_ROUTES.CALCULATORPRODUCTS, { categoryid: 3, bid: 1 }).catch(() => ({ data: { data: [] } })),
+          API.post(API_ROUTES.CALCULATORPRODUCTS, {
+            categoryid: 1,
+            bid: 1,
+          }).catch(() => ({ data: { data: [] } })),
+          API.post(API_ROUTES.CALCULATORPRODUCTS, {
+            categoryid: 2,
+            bid: 1,
+          }).catch(() => ({ data: { data: [] } })),
+          API.post(API_ROUTES.CALCULATORPRODUCTS, {
+            categoryid: 3,
+            bid: 1,
+          }).catch(() => ({ data: { data: [] } })),
         ]);
 
         const nuts = (resNuts.data?.data || []).map((p: any) => ({
@@ -1725,7 +2024,10 @@ function NutritionPlanner({ t }: { t: any }) {
   };
 
   return (
-    <section ref={ref} className="py-20 bg-gradient-to-br from-[var(--olive)]/20 via-[#f2efe6] to-[var(--orange)]/20 relative overflow-hidden">
+    <section
+      ref={ref}
+      className="py-20 bg-gradient-to-br from-[var(--olive)]/20 via-[#f2efe6] to-[var(--orange)]/20 relative overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
         {/* Main Calculator Header & Description */}
         <div className="text-center mb-10 space-y-6">
@@ -1749,25 +2051,33 @@ function NutritionPlanner({ t }: { t: any }) {
                 "The right quantity of nuts & dry fruits, millets based on your family size",
                 "Approximate daily or monthly consumption in grams",
                 "Estimated cost based on your selected products",
-                "A balanced mix for kids, adults, and elders"
+                "A balanced mix for kids, adults, and elders",
               ].map((item, i) => (
-                <div key={i} className="flex items-start gap-4 bg-white/80 p-5 rounded-2xl shadow-sm border border-stone-100 hover:border-[var(--olive)]/30 transition-colors duration-300">
+                <div
+                  key={i}
+                  className="flex items-start gap-4 bg-white/80 p-5 rounded-2xl shadow-sm border border-stone-100 hover:border-[var(--olive)]/30 transition-colors duration-300"
+                >
                   <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
                     <Check className="w-4 h-4 text-[var(--olive)]" />
                   </div>
-                  <span className="text-xs text-gray-600 font-medium leading-relaxed">{item}</span>
+                  <span className="text-xs text-gray-600 font-medium leading-relaxed">
+                    {item}
+                  </span>
                 </div>
               ))}
             </div>
 
             <div className="bg-stone-50/80 rounded-2xl p-5 border border-stone-100 mb-8 relative z-10">
               <p className="text-sm text-gray-600 font-medium text-center leading-relaxed">
-                Simply choose your preferred nuts, enter the number of family members, and get an instant estimate of quantity and price.
+                Simply choose your preferred nuts, enter the number of family
+                members, and get an instant estimate of quantity and price.
               </p>
             </div>
 
             <p className="text-[12px] font-black tracking-[0.3em] uppercase text-center relative z-10">
-              <span className="text-gray-400">Eat healthy.</span> <span className="text-[var(--olive)] mx-2">Plan smart.</span> <span className="text-[var(--orange)]">Shop better.</span>
+              <span className="text-gray-400">Eat healthy.</span>{" "}
+              <span className="text-[var(--olive)] mx-2">Plan smart.</span>{" "}
+              <span className="text-[var(--orange)]">Shop better.</span>
             </p>
           </div>
         </div>
@@ -2436,201 +2746,23 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
           </div>
         ) : (
           <div className="flex overflow-x-auto snap-x snap-mandatory gap-2 md:gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            {displayProducts.map((product, idx) => {
-              const id =
-                product.productid !== undefined
-                  ? product.productid
-                  : product.id;
-              const name = product.productname || product.name;
-              const price = product.sellingprice || product.price || 0;
-              const originalPrice =
-                product.price !== undefined &&
-                  product.sellingprice !== undefined &&
-                  product.price > product.sellingprice
-                  ? product.price
-                  : null;
-              const image = product.productimage
-                ? getImageUrl(product.productimage)
-                : product.image || "/placeholder.png";
-              const categoryid = product.categoryid;
-              const isGiftOrPooja =
-                categoryid === 4 ||
-                categoryid === 5 ||
-                (product.category &&
-                  product.category.toLowerCase().includes("gift"));
-              const detailUrl = isGiftOrPooja
-                ? `/gift-detail/${id}?productid=${id}&bid=${product.bid || 1}`
-                : `/product-detail/${id}?productid=${id}&bid=${product.bid || 1}`;
-
-              return (
-                <div
-                  key={id}
-                  className="w-[60vw] sm:w-[calc(50%-0.25rem)] md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0"
-                >
-                  <Link
-                    href={detailUrl}
-                    className="group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] h-full"
-                    style={{
-                      transitionDelay: isVisible ? `${idx * 150}ms` : "0ms",
-                    }}
-                  >
-                    {/* Image Container */}
-                    <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
-                      <img
-                        src={image}
-                        alt={name}
-                        className={`h-full w-full object-cover transition-all duration-[1200ms] group-hover:scale-110 ${(product.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
-                      />
-
-                      {(product.availablestock ?? 0) <= 0 && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[2px] z-10">
-                          <span className="bg-red-500/90 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] shadow-xl">
-                            OUT OF STOCK
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Floating Actions */}
-                      <div className="absolute top-3 right-3 z-20">
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleActionWithLogin(async () => {
-                              if (id === undefined) return;
-                              try {
-                                const response = await API.post(
-                                  API_ROUTES.ADDFAVOURITE,
-                                  { productid: id },
-                                );
-                                if (response.status === 200) {
-                                  window.dispatchEvent(
-                                    new Event("favoritesUpdated"),
-                                  );
-                                }
-                              } catch (err) {
-                                console.error("Error adding to wishlist:", err);
-                              }
-                            });
-                          }}
-                          className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-400 hover:text-red-500 transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
-                        >
-                          <Heart
-                            className={`w-4 h-4 ${id !== undefined && favouriteProductIds.includes(id) ? "fill-red-500 text-red-500" : ""}`}
-                          />
-                        </button>
-                      </div>
-
-                      <div className="absolute top-3 left-3 z-20 flex flex-col gap-2">
-                        {originalPrice && originalPrice > price && (
-                          <span className="px-2.5 py-1 rounded-full bg-[var(--orange)] text-white text-[9px] font-black tracking-wider shadow-lg">
-                            {Math.round(
-                              ((originalPrice - price) / originalPrice) * 100,
-                            )}
-                            % OFF
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-4 flex flex-col flex-1 space-y-3">
-                      <div className="space-y-1">
-                        <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
-                          {name}
-                        </h3>
-                        <p className="text-[11px] text-gray-400 font-medium line-clamp-1">
-                          {product.description ||
-                            "Tradizions premium selection for health."}
-                        </p>
-                        {product.weight &&
-                          (product.unit || product.unitname) && (
-                            <span className="inline-block mt-1 bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md text-[10px] font-bold border border-stone-200">
-                              {product.weight}{" "}
-                              {product.unit || product.unitname}
-                            </span>
-                          )}
-                      </div>
-
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-xl font-black text-gray-900">
-                          ₹{price.toLocaleString()}
-                        </span>
-                        {originalPrice && originalPrice > price && (
-                          <span className="text-xs text-gray-400 line-through font-medium">
-                            ₹{originalPrice.toLocaleString()}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Add to Cart Button */}
-                      <div className="pt-2 mt-auto">
-                        <button
-                          disabled={
-                            addingToCartId === id ||
-                            (product.availablestock ?? 0) <= 0
-                          }
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            if ((product.availablestock ?? 0) <= 0) return;
-                            handleActionWithLogin(async () => {
-                              setAddingToCartId(id);
-                              try {
-                                const response = await API.post(
-                                  API_ROUTES.ADDTOCART,
-                                  {
-                                    bid: product.bid || 1,
-                                    productid: isGiftOrPooja ? null : id,
-                                    giftid: isGiftOrPooja ? id : null,
-                                    quantity: 1,
-                                    itemtype: isGiftOrPooja
-                                      ? "gift"
-                                      : "product",
-                                  },
-                                );
-                                if (response.status === 200) {
-                                  window.dispatchEvent(
-                                    new Event("cartUpdated"),
-                                  );
-                                } else {
-                                  alert("Failed to add product to cart.");
-                                }
-                              } catch (err: any) {
-                                console.error("Error adding to cart:", err);
-                                alert(
-                                  err?.response?.data?.message ||
-                                  "An error occurred.",
-                                );
-                              } finally {
-                                setAddingToCartId(null);
-                              }
-                            });
-                          }}
-                          className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(product.availablestock ?? 0) <= 0
-                            ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
-                            : "bg-[var(--olive)]/10 border-[var(--olive)]/20 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
-                            } disabled:opacity-50`}
-                        >
-                          <span>
-                            {(product.availablestock ?? 0) <= 0
-                              ? "OUT OF STOCK"
-                              : addingToCartId === id
-                                ? "ADDING..."
-                                : "ADD TO CART"}
-                          </span>
-                          {addingToCartId === id ? (
-                            <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                          ) : (
-                            <ShoppingCart className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              );
-            })}
+            {displayProducts.map((product, idx) => (
+              <div
+                key={
+                  product.productid !== undefined
+                    ? product.productid
+                    : product.id
+                }
+                className="w-[60vw] sm:w-[calc(50%-0.25rem)] md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0"
+              >
+                <ProductCard
+                  product={product}
+                  isVisible={isVisible}
+                  delay={idx * 150}
+                  t={t}
+                />
+              </div>
+            ))}
             {/* View All Card */}
             {displayProducts.length > 10 && (
               <div className="w-[60vw] sm:w-[calc(50%-0.25rem)] md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] snap-start flex-shrink-0 flex">
