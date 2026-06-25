@@ -23,6 +23,9 @@ import {
   Heart,
   Loader2,
   Check,
+  Plus,
+  Minus,
+  ArrowRight,
 } from "lucide-react";
 import Image from "next/image";
 import { API } from "@/service/api_service";
@@ -120,6 +123,18 @@ export default function Navbar() {
 
     return () => clearTimeout(delayDebounce);
   }, [searchQuery]);
+
+  // Cart & Quantity States for Search Results
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const [addingToCartId, setAddingToCartId] = useState<string | number | null>(null);
+
+  const handleQuantityChange = (productId: string | number, delta: number) => {
+    setQuantities((prev) => {
+      const current = prev[productId] || 1;
+      const next = current + delta;
+      return { ...prev, [productId]: Math.max(1, next) };
+    });
+  };
 
   // Language State
   const [isLangOpen, setIsLangOpen] = useState(false);
@@ -381,57 +396,70 @@ export default function Navbar() {
 
               {/* Categories Megamenu Dropdown */}
               <div className="relative group/mega">
-                <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[#4a4a4a] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
+                <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[var(--orange)] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
                   {t.categories}
                   <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/mega:rotate-180" />
-                </button>
-
-                {/* Redesigned Premium Dropdown */}
-                <div className="absolute top-full -left-4 pt-5 opacity-0 translate-y-2 pointer-events-none group-hover/mega:opacity-100 group-hover/mega:translate-y-0 group-hover/mega:pointer-events-auto transition-all duration-300">
-                  <div className="w-56 bg-[#faf8f3] backdrop-blur-xl rounded-2xl shadow-[0_16px_48px_rgba(85,107,47,0.14)] border border-[#e8dfc8] py-2 overflow-hidden">
-                    <div className="px-4 py-2 mb-1 border-b border-[#e8dfc8]">
-                      <span className="text-[9px] font-black tracking-[0.2em] uppercase text-[var(--olive)]/60">{t.categories}</span>
+                </button>                {/* Enhanced Premium Categories Dropdown */}
+                <div className="absolute top-full -left-4 pt-6 opacity-0 translate-y-4 pointer-events-none group-hover/mega:opacity-100 group-hover/mega:translate-y-0 group-hover/mega:pointer-events-auto transition-all duration-500 ease-out z-50">
+                  <div className="w-[280px] bg-white/95 backdrop-blur-xl rounded-none shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-stone-200/60 border-t-[3px] border-t-[var(--olive)]">
+                    <div className="px-6 py-4 border-b border-stone-100/80 bg-stone-50/30">
+                      <span className="text-[9px] font-black tracking-[0.25em] uppercase text-[var(--orange)]">{t.categories}</span>
                     </div>
-                    {displayCategories.map((cat) => (
-                      <Link
-                        key={cat.href}
-                        href={cat.href}
-                        className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
-                        {cat.name}
-                      </Link>
-                    ))}
+                    <div className="py-2 flex flex-col">
+                      {displayCategories.map((cat) => (
+                        <Link
+                          key={cat.href}
+                          href={cat.href}
+                          className="relative flex items-center justify-between px-6 py-3.5 text-[12.5px] font-bold text-stone-600 transition-all duration-300 group/item hover:bg-gradient-to-r hover:from-[var(--olive)]/5 hover:to-transparent"
+                        >
+                          {/* Animated Left Border */}
+                          <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--olive)] scale-y-0 origin-bottom transition-transform duration-300 group-hover/item:scale-y-100" />
+                          
+                          <span className="relative text-stone-600 group-hover/item:text-[var(--olive)] group-hover/item:translate-x-1 transition-all duration-300">
+                            {cat.name}
+                          </span>
+                          <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-4 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 ease-out text-[var(--olive)]" />
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Gifting Dropdown */}
+              {/* Enhanced Premium Gifting Dropdown */}
               <div className="relative group/gifting">
-                <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[#4a4a4a] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
+                <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[var(--orange)] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
                   {t.gifting}
                   <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/gifting:rotate-180" />
                 </button>
 
-                <div className="absolute top-full left-0 pt-5 opacity-0 translate-y-2 pointer-events-none group-hover/gifting:opacity-100 group-hover/gifting:translate-y-0 group-hover/gifting:pointer-events-auto transition-all duration-300">
-                  <div className="w-48 bg-[#faf8f3] backdrop-blur-xl rounded-2xl shadow-[0_16px_48px_rgba(85,107,47,0.14)] border border-[#e8dfc8] py-2 overflow-hidden">
-                    <div className="px-4 py-2 mb-1 border-b border-[#e8dfc8]">
-                      <span className="text-[9px] font-black tracking-[0.2em] uppercase text-[var(--olive)]/60">{t.gifting}</span>
+                <div className="absolute top-full left-0 pt-6 opacity-0 translate-y-4 pointer-events-none group-hover/gifting:opacity-100 group-hover/gifting:translate-y-0 group-hover/gifting:pointer-events-auto transition-all duration-500 ease-out z-50">
+                  <div className="w-[260px] bg-white/95 backdrop-blur-xl rounded-none shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-stone-200/60 border-t-[3px] border-t-[var(--olive)]">
+                    <div className="px-6 py-4 border-b border-stone-100/80 bg-stone-50/30">
+                      <span className="text-[9px] font-black tracking-[0.25em] uppercase text-[var(--orange)]">{t.gifting}</span>
                     </div>
-                    <Link
-                      href="/gifts"
-                      className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
-                      {t.occasional}
-                    </Link>
-                    <Link
-                      href="/corporate-orders"
-                      className="flex items-center gap-3 mx-2 px-3 py-2.5 text-[11px] font-semibold text-[#5a5248] hover:bg-[var(--olive)]/8 hover:text-[var(--olive)] rounded-xl transition-all duration-200 group/item"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]/30 group-hover/item:bg-[var(--olive)] transition-colors flex-shrink-0" />
-                      {t.corporate}
-                    </Link>
+                    <div className="py-2 flex flex-col">
+                      <Link
+                        href="/gifts"
+                        className="relative flex items-center justify-between px-6 py-3.5 text-[12.5px] font-bold text-stone-600 transition-all duration-300 group/item hover:bg-gradient-to-r hover:from-[var(--olive)]/5 hover:to-transparent"
+                      >
+                        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--olive)] scale-y-0 origin-bottom transition-transform duration-300 group-hover/item:scale-y-100" />
+                        <span className="relative text-stone-600 group-hover/item:text-[var(--olive)] group-hover/item:translate-x-1 transition-all duration-300">
+                          {t.occasional}
+                        </span>
+                        <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-4 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 ease-out text-[var(--olive)]" />
+                      </Link>
+                      <Link
+                        href="/corporate-orders"
+                        className="relative flex items-center justify-between px-6 py-3.5 text-[12.5px] font-bold text-stone-600 transition-all duration-300 group/item hover:bg-gradient-to-r hover:from-[var(--olive)]/5 hover:to-transparent"
+                      >
+                        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--olive)] scale-y-0 origin-bottom transition-transform duration-300 group-hover/item:scale-y-100" />
+                        <span className="relative text-stone-600 group-hover/item:text-[var(--olive)] group-hover/item:translate-x-1 transition-all duration-300">
+                          {t.corporate}
+                        </span>
+                        <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-4 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 ease-out text-[var(--olive)]" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1054,19 +1082,101 @@ export default function Navbar() {
                                   )}
                                 </div>
 
-                                <div className="pt-2 mt-auto">
-                                  <div className={`w-full py-3 px-4 rounded-xl font-bold text-[11px] tracking-widest flex items-center justify-between transition-colors duration-300 group/btn ${(product.stock <= 0 || product.availablestock <= 0)
-                                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                      : "bg-[#f4f6f1] text-[#4b553e] hover:bg-[#e8ece1] cursor-pointer"
-                                    }`}
+                                <div className="pt-2 mt-auto flex flex-wrap items-center gap-2 border-t border-stone-100">
+                                  <div 
+                                    className="flex items-center border border-stone-200 rounded-[5px] bg-stone-50 overflow-hidden h-8 shrink-0 shadow-sm"
+                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
                                   >
+                                    <button 
+                                      onClick={() => handleQuantityChange(product.productid, -1)}
+                                      className="px-2 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
+                                    >
+                                      <Minus className="w-3 h-3" />
+                                    </button>
+                                    <span className="text-[12px] font-extrabold text-stone-800 w-5 text-center">
+                                      {quantities[product.productid] || 1}
+                                    </span>
+                                    <button 
+                                      onClick={() => handleQuantityChange(product.productid, 1)}
+                                      className="px-2 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
+                                    >
+                                      <Plus className="w-3 h-3" />
+                                    </button>
+                                  </div>
+
+                                  <button
+                                    disabled={
+                                      addingToCartId === product.productid ||
+                                      product.availablestock <= 0 || product.stock <= 0
+                                    }
+                                    onClick={async (e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      if (product.availablestock <= 0 || product.stock <= 0) return;
+                                      
+                                      if (!isLoggedIn) {
+                                        setIsSearchOpen(false);
+                                        setShouldRedirectToAccount(true);
+                                        setIsDrawerOpen(true);
+                                        return;
+                                      }
+
+                                      setAddingToCartId(product.productid);
+                                      try {
+                                        const response = await API.post(
+                                          API_ROUTES.ADDTOCART,
+                                          {
+                                            bid: product.bid || 1,
+                                            productid:
+                                              (!isGift)
+                                                ? product.productid
+                                                : null,
+                                            giftid:
+                                              (isGift)
+                                                ? product.productid
+                                                : null,
+                                            quantity: quantities[product.productid] || 1,
+                                            itemtype: isGift ? "gift" : "product",
+                                          },
+                                        );
+                                        if (response.status === 200) {
+                                          window.dispatchEvent(
+                                            new Event("cartUpdated"),
+                                          );
+                                        } else {
+                                          alert(
+                                            "Failed to add product to cart. Please try again.",
+                                          );
+                                        }
+                                      } catch (err: any) {
+                                        console.error("Error adding to cart:", err);
+                                        alert(
+                                          err?.response?.data?.message ||
+                                          "An error occurred while adding to cart.",
+                                        );
+                                      } finally {
+                                        setAddingToCartId(null);
+                                      }
+                                    }}
+                                    className={`flex-1 min-w-[120px] h-8 rounded-[5px] font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${
+                                      (product.stock <= 0 || product.availablestock <= 0)
+                                        ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200 shadow-none"
+                                        : "bg-[var(--olive)] hover:bg-[var(--olive-dark)] text-white shadow-[0_6px_20px_rgba(85,107,47,0.25)] hover:shadow-[0_8px_25px_rgba(85,107,47,0.4)] hover:-translate-y-0.5 cursor-pointer"
+                                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                  >
+                                    {addingToCartId === product.productid ? (
+                                      <div className="w-3.5 h-3.5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
+                                    ) : (
+                                      <ShoppingCart className="w-3.5 h-3.5" />
+                                    )}
                                     <span>
                                       {(product.stock <= 0 || product.availablestock <= 0)
-                                        ? "OUT OF STOCK"
-                                        : "ADD TO CART"}
+                                        ? "Sold Out"
+                                        : addingToCartId === product.productid
+                                          ? "Adding..."
+                                          : "Add to Cart"}
                                     </span>
-                                    <ShoppingCart className="w-4 h-4 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
-                                  </div>
+                                  </button>
                                 </div>
                               </div>
                             </Link>

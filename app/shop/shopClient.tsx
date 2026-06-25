@@ -895,7 +895,7 @@ export default function ShopPage() {
                           )}
                         </div>
 
-                        <div className="flex items-center gap-2 mt-auto pt-2 border-t border-stone-100">
+                        <div className="flex flex-wrap items-center gap-2 mt-auto pt-2 border-t border-stone-100">
                           {/* Quantity Stepper */}
                           <div 
                             className="flex items-center border border-stone-200 rounded-[5px] bg-stone-50 overflow-hidden h-8 shrink-0 shadow-sm"

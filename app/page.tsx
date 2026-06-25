@@ -1142,7 +1142,7 @@ function ProductCard({
         </div>
 
         {/* Add to Cart Actions */}
-        <div className="flex items-center gap-2 mt-auto pt-2 border-t border-stone-100">
+        <div className="flex flex-wrap items-center gap-2 mt-auto pt-2 border-t border-stone-100">
           {/* Quantity Stepper */}
           <div
             className="flex items-center border border-stone-200 rounded-[5px] bg-stone-50 overflow-hidden h-8 shrink-0 shadow-sm"
@@ -1201,7 +1201,7 @@ function ProductCard({
                 }
               });
             }}
-            className={`flex-1 h-8 rounded-[5px] font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${(product.availablestock ?? 0) <= 0
+            className={`flex-1 min-w-[120px] h-8 rounded-[5px] font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${(product.availablestock ?? 0) <= 0
                 ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200 shadow-none"
                 : "bg-[var(--olive)] hover:bg-[var(--olive-dark)] text-white shadow-[0_6px_20px_rgba(85,107,47,0.25)] hover:shadow-[0_8px_25px_rgba(85,107,47,0.4)] hover:-translate-y-0.5 cursor-pointer"
               } disabled:opacity-50 disabled:cursor-not-allowed`}

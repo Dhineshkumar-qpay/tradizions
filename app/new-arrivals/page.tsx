@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Heart, ShoppingCart, ArrowRight, Search, ChevronLeft, ChevronRight, Filter, Plus, Minus, Star } from "lucide-react";
+import { Heart, ShoppingCart, ArrowRight, Search, ChevronLeft, ChevronRight, Filter, Plus, Minus, Star, X } from "lucide-react";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
@@ -209,7 +209,7 @@ function ProductCard({
         </div>
 
         {/* Add to Cart Actions */}
-        <div className="flex items-center gap-2 mt-auto pt-2 border-t border-stone-100">
+        <div className="flex flex-wrap items-center gap-2 mt-auto pt-2 border-t border-stone-100">
           {/* Quantity Stepper */}
           <div 
             className="flex items-center border border-stone-200 rounded-[5px] bg-stone-50 overflow-hidden h-8 shrink-0 shadow-sm"
@@ -265,7 +265,7 @@ function ProductCard({
                 }
               });
             }}
-            className={`flex-1 h-8 rounded-[5px] font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${
+            className={`flex-1 min-w-[120px] h-8 rounded-[5px] font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${
               (product.availablestock ?? 0) <= 0 
                 ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200 shadow-none" 
                 : "bg-[var(--olive)] hover:bg-[var(--olive-dark)] text-white shadow-[0_6px_20px_rgba(85,107,47,0.25)] hover:shadow-[0_8px_25px_rgba(85,107,47,0.4)] hover:-translate-y-0.5 cursor-pointer"
@@ -299,6 +299,7 @@ export default function NewArrivalsPage() {
   // Filters, Search, Pagination
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState<string>("");
   const [priceRange, setPriceRange] = useState<string>("");
   const ITEMS_PER_PAGE = 20;
@@ -432,9 +433,9 @@ export default function NewArrivalsPage() {
 
       <div className="max-w-7xl mx-auto px-2 md:px-6 py-6 md:py-10 pb-32">
         <div className="flex flex-col lg:flex-row gap-12">
-          {/* SIDEBAR FILTERS */}
-          <aside className="w-full lg:w-56 shrink-0 space-y-6">
-            <div className="bg-white border border-stone-200 shadow-sm rounded-xl overflow-hidden">
+          {/* SIDEBAR FILTERS (Desktop) */}
+          <aside className="hidden lg:block w-56 shrink-0 space-y-6">
+            <div className="bg-white border border-stone-200 shadow-sm rounded-xl overflow-hidden sticky top-32">
               <div className="px-4 py-3 border-b border-stone-100 flex items-center justify-between bg-white">
                 <h3 className="text-base font-bold text-stone-900 tracking-tight">
                   Filters
@@ -515,9 +516,9 @@ export default function NewArrivalsPage() {
 
           {/* MAIN CONTENT */}
           <div className="flex-1 space-y-8">
-            {/* SEARCH BAR */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
-              <div className="relative w-full sm:max-w-xs flex items-center bg-white border border-stone-200 rounded-xl shadow-sm px-4 py-2.5 transition-all hover:border-[var(--olive)]">
+            {/* SEARCH BAR & MOBILE FILTER */}
+            <div className="flex items-center justify-between gap-4 w-full">
+              <div className="relative flex-1 sm:max-w-xs flex items-center bg-white border border-stone-200 rounded-xl shadow-sm px-4 py-2.5 transition-all hover:border-[var(--olive)]">
                 <Search className="h-4 w-4 text-stone-300 mr-3" />
                 <input
                   type="text"
@@ -530,6 +531,12 @@ export default function NewArrivalsPage() {
                   className="bg-transparent text-xs font-bold text-stone-700 outline-none w-full placeholder:text-stone-300"
                 />
               </div>
+              <button
+                onClick={() => setIsMobileFilterOpen(true)}
+                className="lg:hidden flex items-center gap-2 px-4 py-2.5 bg-white border border-stone-200 rounded-xl text-stone-700 font-bold text-[11px] shadow-sm hover:border-[var(--olive)] transition-colors"
+              >
+                <Filter className="w-4 h-4" /> Filters
+              </button>
             </div>
 
             {/* PRODUCTS GRID */}
@@ -581,6 +588,96 @@ export default function NewArrivalsPage() {
           </div>
         </div>
       </div>
+
+      {/* MOBILE FILTER OVERLAY */}
+      {isMobileFilterOpen && (
+        <div className="fixed inset-0 z-[100] flex">
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setIsMobileFilterOpen(false)}
+          />
+          <div className="relative ml-auto w-full max-w-[300px] bg-white h-full shadow-2xl overflow-y-auto">
+            <div className="p-6 border-b border-stone-100 flex items-center justify-between">
+              <h3 className="text-lg font-bold text-stone-900">Filters</h3>
+              <button
+                onClick={() => setIsMobileFilterOpen(false)}
+                className="p-2 hover:bg-stone-50 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5 text-stone-400" />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              <div className="mb-8">
+                <h3 className="text-xs font-black text-stone-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                  <Filter className="w-4 h-4" /> Sort By
+                </h3>
+                <div className="flex flex-col gap-2">
+                  {[
+                    { id: "", label: "Default" },
+                    { id: "lowToHigh", label: "Price: Low to High" },
+                    { id: "highToLow", label: "Price: High to Low" },
+                  ].map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => { setSortBy(item.id); setCurrentPage(1); }}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
+                        sortBy === item.id
+                          ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
+                          : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+                      }`}
+                    >
+                      <span className="text-[11px] font-bold">{item.label}</span>
+                      <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${sortBy === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
+                        {sortBy === item.id && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-xs font-black text-stone-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                  <Filter className="w-4 h-4" /> Price Range
+                </h3>
+                <div className="flex flex-col gap-2">
+                  {[
+                    { id: "", label: "All Prices" },
+                    { id: "under500", label: "Under ₹500" },
+                    { id: "500to1000", label: "₹500 to ₹1000" },
+                    { id: "1000to1500", label: "₹1000 to ₹1500" },
+                    { id: "above1500", label: "Above ₹1500" },
+                  ].map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => { setPriceRange(item.id); setCurrentPage(1); }}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
+                        priceRange === item.id
+                          ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
+                          : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
+                      }`}
+                    >
+                      <span className="text-[11px] font-bold">{item.label}</span>
+                      <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${priceRange === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
+                        {priceRange === item.id && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6">
+              <button
+                onClick={() => setIsMobileFilterOpen(false)}
+                className="w-full py-4 bg-[var(--olive)] text-white font-bold text-xs tracking-widest rounded-xl shadow-lg shadow-emerald-900/10"
+              >
+                APPLY FILTERS
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
