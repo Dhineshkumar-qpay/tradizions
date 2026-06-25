@@ -343,7 +343,18 @@
     "prod3_name": "Traditional Festive Box",
     "prod3_desc": "The ultimate celebration package with sacred pooja items and treats.",
     "prod4_name": "Morning Vitality Bundle",
-    "prod4_desc": "Nutrient-dense millet malts and seeds for a healthy corporate lifestyle."
+    "prod4_desc": "Nutrient-dense millet malts and seeds for a healthy corporate lifestyle.",
+    "prof_title": "Corporate Gifting,",
+    "prof_subtitle": "Done Professionally.",
+    "prof_desc": "We go beyond just sending a gift. We deliver a meticulously crafted experience that reflects your company's values and commitment to wellness.",
+    "prof_feature1_title": "Dedicated Account Manager",
+    "prof_feature1_desc": "A single point of contact for end-to-end seamless execution.",
+    "prof_feature2_title": "Bespoke Curation",
+    "prof_feature2_desc": "Tailored hampers designed to fit your precise budget and health goals.",
+    "prof_feature3_title": "White-Glove Delivery",
+    "prof_feature3_desc": "Secure, reliable, and trackable multi-point dispatch.",
+    "prof_feature4_title": "Tax Compliant Invoicing",
+    "prof_feature4_desc": "GST-ready corporate billing for hassle-free accounting."
   },
   "gift_detail": {
     "packaging": "Artisanal Packaging",

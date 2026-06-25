@@ -895,29 +895,28 @@ export default function ShopPage() {
                           )}
                         </div>
 
-                        {/* Add to Cart Actions */}
                         <div className="flex items-center gap-2 mt-auto pt-2 border-t border-stone-100">
                           {/* Quantity Stepper */}
                           <div 
-                            className="flex items-center border border-stone-200 rounded-full bg-stone-50 overflow-hidden h-9 shrink-0 shadow-sm"
+                            className="flex items-center border border-stone-200 rounded-[5px] bg-stone-50 overflow-hidden h-8 shrink-0 shadow-sm"
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
                           >
                             <button 
                               onClick={() => {
                                 if (product.id) handleQuantityChange(product.id, -1);
                               }}
-                              className="px-2.5 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
+                              className="px-2 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
                             >
                               <Minus className="w-3 h-3" />
                             </button>
-                            <span className="text-[12px] font-extrabold text-stone-800 w-6 text-center">
+                            <span className="text-[12px] font-extrabold text-stone-800 w-5 text-center">
                               {product.id ? (quantities[product.id] || 1) : 1}
                             </span>
                             <button 
                               onClick={() => {
                                 if (product.id) handleQuantityChange(product.id, 1);
                               }}
-                              className="px-2.5 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
+                              className="px-2 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
                             >
                               <Plus className="w-3 h-3" />
                             </button>
@@ -973,9 +972,9 @@ export default function ShopPage() {
                                 }
                               });
                             }}
-                            className={`flex-1 h-9 rounded-full font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${
-                              product.availablestock <= 0 
-                                ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200 shadow-none" 
+                            className={`flex-1 min-w-[120px] h-8 rounded-[5px] font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${
+                              product.availablestock <= 0
+                                ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200 shadow-none"
                                 : "bg-[var(--olive)] hover:bg-[var(--olive-dark)] text-white shadow-[0_6px_20px_rgba(85,107,47,0.25)] hover:shadow-[0_8px_25px_rgba(85,107,47,0.4)] hover:-translate-y-0.5 cursor-pointer"
                             } disabled:opacity-50 disabled:cursor-not-allowed`}
                           >
