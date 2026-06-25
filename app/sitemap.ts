@@ -2,30 +2,46 @@ import { API_ROUTES, BASE_URL } from "@/routes/api_routes";
 import { MetadataRoute } from "next";
 
 async function fetchProductUrls() {
-  const response = await fetch(
-    `${BASE_URL}${API_ROUTES.GETALLBUSINESSPRODUCTS}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  try {
+    const response = await fetch(
+      `${BASE_URL}${API_ROUTES.GETALLBUSINESSPRODUCTS}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    },
-  );
+    );
 
-  const json = await response.json();
-  const products = json?.data || [];
+    if (!response.ok) {
+      console.warn(`Sitemap API failed with status ${response.status}`);
+      return [];
+    }
 
-  return products.map(
-    (product: { productid: number; bid: number; itemtype: string }) => ({
-      url:
-        product.itemtype === "product"
-          ? `https://tradizions.vercel.app/product-detail/${product.productid}?productid=${product.productid}&bid=${product.bid}`
-          : `https://tradizions.vercel.app/gift-detail/${product.productid}?productid=${product.productid}&bid=${product.bid}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    }),
-  );
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      console.warn("Sitemap API returned non-JSON response");
+      return [];
+    }
+
+    const json = await response.json();
+    const products = json?.data || [];
+
+    return products.map(
+      (product: { productid: number; bid: number; itemtype: string }) => ({
+        url:
+          product.itemtype === "product"
+            ? `https://tradizions.vercel.app/product-detail/${product.productid}?productid=${product.productid}&bid=${product.bid}`
+            : `https://tradizions.vercel.app/gift-detail/${product.productid}?productid=${product.productid}&bid=${product.bid}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
+      }),
+    );
+  } catch (error) {
+    console.error("Error generating sitemap products:", error);
+    return [];
+  }
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
