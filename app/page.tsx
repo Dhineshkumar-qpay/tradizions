@@ -18,6 +18,7 @@ import {
   Shield,
   Truck,
   Award,
+  ChevronLeft,
   Quote,
   Check,
   BadgeCheck,
@@ -140,7 +141,7 @@ function ImageComparisonBanner() {
 
   return (
     <section className="w-full relative h-[400px] md:h-[600px] overflow-hidden select-none bg-[#f4ece3] my-10">
-      <div 
+      <div
         ref={containerRef}
         className="relative w-full h-full cursor-ew-resize group"
         onMouseMove={handleMove}
@@ -151,23 +152,23 @@ function ImageComparisonBanner() {
       >
         {/* Underneath image (Right side) */}
         <div className="absolute inset-0 w-full h-full">
-          <img 
-            src="/nuts-slide.jpg" 
-            alt="Authentic Tradizions Products" 
+          <img
+            src="/nuts-slide.jpg"
+            alt="Authentic Tradizions Products"
             className="w-full h-full object-cover object-center pointer-events-none"
             draggable={false}
           />
         </div>
 
         {/* Overlay image (Left side) */}
-        <div 
-          className="absolute inset-y-0 left-0 overflow-hidden border-r-[3px] border-white z-10 shadow-[2px_0_15px_rgba(0,0,0,0.1)]" 
+        <div
+          className="absolute inset-y-0 left-0 overflow-hidden border-r-[3px] border-white z-10 shadow-[2px_0_15px_rgba(0,0,0,0.1)]"
           style={{ width: `${sliderPosition}%` }}
         >
           <div className="absolute top-0 left-0 w-[100vw] h-full">
-            <img 
-              src="/millets-slide.jpeg" 
-              alt="Organic Millets" 
+            <img
+              src="/millets-slide.jpeg"
+              alt="Organic Millets"
               className="w-full h-full object-cover object-center pointer-events-none"
               draggable={false}
             />
@@ -175,7 +176,7 @@ function ImageComparisonBanner() {
         </div>
 
         {/* Slider Handle */}
-        <div 
+        <div
           className="absolute top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.15)] transition-transform hover:scale-105 z-20 cursor-ew-resize pointer-events-none"
           style={{ left: `calc(${sliderPosition}% - 24px)` }}
         >
@@ -430,42 +431,20 @@ function HealthBenefitsSection({ t }: { t: any }) {
     "nuts" | "millets" | "spices"
   >("nuts");
 
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
   const benefitsMap: Record<string, any[]> = {
     nuts: t.health_benefits_data?.nuts || [],
     millets: t.health_benefits_data?.millets || [],
     spices: t.health_benefits_data?.spices || [],
   };
 
-  const categoryMeta: Record<
-    string,
-    {
-      emoji: string;
-      color: string;
-      accent: string;
-
-      lightGradient: string;
-    }
-  > = {
-    nuts: {
-      emoji: "🧆",
-      color: "from-amber-700 to-amber-500",
-      accent: "bg-amber-500",
-
-      lightGradient: "from-amber-50 to-orange-50/30",
-    },
-    millets: {
-      emoji: "🌾",
-      color: "from-[var(--olive-dark)] to-[var(--olive)]",
-      accent: "bg-[var(--olive)]",
-
-      lightGradient: "from-[var(--olive)]/10 to-[var(--beige)]/30",
-    },
+  const categoryMeta: Record<string, { emoji: string }> = {
+    nuts: { emoji: "https://cdn-icons-png.flaticon.com/128/7451/7451659.png" },
+    millets: { emoji: "https://cdn-icons-png.flaticon.com/128/616/616428.png" },
     spices: {
-      emoji: "🫚",
-      color: "from-orange-700 to-[var(--orange)]",
-      accent: "bg-[var(--orange)]",
-
-      lightGradient: "from-rose-50 to-orange-50/40",
+      emoji: "https://cdn-icons-png.flaticon.com/128/9273/9273863.png",
     },
   };
 
@@ -478,105 +457,164 @@ function HealthBenefitsSection({ t }: { t: any }) {
     "spices",
   ];
 
+  useEffect(() => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollLeft = 0;
+      setScrollProgress(0);
+    }
+  }, [activeCategory]);
+
+  const handleScroll = () => {
+    if (sliderRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
+      const maxScroll = scrollWidth - clientWidth;
+      const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
+      setScrollProgress(progress);
+    }
+  };
+
+  const slide = (direction: "left" | "right") => {
+    if (sliderRef.current) {
+      const { clientWidth } = sliderRef.current;
+      const scrollAmount =
+        direction === "left" ? -clientWidth * 0.8 : clientWidth * 0.8;
+      sliderRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
+
   return (
-    <section className="py-16 bg-[#fafaf9] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* ── Top Row: Label + Headline ── */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
-          <div className="space-y-3 max-w-xl">
-            <span className="text-[10px] font-black tracking-[0.2em] uppercase text-[var(--olive)] mb-3">
-              {t.health_advantage || "The Health Advantage"}
+    <section className="pt-24 pb-28 relative overflow-hidden bg-gradient-to-br from-[#ffffff] via-[#f4f8f0] to-[#eee6da]">
+      {/* Top Wave */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-0 transform">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-[#ffffff]"></path>
+        </svg>
+      </div>
+
+      {/* Subtle organic noise texture for premium feel */}
+      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] pointer-events-none" />
+
+      {/* Bottom Wave */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-0 transform rotate-180">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-[#ffffff]"></path>
+        </svg>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-6 z-10">
+        {/* --- Header Section (Centered) --- */}
+        <div className="flex flex-col items-center text-center mb-12">
+          {/* Badge */}
+          <div className="flex items-center gap-2 px-4 py-1.5  mb-6">
+            <span className="text-[16px] font-bold tracking-[0.15em] uppercase text-[var(--olive)]">
+              {t.health_advantage || "HEALTH BENEFITS"}
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--dark-brown)] leading-tight">
-              {t.health_advantage_headline_1 || "Nature's finest, "}{" "}
-              <span className="gradient-text">
-                {t.health_advantage_headline_2 || "science-backed"}
-              </span>{" "}
-              {t.health_advantage_headline_3 || "nutrition"}
-            </h2>
-            <p className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed max-w-md">
-              {t.health_advantage_desc ||
-                "Every ingredient is hand-selected from certified farms and packed fresh to preserve maximum nutritional value."}
-            </p>
+          </div>
+
+          {/* Title (App Dynamic Style) */}
+
+          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+            {t.health_advantage_headline_1}
+            <span className="gradient-text">
+              {t.health_advantage_headline_2} {t.health_advantage_headline_3}
+            </span>
+          </h2>
+
+          {/* Category Tabs */}
+          <div className="flex gap-3 mt-8">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-6 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 ${activeCategory === cat
+                    ? "bg-[var(--orange-dark)] text-white shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                    : "bg-white/80 backdrop-blur-sm text-stone-500 border border-stone-200 hover:border-[var(--olive)] hover:text-[var(--olive)] shadow-sm"
+                  }`}
+              >
+                {t.sections?.[cat] || cat}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* ── Category Tabs (inline pill style) ── */}
-        <div className="flex gap-2 mb-10 flex-wrap">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`relative px-6 py-2.5 rounded-xl text-[11px] font-black tracking-[0.18em] uppercase transition-all duration-400 cursor-pointer ${activeCategory === cat
-                  ? "bg-[var(--olive)] text-white shadow-md"
-                  : "bg-white text-stone-500 border border-stone-150 hover:border-[var(--olive)] hover:text-[var(--olive)]"
-                }`}
-            >
-              {activeCategory === cat && (
-                <span
-                  className={`absolute left-3 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white`}
-                />
-              )}
-              <span className={activeCategory === cat ? "pl-3" : ""}>
-                {t.sections?.[cat] || cat}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
+        {/* --- Sliding Cards (Image Style) --- */}
+        <div className="relative group mt-6">
+          {/* Left Arrow */}
+          <button
+            onClick={() => slide("left")}
+            className="absolute -left-2 md:-left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-stone-600 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-stone-100 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] opacity-0 group-hover:opacity-100 hidden sm:flex"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
+          </button>
 
-      {/* ── Scrolling Cards Strip (Redesigned) ── */}
-      <div className="relative group overflow-hidden mt-6">
-        <div className="flex animate-marquee group-hover:[animation-play-state:paused] py-8">
-          {[...activeBenefits, ...activeBenefits].map(
-            (benefit: any, idx: number) => {
-              return (
-                <div
-                  key={benefit.name + idx}
-                  className="flex-shrink-0 w-[280px] md:w-[320px] mx-4 min-h-[190px] relative overflow-hidden rounded-[24px] bg-white/60 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-500 group/card flex flex-col p-7"
-                >
-                  {/* Elegant glow effect behind the card */}
-                  <div
-                    className={`absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-br ${meta.color} opacity-20 rounded-full blur-2xl transition-opacity duration-500`}
+          {/* Right Arrow */}
+          <button
+            onClick={() => slide("right")}
+            className="absolute -right-2 md:-right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-stone-600 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-stone-100 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] opacity-0 group-hover:opacity-100 hidden sm:flex"
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
+          </button>
+
+          <div
+            ref={sliderRef}
+            onScroll={handleScroll}
+            className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-8 pt-4 px-2"
+          >
+            <style
+              dangerouslySetInnerHTML={{
+                __html: `
+              .no-scrollbar::-webkit-scrollbar { display: none; }
+              .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+            `,
+              }}
+            />
+
+            {activeBenefits.map((benefit: any, idx: number) => (
+              <div
+                key={benefit.name + idx}
+                className="flex-shrink-0 w-[240px] md:w-[260px] snap-start bg-white/90 backdrop-blur-xl rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white p-8 flex flex-col items-center text-center transition-all duration-400 hover:shadow-[0_20px_40px_rgba(85,107,47,0.12)] hover:-translate-y-2 group/card relative overflow-hidden"
+              >
+                {/* Circle Icon */}
+                <div className="w-16 h-16 rounded-full bg-[var(--olive)] flex items-center justify-center mb-6 shadow-inner relative z-10 group-hover/card:scale-110 transition-transform duration-500">
+                  <img
+                    src={meta.emoji}
+                    alt="icons"
+                    height={30}
+                    width={30}
+                    className="objectfit-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent pointer-events-none" />
-
-                  <div className="flex items-start justify-between mb-5 relative z-10">
-                    <div className="shrink-0 w-12 h-12 rounded-[14px] bg-white shadow-md border border-stone-100 flex items-center justify-center relative overflow-hidden transition-all duration-300">
-                      <div
-                        className={`absolute inset-0 bg-gradient-to-br ${meta.color} opacity-10 transition-opacity duration-300`}
-                      />
-                      <span className="text-xl scale-110 transition-transform duration-300">
-                        {meta.emoji}
-                      </span>
-                    </div>
-                    <div
-                      className={`w-8 h-8 flex items-center justify-center rounded-full bg-white border border-stone-200 opacity-100 transition-all duration-300`}
-                    >
-                      <Check
-                        className={`w-3.5 h-3.5 text-[var(--olive)] transition-colors`}
-                        strokeWidth={3}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="relative z-10 mt-auto">
-                    <h3 className="text-[16px] font-black text-[var(--olive)] leading-tight mb-2 transition-colors duration-300">
-                      {benefit.name}
-                    </h3>
-                    <p className="text-[12px] text-stone-500 leading-relaxed font-medium line-clamp-3">
-                      {benefit.desc}
-                    </p>
-                  </div>
                 </div>
-              );
-            },
-          )}
+
+                {/* Title */}
+                <h3 className="text-[15px] font-extrabold text-stone-800 mb-3 leading-tight min-h-[40px] flex items-center justify-center relative z-10 group-hover/card:text-[var(--olive)] transition-colors duration-300">
+                  {benefit.name}
+                </h3>
+
+                {/* Description */}
+                <p className="text-[12px] text-stone-500 leading-relaxed font-medium mb-6 flex-grow relative z-10">
+                  {benefit.desc}
+                </p>
+
+                {/* Decorative Divider */}
+                <div className="flex items-center w-16 justify-center opacity-40 mt-auto relative z-10 group-hover/card:opacity-100 transition-opacity duration-300">
+                  <div className="h-px bg-[var(--olive)] w-full transition-all duration-500 group-hover/card:w-[150%]"></div>
+                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--olive)] mx-1 shrink-0"></div>
+                  <div className="h-px bg-[var(--olive)] w-full transition-all duration-500 group-hover/card:w-[150%]"></div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Seamless Fade edges */}
-        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#fafaf9] via-[#fafaf9]/80 to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#fafaf9] via-[#fafaf9]/80 to-transparent pointer-events-none z-10" />
+        {/* Slider Progress indicator */}
+        <div className="max-w-md mx-auto w-full h-1 bg-stone-200/60 rounded-full overflow-hidden mt-2 mb-16 relative">
+          <div
+            className="absolute top-0 bottom-0 left-0 bg-gradient-to-r from-[var(--olive)] to-emerald-600 transition-all duration-300 ease-out rounded-full"
+            style={{ width: `${Math.max(15, scrollProgress)}%` }}
+          />
+        </div>
       </div>
     </section>
   );
@@ -2026,8 +2064,22 @@ function NutritionPlanner({ t }: { t: any }) {
   return (
     <section
       ref={ref}
-      className="py-20 bg-gradient-to-br from-[var(--olive)]/20 via-[#f2efe6] to-[var(--orange)]/20 relative overflow-hidden"
+      className="pt-24 pb-28 bg-gradient-to-br from-[var(--olive)]/20 via-[#f2efe6] to-[var(--orange)]/20 relative overflow-hidden"
     >
+      {/* Top Wave */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-0 transform">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-[#ffffff]"></path>
+        </svg>
+      </div>
+
+      {/* Bottom Wave */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-0 transform rotate-180">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-[#ffffff]"></path>
+        </svg>
+      </div>
+
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
         {/* Main Calculator Header & Description */}
         <div className="text-center mb-10 space-y-6">
