@@ -377,21 +377,27 @@ export default function Home() {
       <HealthBenefitsSection t={t} />
 
       {/* ──── Full Size Banner with Shop Button ──── */}
-      <section className="relative w-full h-[60vh] md:h-[80vh] min-h-[500px] overflow-hidden">
+      <section className="relative w-full h-[70vh] md:h-[90vh] min-h-[600px] overflow-hidden">
+        {/* Top Wave (Seamless transition from HealthBenefitsSection) */}
+        <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-20">
+          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-[#eee6da]"></path>
+          </svg>
+        </div>
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 hover:scale-105"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1649103989985-e8d5b778f5c7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+              "url('https://images.unsplash.com/photo-1675170636943-3bba5a9ff9d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDAzfHxudXRzJTIwYW5kJTIwc2VlZHN8ZW58MHx8MHx8fDA%3D')",
           }}
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 space-y-8 z-10">
-          <div className="space-y-4 max-w-3xl">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-lg">
+          <div className="space-y-4 max-w-3xl mt-12">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight drop-shadow-lg">
               {t.banner_title || "Pure Nutrition, Rooted in Tradition"}
             </h2>
-            <p className="text-base md:text-xl text-white/90 font-medium max-w-2xl mx-auto drop-shadow-md">
+            <p className="text-sm md:text-lg text-white/90 font-medium max-w-2xl mx-auto drop-shadow-md">
               {t.banner_subtitle ||
                 "Elevate your daily wellness with our premium, carefully sourced natural ingredients. Good for you, and good for your family."}
             </p>
@@ -483,7 +489,7 @@ function HealthBenefitsSection({ t }: { t: any }) {
   };
 
   return (
-    <section className="pt-24 pb-28 relative overflow-hidden bg-gradient-to-br from-[#ffffff] via-[#f4f8f0] to-[#eee6da]">
+    <section className="pt-24 pb-28 relative overflow-hidden bg-gradient-to-b from-[#ffffff] via-[#f4f8f0] to-[#eee6da]">
       {/* Top Wave */}
       <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-0 transform">
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
@@ -494,12 +500,7 @@ function HealthBenefitsSection({ t }: { t: any }) {
       {/* Subtle organic noise texture for premium feel */}
       <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] pointer-events-none" />
 
-      {/* Bottom Wave */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-0 transform rotate-180">
-        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
-          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-[#ffffff]"></path>
-        </svg>
-      </div>
+
 
       <div className="relative max-w-7xl mx-auto px-6 z-10">
         {/* --- Header Section (Centered) --- */}
@@ -825,7 +826,7 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
           {displayCategories.map((cat, idx) => {
             const imageUrl = getCategoryImageUrl(cat.categoryimage);
 
@@ -833,7 +834,7 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
               <Link
                 href={`/shop?category=${encodeURIComponent(cat.categoryname || "")}`}
                 key={idx}
-                className={`group relative h-[250px] rounded-[1rem] overflow-hidden transition-all duration-500 opacity-100 translate-y-0`}
+                className={`group relative h-[320px] rounded-[2rem] overflow-hidden transition-all duration-700 opacity-100 translate-y-0 shadow-sm hover:shadow-2xl`}
                 style={{
                   transitionDelay: isVisible ? `${idx * 100}ms` : "0ms",
                 }}
@@ -842,21 +843,28 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
                 <img
                   src={imageUrl}
                   alt={cat.categoryname || ""}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                 />
 
                 {/* Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500 z-10" />
 
-                {/* Content */}
-                <div className="absolute inset-x-6 bottom-8 text-center space-y-3">
-                  <div>
-                    <h3 className="text-base font-bold text-white transition-all duration-500 group-hover:translate-y-1">
-                      {cat.categoryname || ""}
-                    </h3>
-                    <p className="text-xs text-white/60 font-medium mt-1 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                      ({cat.products || 0} products)
-                    </p>
+                {/* Content - Floating White Card */}
+                <div className="absolute inset-x-4 bottom-4 z-20 flex flex-col justify-end">
+                  <div className="bg-white/95 backdrop-blur-md rounded-[1.25rem] p-5 transform transition-all duration-500 group-hover:-translate-y-1.5 border border-white/50 shadow-sm">
+                    <div className="flex items-center justify-between">
+                      <div className="pr-4">
+                        <h3 className="text-[13px] font-black text-[var(--dark-brown)] uppercase tracking-wider mb-1 line-clamp-1">
+                          {cat.categoryname || ""}
+                        </h3>
+                        <p className="text-[11px] text-[var(--dark-grey)]/70 font-bold uppercase tracking-widest">
+                          {cat.products || 0} Products
+                        </p>
+                      </div>
+                      <div className="w-8 h-8 shrink-0 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center text-[var(--olive)] group-hover:bg-[var(--olive)] group-hover:text-white group-hover:border-[var(--olive)] transition-all duration-300">
+                        <ArrowRight className="w-3.5 h-3.5 -rotate-45 group-hover:rotate-0 transition-transform duration-500" strokeWidth={2.5} />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Link>

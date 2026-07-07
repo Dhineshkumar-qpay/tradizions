@@ -142,6 +142,7 @@ export default function Footer() {
                 { name: t.contactUs, path: "/contact-us" },
                 { name: t.myAccount, path: "/my-account" },
                 { name: t.blog || "Blog", path: "/blog" },
+                { name: t.nutritionGuides || "Guides & Nutrition", path: "/nutrition-guides" },
               ].map((link) => (
                 <li key={link.path}>
                   <Link
