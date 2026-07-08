@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import ProductCard from "@/components/ProductCard";
 import {
   ArrowRight,
   ShoppingCart,
@@ -380,8 +381,17 @@ export default function Home() {
       <section className="relative w-full h-[70vh] md:h-[90vh] min-h-[600px] overflow-hidden">
         {/* Top Wave (Seamless transition from HealthBenefitsSection) */}
         <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-20">
-          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-[#eee6da]"></path>
+          <svg
+            data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+            className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]"
+          >
+            <path
+              d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+              className="fill-[#eee6da]"
+            ></path>
           </svg>
         </div>
         <div
@@ -489,48 +499,41 @@ function HealthBenefitsSection({ t }: { t: any }) {
   };
 
   return (
-    <section className="pt-24 pb-28 relative overflow-hidden bg-gradient-to-b from-[#ffffff] via-[#f4f8f0] to-[#eee6da]">
-      {/* Top Wave */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-0 transform">
-        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
-          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-[#ffffff]"></path>
-        </svg>
-      </div>
-
-      {/* Subtle organic noise texture for premium feel */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] pointer-events-none" />
-
-
+    <section className="pt-24 pb-24 relative overflow-hidden bg-white border-b border-gray-100">
+      {/* Subtle Corporate Grid Background */}
+      <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 z-10">
-        {/* --- Header Section (Centered) --- */}
+        {/* --- Header Section --- */}
         <div className="flex flex-col items-center text-center mb-12">
           {/* Badge */}
-          <div className="flex items-center gap-2 px-4 py-1.5  mb-6">
-            <span className="text-[16px] font-bold tracking-[0.15em] uppercase text-[var(--olive)]">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
               {t.health_advantage || "HEALTH BENEFITS"}
             </span>
+            <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
 
-          {/* Title (App Dynamic Style) */}
-
-          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
-            {t.health_advantage_headline_1}
-            <span className="gradient-text">
+          {/* Title */}
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight tracking-tight">
+            {t.health_advantage_headline_1}{" "}
+            <span className="text-[var(--orange)] font-light">
               {t.health_advantage_headline_2} {t.health_advantage_headline_3}
             </span>
           </h2>
 
           {/* Category Tabs */}
-          <div className="flex gap-3 mt-8">
+          <div className="flex flex-wrap justify-center gap-4 mt-10">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 ${activeCategory === cat
-                    ? "bg-[var(--orange-dark)] text-white shadow-md hover:shadow-lg hover:-translate-y-0.5"
-                    : "bg-white/80 backdrop-blur-sm text-stone-500 border border-stone-200 hover:border-[var(--olive)] hover:text-[var(--olive)] shadow-sm"
-                  }`}
+                className={`px-8 py-3 rounded text-[11px] font-bold tracking-widest uppercase transition-all duration-300 border ${
+                  activeCategory === cat
+                    ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-[var(--orange)] hover:text-[var(--orange)] shadow-sm"
+                }`}
               >
                 {t.sections?.[cat] || cat}
               </button>
@@ -538,30 +541,30 @@ function HealthBenefitsSection({ t }: { t: any }) {
           </div>
         </div>
 
-        {/* --- Sliding Cards (Image Style) --- */}
-        <div className="relative group mt-6">
+        {/* --- Sliding Cards (Corporate Style) --- */}
+        <div className="relative group mt-8">
           {/* Left Arrow */}
           <button
             onClick={() => slide("left")}
-            className="absolute -left-2 md:-left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-stone-600 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-stone-100 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] opacity-0 group-hover:opacity-100 hidden sm:flex"
+            className="absolute -left-2 md:-left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-[var(--olive-dark)] rounded border border-gray-200 shadow-sm flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-[var(--orange)] opacity-0 group-hover:opacity-100 hidden sm:flex"
             aria-label="Scroll left"
           >
-            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
           </button>
 
           {/* Right Arrow */}
           <button
             onClick={() => slide("right")}
-            className="absolute -right-2 md:-right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-stone-600 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-stone-100 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] opacity-0 group-hover:opacity-100 hidden sm:flex"
+            className="absolute -right-2 md:-right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-[var(--olive-dark)] rounded border border-gray-200 shadow-sm flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-[var(--orange)] opacity-0 group-hover:opacity-100 hidden sm:flex"
             aria-label="Scroll right"
           >
-            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
           </button>
 
           <div
             ref={sliderRef}
             onScroll={handleScroll}
-            className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-8 pt-4 px-2"
+            className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-10 pt-4 px-2"
           >
             <style
               dangerouslySetInnerHTML={{
@@ -575,45 +578,39 @@ function HealthBenefitsSection({ t }: { t: any }) {
             {activeBenefits.map((benefit: any, idx: number) => (
               <div
                 key={benefit.name + idx}
-                className="flex-shrink-0 w-[240px] md:w-[260px] snap-start bg-white/90 backdrop-blur-xl rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white p-8 flex flex-col items-center text-center transition-all duration-400 hover:shadow-[0_20px_40px_rgba(85,107,47,0.12)] hover:-translate-y-2 group/card relative overflow-hidden"
+                className="flex-shrink-0 w-[260px] md:w-[280px] snap-start bg-white rounded border border-gray-200 p-8 flex flex-col shadow-sm transition-all duration-300 hover:shadow-md hover:border-[var(--orange)] group/card relative"
               >
-                {/* Circle Icon */}
-                <div className="w-16 h-16 rounded-full bg-[var(--olive)] flex items-center justify-center mb-6 shadow-inner relative z-10 group-hover/card:scale-110 transition-transform duration-500">
+                {/* Structural Icon Box */}
+                <div className="w-12 h-12 rounded bg-[var(--cream)] border border-[var(--olive)]/20 flex items-center justify-center mb-6 group-hover/card:bg-[var(--orange)] group-hover/card:border-transparent transition-colors duration-300">
                   <img
                     src={meta.emoji}
                     alt="icons"
-                    height={30}
-                    width={30}
-                    className="objectfit-cover"
+                    className="w-6 h-6 object-cover opacity-80 group-hover/card:opacity-100 group-hover/card:brightness-0 group-hover/card:invert transition-all"
                   />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-[15px] font-extrabold text-stone-800 mb-3 leading-tight min-h-[40px] flex items-center justify-center relative z-10 group-hover/card:text-[var(--olive)] transition-colors duration-300">
+                <h3 className="text-sm font-black text-gray-900 tracking-tight uppercase mb-3 leading-snug group-hover/card:text-[var(--olive-dark)] transition-colors duration-300">
                   {benefit.name}
                 </h3>
 
                 {/* Description */}
-                <p className="text-[12px] text-stone-500 leading-relaxed font-medium mb-6 flex-grow relative z-10">
+                <p className="text-xs text-gray-600 leading-relaxed font-medium mb-6 flex-grow">
                   {benefit.desc}
                 </p>
 
-                {/* Decorative Divider */}
-                <div className="flex items-center w-16 justify-center opacity-40 mt-auto relative z-10 group-hover/card:opacity-100 transition-opacity duration-300">
-                  <div className="h-px bg-[var(--olive)] w-full transition-all duration-500 group-hover/card:w-[150%]"></div>
-                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--olive)] mx-1 shrink-0"></div>
-                  <div className="h-px bg-[var(--olive)] w-full transition-all duration-500 group-hover/card:w-[150%]"></div>
-                </div>
+                {/* Corporate Divider Line */}
+                <div className="h-[2px] w-8 bg-gray-200 mt-auto group-hover/card:bg-[var(--orange)] group-hover/card:w-16 transition-all duration-500" />
               </div>
             ))}
           </div>
         </div>
 
         {/* Slider Progress indicator */}
-        <div className="max-w-md mx-auto w-full h-1 bg-stone-200/60 rounded-full overflow-hidden mt-2 mb-16 relative">
+        <div className="max-w-md mx-auto w-full h-[2px] bg-gray-100 rounded-none overflow-hidden mt-4 relative">
           <div
-            className="absolute top-0 bottom-0 left-0 bg-gradient-to-r from-[var(--olive)] to-emerald-600 transition-all duration-300 ease-out rounded-full"
-            style={{ width: `${Math.max(15, scrollProgress)}%` }}
+            className="absolute top-0 bottom-0 left-0 bg-[var(--olive-dark)] transition-all duration-300 ease-out"
+            style={{ width: `${Math.max(5, scrollProgress)}%` }}
           />
         </div>
       </div>
@@ -624,155 +621,132 @@ function HealthBenefitsSection({ t }: { t: any }) {
 // -----------------------------------  HERO SECTION
 
 function HeroSection({ t }: { t: any }) {
-  const [loaded, setLoaded] = useState(true);
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     setLoaded(true);
   }, []);
 
   return (
-    <section className="relative min-h-[100vh] flex items-center overflow-hidden">
-      {/* Background Image */}
+    <section className="relative w-full h-[88vh] min-h-[650px] flex flex-col justify-between overflow-hidden bg-black">
+      {/* ── Background ── */}
       <div className="absolute inset-0 z-0">
+        {/* Background Image */}
         <Image
-          src="/home-banner.jpeg"
-          alt="Premium Tradizions - Organic Millets & Traditional Wellness"
+          src="/premium-home-banner.jpeg"
+          alt="Premium Artisanal Millet & Nut Gift Packs"
           fill
-          className={`object-cover transition-all duration-[2000ms] ${loaded ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}
           priority
+          className={`object-cover object-center transition-all duration-[2500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
+            loaded
+              ? "opacity-100 scale-100 blur-0"
+              : "opacity-0 scale-[1.03] blur-[2px]"
+          }`}
         />
-        {/* Premium Multi-layered Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/40 via-transparent to-[#0a0a0a]/20" />
-        {/* Noise Texture Overlay */}
-        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]" />
+
+        {/* Soft Black Overlay */}
+        <div className="absolute inset-0 bg-black/20 z-[5]" />
+
+        {/* Top Gradient */}
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/35 via-black/10 to-transparent z-[6]" />
+
+        {/* Bottom Gradient */}
+        <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-black/50 via-black/20 to-transparent z-[6]" />
+
+        {/* Left Ambient Shadow */}
+        <div className="absolute -left-40 top-1/3 w-[650px] h-[650px] rounded-full bg-black/15 blur-[160px] z-[6]" />
+
+        {/* Right Ambient Shadow */}
+        <div className="absolute -right-40 top-0 w-[700px] h-[700px] rounded-full bg-black/15 blur-[180px] z-[6]" />
+
+        {/* Edge Vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_45%,rgba(0,0,0,0.18)_100%)] z-[6]" />
       </div>
 
-      {/* Floating Decorative Elements */}
-      <div className="absolute top-14 right-20 w-80 h-80 bg-[var(--orange)]/10 rounded-full blur-[100px] animate-float pointer-events-none" />
-      <div className="absolute bottom-20 left-1/3 w-60 h-60 bg-emerald-500/10 rounded-full blur-[80px] animate-float delay-300 pointer-events-none" />
+      {/* ── Top Text Area ── */}
+      <div className="relative z-20 w-full pt-32 px-6 flex flex-col items-center text-center">
+        <div className="inline-flex items-center gap-3 mb-6">
+          <span className="w-8 h-px bg-[var(--orange)]" />
+          <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-white/80">
+            Premium Wellness Gifting
+          </span>
+          <span className="w-8 h-px bg-[var(--orange)]" />
+        </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20 pb-20">
-        <div className="max-w-2xl space-y-7">
-          {/* Headline */}
-          <h1 className="text-4xl sm:text-4xl md:text-4xl font-black text-white leading-[1.1] tracking-tight">
-            {t.hero_title_1} <br />
-            <span className="relative inline-block mt-2">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-200">
-                {t.hero_title_2}
-              </span>
-            </span>
-          </h1>
+        <h1 className="text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)] max-w-5xl">
+          ARTISANAL MILLET & <span className="text-[var(--orange)]">NUT</span>{" "}
+          GIFT PACKS
+        </h1>
 
-          {/* Subtitle */}
-          <p className="text-base md:text-lg text-white/70 max-w-xl leading-relaxed font-medium">
-            {t.hero_subtitle}
-          </p>
+        <h2 className="text-lg md:text-2xl text-white/90 mt-6 font-medium tracking-wide max-w-2xl mx-auto">
+          For Meaningful Celebrations
+        </h2>
+      </div>
 
-          {/* CTA Buttons & Social Proof */}
-          <div className="space-y-6 pt-4">
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/shop"
-                className="group relative flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-gradient-to-r from-[var(--olive)] to-emerald-600 text-white font-bold text-xs tracking-widest uppercase overflow-hidden shadow-[0_10px_30px_rgba(85,107,47,0.3)] hover:shadow-[0_15px_40px_rgba(85,107,47,0.5)] transition-all duration-300 hover:-translate-y-1"
-              >
-                <span className="relative z-10">{t.shop}</span>
-                <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-              </Link>
+      {/* ── Bottom Content Area ── */}
+      <div className="relative z-20 w-full pb-16 px-6 flex flex-col items-center text-center mt-auto">
+        {/* Product Labels */}
+        <div className="hidden md:flex items-center justify-center gap-16 lg:gap-36 w-full max-w-5xl mx-auto mb-8">
+          <span className="text-white font-bold text-xs lg:text-[13px] tracking-[0.2em] uppercase">
+            Nut Gift Packs
+          </span>
 
-              <Link
-                href="/gifts"
-                className="group relative flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-white/5 backdrop-blur-md border border-white/20 text-white font-bold text-xs tracking-widest uppercase hover:bg-white/10 transition-all duration-300 hover:-translate-y-1"
-              >
-                <Gift className="w-4 h-4 text-amber-300" />
-                <span className="relative z-10">{t.gifting}</span>
-              </Link>
+          <span className="text-[var(--orange)] font-bold text-xs lg:text-[13px] tracking-[0.2em] uppercase">
+            Premium Gift Box
+          </span>
+        </div>
+
+        {/* Subheadline */}
+        <p className="text-[13px] md:text-sm text-white/75 max-w-2xl mx-auto mb-10 font-medium leading-relaxed tracking-wide">
+          Beautifully curated in traditional jute, elegant tin, and crafted MDF
+          boxes. Health meets heritage.
+        </p>
+
+        {/* CTA */}
+        <Link
+          href="/shop"
+          className="group relative inline-flex items-center justify-center overflow-hidden mb-12"
+        >
+          <div className="relative flex items-center gap-3 bg-[var(--orange)] text-white px-10 py-4 rounded text-xs md:text-sm font-bold tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-500 shadow-2xl">
+            SHOP FESTIVE COLLECTIONS
+            <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1.5" />
+          </div>
+        </Link>
+
+        {/* Trust Badges */}
+        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 border-t border-white/10 pt-10 w-full max-w-4xl mx-auto">
+          <div className="flex items-center gap-4 group">
+            <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
+              <Leaf className="w-5 h-5" />
             </div>
+            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]">
+              100%
+              <br />
+              Organic
+            </span>
+          </div>
+
+          <div className="flex items-center gap-4 group">
+            <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
+              <Star className="w-5 h-5" />
+            </div>
+            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]">
+              Premium
+              <br />
+              Quality
+            </span>
+          </div>
+
+          <div className="flex items-center gap-4 group">
+            <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
+              <Award className="w-5 h-5" />
+            </div>
+            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]">
+              Certified
+              <br />
+              Pure
+            </span>
           </div>
         </div>
-      </div>
-
-      {/* Right side floating glass orbs and constellation lines */}
-      <div className="mt-5 hidden lg:flex absolute right-16 top-1/2 -translate-y-1/2 w-[450px] h-[450px] items-center justify-center pointer-events-none z-10">
-        {/* Ambient glow */}
-        <div className="absolute w-[300px] h-[300px] bg-gradient-to-br from-[var(--olive)]/30 to-[var(--orange)]/20 rounded-full blur-[80px] animate-pulse" />
-
-        {/* Decorative constellation lines connecting orbs */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none opacity-30 z-0"
-          viewBox="0 0 450 450"
-        >
-          <path
-            d="M 225 225 L 350 110"
-            stroke="white"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-          />
-          <path
-            d="M 225 225 L 360 340"
-            stroke="white"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-          />
-          <path
-            d="M 225 225 L 110 320"
-            stroke="white"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-          />
-        </svg>
-
-        {/* Central Logo Orb */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.2)] flex items-center justify-center animate-float z-30">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent rounded-full" />
-          <img
-            src="/app-logo.png"
-            alt="logo"
-            className="h-24 object-contain drop-shadow-2xl relative z-10 brightness-0 invert"
-          />
-          {/* Echo rings */}
-          <div className="absolute inset-[-20px] border border-white/20 rounded-full" />
-          <div className="absolute inset-[-44px] border border-white/10 rounded-full border-dashed" />
-        </div>
-
-        {/* Top Right Orb */}
-        <div className="absolute top-10 right-10 w-28 h-28 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center gap-1.5 animate-float delay-300 z-20">
-          <Wheat className="w-6 h-6 text-amber-300" />
-          <span className="text-white text-[9px] font-black tracking-widest uppercase text-center leading-tight">
-            100%
-            <br />
-            Organic
-          </span>
-        </div>
-
-        {/* Bottom Right Orb */}
-        <div className="absolute bottom-12 right-6 w-24 h-24 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center gap-1 animate-float delay-700 z-20">
-          <Shield className="w-5 h-5 text-emerald-300" />
-          <span className="text-white text-[8px] font-black tracking-widest uppercase text-center leading-tight">
-            Premium
-            <br />
-            Quality
-          </span>
-        </div>
-
-        {/* Bottom Left Orb */}
-        <div className="absolute bottom-20 left-8 w-32 h-32 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center gap-1.5 animate-float delay-1000 z-20">
-          <Award className="w-7 h-7 text-[var(--orange)]" />
-          <span className="text-white text-[10px] font-black tracking-widest uppercase text-center leading-tight">
-            Certified
-            <br />
-            Pure
-          </span>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 z-10">
-        <span className="text-[10px] font-bold tracking-[0.3em] uppercase">
-          Scroll
-        </span>
-        <div className="w-px h-10 bg-gradient-to-b from-white/30 to-transparent animate-pulse" />
       </div>
     </section>
   );
@@ -834,7 +808,7 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
               <Link
                 href={`/shop?category=${encodeURIComponent(cat.categoryname || "")}`}
                 key={idx}
-                className={`group relative h-[320px] rounded-[2rem] overflow-hidden transition-all duration-700 opacity-100 translate-y-0 shadow-sm hover:shadow-2xl`}
+                className={`group relative h-[380px] rounded-sm overflow-hidden transition-all duration-700 opacity-100 translate-y-0`}
                 style={{
                   transitionDelay: isVisible ? `${idx * 100}ms` : "0ms",
                 }}
@@ -843,28 +817,33 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
                 <img
                   src={imageUrl}
                   alt={cat.categoryname || ""}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-[1.08]"
                 />
 
                 {/* Overlays */}
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500 z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#11100e] via-[#11100e]/30 to-transparent opacity-70 group-hover:opacity-95 transition-opacity duration-500 z-10" />
 
-                {/* Content - Floating White Card */}
-                <div className="absolute inset-x-4 bottom-4 z-20 flex flex-col justify-end">
-                  <div className="bg-white/95 backdrop-blur-md rounded-[1.25rem] p-5 transform transition-all duration-500 group-hover:-translate-y-1.5 border border-white/50 shadow-sm">
-                    <div className="flex items-center justify-between">
-                      <div className="pr-4">
-                        <h3 className="text-[13px] font-black text-[var(--dark-brown)] uppercase tracking-wider mb-1 line-clamp-1">
-                          {cat.categoryname || ""}
-                        </h3>
-                        <p className="text-[11px] text-[var(--dark-grey)]/70 font-bold uppercase tracking-widest">
-                          {cat.products || 0} Products
-                        </p>
-                      </div>
-                      <div className="w-8 h-8 shrink-0 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center text-[var(--olive)] group-hover:bg-[var(--olive)] group-hover:text-white group-hover:border-[var(--olive)] transition-all duration-300">
-                        <ArrowRight className="w-3.5 h-3.5 -rotate-45 group-hover:rotate-0 transition-transform duration-500" strokeWidth={2.5} />
+                {/* Premium Content Overlay */}
+                <div className="absolute inset-x-6 bottom-6 z-20 flex flex-col justify-end overflow-hidden">
+                  <div className="transform transition-all duration-500 group-hover:-translate-y-0">
+                    <p className="text-[10px] text-[#e5c158] font-bold uppercase tracking-[0.2em] mb-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                      Explore Collection ({cat.products || 0})
+                    </p>
+
+                    <div className="flex items-end justify-between gap-4">
+                      <h3 className="text-xl md:text-xl text-[#fdfbf7] leading-tight">
+                        {cat.categoryname || ""}
+                      </h3>
+                      <div className="w-10 h-10 shrink-0 rounded-full border border-[#e5c158]/40 flex items-center justify-center text-[#e5c158] group-hover:bg-[#e5c158] group-hover:text-[#11100e] group-hover:border-[#e5c158] transition-all duration-500 shadow-[0_0_15px_rgba(229,193,88,0)] group-hover:shadow-[0_0_20px_rgba(229,193,88,0.3)]">
+                        <ArrowRight
+                          className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-0.5"
+                          strokeWidth={2}
+                        />
                       </div>
                     </div>
+
+                    {/* Animated Divider */}
+                    <div className="h-[1px] w-0 bg-[#e5c158]/70 mt-5 transition-all duration-700 ease-out group-hover:w-full" />
                   </div>
                 </div>
               </Link>
@@ -945,7 +924,6 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
                   product={product}
                   isVisible={isVisible}
                   delay={idx * 150}
-                  t={t}
                 />
               </div>
             ))}
@@ -972,302 +950,6 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
         )}
       </div>
     </section>
-  );
-}
-
-function ProductCard({
-  product,
-  isVisible,
-  delay,
-  t,
-}: {
-  product: any;
-  isVisible: boolean;
-  delay: number;
-  t: any;
-}) {
-  const id = product.productid !== undefined ? product.productid : product.id;
-  const name = product.productname || product.name;
-  const price = product.sellingprice || product.price || 0;
-  const originalPrice =
-    product.price !== undefined &&
-      product.sellingprice !== undefined &&
-      product.price > product.sellingprice
-      ? product.price
-      : null;
-  const image = product.productimage
-    ? getImageUrl(product.productimage)
-    : product.image || "/placeholder.png";
-
-  const [isAdding, setIsAdding] = useState(false);
-  const [favouriteProductIds, setFavouriteProductIds] = useState<number[]>([]);
-  const [quantity, setQuantity] = useState(1);
-
-  const fetchFavourites = async () => {
-    if (localStorage.getItem("isLoggedIn") === "true") {
-      try {
-        const response = await API.post(API_ROUTES.GETFAVOURITE);
-        if (response.status === 200) {
-          const list = response.data?.data || [];
-          setFavouriteProductIds(list.map((fav: any) => fav.productid));
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
-      setFavouriteProductIds([]);
-    }
-  };
-
-  useEffect(() => {
-    fetchFavourites();
-    window.addEventListener("favoritesUpdated", fetchFavourites);
-    window.addEventListener("loginSuccess", fetchFavourites);
-    return () => {
-      window.removeEventListener("favoritesUpdated", fetchFavourites);
-      window.removeEventListener("loginSuccess", fetchFavourites);
-    };
-  }, []);
-
-  const isFav = id !== undefined && favouriteProductIds.includes(id);
-
-  const handleActionWithLogin = (action: () => void) => {
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-      window.dispatchEvent(new Event("openLoginSidebar"));
-      const handleLoginSuccess = () => {
-        action();
-        window.removeEventListener("loginSuccess", handleLoginSuccess);
-      };
-      window.addEventListener("loginSuccess", handleLoginSuccess);
-    } else {
-      action();
-    }
-  };
-
-  const isGiftOrPooja =
-    product.categoryid === 4 ||
-    product.categoryid === 5 ||
-    product.itemtype === "gift" ||
-    (product.category && product.category.toLowerCase().includes("gift"));
-  const detailUrl = isGiftOrPooja
-    ? `/gift-detail/${id}?productid=${id}&bid=${product.bid || 1}`
-    : `/product-detail/${id}?productid=${id}&bid=${product.bid || 1}`;
-
-  return (
-    <Link
-      href={detailUrl}
-      className="group relative bg-white border border-stone-200/75 hover:border-[var(--olive)]/50 rounded-[1.25rem] overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(85,107,47,0.08)] p-2.5 h-full"
-      style={{ transitionDelay: isVisible ? `${delay}ms` : "0ms" }}
-    >
-      {/* Image Container */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gradient-to-br from-stone-50 to-stone-100 justify-center items-center flex">
-        <img
-          src={image}
-          alt={name}
-          className={`h-full w-full object-cover transition-all duration-700 group-hover:scale-105 ${(product.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
-        />
-
-        {/* Elegant Dark Vignette Overlay on Hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
-        {(product.availablestock ?? 0) <= 0 && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[1px] z-10">
-            <span className="bg-rose-600 text-white text-[9px] font-black px-3 py-1.5 rounded-full tracking-[0.2em] shadow-lg uppercase">
-              Out Of Stock
-            </span>
-          </div>
-        )}
-
-        {/* Top Left Discount Badge */}
-        {originalPrice && originalPrice > price && (
-          <div className="absolute top-2.5 left-2.5 z-20 bg-gradient-to-r from-[var(--orange)] to-[var(--orange-dark)] text-white text-[9px] font-extrabold px-2.5 py-1 rounded-full shadow-[0_4px_10px_rgba(255,140,0,0.25)] tracking-wider">
-            -{Math.round(((originalPrice - price) / originalPrice) * 100)}% OFF
-          </div>
-        )}
-
-        {/* Top Right Favourite Button */}
-        <div className="absolute top-2.5 right-2.5 z-20">
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleActionWithLogin(async () => {
-                if (id === undefined) return;
-                try {
-                  const response = await API.post(API_ROUTES.ADDFAVOURITE, {
-                    productid: id,
-                  });
-                  if (response.status === 200) {
-                    window.dispatchEvent(new Event("favoritesUpdated"));
-                  }
-                } catch (err) {
-                  console.error("Error adding to wishlist:", err);
-                }
-              });
-            }}
-            className={`w-8 h-8 rounded-full shadow-md border flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 cursor-pointer ${isFav
-                ? "bg-rose-50 border-rose-200 text-rose-500"
-                : "bg-white/80 backdrop-blur-sm border-white/60 text-stone-400 hover:text-rose-500 hover:bg-white"
-              }`}
-          >
-            <Heart
-              className={`w-3.5 h-3.5 transition-colors ${isFav ? "fill-rose-500 text-rose-500" : ""
-                }`}
-            />
-          </button>
-        </div>
-
-        {/* Quick View Bar */}
-        <div className="absolute bottom-0 left-0 right-0 bg-white/70 backdrop-blur-md border-t border-white/50 text-stone-900 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] text-[10px] font-bold py-2 text-center translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20 tracking-widest uppercase">
-          Quick View
-        </div>
-      </div>
-
-      {/* Content Area */}
-      <div className="px-1.5 pt-3.5 pb-1 flex flex-col flex-1">
-        {/* Subcategory & Title */}
-        <div className="space-y-1 mb-2">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-[9px] font-bold text-[var(--orange)] uppercase tracking-widest">
-              {product.category || "Organic"}
-            </span>
-            {product.weight && (product.unit || product.unitname) && (
-              <span className="bg-[var(--beige)] text-[var(--olive-dark)] px-2 py-0.5 rounded-md text-[9px] font-extrabold border border-[var(--olive)]/15">
-                {product.weight} {product.unit || product.unitname}
-              </span>
-            )}
-          </div>
-          <h3 className="text-[14px] font-bold text-stone-900 group-hover:text-[var(--olive)] transition-colors duration-350 line-clamp-1 leading-tight">
-            {name}
-          </h3>
-        </div>
-
-        {/* Ratings & Stock Status Row */}
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <p className="text-[10px] text-stone-500 font-medium line-clamp-2 leading-relaxed flex-1 pr-2">
-            {product.desc ||
-              product.description ||
-              "Tradizions premium selection for health. Discover natural goodness."}
-          </p>
-
-          {/* Stock Pill Badge */}
-          <div
-            className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-extrabold border ${(product.availablestock ?? 0) > 0
-                ? "bg-emerald-50 text-emerald-700 border-emerald-200/60"
-                : "bg-rose-50 text-rose-700 border-rose-200/60"
-              }`}
-          >
-            <span
-              className={`w-1.5 h-1.5 rounded-full ${(product.availablestock ?? 0) > 0
-                  ? "bg-emerald-500 animate-pulse"
-                  : "bg-rose-500"
-                }`}
-            />
-            {(product.availablestock ?? 0) > 0 ? "In Stock" : "Out of Stock"}
-          </div>
-        </div>
-
-        {/* Price Details */}
-        <div className="flex items-baseline gap-2 mb-4">
-          <span className="text-[18px] font-black text-stone-900">
-            ₹{price.toLocaleString()}
-          </span>
-          {originalPrice && (
-            <>
-              <span className="text-[12px] text-stone-400 line-through font-medium">
-                ₹{originalPrice.toLocaleString()}
-              </span>
-              {originalPrice > price && (
-                <span className="text-[9px] bg-emerald-50 text-emerald-700 font-extrabold px-1.5 py-0.5 rounded-md border border-emerald-100">
-                  {Math.round(((originalPrice - price) / originalPrice) * 100)}%
-                  OFF
-                </span>
-              )}
-            </>
-          )}
-        </div>
-
-        {/* Add to Cart Actions */}
-        <div className="flex flex-wrap items-center gap-2 mt-auto pt-2 border-t border-stone-100">
-          {/* Quantity Stepper */}
-          <div
-            className="flex items-center border border-stone-200 rounded-[5px] bg-stone-50 overflow-hidden h-8 shrink-0 shadow-sm"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
-            <button
-              onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-              className="px-2 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
-            >
-              <Minus className="w-3 h-3" />
-            </button>
-            <span className="text-[12px] font-extrabold text-stone-800 w-5 text-center">
-              {quantity}
-            </span>
-            <button
-              onClick={() => setQuantity((prev) => prev + 1)}
-              className="px-2 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
-            >
-              <Plus className="w-3 h-3" />
-            </button>
-          </div>
-
-          {/* Add To Cart CTA */}
-          <button
-            disabled={isAdding || (product.availablestock ?? 0) <= 0}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if ((product.availablestock ?? 0) <= 0) return;
-              handleActionWithLogin(async () => {
-                setIsAdding(true);
-                try {
-                  const response = await API.post(API_ROUTES.ADDTOCART, {
-                    bid: product.bid || 1,
-                    productid: product.itemtype === "gift" ? null : id,
-                    giftid: product.itemtype === "gift" ? id : null,
-                    quantity: quantity,
-                    itemtype: product.itemtype || "product",
-                  });
-                  if (response.status === 200) {
-                    window.dispatchEvent(new Event("cartUpdated"));
-                  } else {
-                    alert("Failed to add product to cart. Please try again.");
-                  }
-                } catch (err: any) {
-                  console.error("Error adding to cart:", err);
-                  alert(
-                    err?.response?.data?.message ||
-                    "An error occurred while adding to cart.",
-                  );
-                } finally {
-                  setIsAdding(false);
-                }
-              });
-            }}
-            className={`flex-1 min-w-[120px] h-8 rounded-[5px] font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${(product.availablestock ?? 0) <= 0
-                ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200 shadow-none"
-                : "bg-[var(--olive)] hover:bg-[var(--olive-dark)] text-white shadow-[0_6px_20px_rgba(85,107,47,0.25)] hover:shadow-[0_8px_25px_rgba(85,107,47,0.4)] hover:-translate-y-0.5 cursor-pointer"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-          >
-            {isAdding ? (
-              <div className="w-3.5 h-3.5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
-            ) : (
-              <ShoppingCart className="w-3.5 h-3.5" />
-            )}
-            <span>
-              {(product.availablestock ?? 0) <= 0
-                ? "Sold Out"
-                : isAdding
-                  ? "Adding..."
-                  : "Add to Cart"}
-            </span>
-          </button>
-        </div>
-      </div>
-    </Link>
   );
 }
 
@@ -1336,8 +1018,8 @@ function GiftingSection({
                   const price = item.sellingprice || item.price || 0;
                   const originalPrice =
                     item.price !== undefined &&
-                      item.sellingprice !== undefined &&
-                      item.price > item.sellingprice
+                    item.sellingprice !== undefined &&
+                    item.price > item.sellingprice
                       ? item.price
                       : null;
                   const image = item.productimage
@@ -1535,12 +1217,12 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   const listToRender =
     reviews && reviews.length > 0
       ? reviews.map((r) => ({
-        name: r.username || "Anonymous User",
-        role: "Verified Buyer",
-        text: r.review || "",
-        rating: Math.round(r.rating || 5),
-        avatar: getInitials(r.username || "Anonymous"),
-      }))
+          name: r.username || "Anonymous User",
+          role: "Verified Buyer",
+          text: r.review || "",
+          rating: Math.round(r.rating || 5),
+          avatar: getInitials(r.username || "Anonymous"),
+        }))
       : [];
 
   if (listToRender.length === 0) {
@@ -1671,8 +1353,9 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
 
         {/* Global Rating Tag */}
         <div
-          className={`mt-10 flex flex-col items-center gap-3 transition-all duration-500 delay-500 ${isVisible ? "opacity-100" : "opacity-0"
-            }`}
+          className={`mt-10 flex flex-col items-center gap-3 transition-all duration-500 delay-500 ${
+            isVisible ? "opacity-100" : "opacity-0"
+          }`}
         >
           <div className="flex -space-x-3">
             {users.map((name, i) => (
@@ -1835,31 +1518,37 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
   const defaultIcons = [Activity, Scale, Baby];
 
   return (
-    <section ref={ref} className="py-24 bg-[#fafaf9] relative overflow-hidden">
-      {/* Background Decorative Elements */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/3" />
+    <section ref={ref} className="py-24 bg-[#FFF5EF] relative overflow-hidden">
+      {/* Subtle Corporate Grid */}
+      <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
           <div className="space-y-4 max-w-2xl">
-            <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+            <div className="inline-flex items-center gap-3">
+              <span className="w-8 h-px bg-[var(--orange)]" />
+              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+                Targeted Nutrition
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
               {t.health_goals_title?.split(" ").slice(0, 2).join(" ") ||
                 "Health"}{" "}
-              <span className="gradient-text">
+              <span className="text-[var(--orange)] font-light">
                 {t.health_goals_title?.split(" ").slice(2).join(" ") || "Goals"}
               </span>
             </h2>
-            <p className="text-base font-medium text-stone-500 max-w-lg">
-              {t.health_goals_desc}
+            <p className="text-base font-medium text-gray-600 max-w-lg leading-relaxed">
+              {t.health_goals_desc ||
+                "Discover precisely formulated nutrition tailored for your specific wellness objectives."}
             </p>
           </div>
         </div>
 
         {displayGoals.length === 0 ? (
-          <div className="py-12 flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-stone-200">
-            <p className="text-stone-500 font-medium text-sm">
+          <div className="py-12 flex flex-col items-center justify-center bg-white border border-gray-200 shadow-sm">
+            <p className="text-gray-500 font-medium text-sm">
               No health goals found.
             </p>
           </div>
@@ -1873,46 +1562,42 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                 <Link
                   href={`/health-goal-products?goalid=${goal.goalid}`}
                   key={goal.goalid || idx}
-                  className="group relative flex flex-col sm:flex-row bg-white rounded-[2rem] overflow-hidden border border-stone-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-10px_rgba(85,107,47,0.15)] hover:-translate-y-1 transition-all duration-500"
+                  className="group flex flex-col sm:flex-row bg-white overflow-hidden border border-gray-200 hover:border-[var(--orange)] shadow-sm hover:shadow-[0_15px_40px_rgba(0,0,0,0.08)] transition-all duration-300"
                 >
                   {/* Image Section (Left) */}
-                  <div className="relative w-full sm:w-[45%] h-[240px] sm:h-auto overflow-hidden bg-stone-100 shrink-0">
+                  <div className="relative w-full sm:w-48 h-48 sm:h-auto overflow-hidden bg-gray-50 shrink-0">
                     <img
                       src={image}
                       alt={goal.goalname || ""}
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/10 mix-blend-multiply" />
-
-                    {/* Floating Icon over Image */}
-                    <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md shadow-lg flex items-center justify-center text-[var(--olive)] group-hover:bg-[var(--orange)] group-hover:text-white transition-colors duration-300">
-                      <Icon className="w-4 h-4" />
-                    </div>
+                    <div className="absolute inset-0 bg-[var(--olive-dark)]/10 mix-blend-multiply transition-opacity duration-300 group-hover:opacity-0" />
                   </div>
 
                   {/* Content Section (Right) */}
                   <div className="flex-1 p-6 sm:p-8 flex flex-col justify-center relative">
-                    {/* Subtle Number background */}
-                    <div className="absolute top-4 right-6 text-[80px] font-black text-stone-50 leading-none pointer-events-none select-none transition-transform duration-700 group-hover:-translate-y-2 group-hover:text-stone-100/50">
-                      0{idx + 1}
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-8 h-8 rounded flex items-center justify-center bg-[var(--cream)] border border-[var(--olive)]/20 text-[var(--olive-dark)] group-hover:bg-[var(--orange)] group-hover:text-white group-hover:border-transparent transition-colors duration-300">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <span className="text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase">
+                        Goal 0{idx + 1}
+                      </span>
                     </div>
 
-                    <div className="relative z-10">
-                      <h3 className="text-xl sm:text-2xl font-black text-stone-900 tracking-tight transition-colors duration-300 mb-3 pr-10">
-                        {goal.goalname}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-stone-500 font-medium leading-relaxed line-clamp-3 mb-6">
-                        {goal.description}
-                      </p>
+                    <h3 className="text-xl font-black text-gray-900 tracking-tight transition-colors duration-300 mb-2 group-hover:text-[var(--olive-dark)]">
+                      {goal.goalname}
+                    </h3>
 
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full border-2 border-stone-100 flex items-center justify-center group-hover:border-[var(--orange)] group-hover:bg-[var(--orange-dark)] transition-all duration-300">
-                          <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-white group-hover:translate-x-0.5 transition-all duration-300" />
-                        </div>
-                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-stone-400 group-hover:text-[var(--olive)] transition-colors duration-300">
-                          {t.explore_all || "Explore"}
-                        </span>
-                      </div>
+                    <p className="text-sm text-gray-600 font-medium leading-relaxed line-clamp-2 mb-6">
+                      {goal.description}
+                    </p>
+
+                    <div className="flex items-center gap-2 mt-auto">
+                      <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--olive-dark)] group-hover:text-[var(--orange)] transition-colors duration-300">
+                        {t.explore_all || "Explore"}
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-[var(--olive-dark)] group-hover:text-[var(--orange)] group-hover:translate-x-1 transition-all duration-300" />
                     </div>
                   </div>
                 </Link>
@@ -2072,131 +1757,117 @@ function NutritionPlanner({ t }: { t: any }) {
   return (
     <section
       ref={ref}
-      className="pt-24 pb-28 bg-gradient-to-br from-[var(--olive)]/20 via-[#f2efe6] to-[var(--orange)]/20 relative overflow-hidden"
+      className="pt-24 pb-28 bg-[var(--cream)] relative overflow-hidden border-t border-gray-200"
     >
-      {/* Top Wave */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-0 transform">
-        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
-          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-[#ffffff]"></path>
-        </svg>
-      </div>
-
-      {/* Bottom Wave */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-0 transform rotate-180">
-        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]">
-          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-[#ffffff]"></path>
-        </svg>
-      </div>
+      {/* Subtle Corporate Grid Background */}
+      <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
         {/* Main Calculator Header & Description */}
         <div className="text-center mb-10 space-y-6">
-          <h2 className="text-2xl md:text-4xl font-extrabold text-gray-900 leading-tight">
-            Monthly <span className="gradient-text">Product Calculator</span>
+          <div className="inline-flex items-center gap-3">
+            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+              Budget & Planning
+            </span>
+            <span className="w-8 h-px bg-[var(--orange)]" />
+          </div>
+
+          <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
+            Monthly Product{" "}
+            <span className="text-[var(--orange)] font-light">Calculator</span>
           </h2>
 
-          <div className="max-w-3xl mx-auto bg-white/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-10 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] text-left relative overflow-hidden">
-            {/* Decorative background in the card */}
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--olive)]/10 rounded-full blur-2xl"></div>
-
-            <h3 className="text-lg md:text-xl font-black text-gray-900 mb-4 text-center relative z-10">
-              Planning healthy snacks for your family just got easier!
+          <div className="max-w-4xl mx-auto bg-white rounded border border-gray-200 p-8 md:p-12 shadow-sm text-left relative overflow-hidden">
+            <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-4 text-center tracking-tight">
+              Strategic Nutrition Planning for Your Office or Home
             </h3>
-            <p className="text-[11px] font-black text-gray-400 mb-8 text-center uppercase tracking-[0.2em] relative z-10">
-              Use our smart calculator to find out:
+            <p className="text-xs font-bold text-gray-400 mb-8 text-center uppercase tracking-[0.15em]">
+              Estimate Requirements & Costs Instantly:
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
               {[
-                "The right quantity of nuts & dry fruits, millets based on your family size",
-                "Approximate daily or monthly consumption in grams",
-                "Estimated cost based on your selected products",
-                "A balanced mix for kids, adults, and elders",
+                "Calculate precise quantities based on headcount",
+                "Estimate daily & monthly consumption in grams",
+                "Forecast budget based on selected premium products",
+                "Maintain a balanced inventory effortlessly",
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-4 bg-white/80 p-5 rounded-2xl shadow-sm border border-stone-100 hover:border-[var(--olive)]/30 transition-colors duration-300"
+                  className="flex items-start gap-4 bg-gray-50 p-5 rounded border border-gray-100 hover:border-[var(--orange)] transition-colors duration-300"
                 >
-                  <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-4 h-4 text-[var(--olive)]" />
+                  <div className="w-8 h-8 rounded bg-[var(--cream)] border border-[var(--olive)]/20 flex items-center justify-center flex-shrink-0">
+                    <Check className="w-4 h-4 text-[var(--olive-dark)]" />
                   </div>
-                  <span className="text-xs text-gray-600 font-medium leading-relaxed">
+                  <span className="text-sm text-gray-700 font-medium leading-relaxed">
                     {item}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="bg-stone-50/80 rounded-2xl p-5 border border-stone-100 mb-8 relative z-10">
-              <p className="text-sm text-gray-600 font-medium text-center leading-relaxed">
-                Simply choose your preferred nuts, enter the number of family
-                members, and get an instant estimate of quantity and price.
+            <div className="bg-[var(--cream)]/50 rounded p-5 border border-[var(--olive)]/10 mb-8 text-center">
+              <p className="text-sm text-gray-700 font-medium leading-relaxed">
+                Choose your required products, input the number of members, and
+                generate an instant procurement estimate.
               </p>
             </div>
-
-            <p className="text-[12px] font-black tracking-[0.3em] uppercase text-center relative z-10">
-              <span className="text-gray-400">Eat healthy.</span>{" "}
-              <span className="text-[var(--olive)] mx-2">Plan smart.</span>{" "}
-              <span className="text-[var(--orange)]">Shop better.</span>
-            </p>
           </div>
         </div>
 
-        {/* Step 1: Select Products You Want */}
-        <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 p-6 md:p-10 relative overflow-hidden">
-          {/* Subtle background decoration */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 relative z-10">
+        {/* Step 1: Select Products */}
+        <div className="bg-white rounded border border-gray-200 shadow-sm p-6 md:p-10 relative">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <span className="w-8 h-8 rounded-full bg-[var(--olive)] text-white flex items-center justify-center font-bold text-sm shadow-md">
-                  1
+              <div className="flex items-center gap-4 mb-2">
+                <span className="w-10 h-10 rounded bg-[var(--olive-dark)] text-white flex items-center justify-center font-black text-sm">
+                  01
                 </span>
-                <h2 className="text-2xl font-black text-stone-900 tracking-tight">
-                  Select Products You Want
+                <h2 className="text-2xl font-black text-gray-900 tracking-tight uppercase">
+                  Select Products
                 </h2>
               </div>
-              <p className="text-stone-500 font-medium ml-11">
-                Choose the products you want to include in your monthly
-                calculation.
+              <p className="text-gray-500 font-medium ml-14 text-sm">
+                Curate the selection for your monthly estimate.
               </p>
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
-              <div className="relative flex-1 md:w-64">
-                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <div className="relative flex-1 md:w-72">
+                <Search className="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Search products..."
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 font-medium text-stone-800 transition-all bg-stone-50 focus:bg-white"
+                  placeholder="Search inventory..."
+                  className="w-full pl-11 pr-4 py-3 rounded border border-gray-200 text-sm focus:outline-none focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] font-medium text-gray-800 transition-all bg-gray-50 focus:bg-white"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <button
                 onClick={scrollToCalculator}
-                className="btn-standard flex items-center gap-2 whitespace-nowrap px-6 py-3 rounded-xl font-bold text-sm shadow-md"
+                className="group flex items-center gap-2 whitespace-nowrap bg-[var(--olive-dark)] text-white px-6 py-3 rounded font-bold text-[11px] uppercase tracking-widest hover:bg-[var(--orange)] transition-colors duration-300"
               >
-                View Calculator <ArrowRight className="w-4 h-4" />
+                View Estimate{" "}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-6">
+          <div className="flex flex-col lg:flex-row gap-8">
             {/* Sidebar Categories */}
-            <div className="w-full lg:w-64 flex flex-col gap-2">
+            <div className="w-full lg:w-64 flex flex-col gap-3">
               <button
                 onClick={() => setSelectedCategory(0)}
-                className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 0 ? "bg-[var(--olive)]/20 border-[var(--olive)]/50 text-[var(--olive)]" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
+                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 0 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-gray-700"}`}
               >
-                <div className="flex items-center gap-3 font-semibold text-sm">
+                <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
                   <LayoutGrid
-                    className={`w-5 h-5 ${selectedCategory === 0 ? "text-[var(--olive)]" : "text-gray-400"}`}
+                    className={`w-4 h-4 ${selectedCategory === 0 ? "text-white" : "text-[var(--olive-dark)]"}`}
                   />{" "}
-                  All Products
+                  All Catalog
                 </div>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === 0 ? "bg-[var(--olive)]/20 text-[var(--olive)]" : "bg-gray-100 text-gray-500"}`}
+                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 0 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
                 >
                   {allProducts.length}
                 </span>
@@ -2204,16 +1875,16 @@ function NutritionPlanner({ t }: { t: any }) {
 
               <button
                 onClick={() => setSelectedCategory(1)}
-                className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 1 ? "bg-green-50 border-green-200 text-green-800" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
+                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 1 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-gray-700"}`}
               >
-                <div className="flex items-center gap-3 font-semibold text-sm">
+                <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
                   <Circle
-                    className={`w-5 h-5 ${selectedCategory === 1 ? "text-green-600" : "text-gray-400"}`}
+                    className={`w-4 h-4 ${selectedCategory === 1 ? "text-white" : "text-[var(--olive-dark)]"}`}
                   />{" "}
                   Nuts
                 </div>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === 1 ? "bg-green-200/50 text-green-700" : "bg-gray-100 text-gray-500"}`}
+                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 1 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
                 >
                   {nutsProducts.length}
                 </span>
@@ -2221,16 +1892,16 @@ function NutritionPlanner({ t }: { t: any }) {
 
               <button
                 onClick={() => setSelectedCategory(2)}
-                className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 2 ? "bg-yellow-50 border-yellow-200 text-yellow-800" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
+                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 2 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-gray-700"}`}
               >
-                <div className="flex items-center gap-3 font-semibold text-sm">
+                <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
                   <Wheat
-                    className={`w-5 h-5 ${selectedCategory === 2 ? "text-yellow-600" : "text-gray-400"}`}
+                    className={`w-4 h-4 ${selectedCategory === 2 ? "text-white" : "text-[var(--olive-dark)]"}`}
                   />{" "}
                   Millets
                 </div>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === 2 ? "bg-yellow-200/50 text-yellow-700" : "bg-gray-100 text-gray-500"}`}
+                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 2 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
                 >
                   {milletsProducts.length}
                 </span>
@@ -2238,16 +1909,16 @@ function NutritionPlanner({ t }: { t: any }) {
 
               <button
                 onClick={() => setSelectedCategory(3)}
-                className={`flex items-center justify-between p-4 rounded-xl border transition-all ${selectedCategory === 3 ? "bg-orange-50 border-orange-200 text-orange-800" : "bg-white border-gray-100 hover:border-gray-200 text-gray-700"}`}
+                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 3 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-gray-700"}`}
               >
-                <div className="flex items-center gap-3 font-semibold text-sm">
+                <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
                   <Flame
-                    className={`w-5 h-5 ${selectedCategory === 3 ? "text-orange-600" : "text-gray-400"}`}
+                    className={`w-4 h-4 ${selectedCategory === 3 ? "text-white" : "text-[var(--olive-dark)]"}`}
                   />{" "}
                   Spices
                 </div>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === 3 ? "bg-orange-200/50 text-orange-700" : "bg-gray-100 text-gray-500"}`}
+                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 3 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
                 >
                   {spicesProducts.length}
                 </span>
@@ -2255,31 +1926,31 @@ function NutritionPlanner({ t }: { t: any }) {
             </div>
 
             {/* Products Grid */}
-            <div className="flex-1">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-bold text-gray-800">
+            <div className="flex-1 border border-gray-200 bg-gray-50 rounded p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="font-bold text-gray-900 uppercase tracking-widest text-xs">
                   {selectedCategory === 0
-                    ? "All Products"
+                    ? "Complete Catalog"
                     : selectedCategory === 1
-                      ? "Nuts"
+                      ? "Nuts Category"
                       : selectedCategory === 2
-                        ? "Millets"
-                        : "Spices"}
-                  <span className="text-gray-400 ml-2 font-normal">
+                        ? "Millets Category"
+                        : "Spices Category"}
+                  <span className="text-[var(--orange)] ml-2">
                     ({displayedProducts.length})
                   </span>
                 </h3>
               </div>
 
               {displayedProducts.length === 0 ? (
-                <div className="py-12 flex flex-col items-center justify-center bg-stone-50 rounded-2xl border border-dashed border-stone-200">
-                  <Leaf className="w-8 h-8 text-stone-300 mb-3" />
-                  <p className="text-stone-500 font-medium text-sm">
-                    No products found matching your search.
+                <div className="py-12 flex flex-col items-center justify-center bg-white border border-dashed border-gray-300">
+                  <Leaf className="w-8 h-8 text-gray-300 mb-3" />
+                  <p className="text-gray-500 font-medium text-sm">
+                    No products found in inventory.
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                   {displayedProducts.map((product) => {
                     const isSelected = !!selectedProducts.find(
                       (p) => p.productid === product.productid,
@@ -2289,33 +1960,32 @@ function NutritionPlanner({ t }: { t: any }) {
                       <div
                         key={product.productid}
                         onClick={() => handleToggleProduct(product)}
-                        className={`group relative p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 ${isSelected ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-sm" : "border-transparent bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5"}`}
+                        className={`group relative p-4 bg-white border-2 cursor-pointer transition-all duration-300 ${isSelected ? "border-[var(--olive-dark)] shadow-[0_4px_12px_rgba(0,0,0,0.1)]" : "border-gray-200 hover:border-[var(--orange)] hover:shadow-md"}`}
                       >
                         <div
-                          className={`absolute top-2 left-2 w-4 h-4 rounded flex items-center justify-center transition-colors duration-300 ${isSelected ? "bg-[var(--olive)] text-white" : "bg-gray-100 border border-gray-200 group-hover:border-gray-300 text-transparent"}`}
+                          className={`absolute top-3 left-3 w-5 h-5 flex items-center justify-center transition-colors duration-300 border ${isSelected ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-300 group-hover:border-[var(--orange)] text-transparent"}`}
                         >
                           <Check
                             className={`w-3 h-3 ${isSelected ? "opacity-100" : "opacity-0"}`}
                             strokeWidth={3}
                           />
                         </div>
-                        <div className="h-[60px] w-full relative mb-3 mt-4 bg-white rounded-lg overflow-hidden flex items-center justify-center">
-                          <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 opacity-50"></div>
+                        <div className="h-[80px] w-full relative mb-4 mt-6 bg-gray-50 overflow-hidden flex items-center justify-center border border-gray-100">
                           <img
                             src={`${IMAGE_URL ?? ""}${product.productimage ?? ""}`}
                             alt={product.productname ?? "product image"}
-                            className="object-contain mix-blend-multiply opacity-80 group-hover:scale-110 transition-transform duration-500 w-full h-full absolute inset-0 p-1"
+                            className="object-contain mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500 w-full h-full absolute inset-0 p-2"
                           />
                         </div>
-                        <div className="text-center space-y-1">
-                          <p className="font-bold text-[11px] md:text-xs text-gray-900 line-clamp-2 leading-tight group-hover:text-[var(--olive)] transition-colors">
+                        <div className="text-center space-y-2">
+                          <p className="font-bold text-[11px] uppercase tracking-wider text-gray-900 line-clamp-2 leading-snug group-hover:text-[var(--olive-dark)] transition-colors">
                             {product.productname}
                           </p>
-                          <div className="inline-block px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
-                            <span className="text-[11px] font-extrabold text-[var(--olive)]">
+                          <div className="inline-block px-3 py-1 bg-[var(--cream)] border border-[var(--olive)]/20">
+                            <span className="text-xs font-black text-[var(--olive-dark)]">
                               ₹{price}
                             </span>
-                            <span className="text-[9px] font-medium text-gray-500 ml-0.5">
+                            <span className="text-[10px] font-bold text-gray-500 ml-1 uppercase">
                               / Kg
                             </span>
                           </div>
@@ -2327,10 +1997,10 @@ function NutritionPlanner({ t }: { t: any }) {
               )}
 
               {/* Selection Summary */}
-              <div className="mt-6 bg-[var(--olive)]/5 border border-[var(--olive)]/10 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-[var(--olive)] font-semibold text-sm">
-                  <Check className="w-5 h-5 text-[var(--olive)]" />{" "}
-                  {selectedProducts.length} products selected
+              <div className="mt-8 bg-[var(--olive-dark)] text-white rounded p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+                <div className="flex items-center gap-3 font-bold text-sm tracking-widest uppercase">
+                  <Check className="w-5 h-5 text-[var(--orange)]" />{" "}
+                  {selectedProducts.length} Items Selected
                 </div>
               </div>
             </div>
@@ -2338,58 +2008,53 @@ function NutritionPlanner({ t }: { t: any }) {
         </div>
 
         {/* Separator Arrow */}
-        <div className="flex justify-center -my-2">
-          <ArrowDown className="w-8 h-8 text-[var(--olive)] animate-bounce" />
+        <div className="flex justify-center -my-2 opacity-50">
+          <ArrowDown className="w-6 h-6 text-[var(--olive-dark)]" />
         </div>
 
         {/* Step 2: Calculator */}
         <div
           id="calculator-section"
-          className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 p-6 md:p-10 relative overflow-hidden"
+          className="bg-white rounded border border-gray-200 shadow-sm p-6 md:p-10 relative"
         >
-          {/* Subtle background decoration */}
-          <div className="absolute top-0 left-0 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/3"></div>
-
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <span className="w-8 h-8 rounded-full bg-[var(--olive)] text-white flex items-center justify-center font-bold text-sm shadow-md">
-                  2
+              <div className="flex items-center gap-4 mb-2">
+                <span className="w-10 h-10 rounded bg-[var(--olive-dark)] text-white flex items-center justify-center font-black text-sm">
+                  02
                 </span>
-                <h2 className="text-2xl font-black text-stone-900 tracking-tight">
-                  Your Monthly Calculation
+                <h2 className="text-2xl font-black text-gray-900 tracking-tight uppercase">
+                  Estimate Generation
                 </h2>
               </div>
-              <p className="text-stone-500 font-medium ml-11">
-                Set your requirements and calculate the monthly budget for
-                selected products.
+              <p className="text-gray-500 font-medium ml-14 text-sm">
+                Adjust parameters to forecast your monthly procurement budget.
               </p>
             </div>
           </div>
 
-          <div className="overflow-x-auto border border-stone-100 rounded-2xl shadow-sm bg-white relative z-10">
+          <div className="overflow-x-auto border border-gray-200 bg-white">
             <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
-                <tr className="bg-stone-50/80 text-[10px] font-black text-stone-500 uppercase tracking-widest border-b border-stone-100">
-                  <th className="px-6 py-5">Product</th>
-                  <th className="px-4 py-5 text-center">Grams / Day</th>
-                  <th className="px-4 py-5 text-center">Days</th>
-                  <th className="px-4 py-5 text-center">Family Members</th>
-                  <th className="px-4 py-5 text-center">KG / Person</th>
-                  <th className="px-4 py-5 text-center">Price / KG</th>
-                  <th className="px-6 py-5 text-right">Total Budget</th>
-                  <th className="px-4 py-5 text-center">Action</th>
+                <tr className="bg-gray-100 text-[10px] font-black text-[var(--olive-dark)] uppercase tracking-widest border-b border-gray-200">
+                  <th className="px-6 py-4">Product Name</th>
+                  <th className="px-4 py-4 text-center">Grams / Day</th>
+                  <th className="px-4 py-4 text-center">Days</th>
+                  <th className="px-4 py-4 text-center">Headcount</th>
+                  <th className="px-4 py-4 text-center">Total (KG)</th>
+                  <th className="px-4 py-4 text-center">Unit Price</th>
+                  <th className="px-6 py-4 text-right">Subtotal</th>
+                  <th className="px-4 py-4 text-center">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-stone-100">
+              <tbody className="divide-y divide-gray-100">
                 {selectedProducts.length === 0 ? (
                   <tr>
                     <td
                       colSpan={8}
-                      className="px-6 py-16 text-center text-stone-400 font-medium"
+                      className="px-6 py-16 text-center text-gray-400 font-bold uppercase tracking-widest text-xs"
                     >
-                      No products selected. Please select products from the list
-                      above.
+                      Inventory empty. Select items to generate estimate.
                     </td>
                   </tr>
                 ) : (
@@ -2402,18 +2067,18 @@ function NutritionPlanner({ t }: { t: any }) {
                     return (
                       <tr
                         key={product.productid}
-                        className="hover:bg-stone-50/50 transition-colors"
+                        className="hover:bg-gray-50 transition-colors"
                       >
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 relative rounded-xl bg-stone-50 border border-stone-100 overflow-hidden flex-shrink-0">
+                            <div className="w-12 h-12 relative bg-white border border-gray-200 flex-shrink-0 p-1">
                               <img
                                 src={`${IMAGE_URL ?? ""}${product.productimage ?? ""}`}
                                 alt={product.productname || ""}
-                                className="object-cover p-1"
+                                className="object-cover w-full h-full"
                               />
                             </div>
-                            <p className="text-sm font-bold text-stone-800 leading-tight">
+                            <p className="text-xs font-bold uppercase tracking-wider text-gray-900">
                               {product.productname}
                             </p>
                           </div>
@@ -2421,7 +2086,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         <td className="px-4 py-4 text-center">
                           <input
                             type="number"
-                            className="w-16 px-2 py-2 rounded-xl border border-stone-200 bg-stone-50 text-sm font-bold text-stone-800 text-center focus:bg-white focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-sm"
+                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-gray-900 text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
                             value={data.grams}
                             onChange={(e) =>
                               setPlannerData((prev) => ({
@@ -2437,7 +2102,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         <td className="px-4 py-4 text-center">
                           <input
                             type="number"
-                            className="w-16 px-2 py-2 rounded-xl border border-stone-200 bg-stone-50 text-sm font-bold text-stone-800 text-center focus:bg-white focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-sm"
+                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-gray-900 text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
                             value={data.days}
                             onChange={(e) =>
                               setPlannerData((prev) => ({
@@ -2453,7 +2118,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         <td className="px-4 py-4 text-center">
                           <input
                             type="number"
-                            className="w-16 px-2 py-2 rounded-xl border border-stone-200 bg-stone-50 text-sm font-bold text-stone-800 text-center focus:bg-white focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-sm"
+                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-gray-900 text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
                             value={data.members}
                             onChange={(e) =>
                               setPlannerData((prev) => ({
@@ -2466,22 +2131,22 @@ function NutritionPlanner({ t }: { t: any }) {
                             }
                           />
                         </td>
-                        <td className="px-4 py-4 text-center font-bold text-stone-500 text-sm">
+                        <td className="px-4 py-4 text-center font-bold text-[var(--olive-dark)] text-sm">
                           {qty}{" "}
-                          <span className="text-[10px] font-medium text-stone-400">
+                          <span className="text-[10px] uppercase font-bold text-gray-400">
                             Kg
                           </span>
                         </td>
-                        <td className="px-4 py-4 text-center font-bold text-stone-500 text-sm">
+                        <td className="px-4 py-4 text-center font-bold text-gray-600 text-sm">
                           ₹{displayPrice}
                         </td>
-                        <td className="px-6 py-4 text-right font-black text-stone-900 text-base">
+                        <td className="px-6 py-4 text-right font-black text-gray-900 text-base">
                           ₹{price}
                         </td>
                         <td className="px-4 py-4 text-center">
                           <button
                             onClick={() => handleRemoveItem(product.productid!)}
-                            className="w-9 h-9 mx-auto rounded-xl bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                            className="w-8 h-8 mx-auto border border-gray-300 text-gray-400 flex items-center justify-center hover:bg-red-500 hover:text-white hover:border-red-500 transition-all"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -2494,19 +2159,19 @@ function NutritionPlanner({ t }: { t: any }) {
             </table>
           </div>
 
-          <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-stone-100 pt-8 relative z-10">
+          <div className="mt-8 flex flex-col md:flex-row items-center justify-between gap-6 pt-6 relative border-t border-gray-200">
             <button
               onClick={handleClearAll}
-              className="px-5 py-3 rounded-xl border border-stone-200 text-stone-600 font-bold text-sm flex items-center gap-2 hover:bg-stone-50 hover:border-stone-300 transition-all shadow-sm"
+              className="px-6 py-3 border border-gray-300 text-gray-600 font-bold text-[11px] tracking-widest uppercase flex items-center gap-2 hover:bg-gray-100 transition-all"
             >
-              Clear All Items <Trash2 className="w-4 h-4" />
+              Clear Estimate <Trash2 className="w-4 h-4" />
             </button>
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-10">
               <div className="text-right">
-                <p className="text-[10px] font-black text-stone-400 tracking-[0.1em] uppercase mb-1">
-                  Monthly Grand Total
+                <p className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase mb-1">
+                  Estimated Total
                 </p>
-                <p className="text-3xl font-black text-stone-900 leading-none">
+                <p className="text-4xl font-black text-[var(--olive-dark)] leading-none">
                   ₹{grandTotal.toLocaleString()}
                 </p>
               </div>
@@ -2540,7 +2205,7 @@ function NutritionPlanner({ t }: { t: any }) {
                       console.error("Error adding to monthly cart", err);
                       alert(
                         err?.response?.data?.message ||
-                        "An error occurred while adding to monthly cart.",
+                          "An error occurred while adding to monthly cart.",
                       );
                     } finally {
                       setIsBuying(false);
@@ -2548,13 +2213,13 @@ function NutritionPlanner({ t }: { t: any }) {
                   })
                 }
                 disabled={selectedProducts.length === 0 || isBuying}
-                className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm tracking-wide transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--olive)] text-white hover:bg-[var(--olive-dark)] shadow-lg shadow-green-900/20 active:scale-95" : "bg-gray-200 text-gray-400 cursor-not-allowed"} min-w-[140px]`}
+                className={`flex items-center justify-center gap-3 px-10 py-4 font-bold text-xs tracking-widest uppercase transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--orange)] text-white hover:bg-gray-900 shadow-md" : "bg-gray-200 text-gray-400 cursor-not-allowed"} min-w-[200px]`}
               >
                 {isBuying ? (
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent animate-spin" />
                 ) : (
                   <>
-                    Buy Now <ShoppingCart className="w-5 h-5" />
+                    Proceed to Cart <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
@@ -2819,7 +2484,6 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
                   product={product}
                   isVisible={isVisible}
                   delay={idx * 150}
-                  t={t}
                 />
               </div>
             ))}

@@ -16,13 +16,14 @@
   --gold-light: #e8d48b;
   --sky-blue: #4285f4;
   --whatsapp: #25d366;
-  --pink: #ff006a;
+  --pink: #ff0077;
+  
 }
 
 s body {
   background: var(--site-bg);
   color: var(--foreground);
-  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
 }
 
 /* ── Premium Animations ── */
@@ -85,6 +86,7 @@ s body {
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px);
@@ -96,6 +98,7 @@ s body {
 }
 
 @keyframes pulse-glow {
+
   0%,
   100% {
     box-shadow: 0 0 15px rgba(255, 140, 0, 0.2);
@@ -176,6 +179,7 @@ s body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -186,6 +190,7 @@ s body {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -351,15 +356,19 @@ s body {
   0% {
     transform: translate(0%, 0%) scale(1);
   }
+
   25% {
     transform: translate(15%, 5%) scale(1.08);
   }
+
   50% {
     transform: translate(8%, -8%) scale(1.04);
   }
+
   75% {
     transform: translate(-10%, 4%) scale(1.06);
   }
+
   100% {
     transform: translate(0%, 0%) scale(1);
   }

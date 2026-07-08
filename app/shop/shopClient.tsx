@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import ProductCard from "@/components/ProductCard";
 import {
   Filter,
   ChevronDown,
@@ -15,6 +16,7 @@ import {
   Plus,
   Minus,
   Search,
+  Loader2,
   X,
 } from "lucide-react";
 import en from "@/languages/en.json";
@@ -323,6 +325,7 @@ export default function ShopPage() {
       price: displayPrice,
       originalPrice,
       discountPercent,
+      productlist: p.productlist ?? "",
       category: p.categoryname || "",
       subcategory: p.subcategoryname || "",
       isNew: p.isFeatured,
@@ -332,7 +335,7 @@ export default function ShopPage() {
       itemtype:
         p.itemtype ||
         ((p.categoryname && p.categoryname.toLowerCase().includes("gift")) ||
-          p.categoryid === 4
+        p.categoryid === 4
           ? "gift"
           : "product"),
       bid: p.bid || 1,
@@ -370,12 +373,18 @@ export default function ShopPage() {
                 : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
             }`}
           >
-            <span className="text-[11px] font-bold">{t.shop_filters.all_collections}</span>
-            <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${selectedCategory === "All Categories" ? "border-[var(--olive)]" : "border-stone-200"}`}>
-              {selectedCategory === "All Categories" && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+            <span className="text-[11px] font-bold">
+              {t.shop_filters.all_collections}
+            </span>
+            <div
+              className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${selectedCategory === "All Categories" ? "border-[var(--olive)]" : "border-stone-200"}`}
+            >
+              {selectedCategory === "All Categories" && (
+                <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>
+              )}
             </div>
           </button>
-          
+
           <div className="pl-4 space-y-2 mt-2">
             {categories.map((cat) => {
               const isSelected = selectedCategory === cat.categoryname;
@@ -398,9 +407,15 @@ export default function ShopPage() {
                       : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
                   }`}
                 >
-                  <span className="text-[11px] font-bold">{cat.categoryname}</span>
-                  <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--olive)]" : "border-stone-200"}`}>
-                    {isSelected && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+                  <span className="text-[11px] font-bold">
+                    {cat.categoryname}
+                  </span>
+                  <div
+                    className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--olive)]" : "border-stone-200"}`}
+                  >
+                    {isSelected && (
+                      <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>
+                    )}
                   </div>
                 </button>
               );
@@ -419,14 +434,18 @@ export default function ShopPage() {
           </summary>
           <div className="px-4 pb-4 space-y-2">
             {subcategories.map((sub) => {
-              const isSelected = activeFilters.subcategoryid === sub.subcategoryid;
+              const isSelected =
+                activeFilters.subcategoryid === sub.subcategoryid;
               return (
                 <button
                   key={sub.subcategoryid}
                   onClick={() => {
                     setActiveFilters((prev: any) => ({
                       ...prev,
-                      subcategoryid: prev.subcategoryid === sub.subcategoryid ? 0 : sub.subcategoryid,
+                      subcategoryid:
+                        prev.subcategoryid === sub.subcategoryid
+                          ? 0
+                          : sub.subcategoryid,
                       page: 1,
                     }));
                   }}
@@ -436,9 +455,15 @@ export default function ShopPage() {
                       : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
                   }`}
                 >
-                  <span className="text-[11px] font-bold">{sub.subcategoryname}</span>
-                  <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--olive)]" : "border-stone-200"}`}>
-                    {isSelected && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+                  <span className="text-[11px] font-bold">
+                    {sub.subcategoryname}
+                  </span>
+                  <div
+                    className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--olive)]" : "border-stone-200"}`}
+                  >
+                    {isSelected && (
+                      <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>
+                    )}
                   </div>
                 </button>
               );
@@ -480,7 +505,8 @@ export default function ShopPage() {
                 onClick={() => {
                   setActiveFilters((prev: any) => ({
                     ...prev,
-                    pricerange: prev.pricerange === range.value ? "" : range.value,
+                    pricerange:
+                      prev.pricerange === range.value ? "" : range.value,
                     page: 1,
                   }));
                 }}
@@ -491,8 +517,12 @@ export default function ShopPage() {
                 }`}
               >
                 <span className="text-[11px] font-bold">{range.label}</span>
-                <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--olive)]" : "border-stone-200"}`}>
-                  {isSelected && <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>}
+                <div
+                  className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--olive)]" : "border-stone-200"}`}
+                >
+                  {isSelected && (
+                    <div className="w-1.5 h-1.5 bg-[var(--olive)] rounded-full"></div>
+                  )}
                 </div>
               </button>
             );
@@ -565,7 +595,8 @@ export default function ShopPage() {
                 {t.shop_headline || "Our Collections"}
               </h1>
               <p className="text-sm text-stone-500 max-w-lg font-medium leading-relaxed">
-                {t.shop_desc || "From ancient grains to wellness essentials — explore our curated selection of tradition-backed products."}
+                {t.shop_desc ||
+                  "From ancient grains to wellness essentials — explore our curated selection of tradition-backed products."}
               </p>
             </div>
 
@@ -667,10 +698,11 @@ export default function ShopPage() {
                             }));
                             setIsSortDropdownOpen(false);
                           }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${sortBy === ""
+                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
+                            sortBy === ""
                               ? "bg-stone-50 text-[var(--olive)]"
                               : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                            }`}
+                          }`}
                         >
                           Sort: Default
                           {sortBy === "" && (
@@ -687,10 +719,11 @@ export default function ShopPage() {
                             }));
                             setIsSortDropdownOpen(false);
                           }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${sortBy === "lowToHigh"
+                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
+                            sortBy === "lowToHigh"
                               ? "bg-stone-50 text-[var(--olive)]"
                               : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                            }`}
+                          }`}
                         >
                           Price: Low to High
                           {sortBy === "lowToHigh" && (
@@ -707,10 +740,11 @@ export default function ShopPage() {
                             }));
                             setIsSortDropdownOpen(false);
                           }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${sortBy === "highToLow"
+                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
+                            sortBy === "highToLow"
                               ? "bg-stone-50 text-[var(--olive)]"
                               : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                            }`}
+                          }`}
                         >
                           Price: High to Low
                           {sortBy === "highToLow" && (
@@ -750,250 +784,8 @@ export default function ShopPage() {
                 ))
               ) : paginatedProducts.length > 0 ? (
                 paginatedProducts.map((product) => {
-                  const cartItem = cartItems.find(
-                    (item) =>
-                      (item.itemtype === "product" &&
-                        item.productid === product.id) ||
-                      (item.itemtype === "gift" &&
-                        item.giftid === product.id) ||
-                      item.productid === product.id ||
-                      item.giftid === product.id,
-                  );
                   return (
-                    <Link
-                      href={
-                        product.itemtype === "gift"
-                          ? `/gift-detail/${product.id}?productid=${product.id}&bid=${product.bid || 1}`
-                          : `/product-detail/${product.id}?productid=${product.id}&bid=${product.bid || 1}`
-                      }
-                      key={product.id}
-                      className="group relative bg-white border border-stone-200/75 hover:border-[var(--olive)]/50 rounded-[1.25rem] overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(85,107,47,0.08)] p-2.5"
-                    >
-                      {/* Image Container */}
-                      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gradient-to-br from-stone-50 to-stone-100 justify-center items-center flex">
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          className={`h-full w-full object-cover transition-all duration-700 group-hover:scale-105 ${product.availablestock <= 0 ? "grayscale opacity-60" : ""}`}
-                        />
-                        
-                        {/* Elegant Dark Vignette Overlay on Hover */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
-                        {product.availablestock <= 0 && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[1px] z-10">
-                            <span className="bg-rose-600 text-white text-[9px] font-black px-3 py-1.5 rounded-full tracking-[0.2em] shadow-lg uppercase">
-                              Out Of Stock
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Top Left Discount Badge */}
-                        {product.discountPercent && product.discountPercent > 0 && (
-                          <div className="absolute top-2.5 left-2.5 z-20 bg-gradient-to-r from-[var(--orange)] to-[var(--orange-dark)] text-white text-[9px] font-extrabold px-2.5 py-1 rounded-full shadow-[0_4px_10px_rgba(255,140,0,0.25)] tracking-wider">
-                            -{product.discountPercent}% OFF
-                          </div>
-                        )}
-
-                        {/* Top Right Favourite Button */}
-                        <div className="absolute top-2.5 right-2.5 z-20">
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handleActionWithLogin(async () => {
-                                if (product.id === undefined) return;
-                                try {
-                                  const response = await API.post(
-                                    API_ROUTES.ADDFAVOURITE,
-                                    { productid: product.id },
-                                  );
-                                  if (response.status === 200) {
-                                    window.dispatchEvent(
-                                      new Event("favoritesUpdated"),
-                                    );
-                                  }
-                                } catch (err) {
-                                  console.error("Error adding to wishlist:", err);
-                                }
-                              });
-                            }}
-                            className={`w-8 h-8 rounded-full shadow-md border flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 cursor-pointer ${
-                              product.id !== undefined && favouriteProductIds.includes(product.id)
-                                ? "bg-rose-50 border-rose-200 text-rose-500"
-                                : "bg-white/80 backdrop-blur-sm border-white/60 text-stone-400 hover:text-rose-500 hover:bg-white"
-                            }`}
-                          >
-                            <Heart
-                              className={`w-3.5 h-3.5 transition-colors ${
-                                product.id !== undefined && favouriteProductIds.includes(product.id) ? "fill-rose-500 text-rose-500" : ""
-                              }`}
-                            />
-                          </button>
-                        </div>
-
-                        {/* Quick View Bar */}
-                        <div className="absolute bottom-0 left-0 right-0 bg-white/70 backdrop-blur-md border-t border-white/50 text-stone-900 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] text-[10px] font-bold py-2 text-center translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20 tracking-widest uppercase">
-                          Quick View
-                        </div>
-                      </div>
-
-                      {/* Content Area */}
-                      <div className="px-1.5 pt-3.5 pb-1 flex flex-col flex-1">
-                        {/* Subcategory & Title */}
-                        <div className="space-y-1 mb-2">
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="text-[9px] font-bold text-[var(--orange)] uppercase tracking-widest">
-                              {product.category || "Organic"}
-                            </span>
-                            {(product as any).weight && ((product as any).unit || (product as any).unitname) && (
-                              <span className="bg-[var(--beige)] text-[var(--olive-dark)] px-2 py-0.5 rounded-md text-[9px] font-extrabold border border-[var(--olive)]/15">
-                                {(product as any).weight} {(product as any).unit || (product as any).unitname}
-                              </span>
-                            )}
-                          </div>
-                          <h3 className="text-[14px] font-bold text-stone-900 group-hover:text-[var(--olive)] transition-colors duration-350 line-clamp-1 leading-tight">
-                            {product.name}
-                          </h3>
-                        </div>
-
-                        {/* Ratings & Stock Status Row */}
-                        <div className="flex items-center justify-between gap-2 mb-3">
-                          <p className="text-[10px] text-stone-500 font-medium line-clamp-2 leading-relaxed flex-1 pr-2">
-                            {(product as any).desc || (product as any).description || "Tradizions premium selection for health. Discover natural goodness."}
-                          </p>
-                          
-                          {/* Stock Pill Badge */}
-                          <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-extrabold border ${
-                            product.availablestock > 0 
-                              ? "bg-emerald-50 text-emerald-700 border-emerald-200/60" 
-                              : "bg-rose-50 text-rose-700 border-rose-200/60"
-                          }`}>
-                            <span className={`w-1.5 h-1.5 rounded-full ${
-                              product.availablestock > 0 ? "bg-emerald-500 animate-pulse" : "bg-rose-500"
-                            }`} />
-                            {product.availablestock > 0 ? "In Stock" : "Out of Stock"}
-                          </div>
-                        </div>
-
-                        {/* Price Details */}
-                        <div className="flex items-baseline gap-2 mb-4">
-                          <span className="text-[18px] font-black text-stone-900">
-                            ₹{product.price.toLocaleString()}
-                          </span>
-                          {product.originalPrice && (
-                            <>
-                              <span className="text-[12px] text-stone-400 line-through font-medium">
-                                ₹{product.originalPrice.toLocaleString()}
-                              </span>
-                              {product.discountPercent && product.discountPercent > 0 && (
-                                <span className="text-[9px] bg-emerald-50 text-emerald-700 font-extrabold px-1.5 py-0.5 rounded-md border border-emerald-100">
-                                  {product.discountPercent}% OFF
-                                </span>
-                              )}
-                            </>
-                          )}
-                        </div>
-
-                        <div className="flex flex-wrap items-center gap-2 mt-auto pt-2 border-t border-stone-100">
-                          {/* Quantity Stepper */}
-                          <div 
-                            className="flex items-center border border-stone-200 rounded-[5px] bg-stone-50 overflow-hidden h-8 shrink-0 shadow-sm"
-                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                          >
-                            <button 
-                              onClick={() => {
-                                if (product.id) handleQuantityChange(product.id, -1);
-                              }}
-                              className="px-2 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
-                            >
-                              <Minus className="w-3 h-3" />
-                            </button>
-                            <span className="text-[12px] font-extrabold text-stone-800 w-5 text-center">
-                              {product.id ? (quantities[product.id] || 1) : 1}
-                            </span>
-                            <button 
-                              onClick={() => {
-                                if (product.id) handleQuantityChange(product.id, 1);
-                              }}
-                              className="px-2 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
-                            >
-                              <Plus className="w-3 h-3" />
-                            </button>
-                          </div>
-                          
-                          {/* Add To Cart CTA */}
-                          <button
-                            disabled={
-                              addingToCartId === (product.id || null) ||
-                              product.availablestock <= 0
-                            }
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              if (product.availablestock <= 0) return;
-                              handleActionWithLogin(async () => {
-                                setAddingToCartId(product.id || null);
-                                try {
-                                  const response = await API.post(
-                                    API_ROUTES.ADDTOCART,
-                                    {
-                                      bid: product.bid || 1,
-                                      productid:
-                                        product?.itemtype === "product"
-                                          ? product.id
-                                          : null,
-                                      giftid:
-                                        product?.itemtype === "gift"
-                                          ? product.id
-                                          : null,
-                                      quantity: product.id ? (quantities[product.id] || 1) : 1,
-                                      itemtype:
-                                        product?.itemtype || "product",
-                                    },
-                                  );
-                                  if (response.status === 200) {
-                                    window.dispatchEvent(
-                                      new Event("cartUpdated"),
-                                    );
-                                  } else {
-                                    alert(
-                                      "Failed to add product to cart. Please try again.",
-                                    );
-                                  }
-                                } catch (err: any) {
-                                  console.error("Error adding to cart:", err);
-                                  alert(
-                                    err?.response?.data?.message ||
-                                    "An error occurred while adding to cart.",
-                                  );
-                                } finally {
-                                  setAddingToCartId(null);
-                                }
-                              });
-                            }}
-                            className={`flex-1 min-w-[120px] h-8 rounded-[5px] font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${
-                              product.availablestock <= 0
-                                ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200 shadow-none"
-                                : "bg-[var(--olive)] hover:bg-[var(--olive-dark)] text-white shadow-[0_6px_20px_rgba(85,107,47,0.25)] hover:shadow-[0_8px_25px_rgba(85,107,47,0.4)] hover:-translate-y-0.5 cursor-pointer"
-                            } disabled:opacity-50 disabled:cursor-not-allowed`}
-                          >
-                            {addingToCartId === product.id ? (
-                              <div className="w-3.5 h-3.5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
-                            ) : (
-                              <ShoppingCart className="w-3.5 h-3.5" />
-                            )}
-                            <span>
-                              {product.availablestock <= 0
-                                ? "Sold Out"
-                                : addingToCartId === product.id
-                                  ? "Adding..."
-                                  : "Add to Cart"}
-                            </span>
-                          </button>
-                        </div>
-                      </div>
-                    </Link>
+                    <ProductCard key={product.id} product={product} />
                   );
                 })
               ) : (

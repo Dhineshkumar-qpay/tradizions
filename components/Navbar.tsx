@@ -36,6 +36,7 @@ import { ResponseModel, VerifyOTPModel } from "@/models/auth_model";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
+import ProductCard from "@/components/ProductCard";
 
 const translations: Record<string, any> = {
   EN: en,
@@ -354,22 +355,22 @@ export default function Navbar() {
     <>
       <div className="fixed top-0 left-0 w-full z-50 transition-all duration-500">
         {/* Top Announcement Bar */}
-        <div className="w-full bg-[var(--olive-dark)] text-white text-[11px] md:text-[13px] font-medium py-2 text-center tracking-wide">
-          Powered By-TRADIZIONS. Freshness Delivered Daily! | Free Shipping on Orders ₹999+ | 100% Natural, No Preservatives!
+        <div className="w-full bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[11.5px] md:text-[13px] font-semibold py-0.5 text-center tracking-widest shadow-sm">
+          {/* Powered By-TRADIZIONS. Freshness Delivered Daily! | Free Shipping on Orders ₹999+ | 100% Natural, No Preservatives! */}
         </div>
 
-        <nav className="w-full h-[75px] bg-white border-b border-gray-100 shadow-sm px-6 lg:px-12 flex items-center justify-between pointer-events-auto relative">
+        <nav className="w-full h-[80px] bg-white/85 backdrop-blur-xl border-b border-gray-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)] px-6 lg:px-12 flex items-center justify-between pointer-events-auto relative">
 
-          <div className="flex items-center gap-8 lg:gap-12">
+          <div className="flex items-center gap-8 lg:gap-14">
             {/* Logo Section */}
             <div className="flex-shrink-0 z-10">
               <Link href="/" className="block">
-                <div className="relative overflow-hidden transition-transform duration-500">
+                <div className="relative overflow-hidden transition-transform duration-500 hover:scale-105">
                   <Image
                     src="/app-logo.png"
                     alt="Logo"
-                    width={110}
-                    height={45}
+                    width={115}
+                    height={48}
                     className="object-contain"
                   />
                 </div>
@@ -377,28 +378,26 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-6 z-0 pt-1">
+            <div className="hidden lg:flex items-center gap-7 z-0 pt-1">
               {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[#1a1a1a]" : "text-[#4a4a4a] hover:text-[#1a1a1a]"}`}
+                    className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-semibold uppercase transition-colors duration-300 whitespace-nowrap ${isActive ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
                   >
                     {item.name}
-                    {isActive && (
-                      <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#1a1a1a]" />
-                    )}
+                    <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                   </Link>
                 );
               })}
 
               {/* Categories Megamenu Dropdown */}
               <div className="relative group/mega">
-                <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[var(--orange)] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
+                <button className="flex items-center gap-1.5 py-2 text-[12.5px] tracking-[0.1em] font-semibold uppercase text-gray-600 hover:text-[var(--olive)] transition-colors duration-300 whitespace-nowrap">
                   {t.categories}
-                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/mega:rotate-180" />
+                  <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover/mega:rotate-180" />
                 </button>                {/* Enhanced Premium Categories Dropdown */}
                 <div className="absolute top-full -left-4 pt-6 opacity-0 translate-y-4 pointer-events-none group-hover/mega:opacity-100 group-hover/mega:translate-y-0 group-hover/mega:pointer-events-auto transition-all duration-500 ease-out z-50">
                   <div className="w-[280px] bg-white/95 backdrop-blur-xl rounded-none shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-stone-200/60 border-t-[3px] border-t-[var(--olive)]">
@@ -410,11 +409,11 @@ export default function Navbar() {
                         <Link
                           key={cat.href}
                           href={cat.href}
-                          className="relative flex items-center justify-between px-6 py-3.5 text-[12.5px] font-bold text-stone-600 transition-all duration-300 group/item hover:bg-gradient-to-r hover:from-[var(--olive)]/5 hover:to-transparent"
+                          className="relative flex items-center justify-between px-6 py-2 text-[12.5px] font-bold text-stone-600 transition-all duration-300 group/item hover:bg-gradient-to-r hover:from-[var(--olive)]/5 hover:to-transparent"
                         >
                           {/* Animated Left Border */}
                           <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--olive)] scale-y-0 origin-bottom transition-transform duration-300 group-hover/item:scale-y-100" />
-                          
+
                           <span className="relative text-stone-600 group-hover/item:text-[var(--olive)] group-hover/item:translate-x-1 transition-all duration-300">
                             {cat.name}
                           </span>
@@ -426,43 +425,20 @@ export default function Navbar() {
                 </div>
               </div>
 
-              {/* Enhanced Premium Gifting Dropdown */}
-              <div className="relative group/gifting">
-                <button className="flex items-center gap-1 py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase text-[var(--orange)] hover:text-[#1a1a1a] transition-all duration-300 whitespace-nowrap">
-                  {t.gifting}
-                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/gifting:rotate-180" />
-                </button>
-
-                <div className="absolute top-full left-0 pt-6 opacity-0 translate-y-4 pointer-events-none group-hover/gifting:opacity-100 group-hover/gifting:translate-y-0 group-hover/gifting:pointer-events-auto transition-all duration-500 ease-out z-50">
-                  <div className="w-[260px] bg-white/95 backdrop-blur-xl rounded-none shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-stone-200/60 border-t-[3px] border-t-[var(--olive)]">
-                    <div className="px-6 py-4 border-b border-stone-100/80 bg-stone-50/30">
-                      <span className="text-[9px] font-black tracking-[0.25em] uppercase text-[var(--orange)]">{t.gifting}</span>
-                    </div>
-                    <div className="py-2 flex flex-col">
-                      <Link
-                        href="/gifts"
-                        className="relative flex items-center justify-between px-6 py-3.5 text-[12.5px] font-bold text-stone-600 transition-all duration-300 group/item hover:bg-gradient-to-r hover:from-[var(--olive)]/5 hover:to-transparent"
-                      >
-                        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--olive)] scale-y-0 origin-bottom transition-transform duration-300 group-hover/item:scale-y-100" />
-                        <span className="relative text-stone-600 group-hover/item:text-[var(--olive)] group-hover/item:translate-x-1 transition-all duration-300">
-                          {t.occasional}
-                        </span>
-                        <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-4 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 ease-out text-[var(--olive)]" />
-                      </Link>
-                      <Link
-                        href="/corporate-orders"
-                        className="relative flex items-center justify-between px-6 py-3.5 text-[12.5px] font-bold text-stone-600 transition-all duration-300 group/item hover:bg-gradient-to-r hover:from-[var(--olive)]/5 hover:to-transparent"
-                      >
-                        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--olive)] scale-y-0 origin-bottom transition-transform duration-300 group-hover/item:scale-y-100" />
-                        <span className="relative text-stone-600 group-hover/item:text-[var(--olive)] group-hover/item:translate-x-1 transition-all duration-300">
-                          {t.corporate}
-                        </span>
-                        <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-4 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 ease-out text-[var(--olive)]" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Link
+                href="/gifts"
+                className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-semibold uppercase transition-colors duration-300 whitespace-nowrap ${pathname === "/gifts" ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
+              >
+                {t.gifting || "Gifts"}
+                <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/gifts" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+              </Link>
+              <Link
+                href="/corporate-orders"
+                className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-semibold uppercase transition-colors duration-300 whitespace-nowrap ${pathname === "/corporate-orders" ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
+              >
+                {t.corporate || "Corporate Orders"}
+                <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/corporate-orders" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+              </Link>
 
               {secondaryNavItems.map((item) => {
                 const isActive = pathname === item.href;
@@ -470,12 +446,10 @@ export default function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-medium uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[#1a1a1a]" : "text-[#4a4a4a] hover:text-[#1a1a1a]"}`}
+                    className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-semibold uppercase transition-colors duration-300 whitespace-nowrap ${isActive ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
                   >
                     {item.name}
-                    {isActive && (
-                      <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#1a1a1a]" />
-                    )}
+                    <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                   </Link>
                 );
               })}
@@ -487,16 +461,16 @@ export default function Navbar() {
             {/* Professional Language Selection */}
             <div className="hidden md:block relative group/langdrop">
               <button
-                className="group flex items-center h-10 gap-2 px-4 rounded-full bg-white/70 backdrop-blur-md border border-[#e0d4b7] hover:border-[var(--olive)] hover:shadow-md transition-all duration-500 cursor-default"
+                className="group flex items-center h-10 gap-2 px-4 rounded-full bg-stone-50/80 backdrop-blur-md border border-gray-200 hover:border-[var(--olive)] hover:shadow-sm hover:bg-white transition-all duration-300 cursor-pointer"
               >
                 <Globe
-                  className="w-[15px] h-[15px] text-[#6b6455] group-hover:text-[var(--olive)] transition-colors duration-300"
+                  className="w-[15px] h-[15px] text-gray-500 group-hover:text-[var(--olive)] transition-colors duration-300"
                 />
-                <span className="text-[11px] font-black tracking-[0.2em] uppercase text-[#4a4438] group-hover:text-[var(--olive)] transition-colors duration-300">
+                <span className="text-[11px] font-black tracking-[0.2em] uppercase text-gray-600 group-hover:text-[var(--olive)] transition-colors duration-300">
                   {selectedLang}
                 </span>
                 <ChevronDown
-                  className="w-3 h-3 text-[#9e9080] group-hover:rotate-180 transition-transform duration-300"
+                  className="w-3.5 h-3.5 text-gray-400 group-hover:rotate-180 group-hover:text-[var(--olive)] transition-all duration-300"
                 />
               </button>
 
@@ -537,18 +511,18 @@ export default function Navbar() {
                 onClick={() => {
                   if (!isSearchOpen) setIsSearchOpen(true);
                 }}
-                className="flex items-center justify-center w-9 h-9 rounded-full border border-[#e8dfc8] bg-white/70 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300 shadow-sm"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-stone-50/80 border border-gray-200 text-gray-600 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
                 aria-label="Search"
               >
-                <Search className="w-5 h-5" />
+                <Search className="w-4 h-4" />
               </button>
             </div>
 
             <Link href="/cart" className="relative">
-              <div className="relative group p-2.5 rounded-full border border-[#e8dfc8] bg-white/70 hover:bg-[var(--olive)] hover:border-[var(--olive)] transition-all duration-300 cursor-pointer block shadow-sm">
-                <ShoppingCart className="w-[18px] h-[18px] text-[var(--olive)] group-hover:text-white transition-colors duration-300" />
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-stone-50/80 border border-gray-200 text-gray-600 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
+                <ShoppingCart className="w-4 h-4" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--orange)] text-[9px] font-black text-white ring-2 ring-[#faf8f3]">
+                  <span className="absolute -top-1.5 -right-1.5 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[var(--orange)] text-[9px] font-black text-white ring-2 ring-white shadow-sm">
                     {cartCount}
                   </span>
                 )}
@@ -565,15 +539,15 @@ export default function Navbar() {
                     setIsDrawerOpen(true);
                   }
                 }}
-                className="flex items-center justify-center w-9 h-9 rounded-full border border-[#e8dfc8] bg-white/70 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300 shadow-sm hover:shadow-[0_6px_20px_rgba(85,107,47,0.25)]"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-stone-50/80 border border-gray-200 text-gray-600 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
               >
-                <User className="w-5 h-5" />
+                <User className="w-4 h-4" />
               </button>
             </div>
 
             <button
               onClick={() => setOpen(!open)}
-              className="lg:hidden p-2.5 rounded-full border border-[#e8dfc8] bg-white/70 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300 shadow-sm"
+              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-stone-50/80 border border-gray-200 text-gray-600 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300"
             >
               {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -630,38 +604,21 @@ export default function Navbar() {
                 </div>
               </div>
 
-              {/* Mobile Gifting Collapsible */}
-              <div className="space-y-4">
-                <button
-                  onClick={() => setIsMobileGiftingOpen(!isMobileGiftingOpen)}
-                  className="w-full flex items-center justify-between text-md font-semibold text-gray-900 border-b border-gray-50 pb-4"
-                >
-                  {t.gifting}
-                  <ChevronDown
-                    className={`w-6 h-6 transition-transform ${isMobileGiftingOpen ? "rotate-180" : ""}`}
-                  />
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-500 ${isMobileGiftingOpen ? "max-h-[200px] mb-4" : "max-h-0"}`}
-                >
-                  <div className="grid grid-cols-1 gap-2 pl-4 pt-2">
-                    <Link
-                      href="/gifts"
-                      className="py-2 text-gray-600 font-medium"
-                      onClick={() => setOpen(false)}
-                    >
-                      {t.occasional}
-                    </Link>
-                    <Link
-                      href="/corporate-orders"
-                      className="py-2 text-gray-600 font-medium"
-                      onClick={() => setOpen(false)}
-                    >
-                      {t.corporate}
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              {/* Mobile Gifting Links */}
+              <Link
+                href="/gifts"
+                className="block text-md font-semibold text-gray-900 border-b border-gray-50 pb-4"
+                onClick={() => setOpen(false)}
+              >
+                {t.gifting || "Gifts"}
+              </Link>
+              <Link
+                href="/corporate-orders"
+                className="block text-md font-semibold text-gray-900 border-b border-gray-50 pb-4"
+                onClick={() => setOpen(false)}
+              >
+                {t.corporate || "Corporate Orders"}
+              </Link>
 
               <Link
                 href="/contact-us"
@@ -975,8 +932,8 @@ export default function Navbar() {
           <div className="flex-1 relative w-full flex justify-center bg-transparent min-h-0">
             {/* Dark background when empty */}
             {searchQuery.trim() === "" && (
-              <div 
-                className="absolute inset-0 bg-black/70 backdrop-blur-sm z-10" 
+              <div
+                className="absolute inset-0 bg-black/70 backdrop-blur-sm z-10"
                 onClick={() => setIsSearchOpen(false)}
               />
             )}
@@ -1000,8 +957,8 @@ export default function Navbar() {
                     <div className="w-full">
                       <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
                         <h3 className="font-bold text-gray-900 text-[16px]">Products</h3>
-                        <Link 
-                          href={`/shop?search=${encodeURIComponent(searchQuery)}`} 
+                        <Link
+                          href={`/shop?search=${encodeURIComponent(searchQuery)}`}
                           onClick={() => { setIsSearchOpen(false); setSuggestions([]); }}
                           className="text-[13px] text-[var(--olive)] font-bold hover:text-blue-800 underline"
                         >
@@ -1010,176 +967,31 @@ export default function Navbar() {
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                         {suggestions.map((product) => {
-                          const isGift =
-                            product.categoryid === 4 ||
-                            product.categoryid === 5 ||
-                            product.itemtype === "gift" ||
-                            (product.category && product.category.toLowerCase().includes("gift"));
-                          const detailUrl = isGift
-                            ? `/gift-detail/${product.productid}?productid=${product.productid}&bid=1`
-                            : `/product-detail/${product.productid}?productid=${product.productid}&bid=1`;
-
-                          const finalPrice = product.sellingprice === 0 || product.sellingprice == null
-                            ? product.price
-                            : product.sellingprice;
+                          const mappedProduct = {
+                            id: product.productid,
+                            name: product.productname,
+                            price: product.price,
+                            sellingprice: product.sellingprice,
+                            image: product.productimage,
+                            category: product.category,
+                            categoryid: product.categoryid,
+                            itemtype: product.itemtype,
+                            desc: product.description || product.desc || product.brandname,
+                            availablestock: product.availablestock !== undefined && product.availablestock !== null ? product.availablestock : (product.stock !== undefined && product.stock !== null ? product.stock : 1),
+                            stock: product.stock,
+                            bid: product.bid || 1,
+                          };
 
                           return (
-                            <Link
-                              key={product.productid}
-                              href={detailUrl}
+                            <ProductCard
+                              key={mappedProduct.id}
+                              product={mappedProduct}
                               onClick={() => {
                                 setIsSearchOpen(false);
                                 setSearchQuery("");
                                 setSuggestions([]);
                               }}
-                              className="group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/60"
-                            >
-                              <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
-                                <img
-                                  src={IMAGE_URL + (product.productimage || "/placeholder.jpg")}
-                                  alt={product.productname}
-                                  className={`w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110 ${(product.stock <= 0 || product.availablestock <= 0) ? "grayscale opacity-60" : ""}`}
-                                />
-                                {(() => {
-                                  const origPrice = product.price || 0;
-                                  const salePrice = product.sellingprice === 0 || product.sellingprice == null ? origPrice : product.sellingprice;
-                                  const discountPercent = origPrice > salePrice ? Math.round(((origPrice - salePrice) / origPrice) * 100) : 0;
-                                  if (discountPercent > 0 && product.stock > 0 && product.availablestock > 0) {
-                                    return (
-                                      <span className="absolute top-3 left-3 z-20 px-2.5 py-1 rounded-full bg-[var(--orange)] text-white text-[9px] font-black tracking-wider shadow-lg">
-                                        {discountPercent}% OFF
-                                      </span>
-                                    );
-                                  }
-                                  return null;
-                                })()}
-                                {(product.stock <= 0 || product.availablestock <= 0) && (
-                                  <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[2px] z-10">
-                                    <span className="bg-red-500/90 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] shadow-xl">
-                                      OUT OF STOCK
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                              <div className="p-4 flex flex-col flex-1 space-y-3">
-                                <div className="space-y-1">
-                                  <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors line-clamp-1">
-                                    {product.productname}
-                                  </h3>
-                                  <p className="text-[12px] text-gray-400 font-medium line-clamp-1 flex-1">
-                                    {product.description || product.desc || product.brandname || product.category || "Premium dry fruits gift hamper packed with..."}
-                                  </p>
-                                </div>
-                                
-                                <div className="flex items-baseline gap-2 pt-1">
-                                  <span className="text-[20px] font-black text-gray-900">
-                                    ₹{finalPrice?.toLocaleString()}
-                                  </span>
-                                  {product.price > finalPrice && (
-                                    <span className="text-[13px] text-gray-400 line-through font-medium">
-                                      ₹{product.price?.toLocaleString()}
-                                    </span>
-                                  )}
-                                </div>
-
-                                <div className="pt-2 mt-auto flex flex-wrap items-center gap-2 border-t border-stone-100">
-                                  <div 
-                                    className="flex items-center border border-stone-200 rounded-[5px] bg-stone-50 overflow-hidden h-8 shrink-0 shadow-sm"
-                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                                  >
-                                    <button 
-                                      onClick={() => handleQuantityChange(product.productid, -1)}
-                                      className="px-2 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
-                                    >
-                                      <Minus className="w-3 h-3" />
-                                    </button>
-                                    <span className="text-[12px] font-extrabold text-stone-800 w-5 text-center">
-                                      {quantities[product.productid] || 1}
-                                    </span>
-                                    <button 
-                                      onClick={() => handleQuantityChange(product.productid, 1)}
-                                      className="px-2 text-stone-500 hover:text-stone-800 transition-colors hover:bg-stone-100 h-full flex items-center cursor-pointer font-bold"
-                                    >
-                                      <Plus className="w-3 h-3" />
-                                    </button>
-                                  </div>
-
-                                  <button
-                                    disabled={
-                                      addingToCartId === product.productid ||
-                                      product.availablestock <= 0 || product.stock <= 0
-                                    }
-                                    onClick={async (e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      if (product.availablestock <= 0 || product.stock <= 0) return;
-                                      
-                                      if (!isLoggedIn) {
-                                        setIsSearchOpen(false);
-                                        setShouldRedirectToAccount(true);
-                                        setIsDrawerOpen(true);
-                                        return;
-                                      }
-
-                                      setAddingToCartId(product.productid);
-                                      try {
-                                        const response = await API.post(
-                                          API_ROUTES.ADDTOCART,
-                                          {
-                                            bid: product.bid || 1,
-                                            productid:
-                                              (!isGift)
-                                                ? product.productid
-                                                : null,
-                                            giftid:
-                                              (isGift)
-                                                ? product.productid
-                                                : null,
-                                            quantity: quantities[product.productid] || 1,
-                                            itemtype: isGift ? "gift" : "product",
-                                          },
-                                        );
-                                        if (response.status === 200) {
-                                          window.dispatchEvent(
-                                            new Event("cartUpdated"),
-                                          );
-                                        } else {
-                                          alert(
-                                            "Failed to add product to cart. Please try again.",
-                                          );
-                                        }
-                                      } catch (err: any) {
-                                        console.error("Error adding to cart:", err);
-                                        alert(
-                                          err?.response?.data?.message ||
-                                          "An error occurred while adding to cart.",
-                                        );
-                                      } finally {
-                                        setAddingToCartId(null);
-                                      }
-                                    }}
-                                    className={`flex-1 min-w-[120px] h-8 rounded-[5px] font-bold text-[11px] tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md ${
-                                      (product.stock <= 0 || product.availablestock <= 0)
-                                        ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200 shadow-none"
-                                        : "bg-[var(--olive)] hover:bg-[var(--olive-dark)] text-white shadow-[0_6px_20px_rgba(85,107,47,0.25)] hover:shadow-[0_8px_25px_rgba(85,107,47,0.4)] hover:-translate-y-0.5 cursor-pointer"
-                                    } disabled:opacity-50 disabled:cursor-not-allowed`}
-                                  >
-                                    {addingToCartId === product.productid ? (
-                                      <div className="w-3.5 h-3.5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
-                                    ) : (
-                                      <ShoppingCart className="w-3.5 h-3.5" />
-                                    )}
-                                    <span>
-                                      {(product.stock <= 0 || product.availablestock <= 0)
-                                        ? "Sold Out"
-                                        : addingToCartId === product.productid
-                                          ? "Adding..."
-                                          : "Add to Cart"}
-                                    </span>
-                                  </button>
-                                </div>
-                              </div>
-                            </Link>
+                            />
                           );
                         })}
                       </div>

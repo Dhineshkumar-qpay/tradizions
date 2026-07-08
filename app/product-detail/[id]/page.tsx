@@ -143,7 +143,7 @@ export default function ProductDetailPage() {
       }
     });
   };
-  
+
   const handleAddToCart = () => {
     if (!product) return;
     handleActionWithLogin(async () => {
@@ -878,7 +878,7 @@ export default function ProductDetailPage() {
                 {t.related_products || "Related Products"}
               </h2>
             </div>
-            
+
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {relatedProducts.slice(0, 4).map((relProduct) => {
                 const relId = relProduct.productid;
@@ -984,11 +984,10 @@ export default function ProductDetailPage() {
                               }
                             });
                           }}
-                          className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${
-                            (relProduct.availablestock ?? 0) <= 0
+                          className={`w-full border py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest flex items-center justify-between transition-all duration-300 group/btn ${(relProduct.availablestock ?? 0) <= 0
                               ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                               : "bg-[var(--olive)]/10 border-[var(--olive)]/20 text-[var(--olive)] hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] cursor-pointer"
-                          } disabled:opacity-50`}
+                            } disabled:opacity-50`}
                         >
                           <span>{(relProduct.availablestock ?? 0) <= 0 ? "OUT OF STOCK" : "ADD TO CART"}</span>
                           <ShoppingCart className="w-3 h-3 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
