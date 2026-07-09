@@ -97,7 +97,7 @@ export default function CheckoutPage() {
       const payload = {
         addressid: 0,
         title: title || "Home",
-        fullname: name ,
+        fullname: name,
         mobilenumber: mobileNumber || "9025821501",
         email: addressEmail,
         addressline: addressLine,
@@ -205,7 +205,7 @@ export default function CheckoutPage() {
 
   // Total calculations consistent with cart page
   const deliveryCharges = 0; // Free shipping
-  const grandTotal = totalAmount; 
+  const grandTotal = totalAmount;
 
   const handlePlaceOrder = async () => {
     if (selectionMode === "single" && !selectedAddressId) {
@@ -316,7 +316,8 @@ export default function CheckoutPage() {
               </h1>
 
               <p className="text-stone-500 text-xs leading-relaxed max-w-[240px] mx-auto mb-6">
-                {t.order_confirmed_desc || "Your payment has been completed successfully."}
+                {t.order_confirmed_desc ||
+                  "Your payment has been completed successfully."}
               </p>
 
               {/* Order Info */}
@@ -386,7 +387,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-stone-50 pt-32 lg:pt-40 pb-20">
+    <main className="min-h-screen bg-stone-50 pt-32 lg:pt-25 pb-20">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb lg:mb-2 gap-4">
@@ -522,9 +523,16 @@ export default function CheckoutPage() {
                       {selectionMode === "multi" && (
                         <div className="ml-10 space-y-4">
                           {cartItems.map((item, idx) => {
-                            const itemImage = item.image?.startsWith("http")
-                              ? item.image
-                              : `${IMAGE_URL || ""}${item.image}`;
+                            const isCustomGift = item.itemtype === "customgift";
+                            let rawImage = isCustomGift ? item.giftpackimage : item.image;
+                            const itemImage = rawImage?.startsWith("http")
+                              ? rawImage
+                              : `${IMAGE_URL || ""}${rawImage}`;
+                            const itemName = isCustomGift ? item.giftpackname : item.name;
+                            const itemPrice = isCustomGift 
+                              ? (item.totalprice ?? 0) / (item.quantity || 1) 
+                              : ((item.sellingprice ?? 0) > 0 ? (item.sellingprice ?? 0) : (item.price ?? 0));
+
                             return (
                               <div
                                 key={item.cartid || idx}
@@ -535,20 +543,15 @@ export default function CheckoutPage() {
                                     <img
                                       src={itemImage || "/placeholder.png"}
                                       className="w-full h-full object-cover"
-                                      alt={item.name || ""}
+                                      alt={itemName || ""}
                                     />
                                   </div>
                                   <div className="min-w-0">
                                     <p className="text-xs font-bold text-stone-900 truncate">
-                                      {item.name}
+                                      {itemName}
                                     </p>
                                     <p className="text-xs text-stone-500">
-                                      ₹
-                                      {((item.sellingprice ?? 0) > 0
-                                        ? item.sellingprice
-                                        : item.price
-                                      )?.toLocaleString()}{" "}
-                                      × {item.quantity}
+                                      ₹{itemPrice.toLocaleString()} × {item.quantity}
                                     </p>
                                   </div>
                                 </div>
@@ -572,6 +575,8 @@ export default function CheckoutPage() {
                                       const productid =
                                         item.itemtype === "gift"
                                           ? item.giftid
+                                          : item.itemtype === "customgift"
+                                          ? item.giftpackid
                                           : item.productid;
                                       const cartId = item.cartid || 0;
                                       setMultipleAddress((prev) => {
@@ -830,9 +835,15 @@ export default function CheckoutPage() {
               {/* Mini Item List */}
               <div className="max-h-[350px] overflow-y-auto space-y-5 mb-6 pr-3 custom-scrollbar">
                 {cartItems.map((item, idx) => {
-                  const itemImage = item.image?.startsWith("http")
-                    ? item.image
-                    : `${IMAGE_URL || ""}${item.image}`;
+                  const isCustomGift = item.itemtype === "customgift";
+                  let rawImage = isCustomGift ? item.giftpackimage : item.image;
+                  const itemImage = rawImage?.startsWith("http")
+                    ? rawImage
+                    : `${IMAGE_URL || ""}${rawImage}`;
+                  const itemName = isCustomGift ? item.giftpackname : item.name;
+                  const itemPrice = isCustomGift 
+                    ? (item.totalprice ?? 0) / (item.quantity || 1) 
+                    : ((item.sellingprice ?? 0) > 0 ? (item.sellingprice ?? 0) : (item.price ?? 0));
 
                   return (
                     <div
@@ -843,25 +854,39 @@ export default function CheckoutPage() {
                         <img
                           src={itemImage || "/placeholder.png"}
                           className="w-full h-full object-cover"
-                          alt={item.name || ""}
+                          alt={itemName || ""}
                         />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start gap-4 mb-1">
                           <p className="text-[13px] font-bold text-stone-900 truncate">
-                            {item.name}
+                            {itemName}
                           </p>
                           <p className="text-[13px] font-bold text-stone-900 whitespace-nowrap">
-                            ₹
-                            {item.sellingprice === 0 ||
-                            item.sellingprice === undefined
-                              ? item.price?.toLocaleString()
-                              : item.sellingprice?.toLocaleString()}
+                            ₹{itemPrice.toLocaleString()}
                           </p>
                         </div>
                         <p className="text-xs text-stone-500">
                           Qty: {item.quantity}
                         </p>
+                        {isCustomGift && item.products && item.products.length > 0 && (
+                          <div className="mt-2 bg-stone-50 p-2 rounded-lg border border-stone-100 space-y-1.5">
+                            <div className="flex justify-between items-center border-b border-stone-200 pb-1 mb-1">
+                              <span className="text-[9px] font-bold text-stone-500 uppercase tracking-widest">Included Items</span>
+                              <span className="text-[9px] font-bold text-stone-500">Box: ₹{item.giftpackprice || 0}</span>
+                            </div>
+                            {item.products.map((p, pIdx) => (
+                              <div key={pIdx} className="flex justify-between items-center text-[10px]">
+                                <span className="text-stone-700 truncate pr-2 flex-1">
+                                  {p.quantity} × {p.productname}
+                                </span>
+                                <span className="font-semibold text-stone-900 shrink-0">
+                                  ₹{(p.totalprice || (p.sellingprice ?? 0) * (p.quantity ?? 1) || 0).toLocaleString()}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                         {/* Gift Card Addon Detail */}
                         {item.giftcard && (
                           <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-[var(--olive)]/10 border border-[var(--olive)]/20 mt-1">

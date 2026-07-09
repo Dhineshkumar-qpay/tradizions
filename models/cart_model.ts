@@ -12,17 +12,37 @@ export interface Cart {
   cartid?: number;
   itemtype?: string;
   quantity?: number;
+  productid?: number;
   totalprice?: number;
   giftcardid?: number;
   giftmessage?: string;
   giftid?: number;
-  name?: string;
-  image?: string;
+  productname?: string;
+  productimage?: string;
   price?: number;
   sellingprice?: number;
   categoryname?: string;
   giftcard?: Giftcard[];
+  products?: CustomGiftProduct[];
+  giftpackid?: number;
+  giftpackimage?: string;
+  giftpackname?: string;
+  giftpackprice?: number;
+}
+
+export interface CustomGiftProduct {
+  customgiftitemid?: number;
+  giftpackid?: number;
   productid?: number;
+  productname?: string;
+  productimage?: string;
+  quantity?: number;
+  sellingprice?: number;
+  itemtype?: string;
+  totalprice?: number;
+  userid?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface Giftcard {

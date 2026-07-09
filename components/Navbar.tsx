@@ -341,6 +341,7 @@ export default function Navbar() {
   const navItems = [
     { name: t.home, href: "/" },
     { name: t.shop, href: "/shop" },
+    { name: "🎁Build Your Gift", href: "/custom-hamper" },
   ];
 
   const secondaryNavItems = [{ name: t.contactUs, href: "/contact-us" }];
@@ -361,7 +362,7 @@ export default function Navbar() {
 
         <nav className="w-full h-[80px] bg-white/85 backdrop-blur-xl border-b border-gray-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)] px-6 lg:px-12 flex items-center justify-between pointer-events-auto relative">
 
-          <div className="flex items-center gap-8 lg:gap-14">
+          <div className="flex items-center gap-4 lg:gap-6 xl:gap-14">
             {/* Logo Section */}
             <div className="flex-shrink-0 z-10">
               <Link href="/" className="block">
@@ -378,7 +379,7 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-7 z-0 pt-1">
+            <div className="hidden lg:flex items-center gap-4 xl:gap-7 z-0 pt-1">
               {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
@@ -573,6 +574,13 @@ export default function Navbar() {
                 onClick={() => setOpen(false)}
               >
                 {t.shop}
+              </Link>
+              <Link
+                href="/custom-hamper"
+                className="text-md font-semibold text-gray-900 border-b border-gray-50 pb-4"
+                onClick={() => setOpen(false)}
+              >
+                🎁Build Your Gift
               </Link>
 
               {/* Mobile Categories Collapsible */}

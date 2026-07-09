@@ -22,6 +22,7 @@ export const API_ROUTES = {
   ADDAPPREVIEW: "/review/add-review",
   GETALLUSERREVIEWS: "/review/get-user-reviews",
   ADDTOCART: "/cart/addtocart",
+  REMOVECART: "/cart/remove",
   GETCART: "/cart/getcart",
   CHECKOUTDETAIL: "cart/checkout-detail",
   CARTCOUNT: "/cart/cart-count",
@@ -49,6 +50,10 @@ export const API_ROUTES = {
   HEALTHGOALPRODUCTS: "/product/health-goal-products",
   UPLOADGIFTCARDIMAGE: "/product/upload-gift-card",
   GETALLBUSINESSPRODUCTS: "/product/getallbusinessproducts",
+  GETGIFTPACKS: "/product/getallgiftpacks",
+  GIFTPRODUCTS: "/business/getproducts",
+  ADDCUSTOMGIFTCART: "/cart/add-custom-gift-cart",
+  CREATECUSTOMGIFT: "/customgift/create-custom-gift",
 };
 
 export const BASE_URL = "https://demo.sevanta.in/api";

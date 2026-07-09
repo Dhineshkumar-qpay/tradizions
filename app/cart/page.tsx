@@ -211,10 +211,12 @@ export default function CartPage() {
     setCartItems((prev) => {
       const updated = prev.map((item) => {
         if (item.cartid === cartid) {
-          const price =
-            (item.sellingprice ?? 0) > 0
-              ? (item.sellingprice ?? 0)
-              : (item.price ?? 0);
+          let price = 0;
+          if (item.itemtype === "customgift") {
+            price = (item.totalprice ?? 0) / (item.quantity || 1);
+          } else {
+            price = (item.sellingprice ?? 0) > 0 ? (item.sellingprice ?? 0) : (item.price ?? 0);
+          }
           if (newQty <= 0) {
             setTotalAmount((t) => Math.max(0, t - price * currentQty));
           } else {
@@ -229,15 +231,27 @@ export default function CartPage() {
 
     setUpdatingCartId(cartid);
     try {
-      const response = await API.post(API_ROUTES.UPDATEQUANTITY, {
-        cartid: cartid,
-        quantity: newQty,
-      });
-      if (response.status === 200) {
-        window.dispatchEvent(new Event("cartUpdated"));
+      if (newQty <= 0) {
+        const itemToRemove = cartItems.find((i) => i.cartid === cartid);
+        const giftpackid = itemToRemove?.itemtype === "customgift" ? (itemToRemove.giftpackid || 0) : 0;
+        const response = await API.post(API_ROUTES.REMOVECART, {
+          cartid: cartid,
+          giftpackid: giftpackid,
+        });
+        if (response.status === 200) {
+          window.dispatchEvent(new Event("cartUpdated"));
+        }
+      } else {
+        const response = await API.post(API_ROUTES.UPDATEQUANTITY, {
+          cartid: cartid,
+          quantity: newQty,
+        });
+        if (response.status === 200) {
+          window.dispatchEvent(new Event("cartUpdated"));
+        }
       }
     } catch (err) {
-      console.error("Error updating quantity:", err);
+      console.error("Error updating/removing quantity:", err);
       fetchCart(true); // Revert optimistic update on failure
     } finally {
       setUpdatingCartId(null);
@@ -298,7 +312,7 @@ export default function CartPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-[var(--site-bg)] pt-32 lg:pt-44 pb-32">
+      <main className="min-h-screen bg-[var(--site-bg)] pt-32 lg:pt-25 pb-32">
         {/* Top Header */}
         <div className="max-w-7xl mx-auto px-4 md:px-8 mb-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -323,7 +337,7 @@ export default function CartPage() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="max-w-7xl mx-auto px-4 md:px-4">
           {isLoading ? (
             <div className="glass rounded-3xl h-64 flex items-center justify-center shadow-lg">
               <div className="w-12 h-12 border-4 border-stone-200 border-t-[var(--olive)] rounded-full animate-spin" />
@@ -335,7 +349,7 @@ export default function CartPage() {
                 <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-[var(--olive)]/10 rounded-full blur-3xl animate-pulse-glow" />
                 <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-[var(--orange)]/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: "1s" }} />
               </div>
-              
+
               <div className="relative mb-6">
                 <div className="absolute inset-0 bg-gradient-to-tr from-[var(--olive)]/20 to-[var(--orange)]/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 ease-out" />
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-white to-stone-50 border border-white shadow-xl flex items-center justify-center relative z-10 group-hover:-translate-y-2 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
@@ -361,7 +375,7 @@ export default function CartPage() {
                   Explore Shop
                   <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                 </Link>
-                
+
               </div>
             </div>
           ) : (
@@ -369,27 +383,41 @@ export default function CartPage() {
               {/* LEFT: Item List */}
               <div className="flex-1 w-full min-w-0 space-y-6">
                 {cartItems.map((item, index) => {
-                  const itemImage = item.image
-                    ? item.image.startsWith("http")
-                      ? item.image
-                      : `${IMAGE_URL || ""}${item.image}`
-                    : "/placeholder.png";
+                  const isCustomGift = item.itemtype === "customgift";
+                  let itemImage = "/placeholder.png";
+                  let itemName = "";
+                  let displayPrice = 0;
+                  let originalPrice = 0;
+                  let totalPrice = 0;
+                  let hasDiscount = false;
+
+                  if (isCustomGift) {
+                    itemImage = item.giftpackimage
+                      ? (item.giftpackimage.startsWith("http") ? item.giftpackimage : `${IMAGE_URL || ""}${item.giftpackimage}`)
+                      : "/placeholder.png";
+                    itemName = item.giftpackname || "Custom Gift Hamper";
+                    totalPrice = item.totalprice ?? 0;
+                    displayPrice = (item.quantity ?? 0) > 0 ? totalPrice / (item.quantity ?? 1) : totalPrice;
+                    originalPrice = displayPrice;
+                    hasDiscount = false;
+                  } else {
+                    itemImage = item.productimage
+                      ? (item.productimage.startsWith("http") ? item.productimage : `${IMAGE_URL || ""}${item.productimage}`)
+                      : "/placeholder.png";
+                    itemName = item.productname || "";
+                    displayPrice = (item.sellingprice ?? 0) > 0 ? (item.sellingprice ?? 0) : (item.price ?? 0);
+                    originalPrice = item.price ?? 0;
+                    totalPrice = displayPrice * (item.quantity ?? 0);
+                    hasDiscount = (item.sellingprice ?? 0) > 0 && item.sellingprice !== item.price;
+                  }
+
                   const isUpdating = updatingCartId === item.cartid;
                   const isExpanded = expandedGifts.includes(item.cartid || 0);
-                  const displayPrice =
-                    (item.sellingprice ?? 0) > 0
-                      ? (item.sellingprice ?? 0)
-                      : (item.price ?? 0);
-                  const totalPrice = displayPrice * (item.quantity ?? 0);
-                  const originalTotal =
-                    (item.price ?? 0) * (item.quantity ?? 0);
-                  const hasDiscount =
-                    (item.sellingprice ?? 0) > 0 &&
-                    item.sellingprice !== item.price;
+                  const originalTotal = originalPrice * (item.quantity ?? 0);
 
                   return (
                     <div
-                      key={item.cartid || index}
+                      key={`cart-item-${item.cartid || 'new'}-${index}`}
                       className={`bg-white rounded-3xl border border-stone-100 shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden animate-fade-in-up delay-${(index % 5) * 100} group`}
                     >
                       <div className="p-5 md:p-6 relative">
@@ -401,7 +429,7 @@ export default function CartPage() {
                             <img
                               src={itemImage}
                               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                              alt={item.name || ""}
+                              alt={itemName}
                             />
                             {item.itemtype === "gift" && (
                               <div className="absolute top-2 left-2 bg-[var(--orange)] text-white text-[9px] font-black px-2 py-1 rounded-lg uppercase tracking-widest shadow-md">
@@ -418,8 +446,44 @@ export default function CartPage() {
                                   {item.categoryname || "Tradizions"}
                                 </p>
                                 <h3 className="text-base md:text-xl font-black text-stone-900 leading-tight line-clamp-2">
-                                  {item.name || ""}
+                                  {itemName}
                                 </h3>
+                                {isCustomGift && item.products && item.products.length > 0 && (
+                                  <div className="mt-3 flex flex-col gap-2 bg-stone-50 p-3 rounded-xl border border-stone-100">
+                                    <div className="flex justify-between items-center border-b border-stone-200 pb-2">
+                                      <p className="text-[10px] font-bold text-stone-500 uppercase tracking-widest">Included Items:</p>
+                                      <p className="text-[11px] font-semibold text-stone-700">Box Price: ₹{item.giftpackprice || 0}</p>
+                                    </div>
+                                    <div className="flex flex-col gap-2 pt-1">
+                                      {item.products.map((p, idx) => (
+                                        <div key={`nested-${p.productid}-${idx}`} className="flex items-center justify-between gap-3">
+                                          <div className="flex items-center gap-3 flex-1 min-w-0">
+                                            <div className="w-8 h-8 rounded-lg overflow-hidden border border-stone-200 shrink-0 bg-white">
+                                              <img
+                                                src={
+                                                  p.productimage
+                                                    ? p.productimage.startsWith("http")
+                                                      ? p.productimage
+                                                      : `${IMAGE_URL || ""}${p.productimage}`
+                                                    : "/placeholder.png"
+                                                }
+                                                alt={p.productname || ""}
+                                                className="w-full h-full object-cover"
+                                              />
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                              <p className="text-xs font-semibold text-stone-700 truncate">{p.productname}</p>
+                                              <p className="text-[10px] font-medium text-stone-500">Qty: {p.quantity}</p>
+                                            </div>
+                                          </div>
+                                          <div className="text-right shrink-0">
+                                            <p className="text-xs font-semibold text-stone-800">₹{(p.totalprice || (p.sellingprice ?? 0) * (p.quantity ?? 1) || 0).toLocaleString()}</p>
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                               <button
                                 onClick={() =>
@@ -440,13 +504,13 @@ export default function CartPage() {
                               <div>
                                 {totalPrice !==
                                   totalPrice / (item.quantity ?? 1) && (
-                                  <p className="text-sm md:text-md font-black font-semibold text-[var(--orange)] tracking-tight my-2">
-                                    ₹
-                                    {(totalPrice / (item.quantity ?? 1))
-                                      .toFixed(2)
-                                      .toLocaleString()}{" "}
-                                  </p>
-                                )}
+                                    <p className="text-sm md:text-md font-black font-semibold text-[var(--orange)] tracking-tight my-2">
+                                      ₹
+                                      {(totalPrice / (item.quantity ?? 1))
+                                        .toFixed(2)
+                                        .toLocaleString()}{" "}
+                                    </p>
+                                  )}
                                 <p className="text-xl md:text-2xl font-black text-stone-900 tracking-tight">
                                   ₹{totalPrice.toFixed(2).toLocaleString()}
                                 </p>
@@ -605,7 +669,7 @@ export default function CartPage() {
                                         }
                                       />
                                       {uploadingGiftForCartId ===
-                                      item.cartid ? (
+                                        item.cartid ? (
                                         <div className="w-6 h-6 border-2 border-stone-300 border-t-[var(--orange)] rounded-full animate-spin" />
                                       ) : (
                                         <Upload className="w-6 h-6 text-stone-400 group-hover/upload:text-[var(--orange)] transition-colors" />
@@ -615,9 +679,9 @@ export default function CartPage() {
                                       </p>
                                     </label>
 
-                                    {globalGiftCards.map((gc: any) => (
+                                    {globalGiftCards.map((gc: any, gcIdx: number) => (
                                       <label
-                                        key={gc.giftcardid}
+                                        key={`gc-${gc.giftcardid}-${gcIdx}`}
                                         className="shrink-0 cursor-pointer snap-start"
                                       >
                                         <input
@@ -642,10 +706,10 @@ export default function CartPage() {
                                           </div>
                                           {item.giftcardid ===
                                             gc.giftcardid && (
-                                            <div className="absolute top-1.5 right-1.5 z-10 bg-[var(--olive)] rounded-full p-0.5 shadow-sm">
-                                              <Check className="w-3 h-3 text-white" />
-                                            </div>
-                                          )}
+                                              <div className="absolute top-1.5 right-1.5 z-10 bg-[var(--olive)] rounded-full p-0.5 shadow-sm">
+                                                <Check className="w-3 h-3 text-white" />
+                                              </div>
+                                            )}
                                           <div className="h-[60%] bg-stone-100 w-full relative">
                                             <img
                                               src={
@@ -800,7 +864,7 @@ export default function CartPage() {
                           setIsProceeding(true);
                           try {
                             const updatePromises = cartItems
-                              .filter((item) => item.itemtype === "gift")
+                              .filter((item) => item.itemtype === "gift" && item.giftcardid)
                               .map((item) =>
                                 API.post(API_ROUTES.UPDATEGIFTCARD, {
                                   cartid: item.cartid,
