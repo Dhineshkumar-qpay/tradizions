@@ -359,7 +359,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
-      <HeroSection t={t} />
+      <HeroSection t={t} featuredProducts={featuredProducts} />
 
       {/* Brand Promise Section */}
       <section className="py-8 md:py-10 bg-white relative overflow-hidden border-b border-stone-50">
@@ -620,19 +620,25 @@ function HealthBenefitsSection({ t }: { t: any }) {
 
 // -----------------------------------  HERO SECTION
 
-function HeroSection({ t }: { t: any }) {
+function HeroSection({
+  t,
+  featuredProducts = [],
+}: {
+  t: any;
+  featuredProducts?: any[];
+}) {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     setLoaded(true);
   }, []);
 
   return (
-    <section className="relative w-full h-[88vh] min-h-[650px] flex flex-col justify-between overflow-hidden bg-black">
+    <section className="relative w-full h-[95vh] min-h-[800px] flex flex-col justify-between overflow-hidden bg-black">
       {/* ── Background ── */}
       <div className="absolute inset-0 z-0">
         {/* Background Image */}
         <Image
-          src="/premium-home-banner.jpeg"
+          src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSO-MEYF6S4m4yNGAU1KoxpGjKhGp9YIt5V3GF2PD0BzC7Ks7JE"
           alt="Premium Artisanal Millet & Nut Gift Packs"
           fill
           priority
@@ -647,7 +653,7 @@ function HeroSection({ t }: { t: any }) {
         <div className="absolute inset-0 bg-black/20 z-[5]" />
 
         {/* Top Gradient */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/35 via-black/10 to-transparent z-[6]" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/20 via-transparent to-transparent z-[6]" />
 
         {/* Bottom Gradient */}
         <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-black/50 via-black/20 to-transparent z-[6]" />
@@ -672,45 +678,61 @@ function HeroSection({ t }: { t: any }) {
           <span className="w-8 h-px bg-[var(--orange)]" />
         </div>
 
-        <h1 className="text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)] max-w-5xl">
+        <h1 className="text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] max-w-5xl">
           ARTISANAL MILLET & <span className="text-[var(--orange)]">NUT</span>{" "}
           GIFT PACKS
         </h1>
-
-        <h2 className="text-lg md:text-2xl text-white/90 mt-6 font-medium tracking-wide max-w-2xl mx-auto">
-          For Meaningful Celebrations
-        </h2>
       </div>
 
       {/* ── Bottom Content Area ── */}
       <div className="relative z-20 w-full pb-16 px-6 flex flex-col items-center text-center mt-auto">
-        {/* Product Labels */}
-        <div className="hidden md:flex items-center justify-center gap-16 lg:gap-36 w-full max-w-5xl mx-auto mb-8">
-          <span className="text-white font-bold text-xs lg:text-[13px] tracking-[0.2em] uppercase">
-            Nut Gift Packs
-          </span>
-
-          <span className="text-[var(--orange)] font-bold text-xs lg:text-[13px] tracking-[0.2em] uppercase">
-            Premium Gift Box
-          </span>
-        </div>
-
         {/* Subheadline */}
         <p className="text-[13px] md:text-sm text-white/75 max-w-2xl mx-auto mb-10 font-medium leading-relaxed tracking-wide">
           Beautifully curated in traditional jute, elegant tin, and crafted MDF
           boxes. Health meets heritage.
         </p>
 
-        {/* CTA */}
-        <Link
-          href="/shop"
-          className="group relative inline-flex items-center justify-center overflow-hidden mb-12"
-        >
-          <div className="relative flex items-center gap-3 bg-[var(--orange)] text-white px-10 py-4 rounded text-xs md:text-sm font-bold tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-500 shadow-2xl">
-            SHOP FESTIVE COLLECTIONS
-            <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1.5" />
+        {/* ── Product Slider in Banner ── */}
+        {featuredProducts && featuredProducts.length > 0 && (
+          <div
+            className="w-full max-w-5xl mx-auto mb-10 overflow-x-auto flex gap-4 px-2 snap-x snap-mandatory scroll-smooth"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            <style jsx>{`
+              div::-webkit-scrollbar {
+                display: none;
+              }
+            `}</style>
+            {featuredProducts.slice(0, 6).map((product, idx) => {
+              const productId = product.productid || product.id;
+              const bid = product.bid || 1;
+              return (
+                <div
+                  key={idx}
+                  className="flex-shrink-0 w-48 lg:w-56 bg-black/40 backdrop-blur-md rounded-sm border border-white/20 p-3 snap-center group cursor-pointer hover:bg-black/60 transition-all shadow-sm"
+                  onClick={() =>
+                    (window.location.href = `/product-detail/${productId}?productid=${productId}&bid=${bid}`)
+                  }
+                >
+                  <div className="relative w-full aspect-square rounded-sm overflow-hidden mb-3 border border-white/10">
+                    <img
+                      src={getImageUrl(product.image || product.productimage)}
+                      alt={product.name || product.productname}
+                      // fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500 w-full h-full"
+                    />
+                  </div>
+                  <h3 className="text-white text-xs lg:text-sm font-bold truncate text-left">
+                    {product.name || product.productname}
+                  </h3>
+                  <p className="text-[var(--orange)] font-bold text-xs lg:text-sm text-left mt-1">
+                    ₹{product.sellingprice|| product.price }
+                  </p>
+                </div>
+              );
+            })}
           </div>
-        </Link>
+        )}
 
         {/* Trust Badges */}
         <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 border-t border-white/10 pt-10 w-full max-w-4xl mx-auto">
@@ -1115,42 +1137,37 @@ function WhyChooseUsSection({ t }: { t: any }) {
   const { ref, isVisible } = useInView();
 
   return (
-    <section
-      ref={ref}
-      className="py-20 bg-gradient-to-b from-white to-[#fdfbf6] relative overflow-hidden"
-    >
+    <section ref={ref} className="py-20 bg-stone-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
-          {/* Left Side: Elegant Arch Image */}
+          {/* Left Side: Elegant Sharp Image */}
           <div
             className={`w-full lg:w-5/12 relative transition-all duration-700 opacity-100 translate-x-0`}
           >
-            <div className="relative aspect-[3/4] rounded-t-full rounded-b-[2.5rem] overflow-hidden shadow-[0_20px_60px_-15px_rgba(85,107,47,0.2)] border-[10px] border-white mx-auto max-w-sm group">
+            <div className="relative aspect-[4/5] rounded-sm overflow-hidden shadow-sm border border-stone-200 mx-auto max-w-sm group bg-white">
               <Image
                 src="https://images.unsplash.com/photo-1626023873533-f5cc77cc2458?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Quality organic products"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--olive-dark)]/60 via-transparent to-transparent opacity-90" />
+              <div className="absolute inset-0 bg-stone-900/10 opacity-100" />
 
               {/* Floating Stat Card inside Image */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] bg-white/95 backdrop-blur-md p-4 rounded-[1.5rem] shadow-2xl flex items-center gap-4 border border-white/50 group-hover:-translate-y-1 transition-transform duration-500">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#556b2f] to-[#3a4a20] flex items-center justify-center text-white flex-shrink-0 shadow-inner">
-                  <BadgeCheck className="w-6 h-6 drop-shadow-sm" />
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] bg-white p-4 rounded-sm shadow-sm flex items-center gap-4 border border-stone-200 group-hover:-translate-y-1 transition-transform duration-500">
+                <div className="w-12 h-12 rounded-sm bg-[var(--olive-dark)] flex items-center justify-center text-white flex-shrink-0 shadow-sm">
+                  <BadgeCheck className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="text-[15px] font-black text-[#2b3513] leading-none mb-1">
+                  <h4 className="text-[15px] font-bold text-stone-900 leading-none mb-1">
                     100% Pure
                   </h4>
-                  <p className="text-[10px] text-[#556b2f] font-bold uppercase tracking-widest">
+                  <p className="text-[10px] text-stone-500 font-bold uppercase tracking-widest">
                     Organic Certified
                   </p>
                 </div>
               </div>
             </div>
-            {/* Soft background glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-[#e4dec2]/40 to-[#f6f2dd]/50 rounded-full blur-3xl -z-10" />
           </div>
 
           {/* Right Side: Content & Features */}
@@ -1158,14 +1175,14 @@ function WhyChooseUsSection({ t }: { t: any }) {
             className={`w-full lg:w-7/12 space-y-12 transition-all duration-700 delay-200 opacity-100 translate-x-0`}
           >
             <div className="space-y-5 text-center lg:text-left">
-              <h2 className="text-3xl md:text-4xl lg:text-[42px] font-black text-[#2b3513] leading-[1.15] tracking-tight">
+              <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-stone-900 leading-[1.15] tracking-tight">
                 {t.why_choose.split(" ").slice(0, 1).join(" ")}
-                <span className="text-[var(--olive)]">
+                <span className="text-[var(--olive-dark)]">
                   {" "}
                   {t.why_choose.split(" ").slice(1).join(" ")}
                 </span>
               </h2>
-              <p className="text-[#6b6455] text-sm md:text-[15px] font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+              <p className="text-stone-600 text-sm md:text-[15px] font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
                 {t.why_desc}
               </p>
             </div>
@@ -1173,14 +1190,14 @@ function WhyChooseUsSection({ t }: { t: any }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10">
               {whyChooseUs.map((item, idx) => (
                 <div key={idx} className="flex gap-5 group items-start">
-                  <div className="flex-shrink-0 w-[60px] h-[60px] rounded-[1.5rem] bg-[#f4ecd9] border border-[#e8dfc8] text-[#556b2f] flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-[#556b2f] group-hover:to-[#3a4a20] group-hover:text-white group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-[0_10px_20px_rgba(85,107,47,0.2)] transition-all duration-500">
-                    <item.icon className="w-7 h-7 drop-shadow-sm" />
+                  <div className="flex-shrink-0 w-[60px] h-[60px] rounded-sm bg-white border border-stone-200 text-stone-900 flex items-center justify-center group-hover:bg-stone-900 group-hover:text-white group-hover:border-stone-900 transition-all duration-300 shadow-sm">
+                    <item.icon className="w-6 h-6" />
                   </div>
                   <div className="space-y-1.5 pt-1">
-                    <h4 className="text-[16px] font-black text-[#2b3513] group-hover:text-[var(--olive)] transition-colors">
+                    <h4 className="text-[16px] font-bold text-stone-900 group-hover:text-[var(--olive-dark)] transition-colors">
                       {t.features[idx * 2]}
                     </h4>
-                    <p className="text-[13px] text-[#6b6455] font-medium leading-snug">
+                    <p className="text-[13px] text-stone-500 font-medium leading-snug">
                       {t.features[idx * 2 + 1]}
                     </p>
                   </div>

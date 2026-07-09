@@ -127,7 +127,9 @@ export default function Navbar() {
 
   // Cart & Quantity States for Search Results
   const [quantities, setQuantities] = useState<Record<string, number>>({});
-  const [addingToCartId, setAddingToCartId] = useState<string | number | null>(null);
+  const [addingToCartId, setAddingToCartId] = useState<string | number | null>(
+    null,
+  );
 
   const handleQuantityChange = (productId: string | number, delta: number) => {
     setQuantities((prev) => {
@@ -277,6 +279,9 @@ export default function Navbar() {
     const fetchCats = async () => {
       try {
         const response = await API.post(API_ROUTES.CATEGORIES, { type: "all" });
+
+        console.log(`--------------------------${response.data}`);
+
         if (response.status === 200) {
           setApiCategories(response.data["data"] || []);
         }
@@ -331,11 +336,11 @@ export default function Navbar() {
   const displayCategories =
     apiCategories.length > 0
       ? apiCategories.map((cat, idx) => ({
-        name: cat.categoryname,
-        href: `/shop?category=${encodeURIComponent(cat.categoryname)}`,
-        desc: cat.description || "Explore premium organic products",
-        icon: iconList[idx % iconList.length],
-      }))
+          name: cat.categoryname,
+          href: `/shop?category=${encodeURIComponent(cat.categoryname)}`,
+          desc: cat.description || "Explore premium organic products",
+          icon: iconList[idx % iconList.length],
+        }))
       : staticCategories;
 
   const navItems = [
@@ -356,12 +361,11 @@ export default function Navbar() {
     <>
       <div className="fixed top-0 left-0 w-full z-50 transition-all duration-500">
         {/* Top Announcement Bar */}
-        <div className="w-full bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[11.5px] md:text-[13px] font-semibold py-0.5 text-center tracking-widest shadow-sm">
+        <div className="w-full bg-[var(--olive-dark)] text-white text-[10px] md:text-[11px] font-bold py-0.5 text-center tracking-widest uppercase">
           {/* Powered By-TRADIZIONS. Freshness Delivered Daily! | Free Shipping on Orders ₹999+ | 100% Natural, No Preservatives! */}
         </div>
 
-        <nav className="w-full h-[80px] bg-white/85 backdrop-blur-xl border-b border-gray-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)] px-6 lg:px-12 flex items-center justify-between pointer-events-auto relative">
-
+        <nav className="w-full h-[80px] bg-white border-b border-stone-200 shadow-sm px-6 lg:px-12 flex items-center justify-between pointer-events-auto relative">
           <div className="flex items-center gap-4 lg:gap-6 xl:gap-14">
             {/* Logo Section */}
             <div className="flex-shrink-0 z-10">
@@ -386,39 +390,39 @@ export default function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-semibold uppercase transition-colors duration-300 whitespace-nowrap ${isActive ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
+                    className={`group relative py-2 text-[11px] tracking-[0.1em] font-bold uppercase transition-colors duration-300 whitespace-nowrap ${isActive ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
                   >
                     {item.name}
-                    <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                    <span
+                      className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                    />
                   </Link>
                 );
               })}
 
               {/* Categories Megamenu Dropdown */}
               <div className="relative group/mega">
-                <button className="flex items-center gap-1.5 py-2 text-[12.5px] tracking-[0.1em] font-semibold uppercase text-gray-600 hover:text-[var(--olive)] transition-colors duration-300 whitespace-nowrap">
+                <button className="flex items-center gap-1.5 py-2 text-[11px] tracking-[0.1em] font-bold uppercase text-gray-600 hover:text-[var(--olive)] transition-colors duration-300 whitespace-nowrap">
                   {t.categories}
                   <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover/mega:rotate-180" />
-                </button>                {/* Enhanced Premium Categories Dropdown */}
-                <div className="absolute top-full -left-4 pt-6 opacity-0 translate-y-4 pointer-events-none group-hover/mega:opacity-100 group-hover/mega:translate-y-0 group-hover/mega:pointer-events-auto transition-all duration-500 ease-out z-50">
-                  <div className="w-[280px] bg-white/95 backdrop-blur-xl rounded-none shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-stone-200/60 border-t-[3px] border-t-[var(--olive)]">
-                    <div className="px-6 py-4 border-b border-stone-100/80 bg-stone-50/30">
-                      <span className="text-[9px] font-black tracking-[0.25em] uppercase text-[var(--orange)]">{t.categories}</span>
+                </button>{" "}
+                {/* Clean Corporate Categories Dropdown */}
+                <div className="absolute top-full -left-4 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover/mega:opacity-100 group-hover/mega:translate-y-0 group-hover/mega:pointer-events-auto transition-all duration-200 z-50">
+                  <div className="w-[280px] bg-white border border-stone-200 shadow-sm border-t-2 border-t-[var(--olive-dark)]">
+                    <div className="px-6 py-3 border-b border-stone-100 bg-stone-50">
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-stone-500">
+                        {t.categories}
+                      </span>
                     </div>
                     <div className="py-2 flex flex-col">
                       {displayCategories.map((cat) => (
                         <Link
                           key={cat.href}
                           href={cat.href}
-                          className="relative flex items-center justify-between px-6 py-2 text-[12.5px] font-bold text-stone-600 transition-all duration-300 group/item hover:bg-gradient-to-r hover:from-[var(--olive)]/5 hover:to-transparent"
+                          className="flex items-center justify-between px-6 py-2.5 text-[11px] font-bold text-stone-600 uppercase tracking-wider transition-colors hover:bg-stone-50 hover:text-[var(--olive-dark)] group/item"
                         >
-                          {/* Animated Left Border */}
-                          <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--olive)] scale-y-0 origin-bottom transition-transform duration-300 group-hover/item:scale-y-100" />
-
-                          <span className="relative text-stone-600 group-hover/item:text-[var(--olive)] group-hover/item:translate-x-1 transition-all duration-300">
-                            {cat.name}
-                          </span>
-                          <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-4 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 ease-out text-[var(--olive)]" />
+                          <span>{cat.name}</span>
+                          <ArrowRight className="w-3 h-3 text-stone-400 group-hover/item:text-[var(--olive-dark)] transition-colors" />
                         </Link>
                       ))}
                     </div>
@@ -428,17 +432,21 @@ export default function Navbar() {
 
               <Link
                 href="/gifts"
-                className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-semibold uppercase transition-colors duration-300 whitespace-nowrap ${pathname === "/gifts" ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
+                className={`group relative py-2 text-[11px] tracking-[0.1em] font-bold uppercase transition-colors duration-300 whitespace-nowrap ${pathname === "/gifts" ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
               >
                 {t.gifting || "Gifts"}
-                <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/gifts" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                <span
+                  className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/gifts" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                />
               </Link>
               <Link
                 href="/corporate-orders"
-                className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-semibold uppercase transition-colors duration-300 whitespace-nowrap ${pathname === "/corporate-orders" ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
+                className={`group relative py-2 text-[11px] tracking-[0.1em] font-bold uppercase transition-colors duration-300 whitespace-nowrap ${pathname === "/corporate-orders" ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
               >
                 {t.corporate || "Corporate Orders"}
-                <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/corporate-orders" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                <span
+                  className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/corporate-orders" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                />
               </Link>
 
               {secondaryNavItems.map((item) => {
@@ -447,10 +455,12 @@ export default function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group relative py-2 text-[12.5px] tracking-[0.1em] font-semibold uppercase transition-colors duration-300 whitespace-nowrap ${isActive ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
+                    className={`group relative py-2 text-[11px] tracking-[0.1em] font-bold uppercase transition-colors duration-300 whitespace-nowrap ${isActive ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
                   >
                     {item.name}
-                    <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                    <span
+                      className={`absolute bottom-0 left-0 w-full h-[2px] bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                    />
                   </Link>
                 );
               })}
@@ -461,24 +471,17 @@ export default function Navbar() {
           <div className="flex items-center gap-3 lg:gap-5 flex-1 justify-end z-10">
             {/* Professional Language Selection */}
             <div className="hidden md:block relative group/langdrop">
-              <button
-                className="group flex items-center h-10 gap-2 px-4 rounded-full bg-stone-50/80 backdrop-blur-md border border-gray-200 hover:border-[var(--olive)] hover:shadow-sm hover:bg-white transition-all duration-300 cursor-pointer"
-              >
-                <Globe
-                  className="w-[15px] h-[15px] text-gray-500 group-hover:text-[var(--olive)] transition-colors duration-300"
-                />
-                <span className="text-[11px] font-black tracking-[0.2em] uppercase text-gray-600 group-hover:text-[var(--olive)] transition-colors duration-300">
+              <button className="group flex items-center h-10 gap-2 px-4 rounded-sm bg-stone-50 border border-stone-200 hover:border-stone-400 transition-colors cursor-pointer">
+                <Globe className="w-3.5 h-3.5 text-stone-500 group-hover:text-stone-900 transition-colors" />
+                <span className="text-[10px] font-bold tracking-widest uppercase text-stone-600 group-hover:text-stone-900 transition-colors">
                   {selectedLang}
                 </span>
-                <ChevronDown
-                  className="w-3.5 h-3.5 text-gray-400 group-hover:rotate-180 group-hover:text-[var(--olive)] transition-all duration-300"
-                />
+                <ChevronDown className="w-3.5 h-3.5 text-stone-400 group-hover:text-stone-900 transition-colors" />
               </button>
 
               {/* Stylish Dropdown Card */}
-              <div className="absolute top-full right-0 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover/langdrop:opacity-100 group-hover/langdrop:translate-y-0 group-hover/langdrop:pointer-events-auto transition-all duration-300 z-50">
-                <div className="w-40 bg-white/95 backdrop-blur-2xl border border-white/40 rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--olive)]/5 to-[var(--orange)]/5 pointer-events-none" />
+              <div className="absolute top-full right-0 pt-2 opacity-0 translate-y-1 pointer-events-none group-hover/langdrop:opacity-100 group-hover/langdrop:translate-y-0 group-hover/langdrop:pointer-events-auto transition-all duration-200 z-50">
+                <div className="w-40 bg-white border border-stone-200 shadow-sm relative">
                   <div className="p-2 relative z-10 flex flex-col gap-1">
                     {languages.map((lang) => {
                       const isActive = selectedLang === lang.code;
@@ -486,14 +489,12 @@ export default function Navbar() {
                         <button
                           key={lang.code}
                           onClick={() => handleLangChange(lang.code)}
-                          className={`relative w-full flex items-center justify-between px-4 py-2.5 rounded-[1rem] text-[10px] font-black tracking-widest uppercase transition-all duration-300 overflow-hidden group/item ${isActive
-                            ? "text-white shadow-md"
-                            : "text-stone-500 hover:text-[var(--olive)] hover:bg-white/80"
-                            }`}
+                          className={`relative w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-colors rounded-sm ${
+                            isActive
+                              ? "bg-[var(--olive-dark)] text-white"
+                              : "text-stone-500 hover:bg-stone-100 hover:text-stone-900"
+                          }`}
                         >
-                          {isActive && (
-                            <div className="absolute inset-0 bg-gradient-to-r from-[var(--olive)] to-[#6b853b] -z-10" />
-                          )}
                           <span className="relative z-10">{lang.name}</span>
                           {isActive && (
                             <Check className="w-3.5 h-3.5 text-white relative z-10" />
@@ -512,7 +513,7 @@ export default function Navbar() {
                 onClick={() => {
                   if (!isSearchOpen) setIsSearchOpen(true);
                 }}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-stone-50/80 border border-gray-200 text-gray-600 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+                className="flex items-center justify-center w-10 h-10 rounded-sm bg-stone-50 border border-stone-200 text-stone-600 hover:border-stone-900 hover:text-stone-900 transition-colors"
                 aria-label="Search"
               >
                 <Search className="w-4 h-4" />
@@ -520,10 +521,10 @@ export default function Navbar() {
             </div>
 
             <Link href="/cart" className="relative">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-stone-50/80 border border-gray-200 text-gray-600 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
+              <div className="flex items-center justify-center w-10 h-10 rounded-sm bg-stone-50 border border-stone-200 text-stone-600 hover:border-stone-900 hover:text-stone-900 transition-colors cursor-pointer">
                 <ShoppingCart className="w-4 h-4" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[var(--orange)] text-[9px] font-black text-white ring-2 ring-white shadow-sm">
+                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-sm bg-[var(--olive-dark)] text-[9px] font-bold text-white shadow-sm border border-white">
                     {cartCount}
                   </span>
                 )}
@@ -540,7 +541,7 @@ export default function Navbar() {
                     setIsDrawerOpen(true);
                   }
                 }}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-stone-50/80 border border-gray-200 text-gray-600 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+                className="flex items-center justify-center w-10 h-10 rounded-sm bg-stone-50 border border-stone-200 text-stone-600 hover:border-stone-900 hover:text-stone-900 transition-colors"
               >
                 <User className="w-4 h-4" />
               </button>
@@ -548,7 +549,7 @@ export default function Navbar() {
 
             <button
               onClick={() => setOpen(!open)}
-              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-stone-50/80 border border-gray-200 text-gray-600 hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all duration-300"
+              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-sm bg-stone-50 border border-stone-200 text-stone-600 hover:border-stone-900 hover:text-stone-900 transition-colors"
             >
               {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -557,9 +558,9 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out pointer-events-auto mx-4 md:mx-8 ${open ? "max-h-screen shadow-xl mt-2 rounded-[2rem] border border-stone-200/80" : "max-h-0"}`}
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out pointer-events-auto mx-4 md:mx-8 ${open ? "max-h-screen shadow-sm mt-2 rounded-sm border border-stone-200" : "max-h-0"}`}
         >
-          <div className="bg-[#faf8f3]/98 backdrop-blur-md px-6 py-8 overflow-y-auto max-h-[85vh] space-y-5">
+          <div className="bg-white px-6 py-8 overflow-y-auto max-h-[85vh] space-y-5">
             <div className="grid grid-cols-1 gap-4">
               <Link
                 href="/"
@@ -646,10 +647,11 @@ export default function Navbar() {
                     <button
                       key={lang.code}
                       onClick={() => handleLangChange(lang.code)}
-                      className={`flex-1 py-3 rounded-xl border text-[11px] font-bold tracking-widest transition-all ${selectedLang === lang.code
-                        ? "bg-[var(--olive)] text-white border-[var(--olive)] shadow-lg shadow-[var(--olive)]/20"
-                        : "bg-white text-gray-500 border-[#e0d4b7] hover:bg-gray-50"
-                        }`}
+                      className={`flex-1 py-3 rounded-xl border text-[11px] font-bold tracking-widest transition-all ${
+                        selectedLang === lang.code
+                          ? "bg-[var(--olive)] text-white border-[var(--olive)] shadow-lg shadow-[var(--olive)]/20"
+                          : "bg-white text-gray-500 border-[#e0d4b7] hover:bg-gray-50"
+                      }`}
                     >
                       {lang.name}
                     </button>
@@ -686,8 +688,9 @@ export default function Navbar() {
 
       {/* --- Right Side Drawer --- */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white z-[70] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform ${isDrawerOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white z-[70] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform ${
+          isDrawerOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <div className="flex flex-col h-full relative overflow-hidden">
           {/* Close button */}
@@ -952,22 +955,31 @@ export default function Navbar() {
                 {isSearching ? (
                   <div className="flex flex-col items-center justify-center py-32 text-[var(--olive)] w-full">
                     <Loader2 className="w-8 h-8 animate-spin mb-4" />
-                    <p className="text-sm font-medium text-gray-500">{t.navbar?.searching || "Searching..."}</p>
+                    <p className="text-sm font-medium text-gray-500">
+                      {t.navbar?.searching || "Searching..."}
+                    </p>
                   </div>
                 ) : suggestions.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-32 text-gray-400 w-full">
                     <Search className="w-12 h-12 mb-4 opacity-20" />
-                    <p className="text-sm font-medium">{t.navbar?.no_products || "No products found"}</p>
+                    <p className="text-sm font-medium">
+                      {t.navbar?.no_products || "No products found"}
+                    </p>
                   </div>
                 ) : (
                   <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-8">
                     {/* Products Grid */}
                     <div className="w-full">
                       <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
-                        <h3 className="font-bold text-gray-900 text-[16px]">Products</h3>
+                        <h3 className="font-bold text-gray-900 text-[16px]">
+                          Products
+                        </h3>
                         <Link
                           href={`/shop?search=${encodeURIComponent(searchQuery)}`}
-                          onClick={() => { setIsSearchOpen(false); setSuggestions([]); }}
+                          onClick={() => {
+                            setIsSearchOpen(false);
+                            setSuggestions([]);
+                          }}
                           className="text-[13px] text-[var(--olive)] font-bold hover:text-blue-800 underline"
                         >
                           View all products
@@ -984,8 +996,18 @@ export default function Navbar() {
                             category: product.category,
                             categoryid: product.categoryid,
                             itemtype: product.itemtype,
-                            desc: product.description || product.desc || product.brandname,
-                            availablestock: product.availablestock !== undefined && product.availablestock !== null ? product.availablestock : (product.stock !== undefined && product.stock !== null ? product.stock : 1),
+                            desc:
+                              product.description ||
+                              product.desc ||
+                              product.brandname,
+                            availablestock:
+                              product.availablestock !== undefined &&
+                              product.availablestock !== null
+                                ? product.availablestock
+                                : product.stock !== undefined &&
+                                    product.stock !== null
+                                  ? product.stock
+                                  : 1,
                             stock: product.stock,
                             bid: product.bid || 1,
                           };

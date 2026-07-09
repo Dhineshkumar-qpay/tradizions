@@ -41,10 +41,7 @@ export default function NutritionGuidesPage() {
   const standardGuides = cookingGuides.length > 1 ? cookingGuides.slice(1) : [];
 
   return (
-    <div className="min-h-screen bg-[var(--site-bg)] text-[var(--dark-grey)] pb-32 selection:bg-[var(--olive)] selection:text-white relative overflow-hidden transition-colors duration-1000">
-      {/* ================= DYNAMIC AMBIENT BACKGROUND GLOWS ================= */}
-      <div className="absolute top-[10%] left-[-15%] w-[60vw] h-[60vw] rounded-full blur-[140px] opacity-10 pointer-events-none bg-[var(--olive)]" />
-      <div className="absolute bottom-[20%] right-[-15%] w-[55vw] h-[55vw] rounded-full blur-[160px] opacity-10 pointer-events-none bg-[var(--gold)]" />
+    <div className="min-h-screen bg-stone-50 text-stone-900 pb-32 relative overflow-hidden transition-colors duration-1000">
 
       {/* ================= PAGE HEADER ================= */}
       <header className="relative pt-35 pb-14 px-8 lg:px-8 max-w-7xl mx-auto z-10">
@@ -80,46 +77,45 @@ export default function NutritionGuidesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 onClick={() => setSelectedGuide(featuredGuide)}
-                className="group relative bg-white border border-[var(--dark-brown)]/10 rounded-[2rem] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_60px_rgba(75,56,50,0.08)] transition-all duration-700 cursor-pointer flex flex-col md:flex-row min-h-[400px]"
+                className="group relative bg-white border border-stone-200 rounded-sm overflow-hidden shadow-sm hover:shadow-md hover:border-stone-400 transition-all duration-300 cursor-pointer flex flex-col md:flex-row min-h-[300px]"
               >
-                <div className="relative w-full md:w-[55%] overflow-hidden bg-stone-100 min-h-[250px] md:min-h-full">
+                <div className="relative w-full md:w-[50%] overflow-hidden bg-stone-100 min-h-[220px] md:min-h-[300px]">
                   {featuredGuide.guideimage && (
                     <img
                       src={IMAGE_URL + featuredGuide.guideimage}
                       alt={featuredGuide.title || "Featured Guide"}
-                      className="w-full h-full object-cover group-hover:scale-105 group-hover:rotate-1 transition-transform duration-1000 ease-out"
+                      className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute top-6 left-6">
-                    <span className="bg-white/90 backdrop-blur-md text-[var(--dark-brown)] text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+                    <span className="bg-white border border-stone-200 text-stone-900 text-[10px] font-bold px-4 py-1.5 rounded-sm uppercase tracking-widest shadow-sm">
                       Featured Recipe
                     </span>
                   </div>
                 </div>
 
-                <div className="w-full md:w-[45%] p-6 md:p-10 flex flex-col justify-center relative bg-white">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[var(--cream)]/40 to-transparent rounded-bl-full pointer-events-none"></div>
+                <div className="w-full md:w-[50%] p-6 md:p-8 flex flex-col justify-center relative bg-white">
 
-                  <div className="flex items-center gap-3 mb-6">
-                    <span className="bg-[var(--gold)]/10 text-[var(--gold)] text-[11px] font-black px-3 py-1 rounded-md uppercase tracking-wider border border-[var(--gold)]/20">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="bg-[var(--gold)]/10 text-[var(--gold)] text-[10px] font-black px-2.5 py-1 rounded-sm uppercase tracking-wider border border-[var(--gold)]/20">
                       {featuredGuide.difficulty || "Medium"}
                     </span>
-                    <span className="flex items-center gap-1.5 text-stone-500 text-[11px] font-extrabold uppercase tracking-wider">
+                    <span className="flex items-center gap-1.5 text-stone-500 text-[10px] font-extrabold uppercase tracking-wider">
                       <Clock className="w-3.5 h-3.5" />
                       {(featuredGuide.prep_time || 0) + (featuredGuide.cook_time || 0)} mins
                     </span>
                   </div>
 
-                  <h2 className="text-2xl md:text-4xl font-black text-[var(--dark-brown)] leading-tight mb-6 group-hover:text-[var(--olive)] transition-colors duration-500">
+                  <h2 className="text-xl md:text-2xl font-black text-[var(--dark-brown)] leading-tight mb-4 group-hover:text-[var(--olive)] transition-colors duration-500">
                     {featuredGuide.title}
                   </h2>
 
-                  <p className="text-stone-500 text-base md:text-lg font-light leading-relaxed mb-10 line-clamp-4">
+                  <p className="text-stone-500 text-sm md:text-base font-light leading-relaxed mb-6 line-clamp-3">
                     {featuredGuide.description}
                   </p>
 
-                  <div className="mt-auto pt-8 border-t border-[var(--dark-brown)]/10 flex items-center justify-between group/btn">
+                  <div className="mt-auto pt-6 border-t border-[var(--dark-brown)]/10 flex items-center justify-between group/btn">
                     <div className="flex flex-col">
                       <span className="text-[10px] font-black uppercase tracking-widest text-[var(--dark-grey)]">
                         Key Ingredients
@@ -146,10 +142,10 @@ export default function NutritionGuidesPage() {
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   key={idx}
                   onClick={() => setSelectedGuide(guide)}
-                  className="bg-white border border-[var(--dark-brown)]/5 rounded-[2.5rem] overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(75,56,50,0.06)] hover:-translate-y-2 transition-all duration-500 group flex flex-col cursor-pointer"
+                  className="bg-white border border-stone-200 rounded-sm overflow-hidden shadow-sm hover:border-stone-400 hover:-translate-y-1 transition-all duration-300 group flex flex-col cursor-pointer"
                 >
-                  <div className="relative h-48 md:h-56 overflow-hidden bg-stone-100 p-2">
-                    <div className="relative w-full h-full rounded-[2rem] overflow-hidden">
+                  <div className="relative h-48 md:h-56 overflow-hidden bg-stone-100 border-b border-stone-100">
+                    <div className="relative w-full h-full overflow-hidden">
                       {guide.guideimage && (
                         <img
                           src={IMAGE_URL + guide.guideimage}
@@ -160,7 +156,7 @@ export default function NutritionGuidesPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                       <div className="absolute top-4 right-4">
-                        <span className="bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">
+                        <span className="bg-stone-900/90 border border-stone-700 text-white text-[10px] font-bold px-3 py-1 rounded-sm uppercase tracking-widest">
                           {guide.difficulty || "Medium"}
                         </span>
                       </div>
@@ -239,12 +235,12 @@ export default function NutritionGuidesPage() {
           ].map((badge, idx) => (
             <div
               key={idx}
-              className="bg-white/60 backdrop-blur-sm border border-white py-6 px-5 rounded-[2rem] shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(75,56,50,0.06)] hover:bg-white hover:-translate-y-2 transition-all duration-500 text-center flex flex-col items-center group relative overflow-hidden"
+              className="bg-white border border-stone-200 py-6 px-5 rounded-sm shadow-sm hover:border-stone-400 hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center group relative overflow-hidden"
             >
-              <span className="text-4xl filter drop-shadow-sm transform group-hover:scale-110 group-hover:rotate-[-5deg] transition-transform duration-500 relative z-10 mb-4">
+              <span className="text-4xl filter drop-shadow-sm transform group-hover:scale-110 group-hover:rotate-[-5deg] transition-transform duration-300 relative z-10 mb-4">
                 {badge.emoji}
               </span>
-              <span className="text-xs font-black tracking-widest uppercase text-[var(--dark-brown)] group-hover:text-[var(--olive)] transition-colors duration-300">
+              <span className="text-[10px] font-bold tracking-widest uppercase text-stone-900 transition-colors duration-300">
                 {badge.label}
               </span>
               <span className="text-[11px] text-stone-500 font-medium mt-1">
@@ -274,13 +270,13 @@ export default function NutritionGuidesPage() {
               animate={{ x: 0, opacity: 1, scale: 1 }}
               exit={{ x: "120%", opacity: 0, scale: 0.95 }}
               transition={{ type: "spring", damping: 25, stiffness: 250, mass: 0.8 }}
-              className="fixed top-4 bottom-4 right-4 w-[calc(100%-2rem)] max-w-lg bg-white shadow-[0_30px_100px_rgba(0,0,0,0.25)] rounded-[1rem] z-50 overflow-y-auto flex flex-col border border-white/60"
+              className="fixed top-0 bottom-0 right-0 w-full max-w-lg bg-white shadow-xl z-50 overflow-y-auto flex flex-col border-l border-stone-200"
             >
               {/* Close Button - Absolute */}
-              <div className="absolute top-5 right-5 z-50">
+              <div className="absolute top-4 right-4 z-50">
                 <button
                   onClick={() => setSelectedGuide(null)}
-                  className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md text-white shadow-lg border border-white/20 flex items-center justify-center hover:bg-black/50 hover:scale-110 transition-all duration-300"
+                  className="w-10 h-10 rounded-sm bg-white text-stone-900 shadow-sm border border-stone-200 flex items-center justify-center hover:bg-stone-50 transition-all duration-300"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -299,7 +295,7 @@ export default function NutritionGuidesPage() {
               </div>
 
               {/* Main Content */}
-              <div className="relative -mt-10 px-8 pb-12 z-10 flex-1 bg-white rounded-t-[2.5rem] pt-8">
+              <div className="relative px-8 pb-12 z-10 flex-1 bg-white pt-8 border-t border-stone-100">
 
                 {/* Meta Tags */}
                 <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
@@ -356,18 +352,18 @@ export default function NutritionGuidesPage() {
 
                 {/* Time Cards */}
                 <div className="flex justify-center gap-4 mb-12">
-                  <div className="bg-[var(--site-bg)] rounded-2xl p-4 w-32 border border-[var(--dark-brown)]/5 flex flex-col items-center text-center shadow-sm">
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-stone-400 mb-1">Prep Time</span>
-                    <span className="text-xl font-black text-[var(--dark-brown)]">{selectedGuide.prep_time || 0}<span className="text-xs text-stone-400 ml-1">m</span></span>
+                  <div className="bg-stone-50 rounded-sm p-4 w-32 border border-stone-200 flex flex-col items-center text-center shadow-sm">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-stone-500 mb-1">Prep Time</span>
+                    <span className="text-xl font-bold text-stone-900">{selectedGuide.prep_time || 0}<span className="text-xs text-stone-400 ml-1">m</span></span>
                   </div>
-                  <div className="bg-[var(--site-bg)] rounded-2xl p-4 w-32 border border-[var(--dark-brown)]/5 flex flex-col items-center text-center shadow-sm">
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-stone-400 mb-1">Cook Time</span>
-                    <span className="text-xl font-black text-[var(--dark-brown)]">{selectedGuide.cook_time || 0}<span className="text-xs text-stone-400 ml-1">m</span></span>
+                  <div className="bg-stone-50 rounded-sm p-4 w-32 border border-stone-200 flex flex-col items-center text-center shadow-sm">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-stone-500 mb-1">Cook Time</span>
+                    <span className="text-xl font-bold text-stone-900">{selectedGuide.cook_time || 0}<span className="text-xs text-stone-400 ml-1">m</span></span>
                   </div>
                 </div>
 
                 {/* Ingredients Container */}
-                <div className="bg-[var(--site-bg)] rounded-[2rem] p-8 mb-8 border border-[var(--dark-brown)]/5 shadow-inner">
+                <div className="bg-stone-50 rounded-sm p-8 mb-8 border border-stone-200 shadow-sm">
                   <h3 className="text-lg font-black text-[var(--dark-brown)] mb-6 flex items-center justify-center gap-2 text-center">
                     <Utensils className="w-5 h-5 text-[var(--olive)]" />
                     Ingredients
@@ -399,7 +395,7 @@ export default function NutritionGuidesPage() {
                     {selectedGuide.instructions?.map((step: string, i: number) => (
                       <div key={i} className="flex gap-5 group">
                         <div className="flex flex-col items-center shrink-0">
-                          <span className="w-8 h-8 rounded-full bg-[var(--dark-brown)] text-white flex items-center justify-center font-black text-[11px] shadow-md group-hover:scale-110 group-hover:bg-[var(--olive)] transition-all">
+                          <span className="w-8 h-8 rounded-sm bg-stone-900 text-white flex items-center justify-center font-bold text-[11px] shadow-sm transition-colors">
                             {i + 1}
                           </span>
                           {i !== (selectedGuide.instructions?.length || 0) - 1 && (

@@ -124,7 +124,7 @@ export default function ProfilePage() {
       console.error("Error updating profile:", err);
       alert(
         err?.response?.data?.message ||
-        "An error occurred while updating profile.",
+          "An error occurred while updating profile.",
       );
     } finally {
       setIsSavingProfile(false);
@@ -275,7 +275,7 @@ export default function ProfilePage() {
       console.error("Error saving address:", err);
       alert(
         err?.response?.data?.message ||
-        "An error occurred while saving address.",
+          "An error occurred while saving address.",
       );
     }
   };
@@ -298,7 +298,7 @@ export default function ProfilePage() {
       console.error("Error deleting address:", err);
       alert(
         err?.response?.data?.message ||
-        "An error occurred while deleting address.",
+          "An error occurred while deleting address.",
       );
     }
   };
@@ -930,19 +930,21 @@ export default function ProfilePage() {
           <div className="flex bg-stone-100 p-1 rounded-xl w-full sm:w-auto">
             <button
               onClick={() => setOrderHistoryTab("normal")}
-              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${orderHistoryTab === "normal"
-                ? "bg-white text-[var(--olive)] shadow-sm"
-                : "text-stone-500 hover:text-stone-700"
-                }`}
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${
+                orderHistoryTab === "normal"
+                  ? "bg-white text-[var(--olive)] shadow-sm"
+                  : "text-stone-500 hover:text-stone-700"
+              }`}
             >
               Normal Orders
             </button>
             <button
               onClick={() => setOrderHistoryTab("monthly")}
-              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${orderHistoryTab === "monthly"
-                ? "bg-white text-[var(--olive)] shadow-sm"
-                : "text-stone-500 hover:text-stone-700"
-                }`}
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${
+                orderHistoryTab === "monthly"
+                  ? "bg-white text-[var(--olive)] shadow-sm"
+                  : "text-stone-500 hover:text-stone-700"
+              }`}
             >
               Monthly Orders
             </button>
@@ -997,7 +999,8 @@ export default function ProfilePage() {
                     {(() => {
                       const hasItems = order.items && order.items.length > 0;
                       const itemName = hasItems
-                        ? order.items![0].productname
+                        ? order.items![0].productname ||
+                          order.items![0].giftpackname
                         : `Order #${order.orderid}`;
 
                       return (
@@ -1013,9 +1016,13 @@ export default function ProfilePage() {
                                     src={
                                       item.productimage?.startsWith("http")
                                         ? item.productimage
-                                        : `${IMAGE_URL || ""}${item.productimage}`
+                                        : `${IMAGE_URL || ""}${item.productimage || item.giftpackimage}`
                                     }
-                                    alt={item.productname || "Product"}
+                                    alt={
+                                      item.productname ||
+                                      item.giftpackname ||
+                                      "Product"
+                                    }
                                     className="w-full h-full object-cover mix-blend-multiply"
                                   />
                                 </div>

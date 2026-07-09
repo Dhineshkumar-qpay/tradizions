@@ -10,6 +10,7 @@ import {
   Users,
   ShieldCheck,
   Star,
+  Eye,
 } from "lucide-react";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
@@ -197,33 +198,26 @@ export default function AboutUsPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
+    <main className="min-h-screen bg-stone-50 overflow-x-hidden">
       {/* ── HERO SECTION ── */}
       <section
         ref={heroRef.ref}
-        className="relative pt-40 lg:pt-48 pb-32 overflow-hidden flex items-center justify-center bg-white"
+        className="relative pt-40 lg:pt-48 pb-32 overflow-hidden flex items-center justify-center bg-white border-b border-stone-200"
       >
-        {/* Abstract Background Elements */}
-        <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-[var(--olive)]/5 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[var(--orange)]/5 rounded-full blur-[120px] translate-y-1/3 translate-x-1/3 pointer-events-none" />
-
-        {/* Floating shapes */}
-        <div className="absolute top-1/4 right-10 w-24 h-24 bg-amber-100 rounded-full blur-xl animate-float opacity-50" />
-        <div className="absolute bottom-1/4 left-10 w-32 h-32 bg-emerald-100 rounded-full blur-xl animate-float delay-700 opacity-50" />
 
         <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
           <div
-            className={`inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--olive)]/10 text-[var(--olive)] border border-[var(--olive)]/20 text-[11px] font-bold tracking-[0.25em] uppercase mb-8 shadow-sm transition-all duration-1000 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            className={`inline-flex items-center gap-2 px-5 py-2 rounded-sm bg-stone-100 text-[var(--olive-dark)] border border-stone-200 text-[11px] font-bold tracking-[0.25em] uppercase mb-8 shadow-sm transition-all duration-1000 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
             <Leaf className="w-4 h-4" />
             {t.about_us.heritage}
           </div>
 
           <h1
-            className={`text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-[1.1] tracking-tight mb-8 transition-all duration-1000 delay-200 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            className={`text-2xl md:text-3xl lg:text-4xl font-extrabold text-stone-900 leading-[1.1] tracking-tight mb-8 transition-all duration-1000 delay-200 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
             {t.about_us.welcome}
-            <span className="gradient-text"> {t.about_us.brand}</span>
+            <span className="text-[var(--olive-dark)]"> {t.about_us.brand}</span>
           </h1>
 
           <p
@@ -257,7 +251,7 @@ export default function AboutUsPage() {
             <div
               className={`w-full lg:w-1/2 relative transition-all duration-1000 ${storyRef.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}
             >
-              <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl z-10">
+              <div className="relative aspect-[4/5] rounded-sm overflow-hidden shadow-sm border border-stone-200 z-10">
                 <Image
                   src="https://ayoubs.ca/cdn/shop/articles/Keeping_Nuts_Fresh_1_0392edc0-a2f5-4141-ad20-eba7fde1a2c7_460x@2x.png?v=1750113836"
                   fill
@@ -277,21 +271,17 @@ export default function AboutUsPage() {
                 </div>
               </div>
 
-              {/* Decorative elements */}
-              <div className="absolute -top-10 -left-10 w-40 h-40 bg-[var(--olive)]/10 rounded-full -z-10 blur-3xl" />
-              <div className="absolute -bottom-10 -right-10 w-60 h-60 organic-shape bg-amber-500/10 -z-10 blur-3xl animate-float" />
-
               {/* Floating Badge */}
-              <div className="absolute -right-8 top-1/4 glass p-6 rounded-3xl border border-white/20 shadow-2xl z-20 max-w-[200px] animate-float">
+              <div className="absolute -right-8 top-1/4 bg-white p-6 rounded-sm border border-stone-200 shadow-sm z-20 max-w-[200px] animate-float">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
+                  <div className="p-2 rounded-sm bg-stone-900 text-white">
                     <CheckCircle2 className="w-5 h-5" />
                   </div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-100">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-stone-900">
                     {t.about_us.org_cert.split(" ")[0]}
                   </p>
                 </div>
-                <p className="text-xs font-medium text-white leading-relaxed">
+                <p className="text-xs font-medium text-stone-600 leading-relaxed">
                   Trusted by over 100+ health-conscious families.
                 </p>
               </div>
@@ -304,13 +294,13 @@ export default function AboutUsPage() {
                 <h2 className="text-sm font-bold text-[var(--olive)] tracking-[0.3em] uppercase">
                   {t.about_us.story_title}
                 </h2>
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
+                <h3 className="text-2xl md:text-3xl font-bold text-stone-900 leading-tight">
                   {t.about_us.story_heading.split(",")[0]}, <br />
-                  <span className="gradient-text">
+                  <span className="text-[var(--olive-dark)]">
                     {t.about_us.story_heading.split(",")[1]}
                   </span>
                 </h3>
-                <div className="w-20 h-1.5 bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] rounded-full" />
+                <div className="w-20 h-1 bg-[var(--olive-dark)] rounded-sm" />
               </div>
 
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed font-light">
@@ -337,58 +327,80 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* ── THE MISSION CARD ── */}
-      <section className="py-24 bg-white relative overflow-hidden">
-        {/* Subtle Decorative Elements */}
-        <div className="absolute top-1/2 left-0 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
-        <div className="absolute top-1/2 right-0 w-64 h-64 bg-[var(--orange)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-
-        <div className="max-w-4xl mx-auto px-6 relative z-10">
-          <div className="group relative bg-white rounded-[3rem] p-12 md:p-16 border border-[#e0d4b7] shadow-[0_50px_100px_-30px_rgba(85,107,47,0.08)] overflow-hidden transition-all duration-700 hover:shadow-[0_60px_120px_-30px_rgba(85,107,47,0.12)]">
-            {/* Glossy Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white via-transparent to-[var(--olive)]/5 opacity-30 pointer-events-none" />
-
-            <div className="relative z-10 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-700">
-                <HeartHandshake className="w-8 h-8" />
-              </div>
-
-              <div className="space-y-8">
-                <div className="flex justify-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-[var(--olive)] animate-pulse" />
-                  <div className="w-12 h-1 rounded-full bg-gradient-to-r from-[var(--olive)] to-transparent" />
+      {/* ── THE MISSION & VISION CARD ── */}
+      <section className="py-24 bg-white relative overflow-hidden border-t border-stone-200">
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            {/* Mission Card */}
+            <div className="group relative bg-white rounded-sm p-12 md:p-16 border border-stone-200 shadow-sm overflow-hidden transition-all duration-300 hover:border-stone-400">
+              <div className="relative z-10 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--olive-dark)] text-white rounded-sm mb-8 transition-transform duration-700">
+                  <HeartHandshake className="w-8 h-8" />
                 </div>
 
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 leading-relaxed italic tracking-wide">
-                  “{t.about_us.mission_quote}”
-                </h2>
+                <div className="space-y-8">
+                  <div className="flex justify-center gap-2">
+                    <div className="w-1 h-1 rounded-full bg-[var(--olive)] animate-pulse" />
+                    <div className="w-12 h-1 rounded-full bg-gradient-to-r from-[var(--olive)] to-transparent" />
+                  </div>
 
-                <div className="flex flex-col items-center gap-4 pt-4">
-                  <div className="w-16 h-[1px] bg-gray-200" />
-                  <p className="text-[10px] font-black tracking-[0.4em] uppercase text-[var(--olive)] opacity-60">
-                    {t.about_us.mission_title}
-                  </p>
+                  <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 leading-relaxed italic tracking-wide">
+                    “{t.about_us.mission_quote || "To bring together tradition, health, and convenience by delivering high-quality essentials that enrich everyday living."}”
+                  </h2>
+
+                  <div className="flex flex-col items-center gap-4 pt-4">
+                    <div className="w-16 h-[1px] bg-gray-200" />
+                    <p className="text-[10px] font-black tracking-[0.4em] uppercase text-[var(--olive)] opacity-60">
+                      {t.about_us.mission_title || "The Tradizions Mission"}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Corner Accent */}
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-[var(--olive)]/5 rounded-full blur-2xl group-hover:bg-[var(--olive)]/10 transition-colors duration-700" />
+            {/* Vision Card */}
+            <div className="group relative bg-[var(--olive-dark)] rounded-sm p-12 md:p-16 border border-stone-900 shadow-sm overflow-hidden transition-all duration-300 hover:border-stone-700">
+              <div className="relative z-10 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-white text-stone-900 rounded-sm mb-8 transition-transform duration-700">
+                  <Eye className="w-8 h-8" />
+                </div>
+
+                <div className="space-y-8">
+                  <div className="flex justify-center gap-2">
+                    <div className="w-1 h-1 rounded-full bg-white animate-pulse" />
+                    <div className="w-12 h-1 rounded-full bg-gradient-to-r from-white to-transparent" />
+                  </div>
+
+                  <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-white leading-relaxed italic tracking-wide">
+                    “{t.about_us.vision_quote || "To become the global standard for pure, traditional wellness, uniting modern lifestyles with timeless, organic nourishment."}”
+                  </h2>
+
+                  <div className="flex flex-col items-center gap-4 pt-4">
+                    <div className="w-16 h-[1px] bg-stone-700" />
+                    <p className="text-[10px] font-black tracking-[0.4em] uppercase text-white opacity-80">
+                      {t.about_us.vision_title || "The Tradizions Vision"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* ── OUR PROMISE ── */}
-      <section ref={valuesRef.ref} className="py-32 bg-[var(--site-bg)]">
+      <section ref={valuesRef.ref} className="py-32 bg-white border-y border-stone-200">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20 space-y-4">
             <p className="text-sm font-bold text-[var(--olive)] tracking-[0.3em] uppercase">
               {t.about_us.promise_title}
             </p>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-stone-900">
               {t.about_us.promise_heading.split(" ")[0]}{" "}
               {t.about_us.promise_heading.split(" ")[1]}{" "}
-              <span className="gradient-text">
+              <span className="text-[var(--olive-dark)]">
                 {t.about_us.promise_heading.split(" ").slice(2).join(" ")}
               </span>
             </h2>
@@ -398,11 +410,11 @@ export default function AboutUsPage() {
             {promises.map((v, i) => (
               <div
                 key={i}
-                className={`premium-card bg-white p-10 rounded-[2.5rem] border border-gray-100 flex flex-col items-center text-center transition-all duration-700 ${valuesRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
+                className={`bg-stone-50 p-10 rounded-sm border border-stone-200 flex flex-col items-center text-center transition-all duration-300 hover:border-stone-400 ${valuesRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
                 style={{ transitionDelay: `${i * 200}ms` }}
               >
                 <div
-                  className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 ${v.color === "emerald" ? "bg-emerald-50 text-emerald-600" : v.color === "amber" ? "bg-amber-50 text-amber-600" : "bg-olive-50 text-[var(--olive)]"}`}
+                  className={`w-16 h-16 rounded-sm flex items-center justify-center mb-8 bg-white border border-stone-200 text-stone-900`}
                 >
                   <v.icon className="w-8 h-8" />
                 </div>
@@ -421,21 +433,16 @@ export default function AboutUsPage() {
       {/* ── WEBSITE RATING & REVIEWS FORM ── */}
       <section
         ref={offerRef.ref}
-        className="py-32 bg-white relative overflow-hidden"
+        className="py-32 bg-stone-50 relative overflow-hidden border-b border-stone-200"
       >
-        {/* Background Texture & Ornaments */}
-        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] pointer-events-none" />
-        <div className="absolute top-20 right-10 w-64 h-64 bg-amber-100/40 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-20 left-10 w-80 h-80 bg-[var(--olive)]/10 rounded-full blur-3xl pointer-events-none" />
-
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <div className="text-center mb-12 space-y-4">
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--olive)] bg-[var(--olive)]/10 px-4 py-1.5 rounded-full inline-block">
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--olive-dark)] bg-stone-200 px-4 py-1.5 rounded-sm inline-block">
               {t.about_us.feedback_badge || "We Value Your Feedback"}
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight mt-4">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-stone-900 tracking-tight mt-4">
               {t.about_us.rate_your || "Rate Your"}{" "}
-              <span className="gradient-text">
+              <span className="text-[var(--olive-dark)]">
                 {t.about_us.experience || "Experience"}
               </span>
             </h2>
@@ -446,10 +453,8 @@ export default function AboutUsPage() {
           </div>
 
           <div
-            className={`bg-white rounded-[1rem] shadow-[0_30px_80px_rgba(0,0,0,0.08)] border border-stone-100 p-8 md:p-14 relative overflow-hidden transition-all duration-700 min-h-[400px] flex flex-col justify-center ${offerRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}
+            className={`bg-white rounded-sm shadow-sm border border-stone-200 p-8 md:p-14 relative overflow-hidden transition-all duration-700 min-h-[400px] flex flex-col justify-center ${offerRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}
           >
-            {/* Form decorative corner */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[var(--olive)]/5 rounded-full blur-2xl" />
 
             {isSubmitted ? (
               <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in relative z-10">
@@ -487,7 +492,7 @@ export default function AboutUsPage() {
                       placeholder={
                         t.about_us.enter_name || "Enter your full name"
                       }
-                      className="w-full px-6 py-4 rounded-2xl bg-stone-50 border border-stone-200 focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none transition-all text-[13px] font-bold text-gray-800 placeholder:text-gray-400 placeholder:font-medium shadow-inner"
+                      className="w-full px-6 py-4 rounded-sm bg-stone-50 border border-stone-200 focus:border-stone-400 focus:ring-1 focus:ring-stone-400 outline-none transition-all text-[13px] font-bold text-stone-900 placeholder:text-stone-400 placeholder:font-medium"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
@@ -502,7 +507,7 @@ export default function AboutUsPage() {
                     <input
                       type="email"
                       placeholder={t.about_us.enter_email || "Enter your email"}
-                      className="w-full px-6 py-4 rounded-2xl bg-stone-50 border border-stone-200 focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none transition-all text-[13px] font-bold text-gray-800 placeholder:text-gray-400 placeholder:font-medium shadow-inner"
+                      className="w-full px-6 py-4 rounded-sm bg-stone-50 border border-stone-200 focus:border-stone-400 focus:ring-1 focus:ring-stone-400 outline-none transition-all text-[13px] font-bold text-stone-900 placeholder:text-stone-400 placeholder:font-medium"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -517,7 +522,7 @@ export default function AboutUsPage() {
                     {t.about_us.overall_rating || "Overall Rating"}
                   </label>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-                    <div className="flex items-center gap-1.5 bg-stone-50 p-2 rounded-2xl border border-stone-100 w-fit">
+                    <div className="flex items-center gap-1.5 bg-stone-50 p-2 rounded-sm border border-stone-200 w-fit">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
                           key={star}
@@ -525,7 +530,7 @@ export default function AboutUsPage() {
                           onMouseEnter={() => setHoverRating(star)}
                           onMouseLeave={() => setHoverRating(0)}
                           onClick={() => setRating(star)}
-                          className="p-2 rounded-xl transition-all hover:bg-white hover:shadow-sm hover:scale-110 active:scale-95 cursor-pointer"
+                          className="p-2 rounded-sm transition-all hover:bg-white hover:border-stone-200 hover:shadow-sm cursor-pointer border border-transparent"
                         >
                           <Star
                             className={`w-8 h-8 transition-all duration-300 ${
@@ -572,7 +577,7 @@ export default function AboutUsPage() {
                       t.about_us.review_placeholder ||
                       "Tell us what you loved or what we can improve..."
                     }
-                    className="w-full px-6 py-4 rounded-2xl bg-stone-50 border border-stone-200 focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none transition-all text-[13px] font-bold text-gray-800 placeholder:text-gray-400 placeholder:font-medium shadow-inner resize-none"
+                    className="w-full px-6 py-4 rounded-sm bg-stone-50 border border-stone-200 focus:border-stone-400 focus:ring-1 focus:ring-stone-400 outline-none transition-all text-[13px] font-bold text-stone-900 placeholder:text-stone-400 placeholder:font-medium resize-none"
                     value={review}
                     onChange={(e) => setReview(e.target.value)}
                     required
@@ -583,15 +588,13 @@ export default function AboutUsPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="group w-full flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-[var(--olive)] text-white font-black text-[11px] tracking-[0.2em] uppercase transition-all duration-500 hover:shadow-[0_20px_40px_rgba(85,107,47,0.3)] hover:-translate-y-1 active:scale-95 overflow-hidden relative cursor-pointer disabled:opacity-50"
+                    className="group w-full flex items-center justify-center gap-3 px-8 py-5 rounded-sm bg-[var(--olive)] text-white font-bold text-[11px] tracking-widest uppercase transition-all duration-300 hover:bg-[var(--olive-dark)] shadow-sm cursor-pointer disabled:opacity-50"
                   >
                     <span className="relative z-10">
                       {isSubmitting
                         ? "Submitting..."
                         : t.about_us.submit_review || "Submit Review"}
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--olive-dark)] to-[var(--olive)] opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <CheckCircle2 className="w-4 h-4 relative z-10 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all" />
                   </button>
                 </div>
               </form>

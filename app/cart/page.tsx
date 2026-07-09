@@ -452,7 +452,7 @@ export default function CartPage() {
                                   <div className="mt-3 flex flex-col gap-2 bg-stone-50 p-3 rounded-xl border border-stone-100">
                                     <div className="flex justify-between items-center border-b border-stone-200 pb-2">
                                       <p className="text-[10px] font-bold text-stone-500 uppercase tracking-widest">Included Items:</p>
-                                      <p className="text-[11px] font-semibold text-stone-700">Box Price: ₹{item.giftpackprice || 0}</p>
+                                      <p className="text-[11px] font-semibold text-stone-700">Gift Pack Price: ₹{item.giftpackprice || 0}</p>
                                     </div>
                                     <div className="flex flex-col gap-2 pt-1">
                                       {item.products.map((p, idx) => (

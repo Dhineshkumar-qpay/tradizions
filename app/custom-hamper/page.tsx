@@ -81,8 +81,8 @@ export default function CustomGiftBuilder() {
 
   const filteredProducts = search
     ? allProducts.filter((product) =>
-        product.productname?.toLowerCase().includes(search.toLowerCase()),
-      )
+      product.productname?.toLowerCase().includes(search.toLowerCase()),
+    )
     : allProducts;
 
   const handleAddItem = (product: any) => {
@@ -211,11 +211,10 @@ export default function CustomGiftBuilder() {
                     <div
                       key={pkg.id}
                       onClick={() => setSelectedPackage(pkg)}
-                      className={`group cursor-pointer bg-white transition-all duration-500 ease-out border ${
-                        active
-                          ? "border-[var(--olive-dark)] shadow-xl"
-                          : "border-gray-200 hover:border-[var(--olive)]/50 hover:shadow-md"
-                      }`}
+                      className={`group cursor-pointer bg-white transition-all duration-500 ease-out border ${active
+                        ? "border-[var(--olive-dark)] shadow-xl"
+                        : "border-gray-200 hover:border-[var(--olive)]/50 hover:shadow-md"
+                        }`}
                     >
                       <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 p-6 flex flex-col justify-end border-b border-gray-100">
                         {active && (
@@ -559,7 +558,7 @@ export default function CustomGiftBuilder() {
                 disabled={
                   selectedItems.length === 0 || !selectedPackage || isSubmitting
                 }
-                className="w-full bg-[var(--olive-dark)] text-white py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all hover:bg-[var(--dark-grey)] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-3 group"
+                className="w-full bg-[var(--olive)] text-white py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all hover:bg-[var(--olive-dark)] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-3 group cursor-pointer"
               >
                 {isSubmitting ? "Processing..." : "Complete Gift"}
                 {!isSubmitting && (
@@ -567,7 +566,7 @@ export default function CustomGiftBuilder() {
                 )}
               </button>
 
-              <p className="text-center text-[9px] uppercase tracking-[0.15em] text-[var(--dark-grey)]/40 mt-5">
+              <p className="text-center text-[9px] uppercase tracking-[0.15em] text-[var(--olive-dark)]/40 mt-5">
                 Complimentary shipping on orders above ₹999
               </p>
             </div>

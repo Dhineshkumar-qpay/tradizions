@@ -93,16 +93,12 @@ export default function Footer() {
 
   return (
     <footer className="bg-[var(--olive-dark)] text-white relative overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--orange)]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 pt-20 pb-12 relative z-10 border-t border-stone-800">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Brand */}
           <div className="lg:col-span-4 space-y-8">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="p-2 bg-white rounded-2xl transition-transform duration-500 group-hover:scale-110 shadow-xl">
+              <div className="p-2 bg-white rounded-sm transition-transform duration-300 group-hover:scale-105 shadow-sm">
                 <Image
                   src="/app-logo.png"
                   alt="Tradizions Logo"
@@ -204,18 +200,18 @@ export default function Footer() {
                   disabled={isLoading}
                   required
                   placeholder={t.contact_us?.email || "Your Email Address"}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 focus:outline-none focus:ring-2 focus:ring-[var(--orange)]/30 disabled:opacity-50"
+                  className="w-full bg-[var(--olive)] border border-stone-700 rounded-sm py-3.5 px-5 focus:outline-none focus:border-stone-500 disabled:opacity-50 text-sm"
                 />
 
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 bg-[var(--orange)] rounded-xl hover:bg-[#e67e00] transition disabled:opacity-50"
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2 bg-[var(--orange)] rounded-sm hover:bg-stone-600 transition disabled:opacity-50"
                 >
                   {isLoading ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    <ArrowRight className="w-5 h-5" />
+                    <ArrowRight className="w-4 h-4 text-white" />
                   )}
                 </button>
               </form>
@@ -224,19 +220,19 @@ export default function Footer() {
             {/* Contact */}
             <div className="space-y-4 text-white/70">
               <div className="flex items-start gap-4">
-                <MapPin className="w-4 h-4 text-[var(--orange)] mt-1" />
+                <MapPin className="w-4 h-4 text-stone-500 mt-1" />
                 <span className="text-sm leading-relaxed">{t.address}</span>
               </div>
 
               <div className="flex items-center gap-4">
-                <Phone className="w-4 h-4 text-[var(--orange)]" />
+                <Phone className="w-4 h-4 text-stone-500" />
                 <a href="tel:+919940620019" className="text-sm">
                   +91 99406 20019
                 </a>
               </div>
 
               <div className="flex items-center gap-4">
-                <Mail className="w-4 h-4 text-[var(--orange)]" />
+                <Mail className="w-4 h-4 text-stone-500" />
                 <a href="mailto:support@tradizions.com" className="text-sm">
                   tradizions@gmail.com
                 </a>

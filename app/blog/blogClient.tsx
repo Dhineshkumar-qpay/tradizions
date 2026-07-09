@@ -108,14 +108,14 @@ export default function BlogPageClinet() {
   };
 
   return (
-    <main className="min-h-screen bg-[var(--site-bg)] relative overflow-hidden">
+    <main className="min-h-screen bg-stone-50 relative overflow-hidden">
       {/* ──── Hero / Header ──── */}
       <section className="relative pt-36 md:pt-44 pb-12 px-6 sm:px-12 lg:px-20 text-center">
         <div className="max-w-4xl mx-auto flex flex-col items-center">
-          <span className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--orange)] mb-3 animate-fade-in-up">
+          <span className="text-xs font-bold tracking-[0.2em] uppercase text-stone-500 mb-3 animate-fade-in-up">
             {t.blog?.journal || "The Journal"}
           </span>
-          <h1 className="text-2xl md:text-3xl lg:text-3xl font-bold text-black leading-[1.1] mb-5 animate-fade-in-up delay-100">
+          <h1 className="text-2xl md:text-3xl lg:text-3xl font-bold text-stone-900 leading-[1.1] mb-5 animate-fade-in-up delay-100">
             {t.blog?.thoughts_on || "Thoughts on"}{" "}
             <span className="font-normal">
               {t.blog?.wellness || "Wellness"}
@@ -136,11 +136,11 @@ export default function BlogPageClinet() {
       <section className="px-6 sm:px-12 lg:px-20 pb-32">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-10">
-            <Sparkles className="w-5 h-5 text-[var(--orange)]" />
-            <h2 className="text-xl md:text-2xl font-bold text-[var(--dark-brown)]">
+            <Sparkles className="w-5 h-5 text-[var(--olive-dark)]" />
+            <h2 className="text-xl md:text-2xl font-bold text-stone-900 uppercase tracking-widest">
               {t.blog?.latest_articles || "Latest Articles"}
             </h2>
-            <div className="flex-1 h-px bg-[var(--olive)]/10" />
+            <div className="flex-1 h-px bg-stone-200" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -148,10 +148,10 @@ export default function BlogPageClinet() {
               <article
                 key={post.blogid || i}
                 onClick={() => setSelectedPost(post)}
-                className={`group cursor-pointer animate-fade-in-up delay-${((i % 3) + 1) * 100} border border-stone-200 hover:border-[var(--olive)]/50 rounded-2xl p-4 transition-colors flex flex-col h-full`}
+                className={`group cursor-pointer animate-fade-in-up delay-${((i % 3) + 1) * 100} border border-stone-200 bg-white hover:shadow-sm hover:border-stone-400 rounded-sm p-4 transition-all duration-300 flex flex-col h-full`}
               >
                 {/* Image */}
-                <div className="relative w-full aspect-[3/2] rounded-2xl overflow-hidden mb-5 bg-stone-100">
+                <div className="relative w-full aspect-[3/2] rounded-sm overflow-hidden mb-5 bg-stone-100">
                   {post.blogimage && (
                     <img
                       src={IMAGE_URL + post.blogimage}
@@ -165,7 +165,7 @@ export default function BlogPageClinet() {
                 {/* Meta */}
                 <div className="flex items-center gap-3 mb-3">
                   <span
-                    className={`px-2.5 py-1 text-[10px] font-bold tracking-[0.15em] uppercase rounded-md border ${categoryColors["BLOG"]}`}
+                    className={`px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase rounded-sm border bg-stone-50 border-stone-200 text-stone-600`}
                   >
                     BLOG
                   </span>
@@ -205,21 +205,21 @@ export default function BlogPageClinet() {
 
       {/* ──── Overlay ──── */}
       <div
-        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-[90] transition-all duration-500 ${selectedPost ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"}`}
+        className={`fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-[90] transition-all duration-500 ${selectedPost ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"}`}
         onClick={() => setSelectedPost(null)}
       />
 
       {/* ──── Sidebar Reader ──── */}
       <div
         ref={sidebarRef}
-        className={`fixed top-0 right-0 h-full w-full max-w-[44rem] bg-white z-[100] shadow-[-20px_0_60px_rgba(0,0,0,0.12)] transform transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto ${
+        className={`fixed top-0 right-0 h-full w-full max-w-[44rem] bg-white z-[100] shadow-xl border-l border-stone-200 transform transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto ${
           selectedPost ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Reading progress bar */}
         <div className="fixed top-0 right-0 w-full max-w-[44rem] h-[3px] z-[110] bg-transparent">
           <div
-            className="h-full bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] transition-all duration-150"
+            className="h-full bg-[var(--olive-dark)] transition-all duration-150"
             style={{ width: `${readProgress}%` }}
           />
         </div>
@@ -240,7 +240,7 @@ export default function BlogPageClinet() {
               {/* Back button */}
               <button
                 onClick={() => setSelectedPost(null)}
-                className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 backdrop-blur-md text-[var(--dark-brown)] text-sm font-bold shadow-lg hover:bg-white transition-colors z-10"
+                className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-sm bg-white text-stone-900 border border-stone-200 text-sm font-bold shadow-sm hover:bg-stone-50 transition-colors z-10"
               >
                 <ChevronLeft className="w-4 h-4" />
                 Back
@@ -249,7 +249,7 @@ export default function BlogPageClinet() {
               {/* Category pill on image */}
               <div className="absolute top-6 right-6 z-10">
                 <span
-                  className={`px-3 py-1.5 text-[10px] font-bold tracking-[0.2em] uppercase rounded-full border backdrop-blur-md ${categoryColors["BLOG"]}`}
+                  className={`px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase rounded-sm border bg-stone-900 text-white border-stone-800`}
                 >
                   BLOG
                 </span>
@@ -259,19 +259,19 @@ export default function BlogPageClinet() {
             {/* ── Article Content ── */}
             <div className="px-8 sm:px-14 -mt-16 relative z-10">
               {/* Title card */}
-              <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-10 mb-10 border border-gray-100">
-                <h1 className="text-3xl sm:text-4xl md:text-[2.6rem] font-bold text-[var(--dark-brown)] leading-[1.15] mb-6">
+              <div className="bg-white rounded-sm shadow-sm p-8 sm:p-10 mb-10 border border-stone-200">
+                <h1 className="text-3xl sm:text-4xl md:text-[2.6rem] font-bold text-stone-900 leading-[1.15] mb-6">
                   {selectedPost.title}
                 </h1>
 
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
                   {/* Author */}
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--olive)] to-[var(--orange)] flex items-center justify-center text-white font-bold text-sm shadow-md">
+                    <div className="w-10 h-10 rounded-sm bg-[var(--olive-dark)] flex items-center justify-center text-white font-bold text-sm shadow-sm">
                       T
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-[var(--dark-brown)] leading-tight">
+                      <p className="text-sm font-bold text-stone-900 leading-tight">
                         {selectedPost.author || "Tradizions"}
                       </p>
                       <p className="text-[11px] text-[var(--dark-grey)]">
@@ -354,23 +354,23 @@ export default function BlogPageClinet() {
               </article>
 
               {/* CTA */}
-              <div className="mb-20 rounded-2xl overflow-hidden bg-[var(--site-bg)] border border-[var(--olive)]/10">
+              <div className="mb-20 rounded-sm overflow-hidden bg-stone-50 border border-stone-200 shadow-sm">
                 <div className="flex flex-col sm:flex-row items-center gap-8 p-8 sm:p-10">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[var(--olive)] to-[var(--orange)] flex items-center justify-center shrink-0 shadow-lg">
+                  <div className="w-16 h-16 rounded-sm bg-[var(--olive-dark)] flex items-center justify-center shrink-0 shadow-sm">
                     <Leaf className="w-8 h-8 text-white" />
                   </div>
                   <div className="text-center sm:text-left flex-1">
-                    <h4 className="text-xl font-bold text-[var(--dark-brown)] mb-2">
+                    <h4 className="text-xl font-bold text-stone-900 mb-2">
                       Explore Our Collections
                     </h4>
-                    <p className="text-sm text-[var(--dark-grey)] leading-relaxed">
+                    <p className="text-sm text-stone-600 leading-relaxed">
                       Experience the benefits of traditional wellness with our
                       curated hampers and products.
                     </p>
                   </div>
                   <button
                     onClick={() => router.push("/shop")}
-                    className="btn-standard rounded-full whitespace-nowrap shrink-0"
+                    className="btn-standard rounded-sm whitespace-nowrap shrink-0 border border-transparent"
                   >
                     Shop Now
                   </button>

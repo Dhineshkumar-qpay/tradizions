@@ -60,9 +60,9 @@ function StatusPill({ status }: { status?: string }) {
       : "bg-[var(--olive)] animate-pulse";
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-bold uppercase tracking-widest ${color}`}
+      className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-sm border text-[9px] font-bold uppercase tracking-widest ${color}`}
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${dot}`} />
+      <span className={`w-1.5 h-1.5 rounded-sm ${dot}`} />
       {status || "Pending"}
     </span>
   );
@@ -250,6 +250,8 @@ function OrderDetailContent() {
             qty: item.quantity ?? 1,
             status: item.itemstatus,
             ordertype: item.ordertype,
+            giftpack: item.giftpack,
+            giftpackproducts: item.giftpackproducts,
             giftcard: item.giftcard,
             address: item.address,
             gramsperday: item.gramsperday,
@@ -302,7 +304,7 @@ function OrderDetailContent() {
   const isMonthly = orderInfo.ordertype === "monthly";
 
   return (
-    <main className="min-h-screen bg-[var(--site-bg)] pt-36 lg:pt-48 pb-24">
+    <main className="min-h-screen bg-[var(--site-bg)] pt-36 lg:pt-25 pb-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Breadcrumb */}
         <div className="mb-8 flex items-center justify-between">
@@ -315,65 +317,29 @@ function OrderDetailContent() {
           <StatusPill status={orderInfo.orderstatus} />
         </div>
 
-        {/* Hero Banner — olive-dark + orange gradient */}
-        <div
-          className="relative overflow-hidden rounded-2xl p-8 sm:p-5 mb-8 shadow-2xl"
-          style={{
-            background:
-              "linear-gradient(135deg, var(--olive-dark) 0%, var(--olive) 50%, var(--dark-brown) 100%)",
-          }}
-        >
-          <div
-            className="absolute inset-0 pointer-events-none"
-            // style={{
-            //   background:
-            //     "radial-gradient(ellipse at top right, rgba(255,140,0,0.18), transparent 60%)",
-            // }}
-          />
-          <div
-            className="absolute bottom-0 left-0 w-72 h-72 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2 pointer-events-none"
-            style={{ background: "rgba(201,168,76,0.12)" }}
-          />
-
-          <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-            <div>
-              <p
-                className="text-[10px] font-bold uppercase tracking-[0.25em] mb-3"
-                style={{ color: "var(--gold-light)" }}
-              >
-                {isMonthly ? "Monthly Subscription" : "Standard Order"}
-              </p>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-                ORD {" "}
-                <span style={{ color: "var(--gold)" }}>#{orderInfo.id}</span>
-              </h1>
-              <p
-                className="text-sm"
-                style={{ color: "rgba(255,255,255,0.55)" }}
-              >
-                {orderInfo.items.length} item
-                {orderInfo.items.length > 1 ? "s" : ""} · ₹
-                {orderInfo.billing.total.toLocaleString()} total
-              </p>
-            </div>
-            <div className="flex gap-3">
-              <button
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-xs font-bold uppercase tracking-wider transition-all backdrop-blur-sm border"
-                style={{
-                  background: "rgba(255,255,255,0.1)",
-                  borderColor: "rgba(255,255,255,0.15)",
-                }}
-              >
-                <Download className="w-3.5 h-3.5" /> Invoice
-              </button>
-              <Link
-                href="/contact-us"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-xs font-bold uppercase tracking-wider transition-all"
-                style={{ background: "var(--orange)" }}
-              >
-                Support
-              </Link>
-            </div>
+        {/* Hero Banner */}
+        <div className="bg-[var(--olive-dark)] p-8 sm:p-10 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-l-4 border-[var(--olive)] shadow-sm">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.25em] mb-3 text-[var(--olive)]">
+              {isMonthly ? "Monthly Subscription" : "Standard Order"}
+            </p>
+            <h1 className="text-2xl sm:text-3xl font-light text-white tracking-tight mb-2">
+              ORDER <span className="font-bold">#{orderInfo.id}</span>
+            </h1>
+            <p className="text-sm text-stone-400">
+              {orderInfo.items.length} item{orderInfo.items.length > 1 ? "s" : ""} · ₹{orderInfo.billing.total.toLocaleString()} total
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <button className="flex items-center gap-2 px-6 py-3 bg-white text-[var(--olive-dark)] text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors shadow-sm">
+              <Download className="w-3.5 h-3.5" /> Invoice
+            </button>
+            <Link
+              href="/contact-us"
+              className="flex items-center gap-2 px-6 py-3 border border-[var(--olive)] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--olive)] transition-colors shadow-sm"
+            >
+              Support
+            </Link>
           </div>
         </div>
 
@@ -383,43 +349,23 @@ function OrderDetailContent() {
           <div className="flex-1 w-full space-y-5">
             {/* Monthly: global status + address */}
             {isMonthly && (
-              <div className="bg-white rounded-2xl border border-stone-200/70 shadow-sm overflow-hidden">
-                <div className="px-6 pt-6 pb-2">
-                  <p
-                    className="text-[10px] font-bold uppercase tracking-[0.18em] flex items-center gap-2"
-                    style={{ color: "var(--olive)" }}
-                  >
-                    <Clock className="w-3 h-3" /> Subscription Status
+              <div className="bg-white border border-stone-200 shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-stone-100">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-2 text-stone-900">
+                    <Clock className="w-3.5 h-3.5 text-stone-400" /> Subscription Status
                   </p>
                 </div>
                 <div className="px-6 pb-6">
                   <TrackingTimeline status={orderInfo.orderstatus} />
                 </div>
                 {orderInfo.address && (
-                  <div
-                    className="mx-6 mb-6 p-4 rounded-xl flex items-start gap-3"
-                    style={{
-                      background: "var(--beige)",
-                      border: "1px solid rgba(201,168,76,0.2)",
-                    }}
-                  >
-                    <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
-                      style={{ background: "rgba(85,107,47,0.1)" }}
-                    >
-                      <MapPin
-                        className="w-4 h-4"
-                        style={{ color: "var(--olive)" }}
-                      />
-                    </div>
+                  <div className="p-6 border-t border-stone-100 bg-stone-50 flex items-start gap-4">
+                    <MapPin className="w-4 h-4 text-stone-400 mt-0.5 shrink-0" />
                     <div>
-                      <p
-                        className="text-[10px] font-bold uppercase tracking-widest mb-1"
-                        style={{ color: "var(--olive)" }}
-                      >
+                      <p className="text-[10px] font-bold uppercase tracking-widest mb-1 text-stone-500">
                         Delivery Address
                       </p>
-                      <p className="text-sm text-stone-700 font-medium leading-relaxed">
+                      <p className="text-sm text-stone-900 font-medium leading-relaxed">
                         {orderInfo.address}
                       </p>
                     </div>
@@ -432,18 +378,11 @@ function OrderDetailContent() {
             {orderInfo.items.map((item, itemIdx) => (
               <div
                 key={item.key}
-                className="bg-white rounded-2xl border border-stone-200/70 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300"
-                style={{ "--tw-border-opacity": "1" } as any}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderColor = "rgba(85,107,47,0.3)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderColor = "rgba(214,211,209,0.7)")
-                }
+                className="bg-white border border-stone-200 shadow-sm overflow-hidden group hover:border-[var(--olive-dark)] transition-colors duration-300"
               >
                 {/* Top label row */}
-                <div className="px-6 pt-5 pb-0 flex items-center justify-between">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-stone-400">
+                <div className="px-6 py-4 flex items-center justify-between border-b border-stone-100">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-stone-500">
                     Item {itemIdx + 1} of {orderInfo.items.length}
                   </span>
                   <StatusPill status={item.status} />
@@ -451,41 +390,135 @@ function OrderDetailContent() {
 
                 <div className="flex flex-col sm:flex-row">
                   {/* Image */}
-                  <div
-                    className="sm:w-52 p-6 flex items-center justify-center shrink-0"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, var(--site-bg), var(--cream))",
-                    }}
-                  >
-                    <div className="relative w-36 h-36 rounded-2xl overflow-hidden bg-white shadow-md border border-stone-100">
-                      <img
-                        src={item.image}
-                        alt={item.name || "Product"}
-                        className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
+                  <div className="sm:w-52 p-6 flex items-center justify-center shrink-0 bg-stone-50 border-r border-stone-100">
+                    {item.giftpack ? (
+                      <div className="relative w-36 h-36">
+                        <div className="absolute top-0 left-0 w-28 h-28 rounded-sm overflow-hidden bg-white shadow-sm border border-stone-200 z-10">
+                          <img
+                            src={item.giftpack.giftpackimage?.startsWith('http') ? item.giftpack.giftpackimage : `${IMAGE_URL || ""}${item.giftpack.giftpackimage}`}
+                            alt={item.giftpack.giftpackname}
+                            className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                        {item.giftpackproducts && item.giftpackproducts.length > 0 && (
+                          <div className="absolute bottom-0 right-0 w-20 h-20 rounded-sm overflow-hidden bg-white shadow-md border-2 border-white z-20">
+                            <img
+                              src={item.giftpackproducts[0].productimage?.startsWith('http') ? item.giftpackproducts[0].productimage : `${IMAGE_URL || ""}${item.giftpackproducts[0].productimage}`}
+                              alt={item.giftpackproducts[0].productname || "Product"}
+                              className="w-full h-full object-cover mix-blend-multiply"
+                            />
+                            {item.giftpackproducts.length > 1 && (
+                              <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-[10px] font-bold">
+                                +{item.giftpackproducts.length - 1}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        {(!item.giftpackproducts || item.giftpackproducts.length === 0) && item.image && (
+                          <div className="absolute bottom-0 right-0 w-20 h-20 rounded-sm overflow-hidden bg-white shadow-md border-2 border-white z-20">
+                            <img
+                              src={item.image}
+                              alt={item.name || "Product"}
+                              className="w-full h-full object-cover mix-blend-multiply"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="relative w-36 h-36 rounded-sm overflow-hidden bg-white shadow-sm border border-stone-200">
+                        <img
+                          src={item.image}
+                          alt={item.name || "Product"}
+                          className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   {/* Info */}
                   <div className="flex-1 p-6 sm:pl-2 sm:pr-6 sm:py-6 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-xl font-bold text-stone-900 mb-1 transition-colors group-hover:text-[var(--olive)]">
-                        {item.name}
-                      </h3>
-                      <div className="flex items-baseline gap-3 mb-4">
-                        <span
-                          className="text-2xl font-black"
-                          style={{ color: "var(--olive)" }}
-                        >
-                          ₹{item.totalprice.toLocaleString()}
-                        </span>
-                        {item.qty > 1 && (
-                          <span className="text-xs text-stone-400 font-medium">
-                            ₹{item.price} × {item.qty}
-                          </span>
-                        )}
-                      </div>
+                      {item.giftpack ? (
+                        <>
+                          <h3 className="text-xl font-bold text-stone-900 mb-1 transition-colors group-hover:text-[var(--olive)]">
+                            {item.giftpack.giftpackname}
+                          </h3>
+                          <p className="text-xs text-stone-500 mb-4 leading-relaxed line-clamp-2">
+                            {item.giftpack.description}
+                          </p>
+                          <div className="flex items-baseline gap-3 mb-4">
+                            <span
+                              className="text-2xl font-black"
+                              style={{ color: "var(--olive)" }}
+                            >
+                              ₹{item.totalprice.toLocaleString()}
+                            </span>
+                            <span className="text-xs font-semibold text-stone-400 uppercase tracking-widest px-2 py-1 rounded bg-stone-100">
+                              Custom Gift Bundle
+                            </span>
+                          </div>
+                          
+                          <div className="bg-stone-50 border border-stone-100 p-3.5 rounded-sm mb-4">
+                            <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-3 border-b border-stone-200 pb-2">
+                              Bundle Contents
+                            </p>
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="text-xs font-semibold text-stone-800 flex items-center gap-2">
+                                <Package className="w-3.5 h-3.5 text-[var(--olive)]" /> {item.qty} × Base Box
+                              </span>
+                              <span className="text-xs font-medium text-stone-500">₹{((item.giftpack.giftpackprice ?? 0) * item.qty).toLocaleString()}</span>
+                            </div>
+                            {item.giftpackproducts && item.giftpackproducts.length > 0 ? (
+                              item.giftpackproducts.map((gp: any, idx: number) => {
+                                const gpImg = gp.productimage?.startsWith('http') ? gp.productimage : `${IMAGE_URL || ""}${gp.productimage}`;
+                                return (
+                                  <div key={idx} className="flex justify-between items-center mt-2.5 pl-2">
+                                    <div className="flex items-center gap-2.5">
+                                      <div className="w-7 h-7 rounded-sm bg-white overflow-hidden border border-stone-200 shrink-0 shadow-sm">
+                                        <img src={gpImg} alt={gp.productname} className="w-full h-full object-cover mix-blend-multiply" />
+                                      </div>
+                                      <span className="text-xs font-semibold text-stone-800 truncate pr-4">
+                                        {(gp.quantity ?? 1) * item.qty} × {gp.productname}
+                                      </span>
+                                    </div>
+                                    <span className="text-xs font-medium text-stone-500 shrink-0">
+                                      ₹{((gp.totalprice || 0) * item.qty).toLocaleString()}
+                                    </span>
+                                  </div>
+                                );
+                              })
+                            ) : (
+                              <div className="flex justify-between items-center">
+                                <span className="text-xs font-semibold text-stone-800 truncate pr-4 pl-5">
+                                  {item.qty} × {item.name}
+                                </span>
+                                <span className="text-xs font-medium text-stone-500 shrink-0">
+                                  ₹{(((item.totalprice / item.qty) - (item.giftpack.giftpackprice ?? 0)) * item.qty).toLocaleString()}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <h3 className="text-xl font-bold text-stone-900 mb-1 transition-colors group-hover:text-[var(--olive)]">
+                            {item.name}
+                          </h3>
+                          <div className="flex items-baseline gap-3 mb-4">
+                            <span
+                              className="text-2xl font-black"
+                              style={{ color: "var(--olive)" }}
+                            >
+                              ₹{item.totalprice.toLocaleString()}
+                            </span>
+                            {item.qty > 1 && (
+                              <span className="text-xs text-stone-400 font-medium">
+                                ₹{item.price} × {item.qty}
+                              </span>
+                            )}
+                          </div>
+                        </>
+                      )}
 
                       {/* Monthly stats */}
                       {isMonthly ? (
@@ -613,16 +646,9 @@ function OrderDetailContent() {
 
                 {/* Gift card */}
                 {item.giftcard && (
-                  <div
-                    className="mx-5 mb-5 rounded-xl overflow-hidden border"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, var(--olive-dark), var(--dark-brown))",
-                      borderColor: "rgba(201,168,76,0.3)",
-                    }}
-                  >
+                  <div className="mx-6 mb-6 rounded-sm overflow-hidden border border-stone-200 bg-stone-50">
                     <div className="flex flex-col sm:flex-row items-center gap-4 p-4">
-                      <div className="w-24 h-16 rounded-lg overflow-hidden shrink-0 border border-stone-600">
+                      <div className="w-24 h-16 rounded-sm overflow-hidden shrink-0 border border-stone-200 shadow-sm">
                         <img
                           src={
                             item.giftcard.cardimage?.startsWith("http")
@@ -630,30 +656,21 @@ function OrderDetailContent() {
                               : `${IMAGE_URL || ""}${item.giftcard.cardimage}`
                           }
                           alt={item.giftcard.cardname}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover mix-blend-multiply"
                         />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <Gift
-                            className="w-3 h-3"
-                            style={{ color: "var(--gold)" }}
-                          />
-                          <span
-                            className="text-[9px] font-bold uppercase tracking-widest"
-                            style={{ color: "var(--gold)" }}
-                          >
+                          <Gift className="w-3.5 h-3.5 text-stone-400" />
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-stone-500">
                             Gift Card Included
                           </span>
                         </div>
-                        <p className="text-white font-semibold text-sm">
+                        <p className="text-stone-900 font-bold text-sm uppercase tracking-wider">
                           {item.giftcard.cardname}
                         </p>
-                        {item.giftcard.cardname && (
-                          <p
-                            className="text-xs italic mt-0.5"
-                            style={{ color: "rgba(255,255,255,0.55)" }}
-                          >
+                        {item.giftcard.giftmessage && (
+                          <p className="text-xs italic mt-1 text-stone-500">
                             "{item.giftcard.giftmessage}"
                           </p>
                         )}
@@ -668,25 +685,12 @@ function OrderDetailContent() {
           {/* Right Sidebar */}
           <div className="w-full lg:w-[320px] shrink-0 space-y-5 lg:sticky lg:top-24">
             {/* Payment card */}
-            <div className="rounded-2xl overflow-hidden shadow-xl">
-              <div
-                className="p-6 relative overflow-hidden"
-                style={{
-                  background:
-                    "linear-gradient(135deg, var(--olive-dark) 0%, var(--olive) 60%, var(--dark-brown) 100%)",
-                }}
-              >
-                <div
-                  className="absolute top-0 right-0 w-36 h-36 rounded-full blur-2xl pointer-events-none -translate-y-1/2 translate-x-1/4"
-                  style={{ background: "rgba(255,140,0,0.2)" }}
-                />
-                <p
-                  className="text-[9px] font-bold uppercase tracking-[0.2em] mb-5 flex items-center gap-2 relative z-10"
-                  style={{ color: "var(--gold-light)" }}
-                >
-                  <CreditCard className="w-3 h-3" /> Payment Summary
+            <div className="border border-stone-200 shadow-sm bg-white">
+              <div className="p-6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-5 flex items-center gap-2 text-stone-900 border-b border-stone-100 pb-4">
+                  <CreditCard className="w-3.5 h-3.5 text-stone-400" /> Payment Summary
                 </p>
-                <div className="space-y-3 relative z-10 mb-5">
+                <div className="space-y-4 mb-5">
                   {[
                     {
                       label: "Subtotal",
@@ -697,106 +701,69 @@ function OrderDetailContent() {
                   ].map(({ label, val }) => (
                     <div
                       key={label}
-                      className="flex justify-between items-center text-sm"
+                      className="flex justify-between items-center text-xs font-semibold"
                     >
-                      <span style={{ color: "rgba(255,255,255,0.5)" }}>
+                      <span className="text-stone-500">
                         {label}
                       </span>
-                      <span
-                        className="font-semibold"
-                        style={{
-                          color:
-                            val === "FREE"
-                              ? "var(--gold-light)"
-                              : "rgba(255,255,255,0.9)",
-                        }}
-                      >
+                      <span className="text-stone-900">
                         {val}
                       </span>
                     </div>
                   ))}
                 </div>
-                <div
-                  className="pt-4 border-t flex justify-between items-center relative z-10"
-                  style={{ borderColor: "rgba(255,255,255,0.15)" }}
-                >
-                  <span
-                    className="text-sm font-semibold"
-                    style={{ color: "rgba(255,255,255,0.7)" }}
-                  >
+                <div className="pt-5 border-t border-stone-100 flex justify-between items-center">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">
                     Total
                   </span>
-                  <span className="text-2xl font-black text-white">
+                  <span className="text-xl font-bold text-stone-900">
                     ₹{orderInfo.billing.total.toFixed(2).toLocaleString()}
                   </span>
                 </div>
               </div>
               {/* Paid bar */}
-              <div
-                className="px-6 py-3 flex items-center gap-2.5"
-                style={{ background: "var(--orange)" }}
-              >
-                <ShieldCheck className="w-4 h-4 text-white" />
-                <span className="text-white text-xs font-bold uppercase tracking-widest">
+              <div className="px-6 py-3 flex items-center gap-2.5 bg-stone-50 border-t border-stone-100">
+                <ShieldCheck className="w-4 h-4 text-[var(--olive)]" />
+                <span className="text-stone-900 text-[10px] font-bold uppercase tracking-widest">
                   Payment Confirmed
                 </span>
               </div>
             </div>
 
             {/* Order type */}
-            <div className="bg-white rounded-2xl border border-stone-200/70 p-5 shadow-sm">
-              <p
-                className="text-[9px] font-bold uppercase tracking-[0.18em] mb-3"
-                style={{ color: "var(--olive)" }}
-              >
-                Order Type
+            <div className="bg-white border border-stone-200 p-6 shadow-sm">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4 text-stone-900 border-b border-stone-100 pb-4">
+                Order Info
               </p>
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-9 h-9 rounded-xl flex items-center justify-center"
-                  style={{ background: "rgba(85,107,47,0.1)" }}
-                >
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-stone-50 border border-stone-200 flex items-center justify-center">
                   {isMonthly ? (
-                    <CalendarDays
-                      className="w-4 h-4"
-                      style={{ color: "var(--olive)" }}
-                    />
+                    <CalendarDays className="w-4 h-4 text-stone-400" />
                   ) : (
-                    <Package
-                      className="w-4 h-4"
-                      style={{ color: "var(--olive)" }}
-                    />
+                    <Package className="w-4 h-4 text-stone-400" />
                   )}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-stone-900 capitalize">
+                  <p className="text-xs font-bold text-stone-900 uppercase tracking-wider">
                     {orderInfo.ordertype} Order
                   </p>
-                  <p className="text-[10px] text-stone-400">
-                    {orderInfo.items.length} product
-                    {orderInfo.items.length > 1 ? "s" : ""}
+                  <p className="text-[10px] text-stone-500">
+                    {orderInfo.items.length} product{orderInfo.items.length > 1 ? "s" : ""}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Actions */}
-            <div className="space-y-2.5">
-              <button
-                className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-xs font-bold uppercase tracking-widest transition-all duration-200 shadow-sm hover:opacity-90"
-                style={{ background: "var(--olive)" }}
-              >
+            <div className="space-y-3">
+              <button className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--olive-dark)] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-stone-900 transition-colors">
                 <Download className="w-3.5 h-3.5" /> Download Invoice
               </button>
               <Link
                 href="/contact-us"
-                className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors border-2"
-                style={{
-                  color: "var(--olive)",
-                  borderColor: "rgba(85,107,47,0.25)",
-                }}
+                className="w-full flex items-center justify-center gap-2 py-3 border border-stone-300 text-stone-900 text-[10px] font-bold uppercase tracking-widest hover:bg-stone-50 transition-colors"
               >
-                Need Help? Contact Us
+                Need Help?
               </Link>
             </div>
           </div>

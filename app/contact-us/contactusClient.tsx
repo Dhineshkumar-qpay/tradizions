@@ -111,33 +111,26 @@ export default function ContactUsPageClient() {
   const formRef = useInView();
 
   return (
-    <main className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
+    <main className="min-h-screen bg-stone-50 overflow-x-hidden">
       {/* ── HERO SECTION ── */}
       <section
         ref={headerRef.ref}
-        className="relative pt-40 lg:pt-48 pb-32 overflow-hidden flex items-center justify-center bg-white"
+        className="relative pt-40 lg:pt-48 pb-32 overflow-hidden flex items-center justify-center bg-white border-b border-stone-200"
       >
-        {/* Abstract Background Elements */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[var(--olive)]/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[var(--orange)]/5 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
-
-        {/* Floating shapes */}
-        <div className="absolute top-1/4 left-10 w-24 h-24 bg-emerald-100 rounded-full blur-xl animate-float opacity-50" />
-        <div className="absolute bottom-1/4 right-10 w-32 h-32 bg-amber-100 rounded-full blur-xl animate-float delay-700 opacity-50" />
 
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <div
-            className={`inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--olive)]/10 text-[var(--olive)] border border-[var(--olive)]/20 text-[11px] font-bold tracking-[0.25em] uppercase mb-8 shadow-sm transition-all duration-1000 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            className={`inline-flex items-center gap-2 px-5 py-2 rounded-sm bg-stone-100 text-[var(--olive-dark)] border border-stone-200 text-[11px] font-bold tracking-[0.25em] uppercase mb-8 shadow-sm transition-all duration-1000 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
             <MessageSquare className="w-4 h-4" />
             {t.contact_us.connect}
           </div>
 
           <h1
-            className={`text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-[1.1] tracking-tight mb-8 transition-all duration-1000 delay-200 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            className={`text-2xl md:text-3xl lg:text-4xl font-extrabold text-stone-900 leading-[1.1] tracking-tight mb-8 transition-all duration-1000 delay-200 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
             {t.contact_us.hear_from_you.split(" ").slice(0, -2).join(" ")}{" "}
-            <span className="gradient-text">
+            <span className="text-[var(--olive-dark)]">
               {t.contact_us.hear_from_you.split(" ").slice(-2).join(" ")}
             </span>
           </h1>
@@ -173,9 +166,9 @@ export default function ContactUsPageClient() {
             </div>
 
             {/* Headquarters Card - Redesigned */}
-            <div className="group relative bg-white rounded-[2rem] p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 transition-all duration-500 hover:shadow-[0_40px_80px_-20px_rgba(85,107,47,0.1)]">
+            <div className="group relative bg-white rounded-sm p-10 shadow-sm border border-stone-200 transition-all duration-300 hover:shadow-md hover:border-[var(--olive-dark)]">
               <div className="flex items-start justify-between mb-8">
-                <div className="w-16 h-16 bg-[var(--olive)] text-white rounded-2xl flex items-center justify-center shadow-lg shadow-[var(--olive)]/20 transition-transform duration-500 group-hover:rotate-6">
+                <div className="w-16 h-16 bg-[var(--olive-dark)] text-white rounded-sm flex items-center justify-center shadow-sm transition-transform duration-500 group-hover:scale-105">
                   <MapPin className="w-8 h-8" />
                 </div>
                 <div className="text-right">
@@ -193,7 +186,7 @@ export default function ContactUsPageClient() {
                   <h4 className="text-2xl font-bold text-gray-900 mb-2">
                     {t.contact_us.hq}
                   </h4>
-                  <div className="w-12 h-1 bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] rounded-full mb-4" />
+                  <div className="w-12 h-1 bg-[var(--olive-dark)] rounded-sm mb-4" />
                 </div>
 
                 <p className="text-gray-500 leading-relaxed font-light text-md">
@@ -219,9 +212,9 @@ export default function ContactUsPageClient() {
 
             {/* Support & Relations - Redesigned to be more compact and premium */}
             <div className="grid grid-cols-1 gap-5">
-              <div className="flex items-center justify-between p-6 rounded-[1.5rem] bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:bg-gray-50/50 group">
+              <div className="flex items-center justify-between p-6 rounded-sm bg-white border border-stone-200 shadow-sm transition-all duration-300 hover:border-stone-400 group">
                 <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 bg-gray-50 text-gray-400 rounded-xl flex items-center justify-center group-hover:bg-[var(--olive)]/10 group-hover:text-[var(--olive)] transition-all">
+                  <div className="w-12 h-12 bg-stone-100 text-stone-500 rounded-sm flex items-center justify-center group-hover:bg-stone-200 group-hover:text-stone-900 transition-all">
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
@@ -238,9 +231,9 @@ export default function ContactUsPageClient() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-6 rounded-[1.5rem] bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:bg-gray-50/50 group cursor-pointer">
+              <div className="flex items-center justify-between p-6 rounded-sm bg-white border border-stone-200 shadow-sm transition-all duration-300 hover:border-stone-400 group cursor-pointer">
                 <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 bg-gray-50 text-gray-400 rounded-xl flex items-center justify-center group-hover:bg-[var(--whatsapp)]/10 group-hover:text-[var(--whatsapp)] transition-all">
+                  <div className="w-12 h-12 bg-stone-100 text-stone-500 rounded-sm flex items-center justify-center group-hover:bg-stone-200 group-hover:text-stone-900 transition-all">
                     <svg
                       className="w-6 h-6"
                       viewBox="0 0 24 24"
@@ -269,13 +262,10 @@ export default function ContactUsPageClient() {
               </div>
             </div>
 
-            <div className="group relative bg-white rounded-[2.5rem] p-10 border border-gray-100 shadow-[0_30px_70px_rgba(0,0,0,0.05)] transition-all duration-500 hover:border-[var(--olive)]/30 overflow-hidden">
-              {/* Decorative Geometric Shapes */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--olive)]/5 rounded-bl-full transition-transform duration-700 group-hover:scale-110" />
-
+            <div className="group relative bg-white rounded-sm p-10 border border-stone-200 shadow-sm transition-all duration-300 hover:border-stone-400 overflow-hidden">
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-10">
-                  <div className="w-14 h-14 bg-[var(--olive)]/10 text-[var(--olive)] rounded-2xl flex items-center justify-center group-hover:rotate-6 transition-all duration-500">
+                  <div className="w-14 h-14 bg-stone-100 text-stone-900 rounded-sm flex items-center justify-center transition-all duration-300">
                     <Briefcase className="w-7 h-7" />
                   </div>
                   <div>
@@ -294,7 +284,7 @@ export default function ContactUsPageClient() {
 
                 <div className="grid grid-cols-1 gap-6 pt-6 border-t border-gray-50">
                   <div className="flex items-center gap-4 group/item">
-                    <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover/item:bg-[var(--orange)] group-hover/item:text-white transition-all">
+                    <div className="w-10 h-10 rounded-sm bg-stone-100 flex items-center justify-center text-stone-500 group-hover/item:bg-stone-200 group-hover/item:text-stone-900 transition-all">
                       <Mail className="w-4 h-4" />
                     </div>
                     <div className="space-y-0.5">
@@ -308,7 +298,7 @@ export default function ContactUsPageClient() {
                   </div>
 
                   <div className="flex items-center gap-4 group/item">
-                    <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover/item:bg-[var(--orange)] group-hover/item:text-white transition-all">
+                    <div className="w-10 h-10 rounded-sm bg-stone-100 flex items-center justify-center text-stone-500 group-hover/item:bg-stone-200 group-hover/item:text-stone-900 transition-all">
                       <Phone className="w-4 h-4" />
                     </div>
                     <div className="space-y-0.5">
@@ -322,9 +312,6 @@ export default function ContactUsPageClient() {
                   </div>
                 </div>
               </div>
-
-              {/* Background Accent */}
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-[var(--orange)]/5 rounded-full blur-3xl" />
             </div>
           </div>
 
@@ -333,7 +320,7 @@ export default function ContactUsPageClient() {
             ref={formRef.ref}
             className={`w-full lg:w-7/12 transition-all duration-1000 delay-300 ${formRef.isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}
           >
-            <div className="bg-white rounded-[2rem] p-8 md:p-12 shadow-[0_30px_70px_rgba(85,107,47,0.08)] border border-gray-100 relative min-h-[500px] flex flex-col justify-center">
+            <div className="bg-white rounded-sm p-8 md:p-12 shadow-sm border border-stone-200 relative min-h-[500px] flex flex-col justify-center">
               {isSubmitted ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center animate-fade-in">
                   <div className="w-20 h-20 bg-emerald-50 text-[var(--olive)] rounded-full flex items-center justify-center mb-6 border border-emerald-100 shadow-sm animate-scale-in">
@@ -347,7 +334,7 @@ export default function ContactUsPageClient() {
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
-                    className="px-8 py-3.5 rounded-xl bg-[var(--olive)] text-white text-[11px] font-black tracking-[0.2em] uppercase hover:bg-[var(--olive-dark)] transition-all shadow-lg cursor-pointer hover:-translate-y-0.5"
+                    className="px-8 py-3.5 rounded-sm bg-stone-900 text-white text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-stone-800 transition-all shadow-sm cursor-pointer"
                   >
                     Send Another Message
                   </button>
@@ -381,7 +368,7 @@ export default function ContactUsPageClient() {
                           type="text"
                           id="name"
                           placeholder="e.g. Aditi Sharma"
-                          className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium text-gray-900 placeholder:text-gray-300"
+                          className="w-full px-6 py-4 bg-stone-50 border border-stone-200 rounded-sm focus:outline-none focus:ring-1 focus:ring-stone-400 focus:border-stone-400 focus:bg-white transition-all text-sm font-medium text-stone-900 placeholder:text-stone-400"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           required
@@ -398,7 +385,7 @@ export default function ContactUsPageClient() {
                           type="tel"
                           id="mobile"
                           placeholder="+91 00000 00000"
-                          className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium text-gray-900 placeholder:text-gray-300"
+                          className="w-full px-6 py-4 bg-stone-50 border border-stone-200 rounded-sm focus:outline-none focus:ring-1 focus:ring-stone-400 focus:border-stone-400 focus:bg-white transition-all text-sm font-medium text-stone-900 placeholder:text-stone-400"
                           value={mobile}
                           onChange={(e) => setMobile(e.target.value)}
                           required
@@ -417,7 +404,7 @@ export default function ContactUsPageClient() {
                         type="email"
                         id="email"
                         placeholder="aditi@example.com"
-                        className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium text-gray-900 placeholder:text-gray-300"
+                        className="w-full px-6 py-4 bg-stone-50 border border-stone-200 rounded-sm focus:outline-none focus:ring-1 focus:ring-stone-400 focus:border-stone-400 focus:bg-white transition-all text-sm font-medium text-stone-900 placeholder:text-stone-400"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -435,7 +422,7 @@ export default function ContactUsPageClient() {
                         id="message"
                         rows={5}
                         placeholder="Describe your inquiry in detail..."
-                        className="w-full px-6 py-5 bg-gray-50 border border-gray-100 rounded-3xl focus:outline-none focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] focus:bg-white transition-all text-sm font-medium text-gray-900 placeholder:text-gray-300 resize-none"
+                        className="w-full px-6 py-5 bg-stone-50 border border-stone-200 rounded-sm focus:outline-none focus:ring-1 focus:ring-stone-400 focus:border-stone-400 focus:bg-white transition-all text-sm font-medium text-stone-900 placeholder:text-stone-400 resize-none"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         required
@@ -446,13 +433,11 @@ export default function ContactUsPageClient() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group relative w-full py-5 rounded-2xl bg-[var(--olive)] text-white font-bold text-[12px] tracking-[0.25em] shadow-xl shadow-[var(--olive)]/20 overflow-hidden transition-all hover:shadow-2xl hover:-translate-y-1 active:scale-[0.98] flex items-center justify-center gap-3 uppercase disabled:opacity-50"
+                        className="group relative w-full py-5 rounded-sm bg-[var(--olive)] text-white font-bold text-[12px] tracking-widest shadow-sm overflow-hidden transition-all hover:bg-[var(--olive-dark)] flex items-center justify-center gap-3 uppercase disabled:opacity-50 cursor-pointer"
                       >
                         <span className="relative z-10 flex items-center gap-3">
                           {isSubmitting ? "SENDING..." : t.contact_us.submit}
-                          <Send className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                         </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-[var(--olive-dark)] to-[var(--olive)] opacity-0 group-hover:opacity-100 transition-opacity" />
                       </button>
                     </div>
                   </form>
@@ -487,29 +472,29 @@ export default function ContactUsPageClient() {
 
       {/* ── MAP SECTION ── */}
       <section className="py-20 max-w-7xl mx-auto px-6 pb-32">
-        <div className="relative h-[300px] w-full rounded-[1rem] overflow-hidden shadow-2xl group border border-white">
+        <div className="relative h-[300px] w-full rounded-sm overflow-hidden shadow-sm group border border-stone-200">
           <Image
             src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2033&auto=format&fit=crop"
             fill
             alt="Map location"
             className="object-cover grayscale hover:grayscale-0 transition-all duration-[2000ms]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+          <div className="absolute inset-0 bg-stone-900/10 pointer-events-none" />
 
-          <div className="absolute bottom-10 left-10 p-8 glass rounded-[2rem] border border-white/20 shadow-2xl max-w-sm">
+          <div className="absolute bottom-10 left-10 p-8 bg-white rounded-sm border border-stone-200 shadow-sm max-w-sm">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-[var(--orange)] flex items-center justify-center text-white">
+              <div className="w-10 h-10 rounded-sm bg-stone-900 flex items-center justify-center text-white">
                 <MapPin className="w-5 h-5" />
               </div>
-              <h4 className="text-xl font-bold text-white">
+              <h4 className="text-xl font-bold text-stone-900">
                 {t.contact_us.visit_hub}
               </h4>
             </div>
-            <p className="text-white/80 font-light text-sm leading-relaxed mb-6">
+            <p className="text-stone-500 font-medium text-sm leading-relaxed mb-6">
               {t.contact_us.visit_desc}
             </p>
             <button
-              className="flex items-center gap-2 text-xs font-bold text-[var(--orange)] uppercase tracking-widest group-hover:gap-4 transition-all cursor-pointer"
+              className="flex items-center gap-2 text-xs font-bold text-[var(--olive-dark)] uppercase tracking-widest group-hover:gap-4 transition-all cursor-pointer"
               onClick={() =>
                 window.open("https://www.google.com/maps", "_blank")
               }

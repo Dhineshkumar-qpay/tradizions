@@ -22,6 +22,9 @@ export interface ProductsItems {
   productid?: number;
   productname?: string;
   productimage?: string;
+  giftpackid?: number;
+  giftpackname?: string;
+  giftpackimage?: string;
 }
 
 /// Order Details Model
@@ -50,9 +53,35 @@ export interface Item {
   quantitypersonkg?: null;
   totalquantitykg?: null;
   calculatedprice?: null;
+  giftpack?: Giftpack;
+  giftpackproducts?: Giftpackproduct[];
   product?: Product;
   giftcard?: Giftcard;
   address?: Address;
+}
+
+export interface Giftpack {
+  giftpackid?: number;
+  bid?: number;
+  giftpackimage?: string;
+  giftpackname?: string;
+  giftpackprice?: number;
+  description?: string;
+}
+
+export interface Giftpackproduct {
+  customgiftitemid?: number;
+  giftpackid?: number;
+  productid?: number;
+  productname?: string;
+  productimage?: string;
+  quantity?: number;
+  sellingprice?: number;
+  itemtype?: string;
+  totalprice?: number;
+  userid?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface Address {
@@ -85,9 +114,9 @@ export interface Order {
 }
 
 export interface Giftcard {
-    giftcardid?: number;
-    cardname?:   string;
-    giftmessage?:   string;
-    cardimage?:  string;
-    cardprice?:  number;
+  giftcardid?: number;
+  cardname?: string;
+  giftmessage?: string;
+  cardimage?: string;
+  cardprice?: number;
 }
