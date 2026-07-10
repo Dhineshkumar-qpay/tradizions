@@ -180,7 +180,8 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     if (!isLoading && cartItems.length === 0) {
-      router.push("/cart");
+      router.push("/");
+      setTimeout(() => window.dispatchEvent(new Event("openCartSidebar")), 500);
     }
   }, [isLoading, cartItems, router]);
 
@@ -267,18 +268,11 @@ export default function CheckoutPage() {
 
   if (orderPlaced) {
     return (
-      <main className="min-h-screen bg-[#f7f7f5] flex justify-center pt-32 lg:pt-40 pb-12 px-4 sm:px-8 overflow-hidden relative">
-        {/* Background Glow */}
-        <div className="absolute top-[-80px] left-[-80px] w-[180px] h-[180px] bg-[var(--olive)]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-[-80px] right-[-80px] w-[180px] h-[180px] bg-[var(--olive-dark)]/10 rounded-full blur-3xl" />
-
-        <div className="relative w-full max-w-sm">
+      <main className="min-h-screen bg-[var(--site-bg)] flex justify-center pt-10 lg:pt-10 pb-12 px-4 sm:px-8 overflow-hidden relative selection:bg-[var(--olive)] selection:text-white text-[var(--dark-grey)]">
+        <div className="relative w-full max-w-md">
           {/* Card */}
-          <div className="relative bg-white rounded-[28px] border border-stone-200/70 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.12)] overflow-hidden">
-            {/* Top Border */}
-            <div className="h-1.5 bg-gradient-to-r from-[var(--olive)] via-[var(--olive)] to-[var(--olive-dark)]" />
-
-            <div className="px-6 pt-8 pb-6 text-center">
+          <div className="relative bg-white border border-gray-200 shadow-sm overflow-hidden">
+            <div className="px-8 pt-10 pb-10 text-center">
               {/* Success Icon */}
               <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
                 {/* Ring Animation */}
@@ -356,17 +350,17 @@ export default function CheckoutPage() {
               </div>
 
               {/* Buttons */}
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-4 mt-8">
                 <Link
                   href={`/order-detail?id=${placedOrderId}`}
-                  className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]"
+                  className="w-full h-14 bg-[var(--olive-dark)] text-white text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center transition-colors hover:bg-[var(--orange)] shadow-sm"
                 >
                   {t.track_order || "Track Order"}
                 </Link>
 
                 <Link
                   href="/shop"
-                  className="w-full h-12 rounded-xl bg-white border border-stone-200 text-stone-700 text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center hover:bg-stone-50 transition-all duration-300"
+                  className="w-full h-14 bg-white border border-gray-300 text-[var(--dark-grey)] text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center hover:border-[var(--olive-dark)] hover:text-[var(--olive-dark)] transition-colors"
                 >
                   {t.continue_shopping || "Continue Shopping"}
                 </Link>
@@ -387,28 +381,30 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-stone-50 pt-32 lg:pt-25 pb-20">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+    <main className="min-h-screen bg-[var(--site-bg)] pt-10 lg:pt-10 pb-20 selection:bg-[var(--olive)] selection:text-white text-[var(--dark-grey)]">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb lg:mb-2 gap-4">
           <div></div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left Column - Forms */}
-          <div className="flex-1 space-y-8">
+          <div className="flex-1 space-y-10">
             {/* Delivery Address Section */}
-            <div className="bg-white rounded-[1rem] p-6 sm:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 relative">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-xl font-black text-stone-900 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[var(--olive)]/10 text-[var(--olive)] flex items-center justify-center text-sm">
-                    1
+            <div className="bg-white border border-gray-200 p-6 sm:p-10 relative shadow-sm">
+              <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-100">
+                <div className="flex items-center gap-4">
+                  <span className="text-4xl font-light text-[var(--olive)]/20">
+                    01
                   </span>
-                  {t.checkout.delivery_address}
-                </h2>
+                  <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase">
+                    {t.checkout.delivery_address || "Delivery Address"}
+                  </h2>
+                </div>
                 <button
                   onClick={() => setShowAddressForm(!showAddressForm)}
-                  className="text-[11px] font-black text-[var(--olive)] tracking-widest hover:underline uppercase transition-colors cursor-pointer"
+                  className="text-[11px] font-bold text-[var(--olive-dark)] tracking-[0.2em] hover:text-[var(--orange)] uppercase transition-colors cursor-pointer"
                 >
                   {showAddressForm
                     ? "Cancel"
@@ -419,10 +415,10 @@ export default function CheckoutPage() {
               <div className="space-y-6">
                 {/* Option 1: Single Address */}
                 <div
-                  className={`border-2 rounded-2xl p-6 transition-all ${
+                  className={`border p-6 transition-all duration-300 ${
                     cartItems.length > 1 && selectionMode !== "single"
-                      ? "border-stone-100 hover:border-stone-200 cursor-pointer"
-                      : "border-[var(--olive)] bg-[#fcfcfb]"
+                      ? "border-gray-200 hover:border-[var(--olive)]/50 cursor-pointer bg-white"
+                      : "border-[var(--olive-dark)] bg-gray-50/50 shadow-sm"
                   }`}
                   onClick={() =>
                     cartItems.length > 1 && setSelectionMode("single")
@@ -488,10 +484,10 @@ export default function CheckoutPage() {
 
                     {/* Option 2: Multi Address */}
                     <div
-                      className={`border-2 rounded-2xl p-6 cursor-pointer transition-all ${
+                      className={`border p-6 cursor-pointer transition-all duration-300 ${
                         selectionMode === "multi"
-                          ? "border-[var(--olive)] bg-[#fcfcfb]"
-                          : "border-stone-100 hover:border-stone-200"
+                          ? "border-[var(--olive-dark)] bg-gray-50/50 shadow-sm"
+                          : "border-gray-200 hover:border-[var(--olive)]/50 bg-white"
                       }`}
                       onClick={() => setSelectionMode("multi")}
                     >
@@ -615,8 +611,8 @@ export default function CheckoutPage() {
               </div>
 
               {showAddressForm && (
-                <div className="mt-8 border border-stone-100 rounded-[1.5rem] p-6 sm:p-8 bg-stone-50/50 shadow-inner animate-fade-in-up">
-                  <h3 className="text-sm font-black text-stone-900 mb-6 uppercase tracking-widest">
+                <div className="mt-8 border border-gray-200 p-6 sm:p-8 bg-white animate-fade-in-up shadow-sm">
+                  <h3 className="text-sm font-bold text-[var(--olive-dark)] mb-6 uppercase tracking-[0.15em]">
                     Enter Details
                   </h3>
                   <form onSubmit={handleSaveAddress} className="space-y-5">
@@ -761,7 +757,7 @@ export default function CheckoutPage() {
                     <div className="pt-2">
                       <button
                         type="submit"
-                        className="w-full py-4 rounded-xl bg-[var(--olive)] text-white font-black text-[11px] uppercase tracking-widest shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all cursor-pointer"
+                        className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors cursor-pointer"
                       >
                         SAVE SECURE ADDRESS
                       </button>
@@ -772,24 +768,29 @@ export default function CheckoutPage() {
             </div>
 
             {/* Saved Addresses Section */}
-            <div className="bg-white rounded-[1rem] p-6 sm:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 relative">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-xl font-black text-stone-900">
-                  Saved Addresses
-                </h2>
+            <div className="bg-white border border-gray-200 p-6 sm:p-10 relative shadow-sm">
+              <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-100">
+                <div className="flex items-center gap-4">
+                  <span className="text-4xl font-light text-[var(--olive)]/20">
+                    02
+                  </span>
+                  <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase">
+                    Saved Addresses
+                  </h2>
+                </div>
                 <button
                   onClick={() => setShowAddressForm(!showAddressForm)}
-                  className="text-[11px] font-black text-[var(--olive)] tracking-widest hover:underline uppercase transition-colors cursor-pointer"
+                  className="text-[11px] font-bold text-[var(--olive-dark)] tracking-[0.2em] hover:text-[var(--orange)] uppercase transition-colors cursor-pointer"
                 >
                   {showAddressForm ? "Cancel" : "Add New Address"}
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {addresses.map((addr) => (
                   <div
                     key={addr.addressid}
-                    className="p-5 rounded-2xl border-2 border-stone-100 bg-white hover:border-[var(--olive)]/30 hover:shadow-sm transition-all"
+                    className="p-6 border border-gray-200 bg-white hover:border-[var(--olive)]/50 hover:shadow-md transition-all duration-300"
                   >
                     <div className="flex justify-between items-start mb-2">
                       <span className="inline-block px-3 py-1 bg-stone-100 text-stone-700 text-[10px] font-black tracking-widest rounded-md uppercase">
@@ -826,8 +827,8 @@ export default function CheckoutPage() {
 
           {/* Right Column - Order Summary */}
           <div className="w-full lg:w-[420px] shrink-0">
-            <div className="bg-white rounded-[1rem] p-6 sm:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] border border-stone-100 lg:sticky lg:top-24">
-              <h2 className="text-xl font-black text-stone-900 mb-6 flex items-center gap-2">
+            <div className="bg-white border border-gray-200 p-6 sm:p-8 shadow-sm lg:sticky lg:top-24">
+              <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase mb-8 flex items-center gap-3 border-b border-gray-100 pb-4">
                 <ShoppingCart className="w-5 h-5 text-[var(--olive)]" />
                 Order Summary
               </h2>
@@ -957,7 +958,7 @@ export default function CheckoutPage() {
               <button
                 onClick={handlePlaceOrder}
                 disabled={isPlacingOrder}
-                className="w-full py-3.5 rounded-xl bg-[var(--olive)] text-white font-bold text-sm shadow-lg shadow-[var(--olive)]/20 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 group cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-sm uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors flex items-center justify-center gap-3 group cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {isPlacingOrder ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

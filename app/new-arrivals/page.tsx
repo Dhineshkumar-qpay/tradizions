@@ -146,7 +146,7 @@ export default function NewArrivalsPage() {
   const paginatedProducts = filteredProducts;
 
   return (
-    <main className="min-h-screen bg-[#fafaf9] pt-24 lg:pt-20">
+    <main className="min-h-screen bg-[#fafaf9]">
       {/* ──── New Arrivals Hero / Header ──── */}
       <section className="relative pt-15 pb-6 px-6 sm:px-12 lg:px-20 overflow-hidden bg-white border-b border-stone-100">
         <div className="absolute top-0 right-0 w-[400px] h-full bg-gradient-to-l from-[var(--beige)]/60 to-transparent pointer-events-none" />
@@ -223,11 +223,10 @@ export default function NewArrivalsPage() {
                       <button
                         key={item.id}
                         onClick={() => { setSortBy(item.id); setCurrentPage(1); }}
-                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
-                          sortBy === item.id
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${sortBy === item.id
                             ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                             : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
-                        }`}
+                          }`}
                       >
                         <span className="text-[11px] font-bold">{item.label}</span>
                         <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${sortBy === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
@@ -253,11 +252,10 @@ export default function NewArrivalsPage() {
                       <button
                         key={item.id}
                         onClick={() => { setPriceRange(item.id); setCurrentPage(1); }}
-                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
-                          priceRange === item.id
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${priceRange === item.id
                             ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                             : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
-                        }`}
+                          }`}
                       >
                         <span className="text-[11px] font-bold">{item.label}</span>
                         <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${priceRange === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
@@ -361,7 +359,7 @@ export default function NewArrivalsPage() {
                 <X className="w-5 h-5 text-stone-400" />
               </button>
             </div>
-            
+
             <div className="p-6">
               <div className="mb-8">
                 <h3 className="text-xs font-black text-stone-400 uppercase tracking-widest mb-3 flex items-center gap-2">
@@ -376,11 +374,10 @@ export default function NewArrivalsPage() {
                     <button
                       key={item.id}
                       onClick={() => { setSortBy(item.id); setCurrentPage(1); }}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
-                        sortBy === item.id
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${sortBy === item.id
                           ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                           : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
-                      }`}
+                        }`}
                     >
                       <span className="text-[11px] font-bold">{item.label}</span>
                       <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${sortBy === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>
@@ -406,11 +403,10 @@ export default function NewArrivalsPage() {
                     <button
                       key={item.id}
                       onClick={() => { setPriceRange(item.id); setCurrentPage(1); }}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
-                        priceRange === item.id
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${priceRange === item.id
                           ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                           : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
-                      }`}
+                        }`}
                     >
                       <span className="text-[11px] font-bold">{item.label}</span>
                       <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${priceRange === item.id ? "border-[var(--olive)]" : "border-stone-200"}`}>

@@ -567,7 +567,7 @@ export default function ShopPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#fafaf9] pt-24 lg:pt-20">
+    <main className="min-h-screen bg-[#fafaf9] ">
       <Suspense fallback={null}>
         <ShopQueryHandler
           categories={categories}
@@ -576,42 +576,49 @@ export default function ShopPage() {
         />
       </Suspense>
       {/* ──── Shop Hero / Header ──── */}
-      <section className="relative pt-15 pb-6 px-6 sm:px-12 lg:px-20 overflow-hidden bg-white border-b border-stone-100">
-        {/* Subtle background decoration */}
-        <div className="absolute top-0 right-0 w-[400px] h-full bg-gradient-to-l from-[var(--beige)]/60 to-transparent pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[300px] h-1 bg-gradient-to-r from-[var(--olive)] via-[var(--orange)] to-transparent" />
+      <section className="relative pt-24 pb-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-[var(--dark-brown)] border-b border-[var(--olive-dark)]">
+        {/* Background Image & Overlay */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://img.magnific.com/free-photo/top-view-nuts-concept-with-copy-space_23-2148693980.jpg?semt=ais_hybrid&w=740&q=80"
+            alt="Corporate Shop Banner"
+            className="w-full h-full object-cover opacity-30 mix-blend-overlay"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--dark-brown)] via-[var(--dark-brown)]/80 to-[var(--olive-dark)]/30" />
+        </div>
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10 flex flex-col justify-center min-h-[200px]">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-4">
-            <span>Home</span>
+          <div className="flex items-center gap-2 text-xs font-semibold text-stone-400 uppercase tracking-widest mb-6">
+            <Link href="/" className="hover:text-white transition-colors">
+              Home
+            </Link>
             <span>/</span>
-            <span className="text-[var(--olive)]">{t.shop || "Shop"}</span>
+            <span className="text-white">{t.shop || "Shop"}</span>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div className="space-y-2">
-              <h1 className="text-xl md:text-2xl font-extrabold text-[var(--dark-brown)] leading-tight tracking-tight">
-                {t.shop_headline || "Our Collections"}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10">
+            <div className="space-y-4 max-w-2xl">
+              <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight tracking-tight">
+                {t.shop_headline || "Enterprise Collections"}
               </h1>
-              <p className="text-sm text-stone-500 max-w-lg font-medium leading-relaxed">
+              <p className="text-sm md:text-base text-stone-300 font-medium leading-relaxed">
                 {t.shop_desc ||
-                  "From ancient grains to wellness essentials — explore our curated selection of tradition-backed products."}
+                  "Discover our curated selection of premium products, designed for professionals and corporate gifting."}
               </p>
             </div>
 
             {/* Trust badges */}
-            <div className="flex flex-wrap gap-3 md:justify-end shrink-0">
+            <div className="flex flex-wrap gap-3 md:justify-end shrink-0 pb-2">
               {[
-                { icon: "🌿", label: "100% Natural" },
-                { icon: "📦", label: "Fast Delivery" },
-                { icon: "⭐", label: "Premium Grade" },
+                { icon: "Shield", label: "Quality Assured" },
+                { icon: "Briefcase", label: "Corporate Ready" },
+                { icon: "Award", label: "Premium Grade" },
               ].map((badge) => (
                 <div
                   key={badge.label}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-50 border border-stone-100 text-[10px] font-bold text-stone-600 tracking-wide"
+                  className="flex items-center gap-2 px-4 py-2 rounded-sm bg-white/5 backdrop-blur-md border border-[var(--olive)]/30 text-xs font-bold text-white tracking-wide uppercase shadow-sm"
                 >
-                  <span>{badge.icon}</span>
                   {badge.label}
                 </div>
               ))}
@@ -622,12 +629,12 @@ export default function ShopPage() {
 
       {/* SHOP CONTENT */}
       <div className="max-w-7xl mx-auto px-2 md:px-6 py-6 md:py-10 pb-32">
-        <div className="flex flex-col lg:flex-row gap-12">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* DESKTOP SIDEBAR */}
-          <aside className="hidden lg:block w-60 shrink-0">
-            <div className="sticky top-28 bg-white border border-stone-200 shadow-sm overflow-hidden rounded-1xl">
-              <div className="px-4 py-3 border-b border-stone-100 flex items-center justify-between bg-white">
-                <h3 className="text-base font-bold text-stone-900 tracking-tight">
+          <aside className="hidden lg:block w-64 shrink-0">
+            <div className="sticky top-28 bg-white border border-stone-200 shadow-sm rounded-sm">
+              <div className="px-5 py-4 border-b border-stone-100 flex items-center justify-between bg-stone-50 rounded-t-sm">
+                <h3 className="text-xs font-bold text-stone-900 tracking-widest uppercase">
                   {t.shop_filters.title}
                 </h3>
                 <button
@@ -659,7 +666,7 @@ export default function ShopPage() {
                 {/* Mobile/Tablet Filter Trigger */}
                 <button
                   onClick={() => setIsMobileFilterOpen(true)}
-                  className="lg:hidden flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-700 shadow-sm hover:border-[var(--olive)] transition-colors"
+                  className="lg:hidden flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-sm text-xs font-bold text-stone-900 shadow-sm hover:border-stone-400 transition-colors uppercase tracking-widest"
                 >
                   <Filter className="w-4 h-4" />
                   Filters
@@ -672,10 +679,9 @@ export default function ShopPage() {
                     onBlur={() =>
                       setTimeout(() => setIsSortDropdownOpen(false), 200)
                     }
-                    className="flex items-center justify-between w-full bg-white border border-stone-200 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.02)] px-4 py-2.5 text-xs font-bold text-stone-700 hover:border-[var(--olive)] hover:shadow-md transition-all duration-300 cursor-pointer select-none"
+                    className="flex items-center justify-between w-full bg-white border border-stone-200 rounded-sm shadow-sm px-4 py-3 text-xs font-bold text-stone-900 hover:border-stone-400 transition-all duration-300 cursor-pointer select-none uppercase tracking-widest"
                   >
                     <span className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]" />
                       {sortBy === "" && "Sort: Default"}
                       {sortBy === "lowToHigh" && "Price: Low to High"}
                       {sortBy === "highToLow" && "Price: High to Low"}
@@ -686,7 +692,7 @@ export default function ShopPage() {
                   </button>
 
                   {isSortDropdownOpen && (
-                    <div className="absolute top-full left-0 mt-1.5 w-full bg-white border border-stone-100 rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="absolute top-full left-0 mt-1.5 w-full bg-white border border-stone-200 rounded-sm shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                       <div className="py-1 text-xs">
                         <button
                           onClick={() => {
@@ -758,8 +764,8 @@ export default function ShopPage() {
               </div>
 
               {/* Search Bar */}
-              <div className="relative w-full sm:max-w-xs flex items-center bg-white border border-stone-200 rounded-xl shadow-sm px-4 py-2.5 transition-all hover:border-[var(--olive)]">
-                <Search className="h-4 w-4 text-stone-300 mr-3" />
+              <div className="relative w-full sm:max-w-xs flex items-center bg-white border border-stone-200 rounded-sm shadow-sm px-4 py-3 transition-all hover:border-stone-400">
+                <Search className="h-4 w-4 text-stone-400 mr-3" />
                 <input
                   type="text"
                   placeholder={t.search_placeholder}
@@ -771,7 +777,7 @@ export default function ShopPage() {
                       page: 1,
                     }));
                   }}
-                  className="bg-transparent text-xs font-bold text-stone-700 outline-none w-full placeholder:text-stone-300"
+                  className="bg-transparent text-xs font-bold text-stone-900 outline-none w-full placeholder:text-stone-400 uppercase tracking-widest"
                 />
               </div>
             </div>
@@ -784,9 +790,7 @@ export default function ShopPage() {
                 ))
               ) : paginatedProducts.length > 0 ? (
                 paginatedProducts.map((product) => {
-                  return (
-                    <ProductCard key={product.id} product={product} />
-                  );
+                  return <ProductCard key={product.id} product={product} />;
                 })
               ) : (
                 <NoResultsFound

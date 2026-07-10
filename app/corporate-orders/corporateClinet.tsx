@@ -123,7 +123,7 @@ export default function CorporateOrdersPageClient() {
       console.error("Error submitting corporate inquiry:", err);
       alert(
         err?.response?.data?.message ||
-        "An error occurred while submitting your inquiry.",
+          "An error occurred while submitting your inquiry.",
       );
     } finally {
       setIsSubmitting(false);
@@ -168,7 +168,7 @@ export default function CorporateOrdersPageClient() {
         console.error("Error adding to cart:", err);
         alert(
           err?.response?.data?.message ||
-          "An error occurred while proceeding to checkout.",
+            "An error occurred while proceeding to checkout.",
         );
       } finally {
         setIsAddingToCart(null);
@@ -186,7 +186,7 @@ export default function CorporateOrdersPageClient() {
       {/* ── HERO SECTION (Light & Modern Split) ── */}
       <section
         ref={heroRef.ref}
-        className="relative pt-36 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-[var(--site-bg)] z-10"
+        className="relative py-10 overflow-hidden bg-[var(--site-bg)] z-10"
       >
         {/* Background Accents */}
         <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-bl from-[var(--olive)]/10 to-transparent rounded-bl-[120px] -z-10" />
@@ -349,30 +349,46 @@ export default function CorporateOrdersPageClient() {
       <section className="py-24 bg-white relative z-20 overflow-hidden">
         {/* Soft background glow for depth */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-full bg-[var(--olive)]/5 rounded-[100%] blur-[120px] pointer-events-none" />
-        
+
         <div className="w-full max-w-6xl mx-auto px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
             {/* Image 1 */}
             <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
-              <img src="https://m.media-amazon.com/images/I/A1VpOe56yCL.jpg" alt="Premium Gift Set" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out" />
+              <img
+                src="https://m.media-amazon.com/images/I/A1VpOe56yCL.jpg"
+                alt="Premium Gift Set"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out"
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
-            
+
             {/* Image 2 */}
             <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
-              <img src="https://www.omayfoods.com/cdn/shop/files/Nuts_Delights_1_1024x.png?v=1707999347" alt="Nut Delights" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out" />
+              <img
+                src="https://www.omayfoods.com/cdn/shop/files/Nuts_Delights_1_1024x.png?v=1707999347"
+                alt="Nut Delights"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out"
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
-            
+
             {/* Image 3 */}
             <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
-              <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQPr92M7tc_wU803465wGPaftI9HsjKuriT3MdTYEDzWYF84zvY" alt="Corporate Hamper" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out" />
+              <img
+                src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQPr92M7tc_wU803465wGPaftI9HsjKuriT3MdTYEDzWYF84zvY"
+                alt="Corporate Hamper"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out"
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
-            
+
             {/* Image 4 */}
             <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_pKrj2QQfoqJJJZQpUnoeI6zbcbp-xYRWjUJXpfYJCyenQtB2" alt="Elegant Gifting" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out" />
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_pKrj2QQfoqJJJZQpUnoeI6zbcbp-xYRWjUJXpfYJCyenQtB2"
+                alt="Elegant Gifting"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out"
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
           </div>
@@ -383,7 +399,7 @@ export default function CorporateOrdersPageClient() {
       <section className="py-24 bg-[#FFF5EF] text-gray-900 relative z-20 overflow-hidden">
         {/* Subtle grid pattern for a corporate tech/structured feel */}
         <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:24px_24px]" />
-        
+
         {/* Ambient glow using darker peach/orange */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#FFDAB9]/40 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#FFCBA4]/30 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
@@ -397,7 +413,7 @@ export default function CorporateOrdersPageClient() {
                   The Tradizions Advantage
                 </span>
               </div>
-              
+
               <h2 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight text-gray-900">
                 {t.corporate_orders.prof_title || "Corporate Gifting,"} <br />
                 <span className="text-[var(--orange)] font-light">
@@ -414,40 +430,65 @@ export default function CorporateOrdersPageClient() {
                 {[
                   {
                     icon: "https://cdn-icons-png.flaticon.com/128/166/166258.png",
-                    title: t.corporate_orders.prof_feature1_title || "Dedicated Manager",
-                    desc: t.corporate_orders.prof_feature1_desc || "Single point of contact for end-to-end execution.",
+                    title:
+                      t.corporate_orders.prof_feature1_title ||
+                      "Dedicated Manager",
+                    desc:
+                      t.corporate_orders.prof_feature1_desc ||
+                      "Single point of contact for end-to-end execution.",
                   },
                   {
                     icon: "https://cdn-icons-png.flaticon.com/128/3112/3112946.png",
-                    title: t.corporate_orders.prof_feature2_title || "Bespoke Curation",
-                    desc: t.corporate_orders.prof_feature2_desc || "Tailored hampers designed to fit precise budgets.",
+                    title:
+                      t.corporate_orders.prof_feature2_title ||
+                      "Bespoke Curation",
+                    desc:
+                      t.corporate_orders.prof_feature2_desc ||
+                      "Tailored hampers designed to fit precise budgets.",
                   },
                   {
                     icon: "https://cdn-icons-png.flaticon.com/128/726/726455.png",
-                    title: t.corporate_orders.prof_feature3_title || "White-Glove Delivery",
-                    desc: t.corporate_orders.prof_feature3_desc || "Secure, reliable, trackable multi-point dispatch.",
+                    title:
+                      t.corporate_orders.prof_feature3_title ||
+                      "White-Glove Delivery",
+                    desc:
+                      t.corporate_orders.prof_feature3_desc ||
+                      "Secure, reliable, trackable multi-point dispatch.",
                   },
                   {
                     icon: "https://cdn-icons-png.flaticon.com/128/5517/5517030.png",
-                    title: t.corporate_orders.prof_feature4_title || "Tax Compliant",
-                    desc: t.corporate_orders.prof_feature4_desc || "GST-ready billing for hassle-free accounting.",
+                    title:
+                      t.corporate_orders.prof_feature4_title || "Tax Compliant",
+                    desc:
+                      t.corporate_orders.prof_feature4_desc ||
+                      "GST-ready billing for hassle-free accounting.",
                   },
                 ].map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="group p-6 rounded-2xl bg-white/60 backdrop-blur-md border border-[#FFDAB9]/60 hover:bg-white hover:border-[var(--orange)]/40 hover:shadow-[0_20px_40px_rgba(255,140,0,0.08)] hover:-translate-y-1 transition-all duration-500"
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-[#FFF5EF] border border-[#FFDAB9] flex items-center justify-center mb-5 group-hover:border-[var(--orange)]/50 transition-colors shadow-sm">
-                        <img src={item.icon} alt="icon" height={24} width={24} className="opacity-70 group-hover:opacity-100 transition-opacity" style={{ filter: 'brightness(0) sepia(1) hue-rotate(340deg) saturate(5)' }} />
-                      </div>
-                      <h3 className="text-sm font-extrabold text-gray-900 tracking-tight mb-2 group-hover:text-[var(--orange)] transition-colors duration-500">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                        {item.desc}
-                      </p>
+                  <div
+                    key={idx}
+                    className="group p-6 rounded-2xl bg-white/60 backdrop-blur-md border border-[#FFDAB9]/60 hover:bg-white hover:border-[var(--orange)]/40 hover:shadow-[0_20px_40px_rgba(255,140,0,0.08)] hover:-translate-y-1 transition-all duration-500"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-[#FFF5EF] border border-[#FFDAB9] flex items-center justify-center mb-5 group-hover:border-[var(--orange)]/50 transition-colors shadow-sm">
+                      <img
+                        src={item.icon}
+                        alt="icon"
+                        height={24}
+                        width={24}
+                        className="opacity-70 group-hover:opacity-100 transition-opacity"
+                        style={{
+                          filter:
+                            "brightness(0) sepia(1) hue-rotate(340deg) saturate(5)",
+                        }}
+                      />
                     </div>
-                  ))}
+                    <h3 className="text-sm font-extrabold text-gray-900 tracking-tight mb-2 group-hover:text-[var(--orange)] transition-colors duration-500">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -460,11 +501,12 @@ export default function CorporateOrdersPageClient() {
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#3d4d22]/80 via-[#3d4d22]/20 to-transparent mix-blend-multiply" />
-                
+
                 <div className="absolute bottom-10 left-10 right-10 p-6 bg-white/90 backdrop-blur-md rounded-2xl border border-white/50 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 delay-100 shadow-xl">
                   <div className="w-8 h-1 bg-[var(--orange)] mb-4 rounded-full" />
                   <p className="text-lg font-medium text-gray-900 italic leading-relaxed">
-                    "Elevate your corporate relationships with premium wellness gifting tailored for excellence."
+                    "Elevate your corporate relationships with premium wellness
+                    gifting tailored for excellence."
                   </p>
                 </div>
               </div>
@@ -485,7 +527,6 @@ export default function CorporateOrdersPageClient() {
               </p>
               <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight tracking-tight">
                 {t.corporate_orders.popular_choices || "Popular Corporate"}{" "}
-                <br />
                 <span className="text-[var(--orange)]">
                   {t.corporate_orders.choices || "Gifting Choices"}
                 </span>
@@ -515,7 +556,7 @@ export default function CorporateOrdersPageClient() {
                       alt={item.productname}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    
+
                     {/* Dark professional overlay on hover */}
                     <div className="absolute inset-0 bg-gray-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
                       <button
@@ -587,7 +628,7 @@ export default function CorporateOrdersPageClient() {
             {/* Left Info Side - Corporate Professional */}
             <div className="lg:w-2/5 bg-[var(--olive-dark)] p-10 lg:p-14 text-white flex flex-col justify-between relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--orange)] opacity-10 rounded-bl-full pointer-events-none" />
-              
+
               <div className="relative z-10 space-y-6">
                 <div className="inline-flex items-center gap-2">
                   <span className="w-6 h-1 bg-[var(--orange)]" />
@@ -600,7 +641,7 @@ export default function CorporateOrdersPageClient() {
                   Let's Discuss Your <br />
                   <span className="text-[var(--orange)]">Gifting Needs</span>
                 </h2>
-                
+
                 <p className="text-sm text-[var(--cream)]/80 leading-relaxed max-w-sm mt-4">
                   {t.corporate_orders.custom_quote_desc ||
                     "Fill out the form with your requirements and our corporate sales team will get back to you within 24 hours."}
@@ -616,7 +657,10 @@ export default function CorporateOrdersPageClient() {
                     <p className="text-[10px] font-bold tracking-widest uppercase text-[var(--cream)]/60 mb-1">
                       Email Us
                     </p>
-                    <a href="mailto:tradizions@gmail.com" className="text-sm font-medium text-[var(--cream)] hover:text-[var(--orange)] transition-colors">
+                    <a
+                      href="mailto:tradizions@gmail.com"
+                      className="text-sm font-medium text-[var(--cream)] hover:text-[var(--orange)] transition-colors"
+                    >
                       tradizions@gmail.com
                     </a>
                   </div>
@@ -630,7 +674,10 @@ export default function CorporateOrdersPageClient() {
                     <p className="text-[10px] font-bold tracking-widest uppercase text-[var(--cream)]/60 mb-1">
                       Call Us
                     </p>
-                    <a href="tel:+919940620019" className="text-sm font-medium text-[var(--cream)] hover:text-[var(--orange)] transition-colors">
+                    <a
+                      href="tel:+919940620019"
+                      className="text-sm font-medium text-[var(--cream)] hover:text-[var(--orange)] transition-colors"
+                    >
                       +91 9940620019
                     </a>
                   </div>
@@ -677,7 +724,8 @@ export default function CorporateOrdersPageClient() {
                     </div>
                     <div className="space-y-1">
                       <label className="text-[11px] font-bold text-[var(--olive-dark)] uppercase tracking-wide">
-                        {t.corporate_orders.contact_person || "Contact Person"} *
+                        {t.corporate_orders.contact_person || "Contact Person"}{" "}
+                        *
                       </label>
                       <input
                         type="text"
@@ -738,7 +786,8 @@ export default function CorporateOrdersPageClient() {
 
                   <div className="space-y-1">
                     <label className="text-[11px] font-bold text-[var(--olive-dark)] uppercase tracking-wide">
-                      {t.corporate_orders.tell_us || "Additional Requirements"} *
+                      {t.corporate_orders.tell_us || "Additional Requirements"}{" "}
+                      *
                     </label>
                     <textarea
                       rows={4}

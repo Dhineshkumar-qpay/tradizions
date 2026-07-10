@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "@/components/Footer";
 import AIChatbot from "@/components/AIChatbot";
 import AuthGate from "@/components/AuthGate";
+import CartSidebar from "@/components/CartSidebar";
 import { GoogleAnalytics } from '@next/third-parties/google'
 import ClickAnimation from "@/components/ClickAnimation";
 
@@ -118,8 +119,9 @@ export default function RootLayout({
         style={{ fontFamily: "var(--font-inter), sans-serif" }}
       >
         <AuthGate>
+          <CartSidebar />
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pt-[160px] md:pt-[165px]">{children}</main>
           <Footer />
           <AIChatbot />
           <ClickAnimation />

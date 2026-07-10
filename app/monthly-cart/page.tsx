@@ -195,39 +195,38 @@ export default function MonthlyCartPage() {
 
   if (orderPlaced) {
     return (
-      <main className="min-h-screen bg-[#f7f7f5] flex justify-center pt-32 lg:pt-40 pb-12 px-4 sm:px-8 overflow-hidden relative">
-        <div className="absolute top-[-80px] left-[-80px] w-[180px] h-[180px] bg-[var(--olive)]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-[-80px] right-[-80px] w-[180px] h-[180px] bg-[var(--olive-dark)]/10 rounded-full blur-3xl" />
-        <div className="relative w-full max-w-sm">
-          <div className="relative bg-white rounded-[28px] border border-stone-200/70 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.12)] overflow-hidden">
-            <div className="h-1.5 bg-gradient-to-r from-[var(--olive)] via-[var(--olive)] to-[var(--olive-dark)]" />
-            <div className="px-6 pt-8 pb-6 text-center">
+      <main className="min-h-screen bg-[var(--site-bg)] flex justify-center pt-10 lg:pt-10 pb-12 px-4 sm:px-8 overflow-hidden relative selection:bg-[var(--olive)] selection:text-white text-[var(--dark-grey)]">
+        <div className="relative w-full max-w-md">
+          <div className="relative bg-white border border-gray-200 shadow-sm overflow-hidden">
+            <div className="px-8 pt-10 pb-10 text-center">
               <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full border-2 border-[var(--olive)]/30 animate-ping" />
-                <div className="relative z-10 w-20 h-20 rounded-full bg-gradient-to-br from-[var(--olive)] to-[var(--olive-dark)] flex items-center justify-center shadow-[0_15px_30px_rgba(85,107,47,0.35)]">
-                  <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
-                    <svg className="w-7 h-7 text-[var(--olive)]" fill="none" stroke="currentColor" strokeWidth="4" viewBox="0 0 24 24">
+                <div className="absolute inset-0 border-2 border-[var(--olive-dark)]/10 animate-ping" />
+                <div className="relative z-10 w-20 h-20 bg-[var(--olive-dark)] flex items-center justify-center shadow-sm">
+                  <div className="w-14 h-14 bg-white flex items-center justify-center">
+                    <svg className="w-7 h-7 text-[var(--olive-dark)]" fill="none" stroke="currentColor" strokeWidth="4" viewBox="0 0 24 24">
                       <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" style={{ strokeDasharray: 100, strokeDashoffset: 100, animation: "draw 0.6s ease forwards" }} />
                     </svg>
                   </div>
                 </div>
               </div>
-              <h1 className="text-2xl font-black text-stone-900 mb-2 tracking-tight">{t.order_confirmed || "Order Confirmed"}</h1>
-              <p className="text-stone-500 text-xs leading-relaxed max-w-[240px] mx-auto mb-6">{t.monthly_order_confirmed_desc || "Your monthly order has been placed successfully."}</p>
-              <div className="bg-stone-50 rounded-2xl border border-stone-200 p-4 mb-6 text-left">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-stone-400 font-bold">Order ID</span>
-                  <span className="text-xs font-black text-stone-900">#{placedOrderId}</span>
+              <h1 className="text-2xl font-bold text-[var(--olive-dark)] mb-2 tracking-tight uppercase">{t.order_confirmed || "Order Confirmed"}</h1>
+              <p className="text-gray-500 text-xs font-medium leading-relaxed max-w-[240px] mx-auto mb-8">{t.monthly_order_confirmed_desc || "Your monthly order has been placed successfully."}</p>
+              
+              <div className="bg-white border border-gray-200 p-6 mb-8 text-left shadow-sm">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold">Order ID</span>
+                  <span className="text-xs font-black text-gray-900">#{placedOrderId}</span>
                 </div>
-                <div className="border-t border-dashed border-stone-200 my-3"></div>
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-[11px] text-stone-500 font-medium">Total</span>
-                  <span className="text-lg font-black text-[var(--olive-dark)]">₹{cartData?.totalamount?.toLocaleString()}</span>
+                <div className="border-t border-gray-100 my-4"></div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-[11px] text-gray-500 font-medium uppercase tracking-[0.1em]">Total</span>
+                  <span className="text-lg font-bold text-[var(--olive-dark)]">₹{cartData?.totalamount?.toLocaleString("en-IN", { maximumFractionDigits: 2 })}</span>
                 </div>
               </div>
-              <div className="flex flex-col gap-3">
-                <Link href={`/order-detail?id=${placedOrderId}`} className="w-full h-12 rounded-xl bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_25px_rgba(85,107,47,0.25)]">{t.track_order || "Track Order"}</Link>
-                <Link href="/shop" className="w-full h-12 rounded-xl bg-white border border-stone-200 text-stone-700 text-[10px] font-black tracking-[0.18em] uppercase flex items-center justify-center hover:bg-stone-50 transition-all duration-300">{t.continue_shopping || "Continue Shopping"}</Link>
+              
+              <div className="flex flex-col gap-4">
+                <Link href={`/order-detail?id=${placedOrderId}`} className="w-full h-14 bg-[var(--olive-dark)] text-white text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center transition-colors hover:bg-[var(--orange)] shadow-sm">{t.track_order || "Track Order"}</Link>
+                <Link href="/shop" className="w-full h-14 bg-white border border-gray-300 text-[var(--dark-grey)] text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center hover:border-[var(--olive-dark)] hover:text-[var(--olive-dark)] transition-colors">{t.continue_shopping || "Continue Shopping"}</Link>
               </div>
             </div>
           </div>
@@ -238,38 +237,40 @@ export default function MonthlyCartPage() {
   }
 
   return (
-    <main className="min-h-screen bg-stone-50 pt-32 lg:pt-40 pb-20">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+    <main className="min-h-screen bg-[var(--site-bg)] pt-10 lg:pt-10 pb-20 selection:bg-[var(--olive)] selection:text-white text-[var(--dark-grey)]">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left Column - Forms */}
-          <div className="flex-1 space-y-8">
-            <div className="bg-white rounded-[1rem] p-6 sm:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 relative">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-xl font-black text-stone-900 flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-[var(--olive)]/10 text-[var(--olive)] flex items-center justify-center text-sm">1</span>
-                  Delivery Address
-                </h2>
-                <button onClick={() => setShowAddressForm(!showAddressForm)} className="text-[11px] font-black text-[var(--olive)] tracking-widest hover:underline uppercase transition-colors cursor-pointer">
+          <div className="flex-1 space-y-10">
+            <div className="bg-white border border-gray-200 p-6 sm:p-10 relative shadow-sm">
+              <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-100">
+                <div className="flex items-center gap-4">
+                  <span className="text-4xl font-light text-[var(--olive)]/20">01</span>
+                  <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase">
+                    Delivery Address
+                  </h2>
+                </div>
+                <button onClick={() => setShowAddressForm(!showAddressForm)} className="text-[11px] font-bold text-[var(--olive-dark)] tracking-[0.2em] hover:text-[var(--orange)] uppercase transition-colors cursor-pointer">
                   {showAddressForm ? "Cancel" : "Add New Address"}
                 </button>
               </div>
 
               <div className="space-y-6">
-                <div className="border-2 rounded-2xl p-6 cursor-pointer transition-all border-[var(--olive)] bg-[#fcfcfb]">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all border-[var(--olive)] bg-[var(--olive)]">
+                <div className="border border-[var(--olive-dark)] p-6 transition-all bg-gray-50/50 shadow-sm">
+                  <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200">
+                    <div className="w-6 h-6 flex items-center justify-center transition-all bg-[var(--olive-dark)]">
                       <Check className="w-3 h-3 text-white" strokeWidth={4} />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-stone-900">Select Delivery Address</h3>
-                      <p className="text-xs text-stone-500">All items will be delivered to this address</p>
+                      <h3 className="text-sm font-bold text-[var(--olive-dark)] uppercase tracking-[0.1em]">Select Delivery Address</h3>
+                      <p className="text-xs text-gray-500 font-medium">All items will be delivered to this address</p>
                     </div>
                   </div>
                   <div className="ml-10">
                     <select
                       value={selectedAddressId || ""}
                       onChange={(e) => setSelectedAddressId(Number(e.target.value))}
-                      className="w-full border border-stone-200 rounded-xl py-3 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-stone-800 text-sm shadow-sm"
+                      className="w-full border-b border-gray-300 py-3 px-0 bg-transparent focus:border-[var(--olive-dark)] outline-none transition-colors font-medium text-[var(--dark-grey)] text-sm shadow-none"
                     >
                       <option value="">Select an address</option>
                       {addresses.map((addr) => (
@@ -283,8 +284,8 @@ export default function MonthlyCartPage() {
               </div>
 
               {showAddressForm && (
-                <div className="mt-8 border border-stone-100 rounded-[1.5rem] p-6 sm:p-8 bg-stone-50/50 shadow-inner animate-fade-in-up">
-                  <h3 className="text-sm font-black text-stone-900 mb-6 uppercase tracking-widest">Enter Details</h3>
+                <div className="mt-8 border border-gray-200 p-6 sm:p-8 bg-white animate-fade-in-up shadow-sm">
+                  <h3 className="text-sm font-bold text-[var(--olive-dark)] mb-6 uppercase tracking-[0.15em]">Enter Details</h3>
                   <form onSubmit={handleSaveAddress} className="space-y-5">
                     <div className="grid grid-cols-2 gap-5">
                       <div>
@@ -294,7 +295,7 @@ export default function MonthlyCartPage() {
                         <select
                           value={title}
                           onChange={(e) => setTitle(e.target.value)}
-                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm"
+                          className="w-full border-b border-gray-300 bg-transparent py-3 px-0 focus:border-[var(--olive-dark)] outline-none transition-colors font-medium text-[var(--dark-grey)] text-sm shadow-none"
                         >
                           <option value="Home">Home</option>
                           <option value="Office">Office</option>
@@ -310,7 +311,7 @@ export default function MonthlyCartPage() {
                           placeholder="Your Name"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                          className="w-full border-b border-gray-300 bg-transparent py-3 px-0 focus:border-[var(--olive-dark)] outline-none transition-colors font-medium text-[var(--dark-grey)] text-sm shadow-none"
                         />
                       </div>
                     </div>
@@ -323,20 +324,20 @@ export default function MonthlyCartPage() {
                         placeholder="10-digit Mobile Number"
                         value={mobileNumber}
                         onChange={(e) => setMobileNumber(e.target.value)}
-                        className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                        className="w-full border-b border-gray-300 bg-transparent py-3 px-0 focus:border-[var(--olive-dark)] outline-none transition-colors font-medium text-[var(--dark-grey)] text-sm shadow-none"
                       />
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Email Address</label>
-                      <input type="email" required placeholder="Required for order updates" value={addressEmail} onChange={(e) => setAddressEmail(e.target.value)} className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white" />
+                      <input type="email" required placeholder="Required for order updates" value={addressEmail} onChange={(e) => setAddressEmail(e.target.value)} className="w-full border-b border-gray-300 bg-transparent py-3 px-0 focus:border-[var(--olive-dark)] outline-none transition-colors font-medium text-[var(--dark-grey)] text-sm shadow-none" />
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Address Line</label>
-                      <textarea rows={2} value={addressLine} onChange={(e) => setAddressLine(e.target.value)} className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all resize-none font-bold text-stone-800 text-sm shadow-sm bg-white" />
+                      <textarea rows={2} value={addressLine} onChange={(e) => setAddressLine(e.target.value)} className="w-full border-b border-gray-300 bg-transparent py-3 px-0 focus:border-[var(--olive-dark)] outline-none transition-colors resize-none font-medium text-[var(--dark-grey)] text-sm shadow-none" />
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Landmark</label>
-                      <input type="text" value={landmark} onChange={(e) => setLandmark(e.target.value)} className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white" />
+                      <input type="text" value={landmark} onChange={(e) => setLandmark(e.target.value)} className="w-full border-b border-gray-300 bg-transparent py-3 px-0 focus:border-[var(--olive-dark)] outline-none transition-colors font-medium text-[var(--dark-grey)] text-sm shadow-none" />
                     </div>
                     <div className="grid grid-cols-2 gap-5">
                       <div>
@@ -368,15 +369,15 @@ export default function MonthlyCartPage() {
                     <div className="grid grid-cols-2 gap-5">
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">City</label>
-                        <input type="text" value={city} onChange={(e) => setCity(e.target.value)} className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white" />
+                        <input type="text" value={city} onChange={(e) => setCity(e.target.value)} className="w-full border-b border-gray-300 bg-transparent py-3 px-0 focus:border-[var(--olive-dark)] outline-none transition-colors font-medium text-[var(--dark-grey)] text-sm shadow-none" />
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Pincode</label>
-                        <input type="text" value={pincode} onChange={(e) => setPincode(e.target.value)} className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white" />
+                        <input type="text" value={pincode} onChange={(e) => setPincode(e.target.value)} className="w-full border-b border-gray-300 bg-transparent py-3 px-0 focus:border-[var(--olive-dark)] outline-none transition-colors font-medium text-[var(--dark-grey)] text-sm shadow-none" />
                       </div>
                     </div>
                     <div className="pt-2">
-                      <button type="submit" className="w-full py-4 rounded-xl bg-[var(--olive)] text-white font-black text-[11px] uppercase tracking-widest shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all cursor-pointer">
+                      <button type="submit" className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors cursor-pointer">
                         SAVE SECURE ADDRESS
                       </button>
                     </div>
@@ -387,9 +388,9 @@ export default function MonthlyCartPage() {
           </div>
 
           {/* Right Column - Order Summary */}
-          <div className="w-full lg:w-[400px] shrink-0">
-            <div className="bg-white rounded-[1rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 sticky top-24">
-              <h2 className="text-xl font-black text-stone-900 mb-6">Order Summary</h2>
+          <div className="w-full lg:w-[420px] shrink-0">
+            <div className="bg-white border border-gray-200 p-6 sm:p-8 shadow-sm lg:sticky lg:top-24">
+              <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase mb-8 pb-4 border-b border-gray-100">Order Summary</h2>
 
               <div className="space-y-4 mb-6 max-h-[400px] overflow-y-auto pr-2">
                 {cartData?.items?.map((item, idx) => {
@@ -397,25 +398,25 @@ export default function MonthlyCartPage() {
                     ? item.productimage
                     : `${IMAGE_URL || ""}${item.productimage}`;
                   return (
-                    <div key={item.monthlycartid || idx} className="flex gap-4 p-3 rounded-xl border border-stone-100 bg-stone-50/50">
-                      <div className="w-16 h-16 rounded-lg bg-white overflow-hidden shrink-0 border border-stone-100">
+                    <div key={item.monthlycartid || idx} className="flex gap-4 p-4 border border-gray-200 bg-white shadow-sm overflow-hidden">
+                      <div className="w-16 h-16 bg-gray-50 overflow-hidden shrink-0 border border-gray-100">
                         <img src={itemImage || "/placeholder.png"} className="w-full h-full object-cover" alt={item.productname || ""} />
                       </div>
                       <div className="flex-1 min-w-0 flex flex-col justify-between">
-                        <p className="text-xs font-bold text-stone-900 truncate">{item.productname}</p>
-                        <p className="text-[9px] text-stone-400 mt-0.5 font-medium leading-relaxed">
-                          Family: <span className="text-stone-600 font-bold">{item.familymembers}</span> | 
-                          <span className="text-stone-600 font-bold"> {item.gramsperday}g</span>/day | 
-                          <span className="text-stone-600 font-bold"> {item.dayspermonth}</span> days
+                        <p className="text-[13px] font-bold text-gray-900 truncate">{item.productname}</p>
+                        <p className="text-[10px] text-gray-500 mt-1 font-medium leading-relaxed uppercase tracking-wider">
+                          Family: <span className="text-[var(--olive-dark)] font-bold">{item.familymembers}</span> | 
+                          <span className="text-[var(--olive-dark)] font-bold"> {item.gramsperday}g</span>/day | 
+                          <span className="text-[var(--olive-dark)] font-bold"> {item.dayspermonth}</span> days
                         </p>
-                        <div className="flex items-end justify-between mt-1">
+                        <div className="flex items-end justify-between mt-2">
                           <div className="flex items-center gap-1">
-                            <p className="text-[10px] text-stone-500 bg-white border border-stone-100 px-1.5 py-0.5 rounded font-bold">Qty: {item.totalquantitykg}kg</p>
+                            <p className="text-[10px] text-gray-500 bg-gray-50 border border-gray-200 px-2 py-1 font-bold uppercase tracking-widest">Qty: {item.totalquantitykg}kg</p>
                           </div>
                           <div className="text-right">
-                            <p className="text-xs font-black text-[var(--olive)]">₹{item.calcultedprice?.toLocaleString()}</p>
+                            <p className="text-sm font-black text-[var(--olive-dark)]">₹{item.calcultedprice?.toLocaleString("en-IN", { maximumFractionDigits: 2 })}</p>
                             {item.price && item.price > (item.sellingprice || 0) && (
-                              <p className="text-[9px] text-stone-400 line-through">₹{item.price * (item.totalquantitykg || 1)}</p>
+                              <p className="text-[10px] text-gray-400 line-through">₹{item.price * (item.totalquantitykg || 1)}</p>
                             )}
                           </div>
                         </div>
@@ -425,22 +426,22 @@ export default function MonthlyCartPage() {
                 })}
               </div>
 
-              <div className="border-t border-stone-100 pt-6 space-y-4 mb-6">
-                <div className="flex justify-between items-center text-stone-600">
-                  <span className="text-sm font-medium">Subtotal</span>
-                  <span className="text-sm font-bold text-stone-900">₹{cartData?.totalamount?.toLocaleString() || 0}</span>
+              <div className="border-t border-gray-100 pt-6 space-y-4 mb-6">
+                <div className="flex justify-between items-center text-[var(--dark-grey)]">
+                  <span className="text-sm font-medium uppercase tracking-wider">Subtotal</span>
+                  <span className="text-sm font-bold text-gray-900">₹{cartData?.totalamount?.toLocaleString("en-IN", { maximumFractionDigits: 2 }) || 0}</span>
                 </div>
-                <div className="border-t border-dashed border-stone-200 my-4" />
+                <div className="border-t border-gray-100 my-4" />
                 <div className="flex justify-between items-center">
-                  <span className="text-base font-black text-stone-900">Total Amount</span>
-                  <span className="text-xl font-black text-[var(--olive-dark)]">₹{cartData?.totalamount?.toLocaleString() || 0}</span>
+                  <span className="text-base font-bold text-gray-900 uppercase tracking-wider">Total Amount</span>
+                  <span className="text-xl font-black text-[var(--olive-dark)]">₹{cartData?.totalamount?.toLocaleString("en-IN", { maximumFractionDigits: 2 }) || 0}</span>
                 </div>
               </div>
 
               <button
                 onClick={handlePlaceOrder}
                 disabled={isPlacingOrder || !cartData?.items?.length}
-                className="w-full py-4 rounded-xl bg-[var(--olive)] text-white font-black text-[12px] uppercase tracking-widest shadow-[0_8px_20px_rgba(85,107,47,0.2)] hover:shadow-[0_12px_25px_rgba(85,107,47,0.3)] hover:-translate-y-0.5 transition-all disabled:opacity-50 flex justify-center items-center gap-2 cursor-pointer"
+                className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[12px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors disabled:opacity-50 flex justify-center items-center gap-2 cursor-pointer"
               >
                 {isPlacingOrder ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

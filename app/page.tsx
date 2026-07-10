@@ -810,14 +810,21 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
         <div
           className={`text-center mb-20 space-y-5 transition-all duration-500 opacity-100 translate-y-0`}
         >
-          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+          <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
+            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+              Collections
+            </span>
+            <span className="w-8 h-px bg-[var(--orange)]" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-none text-center">
             {t.categories_title?.split(" ").slice(0, 2).join(" ") ||
               "Our Collections"}{" "}
-            <span className="gradient-text">
+            <span className="text-[var(--orange)] font-light">
               {t.categories_title?.split(" ").slice(2).join(" ") || ""}
             </span>
           </h2>
-          <p className="text-sm font-normal text-gray-400 font-light max-w-lg mx-auto">
+          <p className="text-sm font-medium text-gray-500 max-w-lg mx-auto">
             {t.categories_desc}
           </p>
         </div>
@@ -897,14 +904,20 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
         <div
           className={`flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-6 transition-all duration-500 opacity-100 translate-y-0`}
         >
-          <div className="space-y-5">
-            <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+          <div className="space-y-4 text-left">
+            <div className="inline-flex items-center gap-3 mb-1">
+              <span className="w-6 h-px bg-[var(--orange)]" />
+              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+                Highlights
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight leading-none">
               {t.featured_products.split(" ")[0]}{" "}
-              <span className="gradient-text">
+              <span className="text-[var(--orange)] font-light">
                 {t.featured_products.split(" ")[1]}
               </span>
             </h2>
-            <p className="text-sm font-medium text-gray-400 max-w-md">
+            <p className="text-sm font-medium text-gray-500 max-w-md">
               {t.featured_desc}
             </p>
           </div>
@@ -1001,10 +1014,16 @@ function GiftingSection({
             className={`space-y-10 transition-all duration-500 opacity-100 translate-x-0`}
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-stone-100 pb-8">
-              <div className="space-y-3">
-                <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+              <div className="space-y-4 text-left">
+                <div className="inline-flex items-center gap-3 mb-1">
+                  <span className="w-6 h-px bg-[var(--orange)]" />
+                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+                    Curated Presents
+                  </span>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight leading-none">
                   {t.gift.split(" ")[0]}{" "}
-                  <span className="gradient-text">
+                  <span className="text-[var(--orange)] font-light">
                     {t.gift.split(" ").slice(1).join(" ")}
                   </span>
                 </h2>
@@ -1247,30 +1266,37 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   }
 
   return (
-    <section ref={ref} className="py-16 bg-white relative overflow-hidden">
+    <section ref={ref} className="py-16 bg-[var(--site-bg)] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div
-          className={`max-w-2xl mx-auto text-center space-y-2 transition-all duration-500 opacity-100 translate-y-0`}
+          className={`max-w-2xl mx-auto text-center space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
         >
-          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+          <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
+            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+              Testimonials
+            </span>
+            <span className="w-8 h-px bg-[var(--orange)]" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
             {t.loved.split(" ").slice(0, 2).join(" ")}{" "}
-            <span className="gradient-text">
+            <span className="text-[var(--orange)] font-light">
               {t.loved.split(" ").slice(2).join(" ")}
             </span>
           </h2>
-          <p className="text-gray-400 font-light text-sm max-w-lg mx-auto leading-relaxed">
+          <p className="text-gray-500 text-sm max-w-lg mx-auto font-medium">
             {t.community_desc}
           </p>
         </div>
 
         {listToRender.length > 5 ? (
           /* AUTO-SCROLLING MARQUEE CONTAINER */
-          <div className="relative w-full overflow-hidden group">
+          <div className="relative w-full overflow-hidden group mt-10">
             {/* Gradient Overlays for smooth edges */}
-            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[var(--site-bg)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[var(--site-bg)] to-transparent z-10 pointer-events-none" />
 
-            <div className="flex animate-marquee-slow whitespace-nowrap gap-6 py-10 px-6 hover:pause-animation">
+            <div className="flex animate-marquee-slow whitespace-nowrap gap-6 py-6 px-6 hover:pause-animation">
               {[
                 ...listToRender,
                 ...listToRender,
@@ -1280,37 +1306,34 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                 return (
                   <div
                     key={idx}
-                    className="w-[300px] md:w-[340px] flex-shrink-0 bg-white border border-[#e4dec2] rounded-[1.5rem] p-8 shadow-[0_4px_15px_rgba(85,107,47,0.03)] hover:shadow-[0_20px_40px_rgba(85,107,47,0.08)] hover:border-[#d4cda9] transition-all duration-500 flex flex-col justify-between group/card hover:-translate-y-2 relative overflow-hidden"
+                    className="w-[300px] md:w-[340px] flex-shrink-0 bg-white border border-gray-200 rounded-none p-8 shadow-sm hover:border-[var(--orange)] hover:shadow-md transition-all duration-500 flex flex-col justify-between group/card relative overflow-hidden whitespace-normal"
                   >
-                    {/* Subtle top accent line */}
-                    <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
-
-                    {/* Large Watermark Quote */}
-                    <Quote className="absolute -top-2 -right-2 w-24 h-24 text-[var(--olive)] opacity-[0.03] rotate-12 group-hover/card:opacity-[0.06] group-hover/card:scale-110 transition-all duration-500" />
+                    {/* Top accent line */}
+                    <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
 
                     <div className="space-y-5 relative z-10">
                       <div className="flex items-center gap-1">
                         {[...Array(item.rating)].map((_, i) => (
                           <Star
                             key={i}
-                            className="w-3.5 h-3.5 text-amber-400 fill-amber-400 drop-shadow-sm"
+                            className="w-3.5 h-3.5 text-amber-500 fill-amber-500"
                           />
                         ))}
                       </div>
-                      <p className="text-[#6b6455] text-[13.5px] font-medium leading-relaxed italic line-clamp-5">
+                      <p className="text-gray-600 text-sm font-medium leading-relaxed italic line-clamp-5">
                         &ldquo;{item.text}&rdquo;
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-4 pt-6 mt-4 border-t border-stone-100 relative z-10">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#f4ecd9] to-[#e8dfc8] flex items-center justify-center text-[15px] font-black text-[#556b2f] shadow-inner border-[2px] border-white">
+                    <div className="flex items-center gap-4 pt-6 mt-6 border-t border-gray-100 relative z-10">
+                      <div className="w-10 h-10 rounded-none bg-gray-50 flex items-center justify-center text-xs font-bold text-[var(--olive-dark)] border border-gray-200">
                         {item.avatar}
                       </div>
                       <div className="text-left">
-                        <h4 className="text-[13px] font-black text-[#2b3513]">
+                        <h4 className="text-xs font-bold text-gray-900 uppercase tracking-widest">
                           {item.name}
                         </h4>
-                        <p className="text-[10px] font-bold text-[#7a8a55] tracking-[0.15em] uppercase mt-0.5">
+                        <p className="text-[9px] font-bold text-gray-400 tracking-[0.2em] uppercase mt-0.5">
                           {item.role}
                         </p>
                       </div>
@@ -1322,42 +1345,39 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
           </div>
         ) : (
           /* HORIZONTAL STATIC GRID */
-          <div className="flex flex-row flex-wrap justify-center gap-6 py-10 px-6">
+          <div className="flex flex-row flex-wrap justify-center gap-6 py-10 px-6 mt-10">
             {listToRender.map((item, idx) => {
               return (
                 <div
                   key={idx}
-                  className="w-[300px] md:w-[340px] flex-shrink-0 bg-white border border-[#e4dec2] rounded-[1.5rem] p-8 shadow-[0_4px_15px_rgba(85,107,47,0.03)] hover:shadow-[0_20px_40px_rgba(85,107,47,0.08)] hover:border-[#d4cda9] transition-all duration-500 flex flex-col justify-between group/card hover:-translate-y-2 relative overflow-hidden"
+                  className="w-[300px] md:w-[340px] flex-shrink-0 bg-white border border-gray-200 rounded-none p-8 shadow-sm hover:border-[var(--orange)] hover:shadow-md transition-all duration-500 flex flex-col justify-between group/card relative overflow-hidden"
                 >
-                  {/* Subtle top accent line */}
-                  <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-[var(--olive)] to-[var(--orange)] opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
-
-                  {/* Large Watermark Quote */}
-                  <Quote className="absolute -top-2 -right-2 w-24 h-24 text-[var(--olive)] opacity-[0.03] rotate-12 group-hover/card:opacity-[0.06] group-hover/card:scale-110 transition-all duration-500" />
+                  {/* Top accent line */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
 
                   <div className="space-y-5 relative z-10">
                     <div className="flex items-center gap-1">
                       {[...Array(item.rating)].map((_, i) => (
                         <Star
                           key={i}
-                          className="w-3.5 h-3.5 text-amber-400 fill-amber-400 drop-shadow-sm"
+                          className="w-3.5 h-3.5 text-amber-500 fill-amber-500"
                         />
                       ))}
                     </div>
-                    <p className="text-[#6b6455] text-[13.5px] font-medium leading-relaxed italic line-clamp-5">
+                    <p className="text-gray-600 text-sm font-medium leading-relaxed italic line-clamp-5">
                       &ldquo;{item.text}&rdquo;
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-4 pt-6 mt-4 border-t border-stone-100 relative z-10">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#f4ecd9] to-[#e8dfc8] flex items-center justify-center text-[15px] font-black text-[#556b2f] shadow-inner border-[2px] border-white">
+                  <div className="flex items-center gap-4 pt-6 mt-6 border-t border-gray-100 relative z-10">
+                    <div className="w-10 h-10 rounded-none bg-gray-50 flex items-center justify-center text-xs font-bold text-[var(--olive-dark)] border border-gray-200">
                       {item.avatar}
                     </div>
                     <div className="text-left">
-                      <h4 className="text-[13px] font-black text-[#2b3513]">
+                      <h4 className="text-xs font-bold text-gray-900 uppercase tracking-widest">
                         {item.name}
                       </h4>
-                      <p className="text-[10px] font-bold text-[#7a8a55] tracking-[0.15em] uppercase mt-0.5">
+                      <p className="text-[9px] font-bold text-gray-400 tracking-[0.2em] uppercase mt-0.5">
                         {item.role}
                       </p>
                     </div>
@@ -1370,27 +1390,25 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
 
         {/* Global Rating Tag */}
         <div
-          className={`mt-10 flex flex-col items-center gap-3 transition-all duration-500 delay-500 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
+          className={`mt-10 flex flex-col items-center gap-3 transition-all duration-500 delay-500 opacity-100`}
         >
           <div className="flex -space-x-3">
             {users.map((name, i) => (
               <div
                 key={i}
-                className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold shadow-sm bg-gradient-to-br from-[#588157] to-[#3a5a40]"
+                className="w-10 h-10 rounded-none border-2 border-white flex items-center justify-center text-[var(--olive-dark)] text-xs font-bold bg-gray-100"
               >
                 {getInitials(name)}
               </div>
             ))}
 
             {/* Count */}
-            <div className="w-10 h-10 rounded-full border-2 border-white bg-[var(--orange)] flex items-center justify-center text-white text-[10px] font-bold shadow-sm">
+            <div className="w-10 h-10 rounded-none border-2 border-white bg-[var(--olive-dark)] flex items-center justify-center text-white text-[10px] font-bold">
               +2k
             </div>
           </div>
 
-          <p className="text-xs font-medium text-gray-800">{t.trusted}</p>
+          <p className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase">{t.trusted}</p>
         </div>
       </div>
 
@@ -1470,52 +1488,43 @@ function KuralTrustRow({
   return (
     <section
       ref={ref}
-      className="py-12 relative z-30 overflow-hidden bg-[#fafaf9] flex justify-center"
+      className="py-16 relative z-30 overflow-hidden bg-white border-y border-stone-200 flex justify-center"
     >
-      <div className="max-w-2xl w-full px-6">
-        <div className="relative group mx-auto w-full animate-float">
-          {/* Animated gradient border glow */}
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-orange-400 to-[var(--olive)] rounded-[2rem] blur opacity-20 group-hover:opacity-60 transition duration-1000 animate-pulse" />
-
+      <div className="max-w-xl w-full px-6">
+        <div className="relative group mx-auto w-full">
           {/* The Card */}
-          <div className="relative bg-white/90 backdrop-blur-xl rounded-[2.5rem] p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-stone-200/60 flex flex-col items-center text-center overflow-hidden transition-transform duration-500 group-hover:-translate-y-2 z-10">
-            {/* Light Based Background Image */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="relative bg-white rounded-sm p-6 md:p-8 shadow-sm border border-stone-200 flex flex-col items-center text-center transition-colors duration-300 hover:border-stone-400 z-10">
+            {/* Background Image (Subtle) */}
+            <div className="absolute inset-0 z-0 pointer-events-none opacity-5">
               <img
                 src="/kural-book.jpg"
                 alt="kural"
-                className="w-full h-full object-cover opacity-50 transition-transform duration-1000 group-hover:scale-105 mix-blend-multiply"
+                className="w-full h-full object-cover grayscale"
               />
-              <div className="absolute inset-0 bg-white/70 backdrop-blur-[4px]" />
-              <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/50 to-white/90" />
             </div>
 
-            {/* Top decorative element */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-80 z-10 rounded-b-full" />
-
             {/* Icon */}
-            <div className="relative z-10 w-14 h-14 rounded-full bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/60 flex items-center justify-center mb-6 group-hover:rotate-[360deg] transition-transform duration-1000 shadow-md">
-              <ScrollText className="w-6 h-6 text-amber-600" />
-              <Quote className="absolute -bottom-1 -right-2 w-7 h-7 text-amber-300 drop-shadow-sm" />
+            <div className="relative z-10 w-14 h-14 rounded-sm bg-stone-100 border border-stone-200 flex items-center justify-center mb-6 shadow-sm text-[var(--olive-dark)] transition-transform duration-500 group-hover:scale-105">
+              <ScrollText className="w-6 h-6" />
             </div>
 
             {/* Title */}
-            <div className="relative z-10 flex items-center gap-4 mb-5">
-              <span className="w-8 h-px bg-amber-300" />
-              <span className="text-[11px] font-black text-amber-700 uppercase tracking-[0.35em] leading-none drop-shadow-sm">
+            <div className="relative z-10 flex items-center gap-4 mb-6 w-full justify-center">
+              <span className="w-12 h-px bg-stone-300" />
+              <span className="text-[10px] font-bold text-stone-500 uppercase tracking-widest leading-none">
                 {t.kural_title}
               </span>
-              <span className="w-8 h-px bg-amber-300" />
+              <span className="w-12 h-px bg-stone-300" />
             </div>
 
             {/* Kural Text */}
-            <div className="relative z-10 text-base md:text-lg font-extrabold text-stone-900 leading-[1.9] tracking-tight mb-7 w-full drop-shadow-[0_2px_10px_rgba(255,255,255,0.8)]">
+            <div className="relative z-10 text-base md:text-lg font-bold text-stone-900 leading-[1.9] tracking-tight mb-8 w-full">
               {formatKural(kuraldata?.kural)}
             </div>
 
             {/* Meaning */}
             {kuraldata?.meaning && (
-              <div className="relative z-10 text-xs md:text-sm text-stone-700 font-bold leading-relaxed bg-white/70 backdrop-blur-md p-5 rounded-2xl border-l-[4px] border-l-amber-400 border-y border-r border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] w-full group-hover:bg-amber-50/60 transition-colors duration-500 text-left">
+              <div className="relative z-10 text-sm text-stone-600 font-medium leading-relaxed bg-stone-50 p-6 rounded-sm border border-stone-200 w-full text-left">
                 {kuraldata.meaning}
               </div>
             )}
@@ -2307,58 +2316,63 @@ function SubscriptionPlans({ t }: { t: any }) {
   ];
 
   return (
-    <section ref={ref} className="py-16 bg-[#fafaf9] relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
+    <section ref={ref} className="py-16 bg-[var(--site-bg)] relative overflow-hidden">
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <div
           className={`text-center mb-16 space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
         >
-          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+          <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
+            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+              Membership
+            </span>
+            <span className="w-8 h-px bg-[var(--orange)]" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
             {t.subscription.split(" ").slice(0, 2).join(" ")}{" "}
-            <span className="gradient-text">
+            <span className="text-[var(--orange)] font-light">
               {t.subscription.split(" ").slice(2).join(" ")}
             </span>
           </h2>
-          <p className="text-gray-400 text-[11px] max-w-md mx-auto font-medium">
+          <p className="text-gray-500 text-sm max-w-md mx-auto font-medium">
             {t.subscription_desc}
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           {plans.map((plan, idx) => (
             <div
               key={idx}
-              className={`group relative bg-white rounded-[2rem] p-1.5 border transition-all duration-500 opacity-100 translate-y-0 ${plan.border} ${(plan as any).featured ? "shadow-[0_30px_60px_-10px_rgba(85,107,47,0.12)] scale-[1.02] z-10" : "hover:shadow-xl hover:-translate-y-1"}`}
+              className={`group relative bg-white rounded-none p-8 border transition-all duration-500 opacity-100 translate-y-0 ${plan.border} ${(plan as any).featured ? "border-[var(--olive-dark)] shadow-md scale-[1.02] z-10" : "border-gray-200 hover:border-[var(--orange)] hover:shadow-sm"}`}
               style={{ transitionDelay: `${idx * 150}ms` }}
             >
               {(plan as any).featured && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[var(--olive)] to-emerald-700 text-white text-[9px] font-black tracking-[0.2em] uppercase shadow-lg z-20 whitespace-nowrap">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-none bg-[var(--olive-dark)] text-white text-[9px] font-bold tracking-[0.2em] uppercase shadow-sm z-20 whitespace-nowrap">
                   Most Popular
                 </div>
               )}
-              <div className="relative h-full rounded-[1.75rem] overflow-hidden flex flex-col">
-                <div className="p-7 pb-4 space-y-3">
+              <div className="relative h-full flex flex-col">
+                <div className="pb-6 space-y-4 border-b border-gray-100 mb-6 text-center">
                   <h3
-                    className={`text-[10px] font-black tracking-[0.2em] uppercase ${plan.accent}`}
+                    className={`text-[11px] font-bold tracking-[0.2em] uppercase ${plan.accent}`}
                   >
                     {plan.name}
                   </h3>
-                  <div className="flex items-baseline gap-0.5">
-                    <span className="text-[10px] font-bold text-gray-400">
+                  <div className="flex items-center justify-center gap-1">
+                    <span className="text-[12px] font-bold text-gray-400">
                       ₹
                     </span>
-                    <span className="text-3xl font-black text-gray-900 tracking-tighter">
+                    <span className="text-4xl font-black text-gray-900 tracking-tighter">
                       {plan.price}
                     </span>
-                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                       / mo
                     </span>
                   </div>
-                  <p className="text-[10px] text-gray-400 font-medium leading-relaxed line-clamp-2">
+                  <p className="text-xs text-gray-500 font-medium leading-relaxed line-clamp-2 h-10">
                     {plan.desc}
                   </p>
                 </div>
-                <div className="flex-1 p-7 pt-2 space-y-6">
-                  <div className="w-full h-px bg-gray-50" />
+                <div className="flex-1 space-y-6">
                   <ul className="space-y-4">
                     {plan.features.map((feature, fIdx) => (
                       <li
@@ -2386,8 +2400,8 @@ function SubscriptionPlans({ t }: { t: any }) {
                     ))}
                   </ul>
                 </div>
-                <div className="p-7 pt-0">
-                  <button className="btn-standard w-full rounded-xl text-[11px] font-black front-normal tracking-[0.1em] transition-all duration-500 shadow-lg cursor-pointer active:scale-95">
+                <div className="pt-8">
+                  <button className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors cursor-pointer">
                     {t.subscribe}
                   </button>
                 </div>
@@ -2454,13 +2468,19 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
           className={`flex flex-col md:flex-row items-end justify-between mb-16 gap-6 transition-all duration-500 opacity-100 translate-y-0`}
         >
           <div className="space-y-4 text-left">
-            <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight">
+            <div className="inline-flex items-center gap-3 mb-1">
+              <span className="w-6 h-px bg-[var(--orange)]" />
+              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+                Latest Additions
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight leading-none">
               {t.new_arrivals.split(" ")[0]}{" "}
-              <span className="gradient-text">
+              <span className="text-[var(--orange)] font-light">
                 {t.new_arrivals.split(" ")[1]}
               </span>
             </h2>
-            <p className="text-gray-400 text-sm max-w-md font-light">
+            <p className="text-gray-500 text-sm max-w-md font-medium">
               {t.new_arrivals_desc}
             </p>
           </div>
@@ -2604,18 +2624,21 @@ function CertificationsSection() {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-[#FDFDFD] relative overflow-hidden">
-      {/* Background visual graphics */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--olive)]/5 rounded-full filter blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[var(--orange)]/5 rounded-full filter blur-[100px] pointer-events-none" />
-
+    <section className="py-16 bg-[var(--site-bg)] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Centered Title Block */}
         <div className="text-center space-y-4 mb-16">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-gray-950 tracking-tight leading-none text-center">
-            Trusted <span className="gradient-text">Certifications</span>
+          <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
+            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+              Accreditations
+            </span>
+            <span className="w-8 h-px bg-[var(--orange)]" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-none text-center">
+            Trusted <span className="text-[var(--orange)] font-light">Certifications</span>
           </h2>
-          <p className="text-sm text-stone-500 font-medium max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed">
             Every grain and product at Tradizions is backed by absolute
             standards, natural processes, and government-approved accreditations
             to deliver uncompromising safety.
@@ -2625,21 +2648,19 @@ function CertificationsSection() {
         <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {certs.map((cert) => {
             const CardContent = (
-              <div className="flex flex-col justify-between items-center h-full text-center p-6 bg-white rounded-[2rem] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.03)] border border-stone-200/50 hover:border-[var(--olive)]/40 transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(85,107,47,0.08)] hover:-translate-y-1.5 group cursor-pointer relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--olive)]/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="flex flex-col justify-between items-center h-full text-center p-8 bg-white border border-gray-200 shadow-sm hover:border-[var(--orange)] transition-all duration-500 hover:shadow-md group cursor-pointer relative overflow-hidden rounded-none">
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                {/* Decorative corner element */}
-                <div className="absolute top-0 right-0 w-8 h-8 bg-stone-50 group-hover:bg-[var(--olive)]/10 rounded-bl-2xl transition-colors" />
-
-                <div className="h-20 flex items-center justify-center mb-4 relative z-10">
+                <div className="h-20 flex items-center justify-center mb-6 relative z-10">
                   {cert.icon}
                 </div>
 
-                <div className="space-y-1 relative z-10 mt-auto">
-                  <h4 className="text-[10px] font-black text-gray-950 tracking-[0.15em] leading-snug">
+                <div className="space-y-1.5 relative z-10 mt-auto">
+                  <h4 className="text-[11px] font-bold text-gray-900 tracking-[0.2em] uppercase leading-snug">
                     {cert.title}
                   </h4>
-                  <p className="text-[9px] font-bold text-stone-400 tracking-wide leading-tight">
+                  <p className="text-[9px] font-bold text-gray-400 tracking-widest uppercase leading-tight">
                     {cert.desc}
                   </p>
                 </div>
@@ -2694,9 +2715,16 @@ function VideoTestimonialsSection() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        <div className="text-center space-y-3 mb-16">
-          <h3 className="text-2xl md:text-3xl font-black text-gray-950 tracking-tight leading-none">
-            Video <span className="gradient-text">Testimonials</span>
+        <div className="text-center space-y-4 mb-16">
+          <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
+            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+              Real Stories
+            </span>
+            <span className="w-8 h-px bg-[var(--orange)]" />
+          </div>
+          <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-none text-center">
+            Video <span className="text-[var(--orange)] font-light">Testimonials</span>
           </h3>
         </div>
 
@@ -2768,55 +2796,44 @@ function VideoTestimonialsSection() {
           )}
         </div>
       </div> */}
-
-      <div
-        style={{
-          width: "100%",
-          border: "1px grey",
-          background: "white",
-          boxShadow: "inset 0 0 10px #000000",
-        }}
-      >
-        <p className="text-center text-sm text-stone-500 font-medium py-12">
-          Hello Dhinesh 👋
-        </p>
-      </div>
+      {/* Video testimonials section commented out */}
     </section>
   );
 }
 
 function SustainabilityAndPackagingSection() {
   return (
-    <section className="py-16 bg-white relative overflow-hidden border-t border-stone-200/50">
+    <section className="py-16 bg-[var(--site-bg)] relative overflow-hidden border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Subtle, beautiful grid of 3 premium container blocks */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
           {/* Card 1: SECURE PAYMENTS */}
-          <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-stone-200/50 rounded-[2.5rem] shadow-[0_10px_35px_-5px_rgba(0,0,0,0.02)] hover:shadow-xl transition-all duration-500 hover:border-[var(--olive)]/15 group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full filter blur-2xl pointer-events-none" />
-            <div className="space-y-6">
+          <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-500 hover:border-[var(--orange)] group relative overflow-hidden rounded-none">
+            {/* Top Accent Line */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-100 shadow-sm transition-transform duration-500 group-hover:scale-105">
-                  <Shield className="w-5.5 h-5.5" strokeWidth={2} />
+                <div className="w-12 h-12 rounded-none bg-gray-50 text-gray-800 flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
+                  <Shield className="w-5 h-5" strokeWidth={2} />
                 </div>
-                <div className="space-y-0.5">
-                  <span className="text-[9px] font-black tracking-widest text-[var(--orange)] uppercase">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase block">
                     Trust Shield
                   </span>
-                  <h4 className="text-[14px] font-black text-gray-950 tracking-[0.1em] uppercase leading-none">
+                  <h4 className="text-[14px] font-bold text-gray-900 tracking-widest uppercase leading-none">
                     Secure Payments
                   </h4>
                 </div>
               </div>
-              <p className="text-xs font-semibold text-stone-500 leading-relaxed">
+              <p className="text-[13px] font-medium text-gray-600 leading-relaxed">
                 Shop with complete peace of mind. We encrypt and safeguard every
                 transaction with industry-standard 256-bit SSL technology.
               </p>
             </div>
 
             {/* Payment Logos with a luxurious border */}
-            <div className="pt-8">
-              <div className="flex flex-wrap items-center gap-3 p-4 bg-[#FAFBF9] border border-stone-100 rounded-[1.75rem] shadow-inner relative z-10">
+            <div className="pt-8 relative z-10 mt-auto">
+              <div className="flex flex-wrap items-center gap-3 p-4 bg-gray-50 border border-gray-200 rounded-none shadow-sm relative z-10 justify-center">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7dF5Nw5vpBW8gqDSjtXyCr3vMzWn5slCTlg&s"
                   alt="logo-"
@@ -2828,23 +2845,25 @@ function SustainabilityAndPackagingSection() {
           </div>
 
           {/* Card 2: SUSTAINABILITY */}
-          <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-stone-200/50 rounded-[2.5rem] shadow-[0_10px_35px_-5px_rgba(0,0,0,0.02)] hover:shadow-xl transition-all duration-500 hover:border-[var(--olive)]/15 group relative overflow-hidden lg:-translate-y-2">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full filter blur-2xl pointer-events-none" />
-            <div className="space-y-6">
+          <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-500 hover:border-[var(--orange)] group relative overflow-hidden rounded-none">
+            {/* Top Accent Line */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-100 shadow-sm transition-transform duration-500 group-hover:scale-105">
-                  <Leaf className="w-5.5 h-5.5" strokeWidth={2} />
+                <div className="w-12 h-12 rounded-none bg-gray-50 text-gray-800 flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
+                  <Leaf className="w-5 h-5" strokeWidth={2} />
                 </div>
-                <div className="space-y-0.5">
-                  <span className="text-[9px] font-black tracking-widest text-[var(--orange)] uppercase">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase block">
                     Eco Stewardship
                   </span>
-                  <h4 className="text-[14px] font-black text-gray-950 tracking-[0.1em] uppercase leading-none">
+                  <h4 className="text-[14px] font-bold text-gray-900 tracking-widest uppercase leading-none">
                     Sustainability
                   </h4>
                 </div>
               </div>
-              <p className="text-xs font-semibold text-stone-500 leading-relaxed">
+              <p className="text-[13px] font-medium text-gray-600 leading-relaxed">
                 Caring for the planet and future generations is embedded in our
                 DNA. We focus on low carbon outputs and support organic farming
                 loops.
@@ -2852,7 +2871,7 @@ function SustainabilityAndPackagingSection() {
             </div>
 
             {/* Checklist + Illustration */}
-            <div className="flex items-center justify-between gap-4 pt-8 relative z-10">
+            <div className="flex items-center justify-between gap-4 pt-8 relative z-10 mt-auto">
               <ul className="space-y-3">
                 {[
                   "Ethically Sourced",
@@ -2861,16 +2880,16 @@ function SustainabilityAndPackagingSection() {
                 ].map((text, idx) => (
                   <li
                     key={idx}
-                    className="flex items-center gap-3 text-[11px] font-bold text-stone-600"
+                    className="flex items-center gap-3 text-[11px] font-bold text-gray-700 tracking-wide uppercase"
                   >
-                    <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 shadow-sm border border-emerald-200/40">
-                      <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                    <div className="w-4 h-4 rounded-none bg-[var(--olive-dark)] flex items-center justify-center text-white shadow-sm border border-[var(--olive-dark)]">
+                      <Check className="w-3 h-3" strokeWidth={3} />
                     </div>
                     {text}
                   </li>
                 ))}
               </ul>
-              <div className="flex-shrink-0 bg-white p-3 rounded-2xl border border-stone-100 shadow-sm transition-transform duration-500 ">
+              <div className="flex-shrink-0 bg-gray-50 p-3 rounded-none border border-gray-200 shadow-sm">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzLHYU8RaSU1ayRH9Lw_67vEs3Vz7Wct_PRQ&s"
                   alt="sustainability"
@@ -2883,11 +2902,13 @@ function SustainabilityAndPackagingSection() {
           </div>
 
           {/* Card 3: PLASTIC-FREE PACKAGING */}
-          <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-stone-200/50 rounded-[2.5rem] shadow-[0_10px_35px_-5px_rgba(0,0,0,0.02)] hover:shadow-xl transition-all duration-500 hover:border-[var(--olive)]/15 group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full filter blur-2xl pointer-events-none" />
-            <div className="space-y-6">
+          <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-500 hover:border-[var(--orange)] group relative overflow-hidden rounded-none">
+            {/* Top Accent Line */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-800 flex items-center justify-center border border-amber-100 shadow-sm transition-transform duration-500 group-hover:scale-105">
+                <div className="w-12 h-12 rounded-none bg-gray-50 text-gray-800 flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
                   <svg
                     className="w-5.5 h-5.5"
                     fill="none"
@@ -2902,16 +2923,16 @@ function SustainabilityAndPackagingSection() {
                     />
                   </svg>
                 </div>
-                <div className="space-y-0.5">
-                  <span className="text-[9px] font-black tracking-widest text-[var(--orange)] uppercase">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase block">
                     Earth Safe
                   </span>
-                  <h4 className="text-[14px] font-black text-gray-950 tracking-[0.1em] uppercase leading-none">
+                  <h4 className="text-[14px] font-bold text-gray-900 tracking-widest uppercase leading-none">
                     Plastic-Free Packaging
                   </h4>
                 </div>
               </div>
-              <p className="text-xs font-semibold text-stone-500 leading-relaxed">
+              <p className="text-[13px] font-medium text-gray-600 leading-relaxed">
                 Our pledge is zero plastic. We pack exclusively in biodegradable
                 cardboard, jute, and paper, so our shipments leave no toxic
                 footprint.
@@ -2919,7 +2940,7 @@ function SustainabilityAndPackagingSection() {
             </div>
 
             {/* Checklist + Illustration */}
-            <div className="flex items-center justify-between gap-4 pt-8 relative z-10">
+            <div className="flex items-center justify-between gap-4 pt-8 relative z-10 mt-auto">
               <ul className="space-y-3">
                 {[
                   "100% Eco Friendly",
@@ -2928,16 +2949,16 @@ function SustainabilityAndPackagingSection() {
                 ].map((text, idx) => (
                   <li
                     key={idx}
-                    className="flex items-center gap-3 text-[11px] font-bold text-stone-600"
+                    className="flex items-center gap-3 text-[11px] font-bold text-gray-700 tracking-wide uppercase"
                   >
-                    <div className="w-5 h-5 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 shadow-sm border border-amber-200/40">
-                      <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                    <div className="w-4 h-4 rounded-none bg-[var(--olive-dark)] flex items-center justify-center text-white shadow-sm border border-[var(--olive-dark)]">
+                      <Check className="w-3 h-3" strokeWidth={3} />
                     </div>
                     {text}
                   </li>
                 ))}
               </ul>
-              <div className="flex-shrink-0 bg-white p-3 rounded-2xl border border-stone-100 shadow-sm transition-transform duration-500 group-hover:scale-105">
+              <div className="flex-shrink-0 bg-gray-50 p-3 rounded-none border border-gray-200 shadow-sm">
                 <img
                   src="https://static.vecteezy.com/system/resources/previews/025/400/219/non_2x/plastic-free-icon-bpa-free-warranty-packaging-sign-for-graphic-design-logo-website-social-media-mobile-app-ui-illustration-vector.jpg"
                   alt="Plastic free"

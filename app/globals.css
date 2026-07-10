@@ -325,6 +325,28 @@ s body {
   background: var(--orange);
 }
 
+/* ── Custom Thin Horizontal Scrollbar for Categories ── */
+.category-scrollbar::-webkit-scrollbar {
+  height: 3px;
+}
+.category-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.category-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+@media (min-width: 768px) {
+  .category-scrollbar::-webkit-scrollbar {
+    display: none; /* Hide on desktop for a cleaner look */
+  }
+  .category-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
 /* ── Selection Color ── */
 ::selection {
   background: var(--olive);

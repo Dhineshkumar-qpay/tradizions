@@ -44,7 +44,7 @@ export default function NutritionGuidesPage() {
     <div className="min-h-screen bg-stone-50 text-stone-900 pb-32 relative overflow-hidden transition-colors duration-1000">
 
       {/* ================= PAGE HEADER ================= */}
-      <header className="relative pt-35 pb-14 px-8 lg:px-8 max-w-7xl mx-auto z-10">
+      <header className="relative py-10 px-8 lg:px-8 max-w-7xl mx-auto z-10">
         <div className="flex flex-col items-center text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white border border-[var(--dark-brown)]/10 shadow-[0_4px_20px_rgba(0,0,0,0.03)] backdrop-blur-md">
             <Utensils className="w-4 h-4 text-[var(--gold)]" />

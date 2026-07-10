@@ -132,10 +132,9 @@ export default function CustomGiftBuilder() {
         sellingprice: item.sellingprice || item.price,
       }));
 
-      const createResponse = await API.post(
-        API_ROUTES.CREATECUSTOMGIFT,
-        { products: payload },
-      );
+      const createResponse = await API.post(API_ROUTES.CREATECUSTOMGIFT, {
+        products: payload,
+      });
 
       if (createResponse.status === 200 || createResponse.status === 201) {
         const addToCartResponse = await API.post(API_ROUTES.ADDCUSTOMGIFTCART, {
@@ -162,7 +161,7 @@ export default function CustomGiftBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--site-bg)] pt-[80px] font-sans text-[var(--dark-grey)] selection:bg-[var(--olive)] selection:text-white">
+    <div className="min-h-screen bg-[var(--site-bg) text-[var(--dark-grey)] selection:bg-[var(--olive)] selection:text-white">
       {/* CORPORATE HERO */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-[1200px] mx-auto px-6 py-10 md:py-12 flex flex-col">
@@ -212,8 +211,8 @@ export default function CustomGiftBuilder() {
                       key={pkg.id}
                       onClick={() => setSelectedPackage(pkg)}
                       className={`group cursor-pointer bg-white transition-all duration-500 ease-out border ${active
-                        ? "border-[var(--olive-dark)] shadow-xl"
-                        : "border-gray-200 hover:border-[var(--olive)]/50 hover:shadow-md"
+                          ? "border-[var(--olive-dark)] shadow-xl"
+                          : "border-gray-200 hover:border-[var(--olive)]/50 hover:shadow-md"
                         }`}
                     >
                       <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 p-6 flex flex-col justify-end border-b border-gray-100">

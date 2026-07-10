@@ -134,7 +134,7 @@ export default function GiftDetailPage() {
         });
         if (response.status === 200) {
           window.dispatchEvent(new Event("cartUpdated"));
-          alert("Gift added to cart!");
+          window.dispatchEvent(new Event("openCartSidebar"));
         } else {
           alert("Failed to add gift to cart.");
         }
@@ -175,7 +175,7 @@ export default function GiftDetailPage() {
           });
         }
         window.dispatchEvent(new Event("cartUpdated"));
-        router.push("/checkout");
+        window.dispatchEvent(new Event("openCartSidebar"));
       } else {
         alert("Failed to proceed to checkout.");
       }
@@ -427,8 +427,8 @@ export default function GiftDetailPage() {
 
   if (error || !gift) {
     return (
-      <main className="min-h-screen bg-[#faf9f6] pt-28 pb-20 flex flex-col items-center justify-center text-center px-6">
-        <div className="max-w-md bg-white rounded-[2rem] p-8 shadow-xl border border-stone-100">
+      <main className="min-h-screen bg-stone-50 py-10 flex flex-col items-center justify-center text-center px-6">
+        <div className="max-w-md bg-white rounded-md p-8 shadow-sm border border-stone-200">
           <h2 className="text-2xl font-black text-stone-900 mb-2">
             Gift Not Found
           </h2>
@@ -437,7 +437,7 @@ export default function GiftDetailPage() {
           </p>
           <Link
             href="/shop"
-            className="inline-block px-8 py-3 rounded-[1rem] bg-[var(--olive)] text-white text-[11px] font-black tracking-[0.2em] uppercase hover:bg-[var(--olive-dark)] transition-all shadow-md"
+            className="inline-block px-8 py-3 rounded-sm bg-[var(--olive)] text-white text-[11px] font-black tracking-[0.2em] uppercase hover:bg-[var(--olive-dark)] transition-all shadow-md"
           >
             Back to Shop
           </Link>
@@ -457,39 +457,32 @@ export default function GiftDetailPage() {
     .map((img) => getImageUrl(img as string));
 
   return (
-    <main className="min-h-screen bg-[#faf9f6] pt-28 lg:pt-20 pb-20">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6">
+    <main className="min-h-screen bg-stone-50 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-[11px] font-bold tracking-widest text-gray-400 uppercase mb-8">
-          <Link
-            href="/"
-            className="hover:text-[var(--olive)] transition-colors"
-          >
+        <nav className="flex items-center gap-2 text-xs font-semibold tracking-widest text-stone-500 uppercase mb-8">
+          <Link href="/" className="hover:text-stone-900 transition-colors">
             {t.home}
           </Link>
           <ChevronRight className="w-3 h-3" />
-          <Link
-            href="/gifts"
-            className="hover:text-[var(--olive)] transition-colors"
-          >
+          <Link href="/gifts" className="hover:text-stone-900 transition-colors">
             {t.gifting}
           </Link>
           <ChevronRight className="w-3 h-3" />
-          <span className="text-[var(--olive)]">Brass Diya Set</span>
+          <span className="text-stone-900">{gift.giftname || "Gift"}</span>
         </nav>
 
-        <div className="bg-white rounded-3xl sm:rounded-[2.5rem] p-4 sm:p-6 lg:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col lg:flex-row gap-8 lg:gap-12 relative overflow-hidden">
+        <div className="bg-white rounded-md p-6 lg:p-10 shadow-sm border border-stone-200 flex flex-col lg:flex-row gap-8 lg:gap-12 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--olive)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
           {/* Left: Image Gallery */}
           <div className="w-full lg:w-1/2 flex flex-col-reverse sm:flex-row gap-4 relative z-10">
-            {/* Thumbnails */}
             <div className="flex sm:flex-col gap-4 overflow-x-auto sm:overflow-y-auto pb-2 sm:pb-0 scrollbar-hide">
               {giftImages.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setMainImage(img)}
-                  className={`relative w-20 h-24 rounded-2xl overflow-hidden shrink-0 border-2 transition-all ${mainImage === img ? "border-[var(--olive)] shadow-md" : "border-transparent hover:border-gray-200"}`}
+                  className={`relative w-20 h-24 rounded-sm overflow-hidden shrink-0 border-2 transition-all ${mainImage === img ? "border-stone-900" : "border-transparent hover:border-stone-200"}`}
                 >
                   <img
                     src={img}
@@ -502,7 +495,7 @@ export default function GiftDetailPage() {
 
             {/* Main Image */}
             <div
-              className="relative flex-1 aspect-[4/5] sm:aspect-auto sm:h-[600px] rounded-[1rem] overflow-hidden bg-[#faf9f6] shadow-inner"
+              className="relative flex-1 aspect-[4/5] sm:aspect-auto sm:h-[600px] rounded-md overflow-hidden bg-stone-50 border border-stone-100 justify-center items-center flex cursor-zoom-in"
               onClick={() => setShowImage(true)}
             >
               <img
@@ -609,17 +602,17 @@ export default function GiftDetailPage() {
             {/* Quantity & Add to Cart */}
             <div className="flex flex-col gap-4 mb-8">
               <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex items-center justify-between bg-gray-50 p-2 rounded-2xl border border-gray-100 w-full sm:w-36 shrink-0">
+                <div className="flex items-center justify-between bg-stone-50 p-2 rounded-sm border border-stone-200 w-full sm:w-36 shrink-0">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm text-gray-600 hover:text-[var(--olive)] transition-colors"
+                    className="w-10 h-10 rounded-sm bg-white border border-stone-200 flex items-center justify-center text-stone-600 hover:text-stone-900 transition-colors"
                   >
                     <Minus className="w-4 h-4" />
                   </button>
-                  <span className="font-bold text-gray-900">{quantity}</span>
+                  <span className="font-bold text-stone-900">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm text-gray-600 hover:text-[var(--olive)] transition-colors"
+                    className="w-10 h-10 rounded-sm bg-white border border-stone-200 flex items-center justify-center text-stone-600 hover:text-stone-900 transition-colors"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
@@ -627,12 +620,12 @@ export default function GiftDetailPage() {
                 <button
                   disabled={isAddingToCart || (gift?.stock ?? 0) <= 0}
                   onClick={handleAddToCart}
-                  className={`flex-1 py-4 rounded-2xl bg-white border-2 border-[var(--olive)] text-[var(--olive)] font-bold text-[13px] tracking-widest hover:bg-[var(--olive)]/5 transition-all flex items-center justify-center gap-2 group ${(gift?.stock ?? 0) <= 0 ? "cursor-not-allowed opacity-50 border-stone-200 text-stone-400" : "cursor-pointer"} disabled:opacity-50`}
+                  className={`flex-1 py-4 rounded-sm bg-white border-2 border-[var(--olive-dark)] text-[var(--olive-dark)] font-bold text-xs uppercase tracking-widest hover:bg-[var(--olive-dark)] hover:text-white transition-all flex items-center justify-center gap-2 group ${(gift?.stock ?? 0) <= 0 ? "cursor-not-allowed opacity-50 border-gray-200 text-gray-400 hover:bg-white hover:text-gray-400" : "cursor-pointer"} disabled:opacity-50`}
                 >
                   {isAddingToCart ? (
-                    <div className="w-5 h-5 border-2 border-[var(--olive)] border-t-transparent rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    <ShoppingCart className="w-4 h-4" />
                   )}
                   {(gift?.stock ?? 0) <= 0
                     ? "OUT OF STOCK"
@@ -642,27 +635,26 @@ export default function GiftDetailPage() {
                 </button>
               </div>
               <button
-                onClick={() =>
-                  handleActionWithLogin(() => setShowGiftDialog(true))
-                }
-                className="w-full py-4 rounded-2xl bg-[var(--olive)] text-white font-bold text-[13px] tracking-widest shadow-lg shadow-[var(--olive)]/20 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+                onClick={() => handleActionWithLogin(() => setShowGiftDialog(true))}
+                disabled={isAddingToCart || (gift?.stock ?? 0) <= 0}
+                className={`w-full py-4 rounded-sm bg-[var(--olive-dark)] text-white font-bold text-xs uppercase tracking-widest hover:bg-[var(--orange)] transition-all flex items-center justify-center gap-2 group ${(gift?.stock ?? 0) <= 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer"} disabled:opacity-50 shadow-sm`}
               >
-                <Zap className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <Zap className="w-4 h-4" />
                 {t.product.buy_now || "BUY NOW"}
               </button>
             </div>
 
             {/* Key Features */}
             <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#faf9f6] border border-gray-100">
-                <Sparkles className="w-6 h-6 text-[var(--olive)]" />
-                <span className="text-xs font-bold text-gray-700">
+              <div className="flex items-center gap-3 p-4 rounded-sm bg-stone-50 border border-stone-200">
+                <Sparkles className="w-5 h-5 text-stone-900" />
+                <span className="text-xs font-bold text-stone-900">
                   {t.gift_detail.perfect_for}
                 </span>
               </div>
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#faf9f6] border border-gray-100">
-                <Gift className="w-6 h-6 text-[var(--olive)]" />
-                <span className="text-xs font-bold text-gray-700">
+              <div className="flex items-center gap-3 p-4 rounded-sm bg-stone-50 border border-stone-200">
+                <Gift className="w-5 h-5 text-stone-900" />
+                <span className="text-xs font-bold text-stone-900">
                   {t.gift_detail.packaging}
                 </span>
               </div>
@@ -689,7 +681,7 @@ export default function GiftDetailPage() {
         </div>
 
         {/* REVIEWS SECTION */}
-        <div className="mt-8 lg:mt-12 bg-white rounded-3xl sm:rounded-[2.5rem] p-4 sm:p-6 lg:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100">
+        <div className="mt-8 lg:mt-8 bg-white rounded-md p-6 lg:p-10 shadow-sm border border-stone-200">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-6">
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">

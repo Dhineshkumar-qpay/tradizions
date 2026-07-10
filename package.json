@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@next/third-parties": "^16.2.9",
+    "@react-google-maps/api": "^2.20.8",
+    "@types/google.maps": "^3.65.2",
     "axios": "^1.16.0",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.38.0",

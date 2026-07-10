@@ -202,7 +202,7 @@ export default function AboutUsPage() {
       {/* ── HERO SECTION ── */}
       <section
         ref={heroRef.ref}
-        className="relative pt-40 lg:pt-48 pb-32 overflow-hidden flex items-center justify-center bg-white border-b border-stone-200"
+        className="relative py-10 overflow-hidden flex items-center justify-center bg-white border-b border-stone-200"
       >
 
         <div className="max-w-5xl mx-auto px-6 text-center relative z-10">

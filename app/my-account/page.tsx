@@ -30,7 +30,7 @@ import { AddressModel, AddressData } from "@/models/address_model";
 import { ProfileData } from "@/models/auth_model";
 import locationDataRaw from "../../public/location/india_states_districts.json";
 import SearchableDropdown from "@/components/SearchableDropdown";
-
+import AddressMapSidebar from "@/components/AddressMapSidebar";
 const locationData: Record<string, string[]> = locationDataRaw as any;
 
 const translations: Record<string, any> = {
@@ -124,7 +124,7 @@ export default function ProfilePage() {
       console.error("Error updating profile:", err);
       alert(
         err?.response?.data?.message ||
-          "An error occurred while updating profile.",
+        "An error occurred while updating profile.",
       );
     } finally {
       setIsSavingProfile(false);
@@ -153,7 +153,21 @@ export default function ProfilePage() {
   const [selectedDistrictId, setSelectedDistrictId] = useState<number>(0);
   const [selectedStateName, setSelectedStateName] = useState("");
   const [selectedDistrictName, setSelectedDistrictName] = useState("");
+  const [isMapOpen, setIsMapOpen] = useState(false);
 
+  const handleAddressSelectedFromMap = (data: any) => {
+    if (data.addressLine) setAddressLine(data.addressLine);
+    if (data.city) setCity(data.city);
+    if (data.pincode) setPincode(data.pincode);
+    if (data.state) {
+      setSelectedStateName(data.state);
+      setDistrictsList(locationData[data.state] || []);
+    }
+    if (data.district) {
+      setSelectedDistrictName(data.district);
+    }
+    setIsMapOpen(false);
+  };
   const fetchAddresses = async () => {
     setIsAddressesLoading(true);
     try {
@@ -275,7 +289,7 @@ export default function ProfilePage() {
       console.error("Error saving address:", err);
       alert(
         err?.response?.data?.message ||
-          "An error occurred while saving address.",
+        "An error occurred while saving address.",
       );
     }
   };
@@ -298,7 +312,7 @@ export default function ProfilePage() {
       console.error("Error deleting address:", err);
       alert(
         err?.response?.data?.message ||
-          "An error occurred while deleting address.",
+        "An error occurred while deleting address.",
       );
     }
   };
@@ -572,11 +586,18 @@ export default function ProfilePage() {
           >
             ← {t.my_account.back_to_addr}
           </button>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
             {addressView === "add"
               ? t.my_account.add_new_addr
               : t.my_account.edit_addr}
           </h2>
+          <button
+            type="button"
+            onClick={() => setIsMapOpen(true)}
+            className="mb-6 w-full max-w-sm flex items-center justify-center gap-2 py-2.5 px-4 bg-[var(--olive)] text-white border border-stone-800 rounded-md font-bold text-xs uppercase tracking-widest hover:bg-[var(--olive-dark)] transition-colors shadow-sm"
+          >
+            <MapPin className="w-4 h-4" /> Select Address from Map
+          </button>
           <form onSubmit={handleSaveAddress} className="space-y-4 max-w-sm">
             <div>
               <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
@@ -742,11 +763,11 @@ export default function ProfilePage() {
               + {t.my_account.add_new}
             </button>
           </div>
-          <div className="text-center py-16 space-y-4 bg-[#faf9f6] rounded-[2rem] border border-dashed border-gray-200">
-            <div className="w-16 h-16 rounded-full bg-stone-50 flex items-center justify-center text-2xl mx-auto shadow-inner">
+          <div className="text-center py-16 space-y-4 bg-white rounded-md border border-gray-200 shadow-sm">
+            <div className="w-12 h-12 rounded-sm bg-stone-50 border border-stone-200 flex items-center justify-center text-xl mx-auto">
               📍
             </div>
-            <p className="text-gray-400 text-sm font-medium">
+            <p className="text-gray-500 text-sm font-medium">
               No saved addresses found.
             </p>
           </div>
@@ -772,30 +793,30 @@ export default function ProfilePage() {
           {addresses.map((addr) => (
             <div
               key={addr.addressid}
-              className="p-6 rounded-2xl border-2 border-[var(--olive)]/10 bg-[#faf9f6] relative group transition-all hover:shadow-md hover:border-[var(--olive)]/30 cursor-pointer"
+              className="p-5 rounded-md border border-gray-200 bg-white relative group transition-all hover:shadow-sm hover:border-gray-300 cursor-pointer"
             >
-              <div className="absolute top-6 right-6 flex items-center gap-3">
+              <div className="absolute top-5 right-5 flex items-center gap-3">
                 <button
                   onClick={() => handleOpenEditAddress(addr)}
-                  className="text-[10px] font-bold tracking-widest text-gray-400 hover:text-[var(--olive)] transition-colors"
+                  className="text-[10px] font-bold tracking-widest text-gray-400 hover:text-gray-900 transition-colors"
                 >
                   EDIT
                 </button>
-                <span className="text-gray-300">|</span>
+                <span className="text-gray-200">|</span>
                 <button
                   onClick={() =>
                     addr.addressid && handleDeleteAddress(addr.addressid)
                   }
-                  className="text-[10px] font-bold tracking-widest text-gray-400 hover:text-red-500 transition-colors"
+                  className="text-[10px] font-bold tracking-widest text-gray-400 hover:text-red-600 transition-colors"
                 >
                   DELETE
                 </button>
               </div>
               <div className="mb-4">
-                <span className="inline-block px-3 py-1 bg-white shadow-sm text-[var(--olive)] border border-[var(--olive)]/20 text-[10px] font-black tracking-widest rounded-lg mb-3 uppercase">
+                <span className="inline-block px-2 py-1 bg-gray-50 text-gray-600 border border-gray-200 text-[10px] font-bold tracking-widest rounded-sm mb-3 uppercase">
                   {addr.title || "Address"}
                 </span>
-                <h3 className="text-base font-black text-gray-900 leading-tight tracking-tight">
+                <h3 className="text-sm font-bold text-gray-900 leading-tight">
                   {addr.fullname}
                 </h3>
                 <p className="text-xs font-bold text-gray-500 mt-1">
@@ -842,16 +863,16 @@ export default function ProfilePage() {
           </p>
         </div>
       ) : wishlist.length === 0 ? (
-        <div className="text-center py-16 space-y-4">
-          <div className="w-20 h-20 rounded-full bg-stone-50 flex items-center justify-center text-3xl mx-auto shadow-inner">
+        <div className="text-center py-16 space-y-4 bg-white border border-gray-200 rounded-md shadow-sm">
+          <div className="w-12 h-12 rounded-sm bg-stone-50 border border-stone-200 flex items-center justify-center text-xl mx-auto">
             ❤️
           </div>
-          <p className="text-stone-400 text-sm font-medium">
+          <p className="text-stone-500 text-sm font-medium">
             Your wishlist is empty.
           </p>
           <Link
             href="/shop"
-            className="inline-block px-6 py-2.5 bg-[var(--olive)] text-white text-xs font-black tracking-widest uppercase rounded-xl shadow-md"
+            className="inline-block px-6 py-2 bg-[var(--olive-dark)] hover:bg-[var(--olive)] text-white text-xs font-bold tracking-widest uppercase rounded-sm transition-colors"
           >
             Go to Shop
           </Link>
@@ -868,9 +889,9 @@ export default function ProfilePage() {
             return (
               <div
                 key={item.productid}
-                className="group relative bg-white rounded-3xl p-4 border border-gray-100 hover:border-[var(--olive)]/30 hover:shadow-[0_20px_40px_rgba(85,107,47,0.08)] transition-all duration-500 flex flex-col"
+                className="group relative bg-white rounded-md p-4 border border-gray-200 hover:shadow-sm transition-all flex flex-col"
               >
-                <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-[#faf9f6] mb-4">
+                <div className="relative aspect-[4/5] w-full rounded-sm overflow-hidden bg-stone-50 border border-stone-100 mb-4">
                   <img
                     src={itemImage}
                     className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700"
@@ -906,7 +927,7 @@ export default function ProfilePage() {
                         item.productid &&
                         handleAddToCart(item.productid, "product")
                       }
-                      className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-[var(--olive)] group-hover:bg-[var(--olive)] group-hover:text-white transition-all cursor-pointer disabled:opacity-50"
+                      className="w-8 h-8 rounded-sm border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:text-[var(--olive)] hover:border-[var(--olive)] transition-colors cursor-pointer disabled:opacity-50"
                     >
                       <ShoppingCart className="w-4 h-4" />
                     </button>
@@ -930,21 +951,19 @@ export default function ProfilePage() {
           <div className="flex bg-stone-100 p-1 rounded-xl w-full sm:w-auto">
             <button
               onClick={() => setOrderHistoryTab("normal")}
-              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${
-                orderHistoryTab === "normal"
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${orderHistoryTab === "normal"
                   ? "bg-white text-[var(--olive)] shadow-sm"
                   : "text-stone-500 hover:text-stone-700"
-              }`}
+                }`}
             >
               Normal Orders
             </button>
             <button
               onClick={() => setOrderHistoryTab("monthly")}
-              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${
-                orderHistoryTab === "monthly"
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${orderHistoryTab === "monthly"
                   ? "bg-white text-[var(--olive)] shadow-sm"
                   : "text-stone-500 hover:text-stone-700"
-              }`}
+                }`}
             >
               Monthly Orders
             </button>
@@ -960,13 +979,10 @@ export default function ProfilePage() {
               </p>
             </div>
           ) : orders.length === 0 ? (
-            <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -z-10" />
-
-              <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
-                <div className="absolute inset-0 bg-[var(--olive)]/10 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-500" />
+            <div className="bg-white rounded-md p-12 text-center border border-gray-200 shadow-sm flex flex-col items-center justify-center min-h-[40vh]">
+              <div className="w-16 h-16 bg-stone-50 rounded-sm flex items-center justify-center mb-6 border border-stone-200">
                 <Package
-                  className="w-8 h-8 text-stone-300 group-hover:text-[var(--olive)] transition-colors duration-500 relative z-10"
+                  className="w-8 h-8 text-stone-300"
                   strokeWidth={1.5}
                 />
               </div>
@@ -981,10 +997,10 @@ export default function ProfilePage() {
 
               <Link
                 href="/shop"
-                className="group flex items-center gap-2 px-6 py-3 bg-[var(--olive)] hover:bg-[var(--olive)]/90 text-white rounded-xl font-bold text-[11px] uppercase tracking-widest shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                className="flex items-center justify-center gap-2 px-6 py-2.5 bg-stone-900 hover:bg-stone-800 text-white rounded-sm font-bold text-[11px] uppercase tracking-widest transition-colors w-fit mx-auto"
               >
                 Explore Shop
-                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           ) : (
@@ -994,13 +1010,13 @@ export default function ProfilePage() {
                   <Link
                     key={order.orderid || index}
                     href={`/order-detail?id=${order.orderid}`}
-                    className="group flex items-center gap-4 p-4 rounded-[1.5rem] bg-white border-2 border-gray-100 hover:border-[var(--olive)]/30 hover:shadow-md transition-all"
+                    className="group flex items-center gap-4 p-4 rounded-md bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all"
                   >
                     {(() => {
                       const hasItems = order.items && order.items.length > 0;
                       const itemName = hasItems
                         ? order.items![0].productname ||
-                          order.items![0].giftpackname
+                        order.items![0].giftpackname
                         : `Order #${order.orderid}`;
 
                       return (
@@ -1010,7 +1026,7 @@ export default function ProfilePage() {
                               order.items?.slice(0, 3).map((item, i) => (
                                 <div
                                   key={i}
-                                  className="relative w-12 h-12 rounded-full border-2 border-white overflow-hidden bg-[#faf9f6] shadow-sm z-10 hover:z-20 transition-all hover:scale-110"
+                                  className="relative w-12 h-12 rounded-sm border border-stone-200 overflow-hidden bg-stone-50 z-10 hover:z-20 transition-all hover:scale-105"
                                 >
                                   <img
                                     src={
@@ -1028,12 +1044,12 @@ export default function ProfilePage() {
                                 </div>
                               ))
                             ) : (
-                              <div className="w-12 h-12 rounded-full border-2 border-white bg-[#faf9f6] flex items-center justify-center shadow-sm">
+                              <div className="w-12 h-12 rounded-sm border border-stone-200 bg-stone-50 flex items-center justify-center">
                                 <Package className="w-5 h-5 text-stone-300" />
                               </div>
                             )}
                             {hasItems && order.items!.length > 3 && (
-                              <div className="relative w-12 h-12 rounded-full border-2 border-white bg-stone-100 flex items-center justify-center shadow-sm z-0 text-[10px] font-bold text-stone-600">
+                              <div className="relative w-12 h-12 rounded-sm border border-stone-200 bg-stone-100 flex items-center justify-center z-0 text-[10px] font-bold text-stone-600">
                                 +{order.items!.length - 3}
                               </div>
                             )}
@@ -1064,7 +1080,7 @@ export default function ProfilePage() {
                                   {order.orderstatus}
                                 </span>
                               </div>
-                              <span className="text-[9px] font-black text-gray-400 group-hover:text-[var(--olive)] transition-colors uppercase tracking-widest flex items-center gap-0.5">
+                              <span className="text-[10px] font-bold text-gray-500 group-hover:text-gray-900 transition-colors uppercase tracking-widest flex items-center gap-0.5">
                                 Details <ChevronRight className="w-3 h-3" />
                               </span>
                             </div>
@@ -1085,9 +1101,8 @@ export default function ProfilePage() {
             </p>
           </div>
         ) : monthlyOrders.length === 0 ? (
-          <div className="bg-[#faf9f6] rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-3xl -z-10" />
-            <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-sm relative group">
+          <div className="bg-white rounded-md p-12 text-center border border-gray-200 shadow-sm flex flex-col items-center justify-center min-h-[40vh]">
+            <div className="w-16 h-16 bg-stone-50 rounded-sm flex items-center justify-center mb-6 border border-stone-200">
               <Package className="w-8 h-8 text-stone-300" strokeWidth={1.5} />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -1104,7 +1119,7 @@ export default function ProfilePage() {
                 <Link
                   key={order.orderid || index}
                   href={`/order-detail?id=${order.orderid}`}
-                  className="group flex items-center gap-4 p-4 rounded-[1.5rem] bg-white border-2 border-gray-100 hover:border-[var(--olive)]/30 hover:shadow-md transition-all"
+                  className="group flex items-center gap-4 p-4 rounded-md bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all"
                 >
                   {(() => {
                     const orderAny = order as any;
@@ -1123,7 +1138,7 @@ export default function ProfilePage() {
                               .map((item: any, i: number) => (
                                 <div
                                   key={i}
-                                  className="relative w-12 h-12 rounded-full border-2 border-white overflow-hidden bg-[#faf9f6] shadow-sm z-10 hover:z-20 transition-all hover:scale-110"
+                                  className="relative w-12 h-12 rounded-sm border border-stone-200 overflow-hidden bg-stone-50 z-10 hover:z-20 transition-all hover:scale-105"
                                 >
                                   <img
                                     src={
@@ -1137,12 +1152,12 @@ export default function ProfilePage() {
                                 </div>
                               ))
                           ) : (
-                            <div className="w-12 h-12 rounded-full border-2 border-white bg-[#faf9f6] flex items-center justify-center shadow-sm">
+                            <div className="w-12 h-12 rounded-sm border border-stone-200 bg-stone-50 flex items-center justify-center">
                               <Package className="w-5 h-5 text-stone-300" />
                             </div>
                           )}
                           {hasItems && orderAny.items.length > 3 && (
-                            <div className="relative w-12 h-12 rounded-full border-2 border-white bg-stone-100 flex items-center justify-center shadow-sm z-0 text-[10px] font-bold text-stone-600">
+                            <div className="relative w-12 h-12 rounded-sm border border-stone-200 bg-stone-100 flex items-center justify-center z-0 text-[10px] font-bold text-stone-600">
                               +{orderAny.items.length - 3}
                             </div>
                           )}
@@ -1173,7 +1188,7 @@ export default function ProfilePage() {
                                 {order.orderstatus}
                               </span>
                             </div>
-                            <span className="text-[9px] font-black text-gray-400 group-hover:text-[var(--olive)] transition-colors uppercase tracking-widest flex items-center gap-0.5">
+                            <span className="text-[10px] font-bold text-gray-500 group-hover:text-gray-900 transition-colors uppercase tracking-widest flex items-center gap-0.5">
                               Details <ChevronRight className="w-3 h-3" />
                             </span>
                           </div>
@@ -1412,128 +1427,101 @@ export default function ProfilePage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#faf9f6] pt-36 lg:pt-40 pb-20">
-      <div className="max-w-6xl mx-auto px-3 sm:px-6 flex flex-col md:flex-row gap-6 md:gap-8">
+    <main className="min-h-screen bg-stone-50 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-8">
         {/* Left Sidebar Menu */}
-        <div className="w-full md:w-72 shrink-0">
-          <div className="p-8 bg-white rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.04)] border border-gray-100 mb-6 flex flex-col items-center text-center relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--olive)]/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-            <div className="w-24 h-24 rounded-full bg-[var(--olive)] text-white flex items-center justify-center shadow-xl mb-4 relative z-10 border-4 border-[var(--olive)]/10">
-              <User className="w-10 h-10" />
+        <div className="w-full md:w-72 shrink-0 space-y-6">
+          <div className="p-6 bg-white rounded-md border border-stone-200 shadow-sm flex flex-col items-center text-center">
+            <div className="w-20 h-20 rounded-sm bg-stone-50 text-[var(--olive-dark)] flex items-center justify-center border border-stone-200 mb-4">
+              <User className="w-8 h-8" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-lg font-bold text-stone-900 tracking-tight">
               Tradizions User
             </h2>
-            <p className="text-sm text-gray-500 font-medium mt-1 tracking-wide">
+            <p className="text-sm text-stone-500 mt-1">
               +91 {mobile}
             </p>
           </div>
 
-          <nav className="flex flex-col gap-2 bg-white rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.04)] border border-gray-100 p-3">
+          <nav className="flex flex-col gap-1 bg-white rounded-md border border-stone-200 shadow-sm p-2">
             <button
               onClick={() => setActiveTab("profile")}
-              className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "profile" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
+              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "profile" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
             >
               <div className="flex items-center gap-3">
-                <User className="w-5 h-5" /> {t.my_account.edit_profile}
+                <User className="w-4 h-4" /> {t.my_account.edit_profile}
               </div>
-              {activeTab === "profile" && (
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              )}
+              {activeTab === "profile" && <ChevronRight className="w-4 h-4 text-stone-400" />}
             </button>
             <button
               onClick={() => setActiveTab("orders")}
-              className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "orders" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
+              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "orders" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
             >
               <div className="flex items-center gap-3">
-                <Package className="w-5 h-5" /> {t.my_account.order_history}
+                <Package className="w-4 h-4" /> {t.my_account.order_history}
               </div>
-              {activeTab === "orders" && (
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              )}
+              {activeTab === "orders" && <ChevronRight className="w-4 h-4 text-stone-400" />}
             </button>
-
-            {/* <button
-              onClick={() => setActiveTab("monthly-orders")}
-              className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "monthly-orders" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
-            >
-              <div className="flex items-center gap-3">
-                <Package className="w-5 h-5" /> Monthly Orders
-              </div>
-              {activeTab === "monthly-orders" && (
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              )}
-            </button> */}
             <button
               onClick={() => setActiveTab("subscriptions")}
-              className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "subscriptions" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
+              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "subscriptions" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
             >
               <div className="flex items-center gap-3">
-                <Zap className="w-5 h-5" /> {t.my_account.subscriptions}
+                <Zap className="w-4 h-4" /> {t.my_account.subscriptions}
               </div>
-              {activeTab === "subscriptions" && (
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              )}
+              {activeTab === "subscriptions" && <ChevronRight className="w-4 h-4 text-stone-400" />}
             </button>
             <button
               onClick={() => setActiveTab("wishlist")}
-              className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "wishlist" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
+              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "wishlist" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
             >
               <div className="flex items-center gap-3">
-                <Heart className="w-5 h-5" /> {t.my_account.wishlist}
+                <Heart className="w-4 h-4" /> {t.my_account.wishlist}
               </div>
-              {activeTab === "wishlist" && (
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              )}
+              {activeTab === "wishlist" && <ChevronRight className="w-4 h-4 text-stone-400" />}
             </button>
             <button
               onClick={() => setActiveTab("referrals")}
-              className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "referrals" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
+              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "referrals" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
             >
               <div className="flex items-center gap-3">
-                <Users className="w-5 h-5" /> {t.my_account.refer_earn}
+                <Users className="w-4 h-4" /> {t.my_account.refer_earn}
               </div>
-              {activeTab === "referrals" && (
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              )}
+              {activeTab === "referrals" && <ChevronRight className="w-4 h-4 text-stone-400" />}
             </button>
             <button
               onClick={() => setActiveTab("wallet")}
-              className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "wallet" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
+              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "wallet" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
             >
               <div className="flex items-center gap-3">
-                <Wallet className="w-5 h-5" /> {t.my_account.wallet_coupons}
+                <Wallet className="w-4 h-4" /> {t.my_account.wallet_coupons}
               </div>
-              {activeTab === "wallet" && (
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              )}
+              {activeTab === "wallet" && <ChevronRight className="w-4 h-4 text-stone-400" />}
             </button>
             <button
               onClick={() => {
                 setActiveTab("addresses");
                 setAddressView("list");
               }}
-              className={`flex items-center justify-between p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide ${activeTab === "addresses" ? "bg-[var(--olive)] text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-[var(--olive)]"}`}
+              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "addresses" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
             >
               <div className="flex items-center gap-3">
-                <MapPin className="w-5 h-5" /> {t.my_account.saved_addresses}
+                <MapPin className="w-4 h-4" /> {t.my_account.saved_addresses}
               </div>
-              {activeTab === "addresses" && (
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              )}
+              {activeTab === "addresses" && <ChevronRight className="w-4 h-4 text-stone-400" />}
             </button>
-            <div className="h-px w-full bg-gray-100 my-2" />
+            <div className="h-px w-full bg-stone-200 my-2" />
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 p-4 rounded-2xl transition-all font-bold text-[13px] tracking-wide text-red-500 hover:bg-red-50 hover:text-red-600"
+              className="flex items-center gap-3 p-3 rounded-sm transition-all font-semibold text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
             >
-              <LogOut className="w-5 h-5" /> {t.my_account.logout}
+              <LogOut className="w-4 h-4" /> {t.my_account.logout}
             </button>
           </nav>
         </div>
 
         {/* Right Content Area */}
-        <div className="flex-1 bg-white rounded-3xl md:rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.04)] border border-gray-100 p-4 sm:p-8 md:p-12 min-h-[600px]">
+        <div className="flex-1 bg-white rounded-md border border-stone-200 shadow-sm p-6 sm:p-8 md:p-10 min-h-[600px]">
           {activeTab === "profile" && renderProfileForm()}
           {activeTab === "addresses" && renderAddresses()}
           {activeTab === "wishlist" && renderWishlist()}
@@ -1546,6 +1534,11 @@ export default function ProfilePage() {
           {activeTab === "wallet" && renderWallet()}
         </div>
       </div>
+      <AddressMapSidebar
+        isOpen={isMapOpen}
+        onClose={() => setIsMapOpen(false)}
+        onSelectAddress={handleAddressSelectedFromMap}
+      />
     </main>
   );
 }
