@@ -531,7 +531,7 @@ export default function ProfilePage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your name"
-              className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+              className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
             />
           </div>
           <div>
@@ -544,7 +544,7 @@ export default function ProfilePage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+              className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
             />
           </div>
           <div>
@@ -608,7 +608,7 @@ export default function ProfilePage() {
                 placeholder="e.g. Home, Office"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+                className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
               />
             </div>
             <div>
@@ -620,7 +620,7 @@ export default function ProfilePage() {
                 placeholder="Receiver's Full Name"
                 value={fullname}
                 onChange={(e) => setFullname(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+                className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
               />
             </div>
             <div>
@@ -632,7 +632,7 @@ export default function ProfilePage() {
                 placeholder="10-digit Mobile Number"
                 value={mobileNumber}
                 onChange={(e) => setMobileNumber(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+                className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
               />
             </div>
             <div>
@@ -645,7 +645,7 @@ export default function ProfilePage() {
                 placeholder="Required for order updates"
                 value={addressEmail}
                 onChange={(e) => setAddressEmail(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+                className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
               />
             </div>
             <div>
@@ -657,7 +657,7 @@ export default function ProfilePage() {
                 placeholder="Flat / House No. / Street Name"
                 value={addressLine}
                 onChange={(e) => setAddressLine(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all resize-none font-medium text-gray-800 text-sm"
+                className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all resize-none font-medium text-gray-800 text-sm shadow-sm"
               />
             </div>
             <div>
@@ -669,7 +669,7 @@ export default function ProfilePage() {
                 placeholder="e.g. Near Water Tank (Optional)"
                 value={landmark}
                 onChange={(e) => setLandmark(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+                className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
               />
             </div>
             <div>
@@ -681,7 +681,7 @@ export default function ProfilePage() {
                 placeholder="e.g. Pallipalayam"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+                className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
               />
             </div>
             <div>
@@ -722,7 +722,7 @@ export default function ProfilePage() {
                 placeholder="6-digit pincode"
                 value={pincode}
                 onChange={(e) => setPincode(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm"
+                className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
               />
             </div>
             <button

@@ -123,7 +123,7 @@ export default function CorporateOrdersPageClient() {
       console.error("Error submitting corporate inquiry:", err);
       alert(
         err?.response?.data?.message ||
-          "An error occurred while submitting your inquiry.",
+        "An error occurred while submitting your inquiry.",
       );
     } finally {
       setIsSubmitting(false);
@@ -168,7 +168,7 @@ export default function CorporateOrdersPageClient() {
         console.error("Error adding to cart:", err);
         alert(
           err?.response?.data?.message ||
-            "An error occurred while proceeding to checkout.",
+          "An error occurred while proceeding to checkout.",
         );
       } finally {
         setIsAddingToCart(null);
@@ -353,7 +353,7 @@ export default function CorporateOrdersPageClient() {
         <div className="w-full max-w-6xl mx-auto px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
             {/* Image 1 */}
-            <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
+            <div className="relative aspect-[4/3] rounded-[0rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
               <img
                 src="https://m.media-amazon.com/images/I/A1VpOe56yCL.jpg"
                 alt="Premium Gift Set"
@@ -363,7 +363,7 @@ export default function CorporateOrdersPageClient() {
             </div>
 
             {/* Image 2 */}
-            <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
+            <div className="relative aspect-[4/3] rounded-[0rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
               <img
                 src="https://www.omayfoods.com/cdn/shop/files/Nuts_Delights_1_1024x.png?v=1707999347"
                 alt="Nut Delights"
@@ -373,7 +373,7 @@ export default function CorporateOrdersPageClient() {
             </div>
 
             {/* Image 3 */}
-            <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
+            <div className="relative aspect-[4/3] rounded-[0rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
               <img
                 src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQPr92M7tc_wU803465wGPaftI9HsjKuriT3MdTYEDzWYF84zvY"
                 alt="Corporate Hamper"
@@ -383,7 +383,7 @@ export default function CorporateOrdersPageClient() {
             </div>
 
             {/* Image 4 */}
-            <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
+            <div className="relative aspect-[4/3] rounded-[0rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 border-4 border-white group">
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_pKrj2QQfoqJJJZQpUnoeI6zbcbp-xYRWjUJXpfYJCyenQtB2"
                 alt="Elegant Gifting"

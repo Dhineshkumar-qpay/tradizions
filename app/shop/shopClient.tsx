@@ -576,54 +576,52 @@ export default function ShopPage() {
         />
       </Suspense>
       {/* ──── Shop Hero / Header ──── */}
-      <section className="relative pt-24 pb-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-[var(--dark-brown)] border-b border-[var(--olive-dark)]">
+      <section className="relative pt-24 pb-12 px-6 sm:px-12 lg:px-20 overflow-hidden flex flex-col items-center justify-center min-h-[280px] border-b border-[var(--olive-dark)]">
         {/* Background Image & Overlay */}
         <div className="absolute inset-0 z-0">
           <img
             src="https://img.magnific.com/free-photo/top-view-nuts-concept-with-copy-space_23-2148693980.jpg?semt=ais_hybrid&w=740&q=80"
             alt="Corporate Shop Banner"
-            className="w-full h-full object-cover opacity-30 mix-blend-overlay"
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--dark-brown)] via-[var(--dark-brown)]/80 to-[var(--olive-dark)]/30" />
+          <div className="absolute inset-0 bg-[var(--dark-brown)]/60 backdrop-blur-sm" />
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10 flex flex-col justify-center min-h-[200px]">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-xs font-semibold text-stone-400 uppercase tracking-widest mb-6">
-            <Link href="/" className="hover:text-white transition-colors">
-              Home
-            </Link>
-            <span>/</span>
-            <span className="text-white">{t.shop || "Shop"}</span>
-          </div>
-
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10">
-            <div className="space-y-4 max-w-2xl">
-              <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight tracking-tight">
+        <div className="max-w-3xl mx-auto relative z-10 w-full animate-fade-in-up">
+           <div className="glass p-6 md:p-8 rounded-3xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] text-center flex flex-col items-center">
+             {/* Breadcrumb */}
+             <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-white/70 uppercase tracking-[0.2em] mb-4 bg-white/10 px-4 py-1 rounded-full w-max shadow-sm">
+               <Link href="/" className="hover:text-white transition-colors">
+                 Home
+               </Link>
+               <span className="text-white/40">•</span>
+               <span className="text-[var(--gold-light)]">{t.shop || "Shop"}</span>
+             </div>
+             
+             <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-3 drop-shadow-md">
                 {t.shop_headline || "Enterprise Collections"}
-              </h1>
-              <p className="text-sm md:text-base text-stone-300 font-medium leading-relaxed">
+             </h1>
+             <p className="text-xs md:text-sm text-white/90 font-medium leading-relaxed max-w-xl mb-6">
                 {t.shop_desc ||
                   "Discover our curated selection of premium products, designed for professionals and corporate gifting."}
-              </p>
-            </div>
-
-            {/* Trust badges */}
-            <div className="flex flex-wrap gap-3 md:justify-end shrink-0 pb-2">
-              {[
-                { icon: "Shield", label: "Quality Assured" },
-                { icon: "Briefcase", label: "Corporate Ready" },
-                { icon: "Award", label: "Premium Grade" },
-              ].map((badge) => (
-                <div
-                  key={badge.label}
-                  className="flex items-center gap-2 px-4 py-2 rounded-sm bg-white/5 backdrop-blur-md border border-[var(--olive)]/30 text-xs font-bold text-white tracking-wide uppercase shadow-sm"
-                >
-                  {badge.label}
-                </div>
-              ))}
-            </div>
-          </div>
+             </p>
+             
+             {/* Trust badges */}
+             <div className="flex flex-wrap justify-center gap-2.5">
+               {[
+                 { icon: "Shield", label: "Quality Assured" },
+                 { icon: "Briefcase", label: "Corporate Ready" },
+                 { icon: "Award", label: "Premium Grade" },
+               ].map((badge) => (
+                 <div
+                   key={badge.label}
+                   className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all border border-[var(--gold-light)]/40 text-[10px] font-bold text-white tracking-wider uppercase shadow-lg"
+                 >
+                   {badge.label}
+                 </div>
+               ))}
+             </div>
+           </div>
         </div>
       </section>
 

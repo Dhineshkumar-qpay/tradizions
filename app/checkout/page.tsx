@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShieldCheck, Check, ShoppingCart, Gift, Lock } from "lucide-react";
+import { ShieldCheck, Check, ShoppingCart, Gift, Lock, MapPin } from "lucide-react";
+import AddressMapSidebar from "@/components/AddressMapSidebar";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
@@ -60,8 +61,23 @@ export default function CheckoutPage() {
     Object.keys(locationData),
   );
   const [districtsList, setDistrictsList] = useState<string[]>([]);
+  const [isMapOpen, setIsMapOpen] = useState(false);
 
   const router = useRouter();
+
+  const handleAddressSelectedFromMap = (data: any) => {
+    if (data.addressLine) setAddressLine(data.addressLine);
+    if (data.city) setCity(data.city);
+    if (data.pincode) setPincode(data.pincode);
+    if (data.state) {
+      setSelectedStateName(data.state);
+      setDistrictsList(locationData[data.state] || []);
+    }
+    if (data.district) {
+      setSelectedDistrictName(data.district);
+    }
+    setIsMapOpen(false);
+  };
 
   const fetchAddresses = async () => {
     try {
@@ -334,7 +350,7 @@ export default function CheckoutPage() {
                   </span>
 
                   <span className="text-lg font-black text-[var(--olive-dark)]">
-                    ₹{grandTotal.toLocaleString()}
+                    ₹{grandTotal.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                   </span>
                 </div>
 
@@ -547,7 +563,7 @@ export default function CheckoutPage() {
                                       {itemName}
                                     </p>
                                     <p className="text-xs text-stone-500">
-                                      ₹{itemPrice.toLocaleString()} × {item.quantity}
+                                      ₹{itemPrice.toLocaleString("en-IN", { maximumFractionDigits: 2 })} × {item.quantity}
                                     </p>
                                   </div>
                                 </div>
@@ -615,6 +631,13 @@ export default function CheckoutPage() {
                   <h3 className="text-sm font-bold text-[var(--olive-dark)] mb-6 uppercase tracking-[0.15em]">
                     Enter Details
                   </h3>
+                  <button
+                    type="button"
+                    onClick={() => setIsMapOpen(true)}
+                    className="mb-6 w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-[var(--olive)] text-white border border-stone-800 rounded-md font-bold text-xs uppercase tracking-widest hover:bg-[var(--olive-dark)] transition-colors shadow-sm"
+                  >
+                    <MapPin className="w-4 h-4" /> Select Address from Map
+                  </button>
                   <form onSubmit={handleSaveAddress} className="space-y-5">
                     <div className="grid grid-cols-2 gap-5">
                       <div>
@@ -624,7 +647,7 @@ export default function CheckoutPage() {
                         <select
                           value={title}
                           onChange={(e) => setTitle(e.target.value)}
-                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 bg-white focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm"
+                          className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
                         >
                           <option value="Home">Home</option>
                           <option value="Office">Office</option>
@@ -640,7 +663,7 @@ export default function CheckoutPage() {
                           placeholder="Your Name"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                          className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
                         />
                       </div>
                     </div>
@@ -653,7 +676,7 @@ export default function CheckoutPage() {
                         placeholder="10-digit Mobile Number"
                         value={mobileNumber}
                         onChange={(e) => setMobileNumber(e.target.value)}
-                        className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                        className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
                       />
                     </div>
                     <div>
@@ -666,7 +689,7 @@ export default function CheckoutPage() {
                         placeholder="Required for order updates"
                         value={addressEmail}
                         onChange={(e) => setAddressEmail(e.target.value)}
-                        className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                        className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
                       />
                     </div>
                     <div>
@@ -678,7 +701,7 @@ export default function CheckoutPage() {
                         placeholder="Flat / House No. / Street Name"
                         value={addressLine}
                         onChange={(e) => setAddressLine(e.target.value)}
-                        className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all resize-none font-bold text-stone-800 text-sm shadow-sm bg-white"
+                        className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all resize-none font-medium text-gray-800 text-sm shadow-sm"
                       />
                     </div>
                     <div>
@@ -690,7 +713,7 @@ export default function CheckoutPage() {
                         placeholder="e.g. Near Water Tank (Optional)"
                         value={landmark}
                         onChange={(e) => setLandmark(e.target.value)}
-                        className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                        className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-5">
@@ -738,7 +761,7 @@ export default function CheckoutPage() {
                           placeholder="e.g. Pallipalayam"
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
-                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                          className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
                         />
                       </div>
                       <div>
@@ -750,7 +773,7 @@ export default function CheckoutPage() {
                           placeholder="6-digit pincode"
                           value={pincode}
                           onChange={(e) => setPincode(e.target.value)}
-                          className="w-full border border-stone-200 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-bold text-stone-800 text-sm shadow-sm bg-white"
+                          className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
                         />
                       </div>
                     </div>
@@ -864,7 +887,7 @@ export default function CheckoutPage() {
                             {itemName}
                           </p>
                           <p className="text-[13px] font-bold text-stone-900 whitespace-nowrap">
-                            ₹{itemPrice.toLocaleString()}
+                            ₹{itemPrice.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                           </p>
                         </div>
                         <p className="text-xs text-stone-500">
@@ -882,7 +905,7 @@ export default function CheckoutPage() {
                                   {p.quantity} × {p.productname}
                                 </span>
                                 <span className="font-semibold text-stone-900 shrink-0">
-                                  ₹{(p.totalprice || (p.sellingprice ?? 0) * (p.quantity ?? 1) || 0).toLocaleString()}
+                                  ₹{(p.totalprice || (p.sellingprice ?? 0) * (p.quantity ?? 1) || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                                 </span>
                               </div>
                             ))}
@@ -916,7 +939,7 @@ export default function CheckoutPage() {
                     items)
                   </span>
                   <span className="font-bold text-stone-900">
-                    ₹{totalAmount.toLocaleString()}
+                    ₹{totalAmount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
@@ -937,7 +960,7 @@ export default function CheckoutPage() {
                 </span>
                 <div className="text-right">
                   <span className="text-2xl font-black text-stone-900 block leading-none tracking-tight">
-                    ₹{grandTotal.toLocaleString()}
+                    ₹{grandTotal.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                   </span>
                 </div>
               </div>
@@ -990,6 +1013,11 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
+      <AddressMapSidebar
+        isOpen={isMapOpen}
+        onClose={() => setIsMapOpen(false)}
+        onSelectAddress={handleAddressSelectedFromMap}
+      />
     </main>
   );
 }

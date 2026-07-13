@@ -123,7 +123,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1 pt-[160px] md:pt-[165px]">{children}</main>
           <Footer />
-          <AIChatbot />
+          {/* <AIChatbot /> */}
           <ClickAnimation />
         </AuthGate>
       </body>

@@ -520,7 +520,7 @@ export default function CartSidebar() {
                                                     (p.sellingprice ?? 0) *
                                                       (p.quantity ?? 1) ||
                                                     0
-                                                  ).toLocaleString()}
+                                                  ).toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                                                 </p>
                                               </div>
                                             </div>
@@ -552,11 +552,11 @@ export default function CartSidebar() {
                                       ₹
                                       {(totalPrice / (item.quantity ?? 1))
                                         .toFixed(2)
-                                        .toLocaleString()}{" "}
+                                        .toLocaleString("en-IN", { maximumFractionDigits: 2 })}{" "}
                                     </p>
                                   )}
                                   <p className="text-lg font-black text-stone-900 tracking-tight">
-                                    ₹{totalPrice.toFixed(2).toLocaleString()}
+                                    ₹{totalPrice.toFixed(2).toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                                   </p>
                                   {hasDiscount && (
                                     <div className="flex items-center gap-2 mt-1">
@@ -564,13 +564,13 @@ export default function CartSidebar() {
                                         ₹
                                         {originalTotal
                                           .toFixed(2)
-                                          .toLocaleString()}
+                                          .toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                                       </p>
                                       <span className="text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-md">
                                         SAVE ₹
                                         {(
                                           originalTotal - totalPrice
-                                        ).toLocaleString()}
+                                        ).toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                                       </span>
                                     </div>
                                   )}
@@ -853,7 +853,7 @@ export default function CartSidebar() {
                           Subtotal ({cartItems.length} items)
                         </span>
                         <span className="font-bold text-gray-900">
-                          ₹{totalAmount.toLocaleString()}
+                          ₹{totalAmount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                         </span>
                       </div>
                       {cartItems.filter((i) => i.giftcardid).length > 0 && (
@@ -882,7 +882,7 @@ export default function CartSidebar() {
                         </p>
                       </div>
                       <p className="text-xl font-bold text-[var(--olive-dark)] tracking-tight">
-                        ₹{grandTotal.toLocaleString()}
+                        ₹{grandTotal.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                       </p>
                     </div>
 

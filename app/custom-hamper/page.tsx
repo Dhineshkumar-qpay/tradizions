@@ -149,7 +149,7 @@ export default function CustomGiftBuilder() {
           alert("Custom gift added to cart successfully!");
           setSelectedItems([]);
           setSelectedPackage(null);
-          router.push("/cart");
+          window.dispatchEvent(new Event("openCartSidebar"));
         }
       }
     } catch (error) {
@@ -211,8 +211,8 @@ export default function CustomGiftBuilder() {
                       key={pkg.id}
                       onClick={() => setSelectedPackage(pkg)}
                       className={`group cursor-pointer bg-white transition-all duration-500 ease-out border ${active
-                          ? "border-[var(--olive-dark)] shadow-xl"
-                          : "border-gray-200 hover:border-[var(--olive)]/50 hover:shadow-md"
+                        ? "border-[var(--olive-dark)] shadow-xl"
+                        : "border-gray-200 hover:border-[var(--olive)]/50 hover:shadow-md"
                         }`}
                     >
                       <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 p-6 flex flex-col justify-end border-b border-gray-100">
@@ -358,7 +358,7 @@ export default function CustomGiftBuilder() {
                   <div className="h-8 w-8 animate-spin border-[3px] border-gray-200 border-t-[var(--olive)] rounded-full" />
                 </div>
               ) : (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                   {filteredProducts.map((product, idx) => {
                     const qty =
                       selectedItems.find(
@@ -367,9 +367,9 @@ export default function CustomGiftBuilder() {
                     return (
                       <div
                         key={idx}
-                        className="group flex flex-col bg-white border border-gray-200 p-4 transition-colors hover:border-[var(--olive)]/30 h-full"
+                        className="group flex flex-col bg-white border border-gray-200 p-2.5 transition-colors hover:border-[var(--olive)]/30 h-full"
                       >
-                        <div className="relative aspect-square w-full shrink-0 bg-gray-50 overflow-hidden border border-gray-100 mb-4">
+                        <div className="relative aspect-square w-full shrink-0 bg-gray-50 overflow-hidden border border-gray-100 mb-2">
                           <img
                             src={
                               product.productimage?.includes("http")

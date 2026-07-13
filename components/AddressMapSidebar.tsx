@@ -67,7 +67,7 @@ export default function AddressMapSidebar({ isOpen, onClose, onSelectAddress }: 
         }
       }
     }
-    
+
     if (!addressLine) addressLine = place.name || place.formatted_address || '';
 
     // If city is empty but district exists
@@ -86,7 +86,7 @@ export default function AddressMapSidebar({ isOpen, onClose, onSelectAddress }: 
       const lat = e.latLng.lat();
       const lng = e.latLng.lng();
       setMarkerPos({ lat, lng });
-      
+
       const geocoder = new window.google.maps.Geocoder();
       geocoder.geocode({ location: { lat, lng } }, (results, status) => {
         if (status === 'OK' && results && results[0]) {
@@ -134,7 +134,7 @@ export default function AddressMapSidebar({ isOpen, onClose, onSelectAddress }: 
                 </div>
               </Autocomplete>
             </div>
-            
+
             <div className="flex-1 w-full bg-gray-50 relative">
               <GoogleMap
                 mapContainerStyle={mapContainerStyle}
@@ -150,7 +150,7 @@ export default function AddressMapSidebar({ isOpen, onClose, onSelectAddress }: 
               >
                 <Marker position={markerPos} />
               </GoogleMap>
-              
+
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-full shadow-lg border border-gray-100 flex items-center gap-2 pointer-events-none">
                 <MapPin className="w-4 h-4 text-[var(--olive)]" />
                 <span className="text-xs font-bold text-gray-700">Click anywhere on the map to drop a pin</span>

@@ -38,7 +38,9 @@ const getImageUrl = (imagePath: string) => {
   ) {
     return imagePath;
   }
-  const cleanedBase = IMAGE_URL.endsWith("/") ? IMAGE_URL.slice(0, -1) : IMAGE_URL;
+  const cleanedBase = IMAGE_URL.endsWith("/")
+    ? IMAGE_URL.slice(0, -1)
+    : IMAGE_URL;
   const cleanedPath = imagePath.startsWith("/")
     ? imagePath.slice(1)
     : imagePath;
@@ -80,8 +82,6 @@ const ProductSkeleton = () => (
     </div>
   </div>
 );
-
-
 
 export default function GiftsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All Gifts");
@@ -151,7 +151,8 @@ export default function GiftsPage() {
   useEffect(() => {
     fetchFavourites();
     window.addEventListener("favoritesUpdated", fetchFavourites);
-    return () => window.removeEventListener("favoritesUpdated", fetchFavourites);
+    return () =>
+      window.removeEventListener("favoritesUpdated", fetchFavourites);
   }, []);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState(""); // "" | "lowToHigh" | "highToLow"
@@ -193,7 +194,9 @@ export default function GiftsPage() {
   useEffect(() => {
     const fetchCategoriesAndInit = async () => {
       try {
-        const response = await API.post(API_ROUTES.CATEGORIES,{type: "gift"});
+        const response = await API.post(API_ROUTES.CATEGORIES, {
+          type: "gift",
+        });
         if (response.status === 200) {
           const allCats = response.data["data"] || [];
 
@@ -353,12 +356,18 @@ export default function GiftsPage() {
                 : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
             }`}
           >
-            <span className="text-[11px] font-bold">{t.gifts_filters?.all_gifts || "All Gifts"}</span>
-            <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${selectedCategory === "All Gifts" ? "border-[var(--orange)]" : "border-stone-200"}`}>
-              {selectedCategory === "All Gifts" && <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>}
+            <span className="text-[11px] font-bold">
+              {t.gifts_filters?.all_gifts || "All Gifts"}
+            </span>
+            <div
+              className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${selectedCategory === "All Gifts" ? "border-[var(--orange)]" : "border-stone-200"}`}
+            >
+              {selectedCategory === "All Gifts" && (
+                <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>
+              )}
             </div>
           </button>
-          
+
           <div className="pl-4 space-y-2 mt-2">
             {categories.map((cat) => {
               const isSelected = selectedCategory === cat.categoryname;
@@ -381,9 +390,15 @@ export default function GiftsPage() {
                       : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
                   }`}
                 >
-                  <span className="text-[11px] font-bold">{cat.categoryname}</span>
-                  <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--orange)]" : "border-stone-200"}`}>
-                    {isSelected && <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>}
+                  <span className="text-[11px] font-bold">
+                    {cat.categoryname}
+                  </span>
+                  <div
+                    className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--orange)]" : "border-stone-200"}`}
+                  >
+                    {isSelected && (
+                      <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>
+                    )}
                   </div>
                 </button>
               );
@@ -402,14 +417,18 @@ export default function GiftsPage() {
           </summary>
           <div className="px-4 pb-4 space-y-2">
             {subcategories.map((sub: any) => {
-              const isSelected = activeFilters.subcategoryid === sub.subcategoryid;
+              const isSelected =
+                activeFilters.subcategoryid === sub.subcategoryid;
               return (
                 <button
                   key={sub.subcategoryid}
                   onClick={() => {
                     setActiveFilters((prev: any) => ({
                       ...prev,
-                      subcategoryid: prev.subcategoryid === sub.subcategoryid ? 0 : sub.subcategoryid,
+                      subcategoryid:
+                        prev.subcategoryid === sub.subcategoryid
+                          ? 0
+                          : sub.subcategoryid,
                       page: 1,
                     }));
                   }}
@@ -419,9 +438,15 @@ export default function GiftsPage() {
                       : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
                   }`}
                 >
-                  <span className="text-[11px] font-bold">{sub.subcategoryname}</span>
-                  <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--orange)]" : "border-stone-200"}`}>
-                    {isSelected && <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>}
+                  <span className="text-[11px] font-bold">
+                    {sub.subcategoryname}
+                  </span>
+                  <div
+                    className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--orange)]" : "border-stone-200"}`}
+                  >
+                    {isSelected && (
+                      <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>
+                    )}
                   </div>
                 </button>
               );
@@ -450,7 +475,8 @@ export default function GiftsPage() {
                 onClick={() => {
                   setActiveFilters((prev: any) => ({
                     ...prev,
-                    pricerange: prev.pricerange === range.value ? "" : range.value,
+                    pricerange:
+                      prev.pricerange === range.value ? "" : range.value,
                     page: 1,
                   }));
                 }}
@@ -461,8 +487,12 @@ export default function GiftsPage() {
                 }`}
               >
                 <span className="text-[11px] font-bold">{range.label}</span>
-                <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--orange)]" : "border-stone-200"}`}>
-                  {isSelected && <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>}
+                <div
+                  className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[var(--orange)]" : "border-stone-200"}`}
+                >
+                  {isSelected && (
+                    <div className="w-1.5 h-1.5 bg-[var(--orange)] rounded-full"></div>
+                  )}
                 </div>
               </button>
             );
@@ -475,51 +505,49 @@ export default function GiftsPage() {
   return (
     <main className="min-h-screen bg-[#faf9f6] ">
       {/* ──── Gifts Hero / Header ──── */}
-      <section className="relative pt-24 pb-20 px-6 sm:px-12 lg:px-20 overflow-hidden bg-[var(--dark-brown)] border-b border-[var(--olive-dark)]">
+      <section className="relative pt-24 pb-12 px-6 sm:px-12 lg:px-20 overflow-hidden flex flex-col items-center justify-center min-h-[280px] border-b border-[var(--olive-dark)]">
         {/* Background Image & Overlay */}
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&q=80&w=2000"
             alt="Corporate Gifting Banner"
-            className="w-full h-full object-cover opacity-30 mix-blend-overlay"
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--dark-brown)] via-[var(--dark-brown)]/80 to-[var(--olive-dark)]/30" />
+          <div className="absolute inset-0 bg-[var(--dark-brown)]/60 backdrop-blur-sm" />
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10 flex flex-col justify-center min-h-[200px]">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-xs font-semibold text-stone-400 uppercase tracking-widest mb-6">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-white">{t.gifting || "Gifting"}</span>
-          </div>
-
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10">
-            <div className="space-y-4 max-w-2xl">
-              <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight tracking-tight">
+        <div className="max-w-3xl mx-auto relative z-10 w-full animate-fade-in-up">
+           <div className="glass p-6 md:p-8 rounded-3xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] text-center flex flex-col items-center">
+             {/* Breadcrumb */}
+             <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-white/70 uppercase tracking-[0.2em] mb-4 bg-white/10 px-4 py-1 rounded-full w-max shadow-sm">
+               <Link href="/" className="hover:text-white transition-colors">Home</Link>
+               <span className="text-white/40">•</span>
+               <span className="text-[var(--gold-light)]">{t.gifting || "Gifting"}</span>
+             </div>
+             
+             <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-3 drop-shadow-md">
                 {t.gifts_headline || "Corporate Gifting"}
-              </h1>
-              <p className="text-sm md:text-base text-stone-300 font-medium leading-relaxed">
+             </h1>
+             <p className="text-xs md:text-sm text-white/90 font-medium leading-relaxed max-w-xl mb-6">
                 {t.gifts_desc || "Curated gift hampers crafted with love — perfect for clients, teams, and premium events."}
-              </p>
-            </div>
-
-            {/* Trust badges */}
-            <div className="flex flex-wrap gap-3 md:justify-end shrink-0 pb-2">
-              {[
-                { icon: "Gift", label: "Executive Ready" },
-                { icon: "Sparkles", label: "Premium Packing" },
-                { icon: "Flower", label: "Handcrafted" },
-              ].map((badge) => (
-                <div
-                  key={badge.label}
-                  className="flex items-center gap-2 px-4 py-2 rounded-sm bg-white/5 backdrop-blur-md border border-[var(--olive)]/30 text-xs font-bold text-white tracking-wide uppercase shadow-sm"
-                >
-                  {badge.label}
-                </div>
-              ))}
-            </div>
-          </div>
+             </p>
+             
+             {/* Trust badges */}
+             <div className="flex flex-wrap justify-center gap-2.5">
+               {[
+                 { icon: "Gift", label: "Executive Ready" },
+                 { icon: "Sparkles", label: "Premium Packing" },
+                 { icon: "Flower", label: "Handcrafted" },
+               ].map((badge) => (
+                 <div
+                   key={badge.label}
+                   className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all border border-[var(--gold-light)]/40 text-[10px] font-bold text-white tracking-wider uppercase shadow-lg"
+                 >
+                   {badge.label}
+                 </div>
+               ))}
+             </div>
+           </div>
         </div>
       </section>
 
@@ -670,10 +698,7 @@ export default function GiftsPage() {
                 ))
               ) : paginatedProducts.length > 0 ? (
                 paginatedProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                  />
+                  <ProductCard key={product.id} product={product} />
                 ))
               ) : (
                 <NoResultsFound onClear={clearAllFilters} t={t} />

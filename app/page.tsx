@@ -703,7 +703,7 @@ function HeroSection({
                 display: none;
               }
             `}</style>
-            {featuredProducts.slice(0, 6).map((product, idx) => {
+            {featuredProducts.slice(0, 5).map((product, idx) => {
               const productId = product.productid || product.id;
               const bid = product.bid || 1;
               return (
