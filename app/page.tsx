@@ -529,11 +529,10 @@ function HealthBenefitsSection({ t }: { t: any }) {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-8 py-3 rounded text-[11px] font-bold tracking-widest uppercase transition-all duration-300 border ${
-                  activeCategory === cat
+                className={`px-8 py-3 rounded text-[11px] font-bold tracking-widest uppercase transition-all duration-300 border ${activeCategory === cat
                     ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
                     : "bg-white text-gray-600 border-gray-200 hover:border-[var(--orange)] hover:text-[var(--orange)] shadow-sm"
-                }`}
+                  }`}
               >
                 {t.sections?.[cat] || cat}
               </button>
@@ -642,11 +641,10 @@ function HeroSection({
           alt="Premium Artisanal Millet & Nut Gift Packs"
           fill
           priority
-          className={`object-cover object-center transition-all duration-[2500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
-            loaded
+          className={`object-cover object-center transition-all duration-[2500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${loaded
               ? "opacity-100 scale-100 blur-0"
               : "opacity-0 scale-[1.03] blur-[2px]"
-          }`}
+            }`}
         />
 
         {/* Soft Black Overlay */}
@@ -726,7 +724,7 @@ function HeroSection({
                     {product.name || product.productname}
                   </h3>
                   <p className="text-[var(--orange)] font-bold text-xs lg:text-sm text-left mt-1">
-                    ₹{product.sellingprice|| product.price }
+                    ₹{product.sellingprice || product.price}
                   </p>
                 </div>
               );
@@ -1059,8 +1057,8 @@ function GiftingSection({
                   const price = item.sellingprice || item.price || 0;
                   const originalPrice =
                     item.price !== undefined &&
-                    item.sellingprice !== undefined &&
-                    item.price > item.sellingprice
+                      item.sellingprice !== undefined &&
+                      item.price > item.sellingprice
                       ? item.price
                       : null;
                   const image = item.productimage
@@ -1253,12 +1251,12 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   const listToRender =
     reviews && reviews.length > 0
       ? reviews.map((r) => ({
-          name: r.username || "Anonymous User",
-          role: "Verified Buyer",
-          text: r.review || "",
-          rating: Math.round(r.rating || 5),
-          avatar: getInitials(r.username || "Anonymous"),
-        }))
+        name: r.username || "Anonymous User",
+        role: "Verified Buyer",
+        text: r.review || "",
+        rating: Math.round(r.rating || 5),
+        avatar: getInitials(r.username || "Anonymous"),
+      }))
       : [];
 
   if (listToRender.length === 0) {
@@ -2192,12 +2190,12 @@ function NutritionPlanner({ t }: { t: any }) {
             >
               Clear Estimate <Trash2 className="w-4 h-4" />
             </button>
-            <div className="flex items-center gap-10">
-              <div className="text-right">
+            <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 w-full md:w-auto">
+              <div className="text-center sm:text-right">
                 <p className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase mb-1">
                   Estimated Total
                 </p>
-                <p className="text-4xl font-black text-[var(--olive-dark)] leading-none">
+                <p className="text-3xl sm:text-4xl font-black text-[var(--olive-dark)] leading-none">
                   ₹{grandTotal.toLocaleString()}
                 </p>
               </div>
@@ -2239,7 +2237,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   })
                 }
                 disabled={selectedProducts.length === 0 || isBuying}
-                className={`flex items-center justify-center gap-3 px-10 py-4 font-bold text-xs tracking-widest uppercase transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--orange)] text-white hover:bg-gray-900 shadow-md" : "bg-gray-200 text-gray-400 cursor-not-allowed"} min-w-[200px]`}
+                className={`flex items-center justify-center gap-3 px-6 sm:px-10 py-4 font-bold text-xs tracking-widest uppercase transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--orange)] text-white hover:bg-gray-900 shadow-md" : "bg-gray-200 text-gray-400 cursor-not-allowed"} w-full sm:w-auto min-w-[200px]`}
               >
                 {isBuying ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent animate-spin" />
@@ -2810,7 +2808,7 @@ function SustainabilityAndPackagingSection() {
           <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-500 hover:border-[var(--orange)] group relative overflow-hidden rounded-none">
             {/* Top Accent Line */}
             <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
+
             <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-none bg-gray-50 text-gray-800 flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
@@ -2848,7 +2846,7 @@ function SustainabilityAndPackagingSection() {
           <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-500 hover:border-[var(--orange)] group relative overflow-hidden rounded-none">
             {/* Top Accent Line */}
             <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
+
             <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-none bg-gray-50 text-gray-800 flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
@@ -2905,7 +2903,7 @@ function SustainabilityAndPackagingSection() {
           <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-500 hover:border-[var(--orange)] group relative overflow-hidden rounded-none">
             {/* Top Accent Line */}
             <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
+
             <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-none bg-gray-50 text-gray-800 flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
