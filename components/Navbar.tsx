@@ -347,7 +347,7 @@ export default function Navbar() {
         icon: iconList[idx % iconList.length],
         image: cat.categoryimage || cat.image || null,
       }))
-      : staticCategories;
+      : [];
 
   const navItems = [
     { name: t.home, href: "/" },

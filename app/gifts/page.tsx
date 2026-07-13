@@ -505,51 +505,23 @@ export default function GiftsPage() {
   return (
     <main className="min-h-screen bg-[#faf9f6] ">
       {/* ──── Gifts Hero / Header ──── */}
-      <section className="relative pt-24 pb-12 px-6 sm:px-12 lg:px-20 overflow-hidden flex flex-col items-center justify-center min-h-[280px] border-b border-[var(--olive-dark)]">
-        {/* Background Image & Overlay */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&q=80&w=2000"
-            alt="Corporate Gifting Banner"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-[var(--dark-brown)]/60 backdrop-blur-sm" />
+      <div className="bg-gradient-to-br from-[var(--olive)]/35 via-white to-[var(--orange)]/15 border-b border-gray-200">
+        <div className="max-w-[1200px] mx-auto px-6 py-10 md:py-12 flex flex-col">
+          <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-6">
+            <Link href="/" className="hover:text-gray-900 transition-colors">
+              Home
+            </Link>
+            <ChevronRight className="w-3.5 h-3.5" />
+            <span className="text-gray-400">{t.gifting || "Gifting"}</span>
+          </div>
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
+            {t.gifts_headline || "Corporate Gifting"}
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm text-gray-600">
+            {t.gifts_desc || "Curated gift hampers crafted with love — perfect for clients, teams, and premium events."}
+          </p>
         </div>
-
-        <div className="max-w-3xl mx-auto relative z-10 w-full animate-fade-in-up">
-           <div className="glass p-6 md:p-8 rounded-3xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] text-center flex flex-col items-center">
-             {/* Breadcrumb */}
-             <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-white/70 uppercase tracking-[0.2em] mb-4 bg-white/10 px-4 py-1 rounded-full w-max shadow-sm">
-               <Link href="/" className="hover:text-white transition-colors">Home</Link>
-               <span className="text-white/40">•</span>
-               <span className="text-[var(--gold-light)]">{t.gifting || "Gifting"}</span>
-             </div>
-             
-             <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-3 drop-shadow-md">
-                {t.gifts_headline || "Corporate Gifting"}
-             </h1>
-             <p className="text-xs md:text-sm text-white/90 font-medium leading-relaxed max-w-xl mb-6">
-                {t.gifts_desc || "Curated gift hampers crafted with love — perfect for clients, teams, and premium events."}
-             </p>
-             
-             {/* Trust badges */}
-             <div className="flex flex-wrap justify-center gap-2.5">
-               {[
-                 { icon: "Gift", label: "Executive Ready" },
-                 { icon: "Sparkles", label: "Premium Packing" },
-                 { icon: "Flower", label: "Handcrafted" },
-               ].map((badge) => (
-                 <div
-                   key={badge.label}
-                   className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all border border-[var(--gold-light)]/40 text-[10px] font-bold text-white tracking-wider uppercase shadow-lg"
-                 >
-                   {badge.label}
-                 </div>
-               ))}
-             </div>
-           </div>
-        </div>
-      </section>
+      </div>
 
       {/* CONTENT SECTION */}
       <div className="max-w-7xl mx-auto px-2 md:px-6 py-6 md:py-10 pb-32">

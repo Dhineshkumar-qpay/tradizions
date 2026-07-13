@@ -534,5 +534,29 @@
         "desc": "Contains antioxidants and helps reduce inflammation."
       }
     ]
+  },
+  "custom_gift": {
+    "title": "Custom Gifting",
+    "desc": "Select from our premium range of boxes and artisanal products to build custom hampers for clients, employees, and special occasions.",
+    "step1_title": "Select the Vessel",
+    "step1_desc": "Foundation of your gift",
+    "step2_title": "Curate Contents",
+    "step2_desc": "Select premium additions",
+    "search": "SEARCH COLLECTION...",
+    "inside_vessel": "Inside the Vessel",
+    "add": "Add",
+    "order_summary": "Order Summary",
+    "vessel": "Vessel",
+    "none_selected": "None selected",
+    "contents": "Contents",
+    "items": "ITEMS",
+    "empty": "Empty",
+    "remove": "Remove",
+    "card_addition": "Card Addition",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "complete_gift": "Complete Gift",
+    "processing": "Processing...",
+    "shipping_note": "Complimentary shipping on orders above ₹999"
   }
 }

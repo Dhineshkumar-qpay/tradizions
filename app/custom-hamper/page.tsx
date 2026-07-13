@@ -20,6 +20,15 @@ import { API } from "@/service/api_service";
 import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
 
 import { useRouter } from "next/navigation";
+import en from "@/languages/en.json";
+import ta from "@/languages/ta.json";
+import hi from "@/languages/hi.json";
+
+const translations: Record<string, any> = {
+  EN: en,
+  TA: ta,
+  HI: hi,
+};
 
 const STEP_LABELS = ["Choose Packaging", "Add Products", "Personalize"];
 
@@ -35,6 +44,26 @@ export default function CustomGiftBuilder() {
   const [greetingCard, setGreetingCard] = useState(false);
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedLang, setSelectedLang] = useState("EN");
+
+  useEffect(() => {
+    const savedLang = localStorage.getItem("selectedLang");
+    if (savedLang && translations[savedLang]) {
+      setSelectedLang(savedLang);
+    }
+
+    const handleLangChange = () => {
+      const lang = localStorage.getItem("selectedLang");
+      if (lang && translations[lang]) {
+        setSelectedLang(lang);
+      }
+    };
+
+    window.addEventListener("languageChange", handleLangChange);
+    return () => window.removeEventListener("languageChange", handleLangChange);
+  }, []);
+
+  const t = translations[selectedLang] || translations["EN"];
 
   useEffect(() => {
     const fetchGiftPacks = async () => {
@@ -119,65 +148,80 @@ export default function CustomGiftBuilder() {
   const grandTotal = productsTotal + packageTotal + personalizationTotal;
   const totalQty = selectedItems.reduce((a, i) => a + i.qty, 0);
 
-  const handleCompleteGift = async () => {
+  const handleActionWithLogin = (action: () => void) => {
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.dispatchEvent(new Event("openLoginSidebar"));
+      const handleLoginSuccess = () => {
+        action();
+        window.removeEventListener("loginSuccess", handleLoginSuccess);
+      };
+      window.addEventListener("loginSuccess", handleLoginSuccess);
+    } else {
+      action();
+    }
+  };
+
+  const handleCompleteGift = () => {
     if (!selectedPackage || selectedItems.length === 0) return;
-    setIsSubmitting(true);
-    try {
-      const payload = selectedItems.map((item) => ({
-        giftpackid: selectedPackage.id,
-        productid: item.productid,
-        productname: item.productname,
-        productimage: item.productimage,
-        quantity: item.qty,
-        sellingprice: item.sellingprice || item.price,
-      }));
 
-      const createResponse = await API.post(API_ROUTES.CREATECUSTOMGIFT, {
-        products: payload,
-      });
-
-      if (createResponse.status === 200 || createResponse.status === 201) {
-        const addToCartResponse = await API.post(API_ROUTES.ADDCUSTOMGIFTCART, {
+    handleActionWithLogin(async () => {
+      setIsSubmitting(true);
+      try {
+        const payload = selectedItems.map((item) => ({
           giftpackid: selectedPackage.id,
+          productid: item.productid,
+          productname: item.productname,
+          productimage: item.productimage,
+          quantity: item.qty,
+          sellingprice: item.sellingprice || item.price,
+        }));
+
+        const createResponse = await API.post(API_ROUTES.CREATECUSTOMGIFT, {
+          products: payload,
         });
 
-        if (
-          addToCartResponse.status === 200 ||
-          addToCartResponse.status === 201
-        ) {
-          window.dispatchEvent(new Event("cartUpdated"));
-          alert("Custom gift added to cart successfully!");
-          setSelectedItems([]);
-          setSelectedPackage(null);
-          window.dispatchEvent(new Event("openCartSidebar"));
+        if (createResponse.status === 200 || createResponse.status === 201) {
+          const addToCartResponse = await API.post(API_ROUTES.ADDCUSTOMGIFTCART, {
+            giftpackid: selectedPackage.id,
+          });
+
+          if (
+            addToCartResponse.status === 200 ||
+            addToCartResponse.status === 201
+          ) {
+            window.dispatchEvent(new Event("cartUpdated"));
+            alert("Custom gift added to cart successfully!");
+            setSelectedItems([]);
+            setSelectedPackage(null);
+            window.dispatchEvent(new Event("openCartSidebar"));
+          }
         }
+      } catch (error) {
+        console.error("Error creating custom gift:", error);
+        alert("Failed to create custom gift. Please try again.");
+      } finally {
+        setIsSubmitting(false);
       }
-    } catch (error) {
-      console.error("Error creating custom gift:", error);
-      alert("Failed to create custom gift. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    });
   };
 
   return (
     <div className="min-h-screen bg-[var(--site-bg) text-[var(--dark-grey)] selection:bg-[var(--olive)] selection:text-white">
       {/* CORPORATE HERO */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-gradient-to-br from-[var(--olive)]/35 via-white to-[var(--orange)]/15 border-b border-gray-200">
         <div className="max-w-[1200px] mx-auto px-6 py-10 md:py-12 flex flex-col">
           <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-6">
             <Link href="/" className="hover:text-gray-900 transition-colors">
               Home
             </Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-gray-400">Custom Gifting</span>
+            <span className="text-gray-400">{t.custom_gift?.title || "Custom Gifting"}</span>
           </div>
           <h1 className="text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
-            Custom Gifting
+            {t.custom_gift?.title || "Custom Gifting"}
           </h1>
           <p className="mt-3 max-w-2xl text-sm text-gray-600">
-            Select from our premium range of boxes and artisanal products to
-            build custom hampers for clients, employees, and special occasions.
+            {t.custom_gift?.desc || "Select from our premium range of boxes and artisanal products to build custom hampers for clients, employees, and special occasions."}
           </p>
         </div>
       </div>
@@ -195,10 +239,10 @@ export default function CustomGiftBuilder() {
                 </span>
                 <div>
                   <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase">
-                    Select the Vessel
+                    {t.custom_gift?.step1_title || "Select the Vessel"}
                   </h2>
                   <p className="text-xs text-[var(--dark-grey)]/60 uppercase tracking-[0.15em] mt-1">
-                    Foundation of your gift
+                    {t.custom_gift?.step1_desc || "Foundation of your gift"}
                   </p>
                 </div>
               </div>
@@ -242,7 +286,7 @@ export default function CustomGiftBuilder() {
                         </div>
                       </div>
                       <div className="p-5 flex flex-col justify-between">
-                        <p className="text-[11px] leading-relaxed text-[var(--dark-grey)]/70 mb-4 h-10">
+                        <p className="text-[11px] leading-relaxed text-[var(--dark-grey)]/70 mb-4 line-clamp-3">
                           {pkg.desc}
                         </p>
                         <div className="flex items-end justify-between pt-4 border-t border-gray-100">
@@ -269,10 +313,10 @@ export default function CustomGiftBuilder() {
                   </span>
                   <div>
                     <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase">
-                      Curate Contents
+                      {t.custom_gift?.step2_title || "Curate Contents"}
                     </h2>
                     <p className="text-xs text-[var(--dark-grey)]/60 uppercase tracking-[0.15em] mt-1">
-                      Select premium additions
+                      {t.custom_gift?.step2_desc || "Select premium additions"}
                     </p>
                   </div>
                 </div>
@@ -280,7 +324,7 @@ export default function CustomGiftBuilder() {
                 <div className="relative w-full max-w-[240px] hidden sm:block">
                   <input
                     type="text"
-                    placeholder="SEARCH COLLECTION..."
+                    placeholder={t.custom_gift?.search || "SEARCH COLLECTION..."}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="w-full border-b border-gray-300 bg-transparent px-0 py-2 pr-8 text-[11px] uppercase tracking-[0.2em] text-[var(--dark-grey)] focus:border-[var(--olive-dark)] focus:outline-none transition-colors placeholder:text-gray-400"
@@ -293,7 +337,7 @@ export default function CustomGiftBuilder() {
               <div className="relative w-full sm:hidden mb-8">
                 <input
                   type="text"
-                  placeholder="SEARCH COLLECTION..."
+                  placeholder={t.custom_gift?.search || "SEARCH COLLECTION..."}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full border-b border-gray-300 bg-transparent px-0 py-2 pr-8 text-[11px] uppercase tracking-[0.2em] text-[var(--dark-grey)] focus:border-[var(--olive-dark)] focus:outline-none transition-colors placeholder:text-gray-400"
@@ -305,7 +349,7 @@ export default function CustomGiftBuilder() {
                 <div className="mb-10 bg-white border border-[var(--olive)]/10 p-6">
                   <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--olive-dark)] mb-5 flex items-center gap-3">
                     <span className="w-8 h-px bg-[var(--olive)]/30"></span>{" "}
-                    Inside the Vessel
+                    {t.custom_gift?.inside_vessel || "Inside the Vessel"}
                   </h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -401,7 +445,7 @@ export default function CustomGiftBuilder() {
                               onClick={() => handleAddItem(product)}
                               className="w-full bg-[var(--olive-dark)] text-white py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[var(--orange)] transition-colors border border-transparent"
                             >
-                              Add
+                              {t.custom_gift?.add || "Add"}
                             </button>
                           ) : (
                             <div className="w-full flex items-center justify-between bg-white border border-[var(--olive-dark)] h-9">
@@ -437,13 +481,13 @@ export default function CustomGiftBuilder() {
           <div className="lg:col-span-4">
             <div className="sticky top-[100px] bg-white border border-gray-200 p-8 shadow-2xl shadow-[var(--olive)]/5">
               <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--olive-dark)] text-center mb-8 border-b border-gray-200 pb-6">
-                Order Summary
+                {t.custom_gift?.order_summary || "Order Summary"}
               </h3>
 
               {/* Package */}
               <div className="mb-8">
                 <span className="block text-[9px] uppercase tracking-[0.2em] text-[var(--dark-grey)]/50 mb-4">
-                  Vessel
+                  {t.custom_gift?.vessel || "Vessel"}
                 </span>
                 {selectedPackage ? (
                   <div className="flex items-center gap-4">
@@ -468,8 +512,8 @@ export default function CustomGiftBuilder() {
                     </div>
                   </div>
                 ) : (
-                  <div className="text-xs italic text-gray-400 ">
-                    None selected
+                  <div className="text-xs text-gray-400 ">
+                    {t.custom_gift?.none_selected || "None selected"}
                   </div>
                 )}
               </div>
@@ -478,18 +522,18 @@ export default function CustomGiftBuilder() {
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-4">
                   <span className="block text-[9px] uppercase tracking-[0.2em] text-[var(--dark-grey)]/50">
-                    Contents
+                    {t.custom_gift?.contents || "Contents"}
                   </span>
                   {totalQty > 0 && (
                     <span className="text-[9px] font-medium text-[var(--olive-dark)]">
-                      {totalQty} ITEMS
+                      {totalQty} {t.custom_gift?.items || "ITEMS"}
                     </span>
                   )}
                 </div>
 
                 {selectedItems.length === 0 ? (
-                  <div className="text-xs italic text-gray-400  border-t border-gray-100 pt-4">
-                    Empty
+                  <div className="text-xs text-gray-400  border-t border-gray-100 pt-4">
+                    {t.custom_gift?.empty || "Empty"}
                   </div>
                 ) : (
                   <ul className="space-y-4 border-t border-gray-100 pt-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
@@ -510,7 +554,7 @@ export default function CustomGiftBuilder() {
                               onClick={() => handleDeleteItem(item.productid)}
                               className="text-[9px] uppercase tracking-wider text-red-400 hover:text-red-600 mt-1 opacity-0 group-hover:opacity-100 transition-opacity"
                             >
-                              Remove
+                              {t.custom_gift?.remove || "Remove"}
                             </button>
                           </div>
                         </div>
@@ -527,7 +571,7 @@ export default function CustomGiftBuilder() {
               {greetingCard && (
                 <div className="mb-8 border-t border-gray-100 pt-6 flex justify-between items-center">
                   <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--dark-grey)]/80">
-                    Card Addition
+                    {t.custom_gift?.card_addition || "Card Addition"}
                   </span>
                   <span className="text-xs text-[var(--dark-grey)]/80">
                     ₹50
@@ -538,13 +582,13 @@ export default function CustomGiftBuilder() {
               {/* Totals */}
               <div className="border-t-2 border-black pt-6 mb-8 space-y-3">
                 <div className="flex justify-between text-[11px] text-[var(--dark-grey)]/70 uppercase tracking-widest">
-                  <span>Subtotal</span>
+                  <span>{t.custom_gift?.subtotal || "Subtotal"}</span>
                   <span>
                     ₹{productsTotal + packageTotal + personalizationTotal}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm font-medium text-[var(--olive-dark)] uppercase tracking-widest pt-2">
-                  <span>Total</span>
+                  <span>{t.custom_gift?.total || "Total"}</span>
                   <span className="text-[var(--orange)] font-bold">
                     ₹{grandTotal}
                   </span>
@@ -559,14 +603,14 @@ export default function CustomGiftBuilder() {
                 }
                 className="w-full bg-[var(--olive)] text-white py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all hover:bg-[var(--olive-dark)] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-3 group cursor-pointer"
               >
-                {isSubmitting ? "Processing..." : "Complete Gift"}
+                {isSubmitting ? (t.custom_gift?.processing || "Processing...") : (t.custom_gift?.complete_gift || "Complete Gift")}
                 {!isSubmitting && (
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 )}
               </button>
 
               <p className="text-center text-[9px] uppercase tracking-[0.15em] text-[var(--olive-dark)]/40 mt-5">
-                Complimentary shipping on orders above ₹999
+                {t.custom_gift?.shipping_note || "Complimentary shipping on orders above ₹999"}
               </p>
             </div>
           </div>

@@ -235,7 +235,7 @@ export default function CorporateOrdersPageClient() {
             <div
               className={`flex-1 relative w-full max-w-lg lg:max-w-none transition-all duration-1000 delay-300 ease-out ${loaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}
             >
-              <div className="relative aspect-square md:aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white group">
+              <div className="relative aspect-square md:aspect-[4/3] rounded-[1rem] overflow-hidden shadow-2xl border-8 border-white group">
                 <Image
                   src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                   fill
