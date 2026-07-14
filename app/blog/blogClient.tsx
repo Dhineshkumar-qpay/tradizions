@@ -110,7 +110,7 @@ export default function BlogPageClinet() {
   return (
     <main className="min-h-screen bg-stone-50 relative overflow-hidden">
       {/* ──── Hero / Header ──── */}
-      <section className="relative pt-36 md:pt-44 pb-12 px-6 sm:px-12 lg:px-20 text-center">
+      <section className="relative pt-36 md:pt-10 pb-12 px-6 sm:px-12 lg:px-20 text-center">
         <div className="max-w-4xl mx-auto flex flex-col items-center">
           <span className="text-xs font-bold tracking-[0.2em] uppercase text-stone-500 mb-3 animate-fade-in-up">
             {t.blog?.journal || "The Journal"}

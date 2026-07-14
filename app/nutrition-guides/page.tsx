@@ -55,7 +55,7 @@ export default function NutritionGuidesPage() {
 
           <h1 className="text-3xl md:text-4xl font-black text-[var(--dark-brown)] tracking-tighter leading-[1.05]">
             The Cooking <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--olive)] to-[var(--gold)] italic font-light pr-2">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--olive)] to-[var(--gold)] font-light pr-2">
               Journals
             </span>
           </h1>
