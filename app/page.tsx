@@ -7,31 +7,24 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import {
   ArrowRight,
-  ShoppingCart,
   Star,
   ChevronRight,
   Leaf,
   Gift,
   Zap,
   Heart,
-  Droplets,
   Sparkles,
   Shield,
-  Truck,
   Award,
   ChevronLeft,
-  Quote,
   Check,
   BadgeCheck,
-  Lock,
   Activity,
   Scale,
   Baby,
   ScrollText,
   Search,
   Trash2,
-  Plus,
-  Minus,
   ArrowDown,
   LayoutGrid,
   Wheat,
@@ -52,7 +45,6 @@ import {
   CalculatorProducts,
 } from "@/models/home_model";
 import { HealthGoalsData } from "@/models/product_detail_model";
-import { img } from "framer-motion/m";
 
 const translations: Record<string, any> = {
   EN: en,
@@ -529,10 +521,11 @@ function HealthBenefitsSection({ t }: { t: any }) {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-8 py-3 rounded text-[11px] font-bold tracking-widest uppercase transition-all duration-300 border ${activeCategory === cat
+                className={`px-8 py-3 rounded text-[11px] font-bold tracking-widest uppercase transition-all duration-300 border ${
+                  activeCategory === cat
                     ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
                     : "bg-white text-gray-600 border-gray-200 hover:border-[var(--orange)] hover:text-[var(--orange)] shadow-sm"
-                  }`}
+                }`}
               >
                 {t.sections?.[cat] || cat}
               </button>
@@ -641,10 +634,11 @@ function HeroSection({
           alt="Premium Artisanal Millet & Nut Gift Packs"
           fill
           priority
-          className={`object-cover object-center transition-all duration-[2500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${loaded
+          className={`object-cover object-center transition-all duration-[2500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
+            loaded
               ? "opacity-100 scale-100 blur-0"
               : "opacity-0 scale-[1.03] blur-[2px]"
-            }`}
+          }`}
         />
 
         {/* Soft Black Overlay */}
@@ -1057,8 +1051,8 @@ function GiftingSection({
                   const price = item.sellingprice || item.price || 0;
                   const originalPrice =
                     item.price !== undefined &&
-                      item.sellingprice !== undefined &&
-                      item.price > item.sellingprice
+                    item.sellingprice !== undefined &&
+                    item.price > item.sellingprice
                       ? item.price
                       : null;
                   const image = item.productimage
@@ -1251,12 +1245,12 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   const listToRender =
     reviews && reviews.length > 0
       ? reviews.map((r) => ({
-        name: r.username || "Anonymous User",
-        role: "Verified Buyer",
-        text: r.review || "",
-        rating: Math.round(r.rating || 5),
-        avatar: getInitials(r.username || "Anonymous"),
-      }))
+          name: r.username || "Anonymous User",
+          role: "Verified Buyer",
+          text: r.review || "",
+          rating: Math.round(r.rating || 5),
+          avatar: getInitials(r.username || "Anonymous"),
+        }))
       : [];
 
   if (listToRender.length === 0) {
@@ -1264,7 +1258,10 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   }
 
   return (
-    <section ref={ref} className="py-16 bg-[var(--site-bg)] relative overflow-hidden">
+    <section
+      ref={ref}
+      className="py-16 bg-[var(--site-bg)] relative overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div
           className={`max-w-2xl mx-auto text-center space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
@@ -1406,7 +1403,9 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
             </div>
           </div>
 
-          <p className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase">{t.trusted}</p>
+          <p className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase">
+            {t.trusted}
+          </p>
         </div>
       </div>
 
@@ -1439,91 +1438,92 @@ function KuralTrustRow({
   t: any;
   kuraldata: KuralData | null;
 }) {
-  const { ref, isVisible } = useInView();
-
   const formatKural = (kuralText: string | undefined | null) => {
     if (!kuralText) return "";
 
-    // Normalize line breaks
     const normalized = kuralText
       .replace(/<br\s*\/?>/gi, "\n")
       .replace(/\r\n/g, "\n");
+
     if (normalized.includes("\n")) {
       return normalized.split("\n").map((line, index) => (
-        <span key={index} className="block">
+        <p key={index} className="leading-relaxed">
           {line.trim()}
-        </span>
+        </p>
       ));
     }
 
     const words = normalized.trim().split(/\s+/);
-    if (words.length === 7) {
-      const line1 = words.slice(0, 4).join(" ");
-      const line2 = words.slice(4).join(" ");
-      return (
-        <>
-          <span className="block">{line1}</span>
-          <span className="block mt-1">{line2}</span>
-        </>
-      );
-    }
 
-    if (words.length > 4) {
-      const mid = Math.ceil(words.length / 2);
-      const line1 = words.slice(0, mid).join(" ");
-      const line2 = words.slice(mid).join(" ");
-      return (
-        <>
-          <span className="block">{line1}</span>
-          <span className="block mt-1">{line2}</span>
-        </>
-      );
-    }
-
-    return normalized;
+    // Force real Kural format: 4 words on the first row, up to 3 on the second
+    return (
+      <>
+        <p>{words.slice(0, 4).join(" ")}</p>
+        <p>{words.slice(4).join(" ")}</p>
+      </>
+    );
   };
 
   return (
-    <section
-      ref={ref}
-      className="py-16 relative z-30 overflow-hidden bg-white border-y border-stone-200 flex justify-center"
-    >
-      <div className="max-w-xl w-full px-6">
-        <div className="relative group mx-auto w-full">
-          {/* The Card */}
-          <div className="relative bg-white rounded-sm p-6 md:p-8 shadow-sm border border-stone-200 flex flex-col items-center text-center transition-colors duration-300 hover:border-stone-400 z-10">
-            {/* Background Image (Subtle) */}
-            <div className="absolute inset-0 z-0 pointer-events-none opacity-5">
-              <img
-                src="/kural-book.jpg"
-                alt="kural"
-                className="w-full h-full object-cover grayscale"
-              />
-            </div>
+    <section className="relative py-8 md:py-10 bg-gradient-to-b from-[#faf8f3] via-white to-[#faf8f3] overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 opacity-[0.04]">
+        <img
+          src="/kural-book.jpg"
+          alt="Background"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
+      <div className="relative max-w-2xl mx-auto px-5">
+        {/* Heading */}
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <span className="w-8 h-px bg-amber-500"></span>
+
+          <span className="uppercase tracking-[0.3em] text-[10px] font-semibold text-amber-700">
+            {t.kural_title}
+          </span>
+
+          <span className="w-8 h-px bg-amber-500"></span>
+        </div>
+
+        {/* Card */}
+        <div className="relative bg-white rounded-xl border border-amber-100 shadow-md overflow-hidden">
+          {/* Top Accent */}
+          <div className="h-1 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500"></div>
+
+          <div className="p-4 md:p-6">
             {/* Icon */}
-            <div className="relative z-10 w-14 h-14 rounded-sm bg-stone-100 border border-stone-200 flex items-center justify-center mb-6 shadow-sm text-[var(--olive-dark)] transition-transform duration-500 group-hover:scale-105">
-              <ScrollText className="w-6 h-6" />
+            <div className="flex justify-center mb-4">
+              <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center shadow-sm">
+                <ScrollText className="w-5 h-5 text-amber-600" />
+              </div>
             </div>
 
-            {/* Title */}
-            <div className="relative z-10 flex items-center gap-4 mb-6 w-full justify-center">
-              <span className="w-12 h-px bg-stone-300" />
-              <span className="text-[10px] font-bold text-stone-500 uppercase tracking-widest leading-none">
-                {t.kural_title}
-              </span>
-              <span className="w-12 h-px bg-stone-300" />
+            {/* Kural */}
+            <div className="text-center">
+              <div className="text-lg md:text-xl font-bold text-stone-800 leading-relaxed space-y-1">
+                {formatKural(kuraldata?.kural)}
+              </div>
             </div>
 
-            {/* Kural Text */}
-            <div className="relative z-10 text-base md:text-lg font-bold text-stone-900 leading-[1.9] tracking-tight mb-8 w-full">
-              {formatKural(kuraldata?.kural)}
+            {/* Divider */}
+            <div className="flex items-center justify-center my-4">
+              <span className="w-16 h-px bg-amber-300"></span>
+              <div className="mx-2 w-1.5 h-1.5 rounded-full bg-amber-500"></div>
+              <span className="w-16 h-px bg-amber-300"></span>
             </div>
 
             {/* Meaning */}
             {kuraldata?.meaning && (
-              <div className="relative z-10 text-sm text-stone-600 font-medium leading-relaxed bg-stone-50 p-6 rounded-sm border border-stone-200 w-full text-left">
-                {kuraldata.meaning}
+              <div className="bg-[#fffdf8] border border-amber-100 rounded-lg p-4">
+                <h3 className="text-[10px] uppercase tracking-[0.3em] font-semibold text-amber-700 mb-2">
+                  {t.meaning}
+                </h3>
+
+                <p className="text-xs md:text-sm text-stone-700 leading-relaxed">
+                  {kuraldata.meaning}
+                </p>
               </div>
             )}
           </div>
@@ -2314,7 +2314,10 @@ function SubscriptionPlans({ t }: { t: any }) {
   ];
 
   return (
-    <section ref={ref} className="py-16 bg-[var(--site-bg)] relative overflow-hidden">
+    <section
+      ref={ref}
+      className="py-16 bg-[var(--site-bg)] relative overflow-hidden"
+    >
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <div
           className={`text-center mb-16 space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
@@ -2634,7 +2637,10 @@ function CertificationsSection() {
             <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-none text-center">
-            Trusted <span className="text-[var(--orange)] font-light">Certifications</span>
+            Trusted{" "}
+            <span className="text-[var(--orange)] font-light">
+              Certifications
+            </span>
           </h2>
           <p className="text-sm text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed">
             Every grain and product at Tradizions is backed by absolute
