@@ -292,44 +292,6 @@ export default function Navbar() {
     fetchCats();
   }, []);
 
-  const staticCategories = [
-    {
-      name: t.sections.nuts,
-      href: "/shop?category=Dry Fruits",
-      desc: t.dry_fruits_desc,
-      icon: <Zap className="w-5 h-5" />,
-      image: null,
-    },
-    {
-      name: t.sections.millets,
-      href: "/shop?category=Millets",
-      desc: t.millets_desc,
-      icon: <Leaf className="w-5 h-5" />,
-      image: null,
-    },
-    {
-      name: t.health_malts,
-      href: "/shop?category=Malts",
-      desc: t.malts_desc,
-      icon: <Coffee className="w-5 h-5" />,
-      image: null,
-    },
-    {
-      name: t.gift,
-      href: "/shop?category=Gifts",
-      desc: t.gifts_menu_desc,
-      icon: <Gift className="w-5 h-5" />,
-      image: null,
-    },
-    {
-      name: t.pooja,
-      href: "/shop?category=Pooja",
-      desc: t.pooja_desc_menu,
-      icon: <Star className="w-5 h-5" />,
-      image: null,
-    },
-  ];
-
   const iconList = [
     <Zap className="w-5 h-5" key="zap" />,
     <Leaf className="w-5 h-5" key="leaf" />,
@@ -371,7 +333,7 @@ export default function Navbar() {
           {/* Powered By-TRADIZIONS. Freshness Delivered Daily! | Free Shipping on Orders ₹999+ | 100% Natural, No Preservatives! */}
         </div>
 
-        <nav className="w-full h-[80px] bg-[var(--olive-dark)] border-b border-white/10 shadow-sm px-6 lg:px-12 flex items-center justify-between pointer-events-auto relative">
+        <nav className="w-full h-[80px] bg-[var(--olive-dark)] border-b border-white/10 shadow-sm px-3 lg:px-3 flex items-center justify-between pointer-events-auto relative">
           <div className="flex items-center gap-4 lg:gap-6 xl:gap-14">
             {/* Logo Section */}
             <div className="flex-shrink-0 z-10">
@@ -469,7 +431,7 @@ export default function Navbar() {
           </div>
 
           {/* RIGHT: Right Section */}
-          <div className="flex items-center gap-3 lg:gap-5 flex-1 justify-end z-10">
+          <div className="flex items-center gap-2.5 lg:gap-2.5 flex-1 justify-end z-10">
             {/* Professional Language Selection */}
             <div className="hidden md:block relative group/langdrop">
               <button className="group flex items-center h-10 gap-2 px-4 rounded-sm bg-white/10 border border-white/20 hover:border-white/50 hover:bg-white/20 transition-all cursor-pointer">
