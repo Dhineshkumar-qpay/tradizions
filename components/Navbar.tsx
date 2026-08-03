@@ -333,7 +333,7 @@ export default function Navbar() {
           {/* Powered By-TRADIZIONS. Freshness Delivered Daily! | Free Shipping on Orders ₹999+ | 100% Natural, No Preservatives! */}
         </div>
 
-        <nav className="w-full h-[80px] bg-[var(--olive-dark)] border-b border-white/10 shadow-sm px-3 lg:px-3 flex items-center justify-between pointer-events-auto relative">
+        <nav className="w-full h-[80px] bg-[var(--olive-dark)] border-b border-white/10 shadow-sm px-3 lg:px-5 flex items-center justify-between pointer-events-auto relative">
           <div className="flex items-center gap-4 lg:gap-6 xl:gap-14">
             {/* Logo Section */}
             <div className="flex-shrink-0 z-10">
