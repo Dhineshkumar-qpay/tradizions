@@ -487,15 +487,15 @@ export default function ProductDetailPage() {
               {product.sellingprice ? (
                 <>
                   <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
-                    ₹{formatPrice(product.sellingprice)}
+                    {formatPrice(product.sellingprice)}
                   </span>
                   <span className="text-lg text-gray-400 font-medium line-through mb-1">
-                    ₹{formatPrice(product.price || 0)}
+                    {formatPrice(product.price || 0)}
                   </span>
                 </>
               ) : (
                 <span className="text-4xl font-extrabold text-[var(--olive)] leading-none">
-                  ₹{formatPrice(product.price || 0)}
+                  {formatPrice(product.price || 0)}
                 </span>
               )}
             </div>
@@ -534,7 +534,7 @@ export default function ProductDetailPage() {
                     ? "OUT OF STOCK"
                     : isAddingToCart
                       ? "ADDING..."
-                      : t.product.add_to_cart || "ADD TO CART"}
+                      : t.add_to_cart || "ADD TO CART"}
                 </button>
               </div>
               <button
@@ -549,7 +549,7 @@ export default function ProductDetailPage() {
                 )}
                 {isAddingToCart
                   ? "PROCESSING..."
-                  : t.product.buy_now || "BUY NOW"}
+                  : t.buy_now || "BUY NOW"}
               </button>
             </div>
 

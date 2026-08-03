@@ -425,9 +425,9 @@ export default function Home() {
       <NutritionPlanner t={t} />
       <SubscriptionPlans t={t} />
       <TestimonialsSection t={t} reviews={userReviews} />
-      <CertificationsSection />
+      <CertificationsSection t={t} />
       {/* <VideoTestimonialsSection /> */}
-      <SustainabilityAndPackagingSection />
+      <SustainabilityAndPackagingSection t={t} />
     </div>
   );
 }
@@ -521,11 +521,10 @@ function HealthBenefitsSection({ t }: { t: any }) {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-8 py-3 rounded text-[11px] font-bold tracking-widest uppercase transition-all duration-300 border ${
-                  activeCategory === cat
-                    ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-[var(--orange)] hover:text-[var(--orange)] shadow-sm"
-                }`}
+                className={`px-8 py-3 rounded text-[11px] font-bold tracking-widest uppercase transition-all duration-300 border ${activeCategory === cat
+                  ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
+                  : "bg-white text-gray-600 border-gray-200 hover:border-[var(--orange)] hover:text-[var(--orange)] shadow-sm"
+                  }`}
               >
                 {t.sections?.[cat] || cat}
               </button>
@@ -634,11 +633,10 @@ function HeroSection({
           alt="Premium Artisanal Millet & Nut Gift Packs"
           fill
           priority
-          className={`object-cover object-center transition-all duration-[2500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
-            loaded
-              ? "opacity-100 scale-100 blur-0"
-              : "opacity-0 scale-[1.03] blur-[2px]"
-          }`}
+          className={`object-cover object-center transition-all duration-[2500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${loaded
+            ? "opacity-100 scale-100 blur-0"
+            : "opacity-0 scale-[1.03] blur-[2px]"
+            }`}
         />
 
         {/* Soft Black Overlay */}
@@ -665,14 +663,14 @@ function HeroSection({
         <div className="inline-flex items-center gap-3 mb-6">
           <span className="w-8 h-px bg-[var(--orange)]" />
           <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-white/80">
-            Premium Wellness Gifting
+            {t.premium_wellness_gifting || "Premium Wellness Gifting"}
           </span>
           <span className="w-8 h-px bg-[var(--orange)]" />
         </div>
 
-        <h1 className="text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] max-w-5xl">
-          ARTISANAL MILLET & <span className="text-[var(--orange)]">NUT</span>{" "}
-          GIFT PACKS
+        <h1 className="text-4xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] max-w-5xl">
+          {t.artisanal_millet || "ARTISANAL MILLET &"} <span className="text-[var(--orange)]">{t.nut || "NUT"}</span>{" "}
+          {t.gift_packs || "GIFT PACKS"}
         </h1>
       </div>
 
@@ -680,8 +678,7 @@ function HeroSection({
       <div className="relative z-20 w-full pb-16 px-6 flex flex-col items-center text-center mt-auto">
         {/* Subheadline */}
         <p className="text-[13px] md:text-sm text-white/75 max-w-2xl mx-auto mb-10 font-medium leading-relaxed tracking-wide">
-          Beautifully curated in traditional jute, elegant tin, and crafted MDF
-          boxes. Health meets heritage.
+          {t.hero_desc_text || "Beautifully curated in traditional jute, elegant tin, and crafted MDF boxes. Health meets heritage."}
         </p>
 
         {/* ── Product Slider in Banner ── */}
@@ -732,10 +729,8 @@ function HeroSection({
             <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
               <Leaf className="w-5 h-5" />
             </div>
-            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]">
-              100%
-              <br />
-              Organic
+            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]" style={{ whiteSpace: "pre-line" }}>
+              {t.organic_100 || "100%\nOrganic"}
             </span>
           </div>
 
@@ -743,10 +738,8 @@ function HeroSection({
             <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
               <Star className="w-5 h-5" />
             </div>
-            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]">
-              Premium
-              <br />
-              Quality
+            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]" style={{ whiteSpace: "pre-line" }}>
+              {t.premium_quality || "Premium\nQuality"}
             </span>
           </div>
 
@@ -754,10 +747,8 @@ function HeroSection({
             <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
               <Award className="w-5 h-5" />
             </div>
-            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]">
-              Certified
-              <br />
-              Pure
+            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]" style={{ whiteSpace: "pre-line" }}>
+              {t.certified_pure || "Certified\nPure"}
             </span>
           </div>
         </div>
@@ -1051,8 +1042,8 @@ function GiftingSection({
                   const price = item.sellingprice || item.price || 0;
                   const originalPrice =
                     item.price !== undefined &&
-                    item.sellingprice !== undefined &&
-                    item.price > item.sellingprice
+                      item.sellingprice !== undefined &&
+                      item.price > item.sellingprice
                       ? item.price
                       : null;
                   const image = item.productimage
@@ -1245,12 +1236,12 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   const listToRender =
     reviews && reviews.length > 0
       ? reviews.map((r) => ({
-          name: r.username || "Anonymous User",
-          role: "Verified Buyer",
-          text: r.review || "",
-          rating: Math.round(r.rating || 5),
-          avatar: getInitials(r.username || "Anonymous"),
-        }))
+        name: r.username || "Anonymous User",
+        role: "Verified Buyer",
+        text: r.review || "",
+        rating: Math.round(r.rating || 5),
+        avatar: getInitials(r.username || "Anonymous"),
+      }))
       : [];
 
   if (listToRender.length === 0) {
@@ -1792,30 +1783,30 @@ function NutritionPlanner({ t }: { t: any }) {
           <div className="inline-flex items-center gap-3">
             <span className="w-8 h-px bg-[var(--orange)]" />
             <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
-              Budget & Planning
+              {t.budget_planning || "Budget & Planning"}
             </span>
             <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
 
           <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
-            Monthly Product{" "}
-            <span className="text-[var(--orange)] font-light">Calculator</span>
+            {t.monthly_product || "Monthly Product"}{" "}
+            <span className="text-[var(--orange)] font-light">{t.calculator || "Calculator"}</span>
           </h2>
 
           <div className="max-w-4xl mx-auto bg-white rounded border border-gray-200 p-8 md:p-12 shadow-sm text-left relative overflow-hidden">
             <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-4 text-center tracking-tight">
-              Strategic Nutrition Planning for Your Office or Home
+              {t.strategic_nutrition || "Strategic Nutrition Planning for Your Office or Home"}
             </h3>
             <p className="text-xs font-bold text-gray-400 mb-8 text-center uppercase tracking-[0.15em]">
-              Estimate Requirements & Costs Instantly:
+              {t.estimate_requirements || "Estimate Requirements & Costs Instantly:"}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
               {[
-                "Calculate precise quantities based on headcount",
-                "Estimate daily & monthly consumption in grams",
-                "Forecast budget based on selected premium products",
-                "Maintain a balanced inventory effortlessly",
+                t.calc_req_1 || "Calculate precise quantities based on headcount",
+                t.calc_req_2 || "Estimate daily & monthly consumption in grams",
+                t.calc_req_3 || "Forecast budget based on selected premium products",
+                t.calc_req_4 || "Maintain a balanced inventory effortlessly",
               ].map((item, i) => (
                 <div
                   key={i}
@@ -1833,8 +1824,7 @@ function NutritionPlanner({ t }: { t: any }) {
 
             <div className="bg-[var(--cream)]/50 rounded p-5 border border-[var(--olive)]/10 mb-8 text-center">
               <p className="text-sm text-gray-700 font-medium leading-relaxed">
-                Choose your required products, input the number of members, and
-                generate an instant procurement estimate.
+                {t.choose_required_products || "Choose your required products, input the number of members, and generate an instant procurement estimate."}
               </p>
             </div>
           </div>
@@ -1849,11 +1839,11 @@ function NutritionPlanner({ t }: { t: any }) {
                   01
                 </span>
                 <h2 className="text-2xl font-black text-gray-900 tracking-tight uppercase">
-                  Select Products
+                  {t.select_products || "Select Products"}
                 </h2>
               </div>
               <p className="text-gray-500 font-medium ml-14 text-sm">
-                Curate the selection for your monthly estimate.
+                {t.curate_selection || "Curate the selection for your monthly estimate."}
               </p>
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
@@ -1861,7 +1851,7 @@ function NutritionPlanner({ t }: { t: any }) {
                 <Search className="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Search inventory..."
+                  placeholder={t.search_inventory || "Search inventory..."}
                   className="w-full pl-11 pr-4 py-3 rounded border border-gray-200 text-sm focus:outline-none focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] font-medium text-gray-800 transition-all bg-gray-50 focus:bg-white"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -1871,7 +1861,7 @@ function NutritionPlanner({ t }: { t: any }) {
                 onClick={scrollToCalculator}
                 className="group flex items-center gap-2 whitespace-nowrap bg-[var(--olive-dark)] text-white px-6 py-3 rounded font-bold text-[11px] uppercase tracking-widest hover:bg-[var(--orange)] transition-colors duration-300"
               >
-                View Estimate{" "}
+                {t.view_estimate || "View Estimate"}{" "}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
@@ -1888,7 +1878,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   <LayoutGrid
                     className={`w-4 h-4 ${selectedCategory === 0 ? "text-white" : "text-[var(--olive-dark)]"}`}
                   />{" "}
-                  All Catalog
+                  {t.all_catalog || "All Catalog"}
                 </div>
                 <span
                   className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 0 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
@@ -1905,7 +1895,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   <Circle
                     className={`w-4 h-4 ${selectedCategory === 1 ? "text-white" : "text-[var(--olive-dark)]"}`}
                   />{" "}
-                  Nuts
+                  {t.nuts || "Nuts"}
                 </div>
                 <span
                   className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 1 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
@@ -1922,7 +1912,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   <Wheat
                     className={`w-4 h-4 ${selectedCategory === 2 ? "text-white" : "text-[var(--olive-dark)]"}`}
                   />{" "}
-                  Millets
+                  {t.millets || "Millets"}
                 </div>
                 <span
                   className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 2 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
@@ -1939,7 +1929,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   <Flame
                     className={`w-4 h-4 ${selectedCategory === 3 ? "text-white" : "text-[var(--olive-dark)]"}`}
                   />{" "}
-                  Spices
+                  {t.spices || "Spices"}
                 </div>
                 <span
                   className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 3 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
@@ -1954,12 +1944,12 @@ function NutritionPlanner({ t }: { t: any }) {
               <div className="flex justify-between items-center mb-6">
                 <h3 className="font-bold text-gray-900 uppercase tracking-widest text-xs">
                   {selectedCategory === 0
-                    ? "Complete Catalog"
+                    ? (t.complete_catalog || "Complete Catalog")
                     : selectedCategory === 1
-                      ? "Nuts Category"
+                      ? (t.nuts_category || "Nuts Category")
                       : selectedCategory === 2
-                        ? "Millets Category"
-                        : "Spices Category"}
+                        ? (t.millets_category || "Millets Category")
+                        : (t.spices_category || "Spices Category")}
                   <span className="text-[var(--orange)] ml-2">
                     ({displayedProducts.length})
                   </span>
@@ -1970,7 +1960,7 @@ function NutritionPlanner({ t }: { t: any }) {
                 <div className="py-12 flex flex-col items-center justify-center bg-white border border-dashed border-gray-300">
                   <Leaf className="w-8 h-8 text-gray-300 mb-3" />
                   <p className="text-gray-500 font-medium text-sm">
-                    No products found in inventory.
+                    {t.no_products_inventory || "No products found in inventory."}
                   </p>
                 </div>
               ) : (
@@ -2024,7 +2014,7 @@ function NutritionPlanner({ t }: { t: any }) {
               <div className="mt-8 bg-[var(--olive-dark)] text-white rounded p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
                 <div className="flex items-center gap-3 font-bold text-sm tracking-widest uppercase">
                   <Check className="w-5 h-5 text-[var(--orange)]" />{" "}
-                  {selectedProducts.length} Items Selected
+                  {selectedProducts.length} {t.items_selected || "Items Selected"}
                 </div>
               </div>
             </div>
@@ -2048,11 +2038,11 @@ function NutritionPlanner({ t }: { t: any }) {
                   02
                 </span>
                 <h2 className="text-2xl font-black text-gray-900 tracking-tight uppercase">
-                  Estimate Generation
+                  {t.estimate_generation || "Estimate Generation"}
                 </h2>
               </div>
               <p className="text-gray-500 font-medium ml-14 text-sm">
-                Adjust parameters to forecast your monthly procurement budget.
+                {t.adjust_parameters || "Adjust parameters to forecast your monthly procurement budget."}
               </p>
             </div>
           </div>
@@ -2061,14 +2051,14 @@ function NutritionPlanner({ t }: { t: any }) {
             <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
                 <tr className="bg-gray-100 text-[10px] font-black text-[var(--olive-dark)] uppercase tracking-widest border-b border-gray-200">
-                  <th className="px-6 py-4">Product Name</th>
-                  <th className="px-4 py-4 text-center">Grams / Day</th>
-                  <th className="px-4 py-4 text-center">Days</th>
-                  <th className="px-4 py-4 text-center">Headcount</th>
-                  <th className="px-4 py-4 text-center">Total (KG)</th>
-                  <th className="px-4 py-4 text-center">Unit Price</th>
-                  <th className="px-6 py-4 text-right">Subtotal</th>
-                  <th className="px-4 py-4 text-center">Action</th>
+                  <th className="px-6 py-4">{t.product_name || "Product Name"}</th>
+                  <th className="px-4 py-4 text-center">{t.grams_per_day || "Grams / Day"}</th>
+                  <th className="px-4 py-4 text-center">{t.days || "Days"}</th>
+                  <th className="px-4 py-4 text-center">{t.headcount || "Headcount"}</th>
+                  <th className="px-4 py-4 text-center">{t.total_kg || "Total (KG)"}</th>
+                  <th className="px-4 py-4 text-center">{t.unit_price || "Unit Price"}</th>
+                  <th className="px-6 py-4 text-right">{t.subtotal || "Subtotal"}</th>
+                  <th className="px-4 py-4 text-center">{t.action || "Action"}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -2078,7 +2068,7 @@ function NutritionPlanner({ t }: { t: any }) {
                       colSpan={8}
                       className="px-6 py-16 text-center text-gray-400 font-bold uppercase tracking-widest text-xs"
                     >
-                      Inventory empty. Select items to generate estimate.
+                      {t.inventory_empty || "Inventory empty. Select items to generate estimate."}
                     </td>
                   </tr>
                 ) : (
@@ -2188,12 +2178,12 @@ function NutritionPlanner({ t }: { t: any }) {
               onClick={handleClearAll}
               className="px-6 py-3 border border-gray-300 text-gray-600 font-bold text-[11px] tracking-widest uppercase flex items-center gap-2 hover:bg-gray-100 transition-all"
             >
-              Clear Estimate <Trash2 className="w-4 h-4" />
+              {t.clear_estimate || "Clear Estimate"} <Trash2 className="w-4 h-4" />
             </button>
             <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 w-full md:w-auto">
               <div className="text-center sm:text-right">
                 <p className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase mb-1">
-                  Estimated Total
+                  {t.estimated_total || "Estimated Total"}
                 </p>
                 <p className="text-3xl sm:text-4xl font-black text-[var(--olive-dark)] leading-none">
                   ₹{grandTotal.toLocaleString()}
@@ -2229,7 +2219,7 @@ function NutritionPlanner({ t }: { t: any }) {
                       console.error("Error adding to monthly cart", err);
                       alert(
                         err?.response?.data?.message ||
-                          "An error occurred while adding to monthly cart.",
+                        "An error occurred while adding to monthly cart.",
                       );
                     } finally {
                       setIsBuying(false);
@@ -2243,7 +2233,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   <div className="w-5 h-5 border-2 border-white border-t-transparent animate-spin" />
                 ) : (
                   <>
-                    Proceed to Cart <ArrowRight className="w-4 h-4" />
+                    {t.proceed_to_cart || "Proceed to Cart"} <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
@@ -2553,7 +2543,7 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
 
 // ── NEW AESTHETIC TRUST, CERTIFICATIONS, TESTIMONIALS & BRANDS SECTION ──
 
-function CertificationsSection() {
+function CertificationsSection({ t }: { t: any }) {
   const certs = [
     {
       id: "fssai",
@@ -2632,20 +2622,18 @@ function CertificationsSection() {
           <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
             <span className="w-8 h-px bg-[var(--orange)]" />
             <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
-              Accreditations
+              {t.accreditations || "Accreditations"}
             </span>
             <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-none text-center">
-            Trusted{" "}
+            {t.trusted || "Trusted"}{" "}
             <span className="text-[var(--orange)] font-light">
-              Certifications
+              {t.certifications || "Certifications"}
             </span>
           </h2>
           <p className="text-sm text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed">
-            Every grain and product at Tradizions is backed by absolute
-            standards, natural processes, and government-approved accreditations
-            to deliver uncompromising safety.
+            {t.certifications_desc || "Every grain and product at Tradizions is backed by absolute standards, natural processes, and government-approved accreditations to deliver uncompromising safety."}
           </p>
         </div>
 
@@ -2805,7 +2793,7 @@ function VideoTestimonialsSection() {
   );
 }
 
-function SustainabilityAndPackagingSection() {
+function SustainabilityAndPackagingSection({ t }: { t: any }) {
   return (
     <section className="py-16 bg-[var(--site-bg)] relative overflow-hidden border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-6">
@@ -2822,16 +2810,15 @@ function SustainabilityAndPackagingSection() {
                 </div>
                 <div className="space-y-1">
                   <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase block">
-                    Trust Shield
+                    {t.trust_shield || "Trust Shield"}
                   </span>
                   <h4 className="text-[14px] font-bold text-gray-900 tracking-widest uppercase leading-none">
-                    Secure Payments
+                    {t.secure_payments || "Secure Payments"}
                   </h4>
                 </div>
               </div>
               <p className="text-[13px] font-medium text-gray-600 leading-relaxed">
-                Shop with complete peace of mind. We encrypt and safeguard every
-                transaction with industry-standard 256-bit SSL technology.
+                {t.secure_payments_desc || "Shop with complete peace of mind. We encrypt and safeguard every transaction with industry-standard 256-bit SSL technology."}
               </p>
             </div>
 
@@ -2860,17 +2847,15 @@ function SustainabilityAndPackagingSection() {
                 </div>
                 <div className="space-y-1">
                   <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase block">
-                    Eco Stewardship
+                    {t.eco_stewardship || "Eco Stewardship"}
                   </span>
                   <h4 className="text-[14px] font-bold text-gray-900 tracking-widest uppercase leading-none">
-                    Sustainability
+                    {t.sustainability || "Sustainability"}
                   </h4>
                 </div>
               </div>
               <p className="text-[13px] font-medium text-gray-600 leading-relaxed">
-                Caring for the planet and future generations is embedded in our
-                DNA. We focus on low carbon outputs and support organic farming
-                loops.
+                {t.sustainability_desc || "Caring for the planet and future generations is embedded in our DNA. We focus on low carbon outputs and support organic farming loops."}
               </p>
             </div>
 
@@ -2878,9 +2863,9 @@ function SustainabilityAndPackagingSection() {
             <div className="flex items-center justify-between gap-4 pt-8 relative z-10 mt-auto">
               <ul className="space-y-3">
                 {[
-                  "Ethically Sourced",
-                  "Eco Friendly Processes",
-                  "Supporting Local Farmers",
+                  t.ethically_sourced || "Ethically Sourced",
+                  t.eco_friendly_processes || "Eco Friendly Processes",
+                  t.supporting_local_farmers || "Supporting Local Farmers",
                 ].map((text, idx) => (
                   <li
                     key={idx}
@@ -2929,17 +2914,15 @@ function SustainabilityAndPackagingSection() {
                 </div>
                 <div className="space-y-1">
                   <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase block">
-                    Earth Safe
+                    {t.earth_safe || "Earth Safe"}
                   </span>
                   <h4 className="text-[14px] font-bold text-gray-900 tracking-widest uppercase leading-none">
-                    Plastic-Free Packaging
+                    {t.plastic_free_packaging || "Plastic-Free Packaging"}
                   </h4>
                 </div>
               </div>
               <p className="text-[13px] font-medium text-gray-600 leading-relaxed">
-                Our pledge is zero plastic. We pack exclusively in biodegradable
-                cardboard, jute, and paper, so our shipments leave no toxic
-                footprint.
+                {t.plastic_free_desc || "Our pledge is zero plastic. We pack exclusively in biodegradable cardboard, jute, and paper, so our shipments leave no toxic footprint."}
               </p>
             </div>
 
@@ -2947,9 +2930,9 @@ function SustainabilityAndPackagingSection() {
             <div className="flex items-center justify-between gap-4 pt-8 relative z-10 mt-auto">
               <ul className="space-y-3">
                 {[
-                  "100% Eco Friendly",
-                  "Fully Biodegradable",
-                  "Better for Earth",
+                  t.eco_friendly_100 || "100% Eco Friendly",
+                  t.fully_biodegradable || "Fully Biodegradable",
+                  t.better_for_earth || "Better for Earth",
                 ].map((text, idx) => (
                   <li
                     key={idx}

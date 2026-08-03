@@ -222,7 +222,7 @@ export default function ContactUsPageClient() {
                   </div>
                   <div>
                     <p className="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-0.5">
-                      Email Support
+                      {t.contact_us.email_support}
                     </p>
                     <p className="text-sm font-bold text-gray-900">
                       tradizions@gmail.com
@@ -247,7 +247,7 @@ export default function ContactUsPageClient() {
                   </div>
                   <div>
                     <p className="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-0.5">
-                      WhatsApp Support
+                      {t.contact_us.whatsapp_support}
                     </p>
                     <a
                       href="https://wa.me/919940620019"
@@ -293,7 +293,7 @@ export default function ContactUsPageClient() {
                     </div>
                     <div className="space-y-0.5">
                       <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
-                        Email Inquiries
+                        {t.contact_us.email_inquiries}
                       </p>
                       <p className="text-sm font-bold text-gray-900">
                         partners@tradizions.com
@@ -307,7 +307,7 @@ export default function ContactUsPageClient() {
                     </div>
                     <div className="space-y-0.5">
                       <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
-                        Contact Number
+                        {t.contact_us.contact_number}
                       </p>
                       <p className="text-sm font-bold text-gray-900">
                         99406 20018
@@ -331,16 +331,16 @@ export default function ContactUsPageClient() {
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-3 tracking-tight">
-                    Message Sent Successfully!
+                    {t.contact_us.message_sent}
                   </h3>
                   <p className="text-sm text-gray-500 max-w-sm mb-8 leading-relaxed font-medium">
-                    Thank you for reaching out. We have received your inquiry and our team will get back to you soon!
+                    {t.contact_us.message_sent_desc}
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
                     className="px-8 py-4 rounded-none bg-[var(--olive-dark)] text-white text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[var(--orange)] transition-all shadow-sm cursor-pointer"
                   >
-                    Send Another Message
+                    {t.contact_us.send_another}
                   </button>
                 </div>
               ) : (

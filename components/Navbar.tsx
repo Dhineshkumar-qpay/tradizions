@@ -341,18 +341,18 @@ export default function Navbar() {
   const displayCategories =
     apiCategories.length > 0
       ? apiCategories.map((cat, idx) => ({
-        name: cat.categoryname,
-        href: `/shop?category=${encodeURIComponent(cat.categoryname)}`,
-        desc: cat.description || "Explore premium organic products",
-        icon: iconList[idx % iconList.length],
-        image: cat.categoryimage || cat.image || null,
-      }))
+          name: cat.categoryname,
+          href: `/shop?category=${encodeURIComponent(cat.categoryname)}`,
+          desc: cat.description || "Explore premium organic products",
+          icon: iconList[idx % iconList.length],
+          image: cat.categoryimage || cat.image || null,
+        }))
       : [];
 
   const navItems = [
     { name: t.home, href: "/" },
     { name: t.shop, href: "/shop" },
-    { name: "🎁Build Your Gift", href: "/custom-hamper" },
+    { name: t.custom_gift?.title || "Build Your Gift", href: "/custom-hamper" },
   ];
 
   const secondaryNavItems = [{ name: t.contactUs, href: "/contact-us" }];
@@ -376,7 +376,7 @@ export default function Navbar() {
             {/* Logo Section */}
             <div className="flex-shrink-0 z-10">
               <Link href="/" className="block">
-                <div className="relative overflow-hidden transition-transform duration-500 hover:scale-105">
+                <div className="relative h-15 overflow-hidden transition-transform duration-500 hover:scale-105 bg-white/5 backdrop-blur-md border border-white/20 shadow-sm rounded-lg px-2 flex items-center justify-center">
                   <Image
                     src="/app-logo.png"
                     alt="Logo"
@@ -406,7 +406,30 @@ export default function Navbar() {
                 );
               })}
 
+              {/* Categories Dropdown */}
+              <div className="relative group/catdrop h-full flex items-center">
+                <button className="group relative py-2 text-[11px] tracking-[0.1em] font-bold uppercase transition-colors duration-300 whitespace-nowrap flex items-center gap-1 text-white/80 hover:text-white">
+                  {t.categories || "CATEGORIES"}
+                  <ChevronDown className="w-3.5 h-3.5" />
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-white transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
+                </button>
 
+                <div className="absolute top-[80%] left-0 pt-4 opacity-0 translate-y-1 pointer-events-none group-hover/catdrop:opacity-100 group-hover/catdrop:translate-y-0 group-hover/catdrop:pointer-events-auto transition-all duration-200 z-50">
+                  <div className="min-w-[200px] bg-white border border-stone-200 shadow-md relative rounded-sm">
+                    <div className="flex flex-col py-2">
+                      {displayCategories.map((cat) => (
+                        <Link
+                          key={cat.href}
+                          href={cat.href}
+                          className="px-5 py-2.5 text-[10px] font-bold text-stone-600 hover:text-[var(--olive-dark)] hover:bg-stone-50 transition-colors uppercase tracking-widest whitespace-nowrap flex items-center gap-3 border-b border-stone-100 last:border-0"
+                        >
+                          {cat.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <Link
                 href="/gifts"
@@ -467,10 +490,11 @@ export default function Navbar() {
                         <button
                           key={lang.code}
                           onClick={() => handleLangChange(lang.code)}
-                          className={`relative w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-colors rounded-sm ${isActive
+                          className={`relative w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-colors rounded-sm ${
+                            isActive
                               ? "bg-[var(--olive-dark)] text-white"
                               : "text-stone-500 hover:bg-stone-100 hover:text-stone-900"
-                            }`}
+                          }`}
                         >
                           <span className="relative z-10">{lang.name}</span>
                           {isActive && (
@@ -497,7 +521,10 @@ export default function Navbar() {
               </button>
             </div>
 
-            <button onClick={() => window.dispatchEvent(new Event("openCartSidebar"))} className="relative cursor-pointer border-none bg-transparent outline-none">
+            <button
+              onClick={() => window.dispatchEvent(new Event("openCartSidebar"))}
+              className="relative cursor-pointer border-none bg-transparent outline-none"
+            >
               <div className="flex items-center justify-center w-10 h-10 rounded-sm bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:border-white/50 transition-all">
                 <ShoppingCart className="w-4 h-4" />
                 {cartCount > 0 && (
@@ -533,35 +560,6 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* Persistent Categories Bar (Desktop & Mobile) */}
-        <div className="w-full bg-[var(--olive-dark)] px-2 py-2 shadow-md">
-          <div className="flex gap-4 overflow-x-auto category-scrollbar items-center justify-start md:justify-center px-2 pb-1">
-            {displayCategories.map((cat) => (
-              <Link
-                key={cat.href}
-                href={cat.href}
-                className="flex-shrink-0 flex items-center w-auto h-[48px] md:h-[56px] px-3 md:px-4 gap-2 md:gap-3 rounded-[0.2rem] bg-white hover:bg-stone-50 transition-all shadow-sm hover:shadow border border-transparent"
-              >
-                <div className="w-7 h-7 md:w-9 md:h-9 flex-shrink-0 flex items-center justify-center text-[var(--olive-dark)] scale-110 hover:scale-125 transition-transform duration-300">
-                  {cat.image ? (
-                    <img 
-                      src={cat.image.startsWith('http') ? cat.image : `${IMAGE_URL || ""}${cat.image}`} 
-                      alt={cat.name} 
-                      className="w-full h-full object-contain drop-shadow-sm"
-                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                    />
-                  ) : (
-                    cat.icon
-                  )}
-                </div>
-                <span className="text-[10px] md:text-[11px] font-bold text-stone-700 whitespace-nowrap leading-none">
-                  {cat.name}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-
         {/* Mobile Menu */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out pointer-events-auto mx-4 md:mx-8 ${open ? "max-h-screen shadow-sm mt-2 rounded-sm border border-stone-200" : "max-h-0"}`}
@@ -587,10 +585,8 @@ export default function Navbar() {
                 className="text-md font-semibold text-gray-900 border-b border-gray-50 pb-4"
                 onClick={() => setOpen(false)}
               >
-                🎁Build Your Gift
+                {t.custom_gift?.title || "Build Your Gift"}
               </Link>
-
-
 
               {/* Mobile Gifting Links */}
               <Link
@@ -626,10 +622,11 @@ export default function Navbar() {
                     <button
                       key={lang.code}
                       onClick={() => handleLangChange(lang.code)}
-                      className={`flex-1 py-3 rounded-xl border text-[11px] font-bold tracking-widest transition-all ${selectedLang === lang.code
+                      className={`flex-1 py-3 rounded-xl border text-[11px] font-bold tracking-widest transition-all ${
+                        selectedLang === lang.code
                           ? "bg-[var(--olive)] text-white border-[var(--olive)] shadow-lg shadow-[var(--olive)]/20"
                           : "bg-white text-gray-500 border-[#e0d4b7] hover:bg-gray-50"
-                        }`}
+                      }`}
                     >
                       {lang.name}
                     </button>
@@ -666,8 +663,9 @@ export default function Navbar() {
 
       {/* --- Right Side Drawer --- */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white z-[70] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform ${isDrawerOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white z-[70] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform ${
+          isDrawerOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <div className="flex flex-col h-full relative overflow-hidden">
           {/* Close button */}
@@ -979,10 +977,10 @@ export default function Navbar() {
                               product.brandname,
                             availablestock:
                               product.availablestock !== undefined &&
-                                product.availablestock !== null
+                              product.availablestock !== null
                                 ? product.availablestock
                                 : product.stock !== undefined &&
-                                  product.stock !== null
+                                    product.stock !== null
                                   ? product.stock
                                   : 1,
                             stock: product.stock,

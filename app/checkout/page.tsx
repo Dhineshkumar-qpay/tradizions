@@ -322,7 +322,7 @@ export default function CheckoutPage() {
 
               {/* Title */}
               <h1 className="text-2xl font-black text-stone-900 mb-2 tracking-tight">
-                {t.order_confirmed || "Order Confirmed"}
+                {t.checkout?.order_confirmed || "Order Confirmed"}
               </h1>
 
               <p className="text-stone-500 text-xs leading-relaxed max-w-[240px] mx-auto mb-6">
@@ -346,7 +346,7 @@ export default function CheckoutPage() {
 
                 <div className="flex justify-between items-center mb-3">
                   <span className="text-[11px] text-stone-500 font-medium">
-                    Total
+                    {t.checkout?.total || "Total"}
                   </span>
 
                   <span className="text-lg font-black text-[var(--olive-dark)]">
@@ -356,7 +356,7 @@ export default function CheckoutPage() {
 
                 <div className="flex justify-between items-center">
                   <span className="text-[11px] text-stone-500 font-medium">
-                    Payment
+                    {t.checkout?.payment || "Payment"}
                   </span>
 
                   <span className="text-[10px] uppercase px-2 py-1 rounded-lg bg-white border border-stone-200 font-bold text-stone-700">
@@ -415,7 +415,7 @@ export default function CheckoutPage() {
                     01
                   </span>
                   <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase">
-                    {t.checkout.delivery_address || "Delivery Address"}
+                    {t.checkout?.delivery_address || "Delivery Address"}
                   </h2>
                 </div>
                 <button
@@ -423,8 +423,8 @@ export default function CheckoutPage() {
                   className="text-[11px] font-bold text-[var(--olive-dark)] tracking-[0.2em] hover:text-[var(--orange)] uppercase transition-colors cursor-pointer"
                 >
                   {showAddressForm
-                    ? "Cancel"
-                    : t.my_account?.add_new || "Add New Address"}
+                    ? (t.checkout?.cancel || "Cancel")
+                    : (t.checkout?.add_new_address || "Add New Address")}
                 </button>
               </div>
 
@@ -460,13 +460,13 @@ export default function CheckoutPage() {
                     <div>
                       <h3 className="text-sm font-bold text-stone-900">
                         {cartItems.length > 1
-                          ? "Apply one address to all products"
-                          : t.checkout?.delivery_address || "Delivery Address"}
+                          ? (t.checkout?.apply_one_address || "Apply one address to all products")
+                          : (t.checkout?.delivery_address || "Delivery Address")}
                       </h3>
                       <p className="text-xs text-stone-500">
                         {cartItems.length > 1
-                          ? "All items will be delivered to the same address"
-                          : "Select where you want your item delivered"}
+                          ? (t.checkout?.apply_one_address_desc || "All items will be delivered to the same address")
+                          : (t.checkout?.select_delivery || "Select where you want your item delivered")}
                       </p>
                     </div>
                   </div>
@@ -524,10 +524,10 @@ export default function CheckoutPage() {
                         </div>
                         <div>
                           <h3 className="text-sm font-bold text-stone-900">
-                            Choose address for each product
+                            {t.checkout?.choose_address || "Choose address for each product"}
                           </h3>
                           <p className="text-xs text-stone-500">
-                            Select different addresses for different products
+                            {t.checkout?.choose_address_desc || "Select different addresses for different products"}
                           </p>
                         </div>
                       </div>
@@ -629,34 +629,34 @@ export default function CheckoutPage() {
               {showAddressForm && (
                 <div className="mt-8 border border-gray-200 p-6 sm:p-8 bg-white animate-fade-in-up shadow-sm">
                   <h3 className="text-sm font-bold text-[var(--olive-dark)] mb-6 uppercase tracking-[0.15em]">
-                    Enter Details
+                    {t.checkout?.enter_details || "Enter Details"}
                   </h3>
                   <button
                     type="button"
                     onClick={() => setIsMapOpen(true)}
                     className="mb-6 w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-[var(--olive)] text-white border border-stone-800 rounded-md font-bold text-xs uppercase tracking-widest hover:bg-[var(--olive-dark)] transition-colors shadow-sm"
                   >
-                    <MapPin className="w-4 h-4" /> Select Address from Map
+                    <MapPin className="w-4 h-4" /> {t.checkout?.select_from_map || "Select Address from Map"}
                   </button>
                   <form onSubmit={handleSaveAddress} className="space-y-5">
                     <div className="grid grid-cols-2 gap-5">
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
-                          Title
+                          {t.checkout?.title || "Title"}
                         </label>
                         <select
                           value={title}
                           onChange={(e) => setTitle(e.target.value)}
                           className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
                         >
-                          <option value="Home">Home</option>
-                          <option value="Office">Office</option>
-                          <option value="Other">Other</option>
+                          <option value="Home">{t.checkout?.home || "Home"}</option>
+                          <option value="Office">{t.checkout?.office || "Office"}</option>
+                          <option value="Other">{t.checkout?.other || "Other"}</option>
                         </select>
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
-                          Name
+                          {t.checkout?.name || "Name"}
                         </label>
                         <input
                           type="text"
@@ -669,7 +669,7 @@ export default function CheckoutPage() {
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
-                        Mobile Number
+                        {t.checkout?.mobile_number || "Mobile Number"}
                       </label>
                       <input
                         type="tel"
@@ -681,7 +681,7 @@ export default function CheckoutPage() {
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
-                        Email Address
+                        {t.checkout?.email_address || "Email Address"}
                       </label>
                       <input
                         type="email"
@@ -694,7 +694,7 @@ export default function CheckoutPage() {
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
-                        Address Line
+                        {t.checkout?.address_line || "Address Line"}
                       </label>
                       <textarea
                         rows={2}
@@ -706,7 +706,7 @@ export default function CheckoutPage() {
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
-                        Landmark
+                        {t.checkout?.landmark || "Landmark"}
                       </label>
                       <input
                         type="text"
@@ -719,7 +719,7 @@ export default function CheckoutPage() {
                     <div className="grid grid-cols-2 gap-5">
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
-                          State
+                          {t.checkout?.state || "State"}
                         </label>
                         <SearchableDropdown
                           options={statesList}
@@ -736,7 +736,7 @@ export default function CheckoutPage() {
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
-                          District
+                          {t.checkout?.district || "District"}
                         </label>
                         <SearchableDropdown
                           options={districtsList}
@@ -754,7 +754,7 @@ export default function CheckoutPage() {
                     <div className="grid grid-cols-2 gap-5">
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
-                          City
+                          {t.checkout?.city || "City"}
                         </label>
                         <input
                           type="text"
@@ -766,7 +766,7 @@ export default function CheckoutPage() {
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">
-                          Pincode
+                          {t.checkout?.pincode || "Pincode"}
                         </label>
                         <input
                           type="text"
@@ -782,7 +782,7 @@ export default function CheckoutPage() {
                         type="submit"
                         className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors cursor-pointer"
                       >
-                        SAVE SECURE ADDRESS
+                        {t.checkout?.save_address || "SAVE SECURE ADDRESS"}
                       </button>
                     </div>
                   </form>
@@ -798,14 +798,14 @@ export default function CheckoutPage() {
                     02
                   </span>
                   <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase">
-                    Saved Addresses
+                    {t.checkout?.saved_addresses || "Saved Addresses"}
                   </h2>
                 </div>
                 <button
                   onClick={() => setShowAddressForm(!showAddressForm)}
                   className="text-[11px] font-bold text-[var(--olive-dark)] tracking-[0.2em] hover:text-[var(--orange)] uppercase transition-colors cursor-pointer"
                 >
-                  {showAddressForm ? "Cancel" : "Add New Address"}
+                  {showAddressForm ? (t.checkout?.cancel || "Cancel") : (t.checkout?.add_new_address || "Add New Address")}
                 </button>
               </div>
 
@@ -817,7 +817,7 @@ export default function CheckoutPage() {
                   >
                     <div className="flex justify-between items-start mb-2">
                       <span className="inline-block px-3 py-1 bg-stone-100 text-stone-700 text-[10px] font-black tracking-widest rounded-md uppercase">
-                        {addr.city || "ADDRESS"}
+                        {addr.city || (t.checkout?.address || "ADDRESS")}
                       </span>
                     </div>
                     <p className="text-[13px] font-medium text-stone-600 leading-relaxed">
@@ -841,7 +841,7 @@ export default function CheckoutPage() {
                     +
                   </div>
                   <p className="text-xs font-bold text-stone-600">
-                    Add New Address
+                    {t.checkout?.add_new_address || "Add New Address"}
                   </p>
                 </div>
               </div>
@@ -853,7 +853,7 @@ export default function CheckoutPage() {
             <div className="bg-white border border-gray-200 p-6 sm:p-8 shadow-sm lg:sticky lg:top-24">
               <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase mb-8 flex items-center gap-3 border-b border-gray-100 pb-4">
                 <ShoppingCart className="w-5 h-5 text-[var(--olive)]" />
-                Order Summary
+                {t.checkout?.order_summary || "Order Summary"}
               </h2>
 
               {/* Mini Item List */}
@@ -891,13 +891,13 @@ export default function CheckoutPage() {
                           </p>
                         </div>
                         <p className="text-xs text-stone-500">
-                          Qty: {item.quantity}
+                          {t.checkout?.qty || "Qty:"} {item.quantity}
                         </p>
                         {isCustomGift && item.products && item.products.length > 0 && (
                           <div className="mt-2 bg-stone-50 p-2 rounded-lg border border-stone-100 space-y-1.5">
                             <div className="flex justify-between items-center border-b border-stone-200 pb-1 mb-1">
-                              <span className="text-[9px] font-bold text-stone-500 uppercase tracking-widest">Included Items</span>
-                              <span className="text-[9px] font-bold text-stone-500">Box: ₹{item.giftpackprice || 0}</span>
+                              <span className="text-[9px] font-bold text-stone-500 uppercase tracking-widest">{t.checkout?.included_items || "Included Items"}</span>
+                              <span className="text-[9px] font-bold text-stone-500">{t.checkout?.box || "Box:"} ₹{item.giftpackprice || 0}</span>
                             </div>
                             {item.products.map((p, pIdx) => (
                               <div key={pIdx} className="flex justify-between items-center text-[10px]">
@@ -931,12 +931,12 @@ export default function CheckoutPage() {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-stone-500 font-medium">
-                    Subtotal (
+                    {t.checkout?.subtotal || "Subtotal"} (
                     {cartItems.reduce(
                       (acc, item) => acc + (item.quantity || 0),
                       0,
                     )}{" "}
-                    items)
+                    {t.checkout?.items || "items"})
                   </span>
                   <span className="font-bold text-stone-900">
                     ₹{totalAmount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
@@ -956,7 +956,7 @@ export default function CheckoutPage() {
 
               <div className="flex justify-between items-end mb-6">
                 <span className="text-base font-bold text-stone-900">
-                  Total Amount
+                  {t.checkout?.total_amount || "Total Amount"}
                 </span>
                 <div className="text-right">
                   <span className="text-2xl font-black text-stone-900 block leading-none tracking-tight">
@@ -973,7 +973,7 @@ export default function CheckoutPage() {
                     {t.cart?.secure_payment || "Safe and Secure Payments"}
                   </p>
                   <p className="text-[10px] text-stone-500">
-                    100% Secure. Your data is safe with us.
+                    {t.checkout?.secure_payments_desc || "100% Secure. Your data is safe with us."}
                   </p>
                 </div>
               </div>
@@ -988,7 +988,7 @@ export default function CheckoutPage() {
                 ) : (
                   <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 )}
-                {isPlacingOrder ? "PROCESSING..." : "Place Order"}
+                {isPlacingOrder ? (t.checkout?.processing || "PROCESSING...") : (t.checkout?.place_order || "Place Order")}
               </button>
 
               <p className="text-[10px] text-center text-stone-400 mt-6 font-medium leading-relaxed">
@@ -999,14 +999,14 @@ export default function CheckoutPage() {
                   href="/policies/terms-and-conditions"
                   className="underline hover:text-[var(--olive)] transition-colors"
                 >
-                  Terms & Conditions
+                  {t.checkout?.terms || "Terms & Conditions"}
                 </Link>{" "}
-                and{" "}
+                {t.checkout?.and || "and"}{" "}
                 <Link
                   href="/policies/privacy-policy"
                   className="underline hover:text-[var(--olive)] transition-colors"
                 >
-                  Privacy Policy
+                  {t.checkout?.privacy || "Privacy Policy"}
                 </Link>
               </p>
             </div>

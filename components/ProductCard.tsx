@@ -4,6 +4,15 @@ import Link from "next/link";
 import { Heart, Minus, Plus, ShoppingCart, Loader2 } from "lucide-react";
 import { API } from "@/service/api_service";
 import { API_ROUTES, IMAGE_URL } from "@/routes/api_routes";
+import en from "@/languages/en.json";
+import ta from "@/languages/ta.json";
+import hi from "@/languages/hi.json";
+
+const translations: Record<string, any> = {
+  EN: en,
+  TA: ta,
+  HI: hi,
+};
 
 const getImageUrl = (imagePath: string) => {
   if (!imagePath) return "/placeholder.png";
@@ -50,6 +59,23 @@ export default function ProductCard({
   const [isAdding, setIsAdding] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [isFav, setIsFav] = useState(false);
+  const [lang, setLang] = useState("EN");
+  const [t, setT] = useState<any>(en);
+
+  useEffect(() => {
+    const savedLang = localStorage.getItem("selectedLang") || "EN";
+    setLang(savedLang);
+    setT(translations[savedLang] || en);
+
+    const handleLangChange = () => {
+      const newLang = localStorage.getItem("selectedLang") || "EN";
+      setLang(newLang);
+      setT(translations[newLang] || en);
+    };
+
+    window.addEventListener("languageChange", handleLangChange);
+    return () => window.removeEventListener("languageChange", handleLangChange);
+  }, []);
 
   useEffect(() => {
     const fetchFav = async () => {
@@ -113,7 +139,7 @@ export default function ProductCard({
         {(product.availablestock ?? 0) <= 0 && (
           <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[2px] z-10">
             <span className="bg-gray-900 text-white text-[10px] font-bold px-4 py-2 tracking-widest uppercase rounded shadow-sm">
-              Out Of Stock
+              {t.navbar?.out_of_stock || "Out Of Stock"}
             </span>
           </div>
         )}
@@ -121,7 +147,7 @@ export default function ProductCard({
         {/* Top Left Discount Badge */}
         {originalPrice && originalPrice > price && (
           <div className="absolute top-3 left-3 z-20 bg-[var(--orange)] text-white text-[10px] font-bold px-2 py-1 shadow-sm tracking-wider rounded-sm">
-            -{Math.round(((originalPrice - price) / originalPrice) * 100)}% OFF
+            -{Math.round(((originalPrice - price) / originalPrice) * 100)}% {t.navbar?.off || "OFF"}
           </div>
         )}
 
@@ -159,7 +185,7 @@ export default function ProductCard({
 
         {/* Quick View Bar */}
         <div className="absolute bottom-0 left-0 right-0 bg-[var(--cream)] backdrop-blur border-t border-gray-100 text-[var(--olive-dark)] text-[10px] font-bold py-3 text-center translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20 tracking-widest uppercase">
-          Quick View
+          {t.quick_view || "Quick View"}
         </div>
       </div>
 
@@ -272,10 +298,10 @@ export default function ProductCard({
             )}
             <span>
               {(product.availablestock ?? 0) <= 0
-                ? "Sold Out"
+                ? t.sold_out || "Sold Out"
                 : isAdding
-                  ? "Adding..."
-                  : "Add to Cart"}
+                  ? t.adding || "Adding..."
+                  : t.add_to_cart || "Add to Cart"}
             </span>
           </button>
         </div>
