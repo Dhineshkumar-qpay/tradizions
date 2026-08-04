@@ -344,7 +344,7 @@ export default function Navbar() {
                     <Image
                       src="/app-logo.png"
                       alt="Logo"
-                      width={118}
+                      width={110}
                       height={52}
                       className="object-contain transition-transform duration-500 group-hover:scale-105"
                     />
