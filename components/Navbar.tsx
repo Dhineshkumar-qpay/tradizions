@@ -336,16 +336,19 @@ export default function Navbar() {
         <nav className="w-full h-[80px] bg-[var(--olive-dark)] border-b border-white/10 shadow-sm px-3 lg:px-5 flex items-center justify-between pointer-events-auto relative">
           <div className="flex items-center gap-4 lg:gap-6 xl:gap-14">
             {/* Logo Section */}
-            <div className="flex-shrink-0 z-10">
-              <Link href="/" className="block">
-                <div className="relative h-15 overflow-hidden transition-transform duration-500 hover:scale-105 bg-white/5 backdrop-blur-md border border-white/20 shadow-sm rounded-lg px-2 flex items-center justify-center">
-                  <Image
-                    src="/app-logo.png"
-                    alt="Logo"
-                    width={115}
-                    height={48}
-                    className="object-contain"
-                  />
+            <div className="flex-shrink-0 z-20">
+              <Link href="/" className="group block">
+                <div className="relative flex items-center justify-center">
+                  {/* Logo Card */}
+                  <div className="relative h-16 w-36 rounded-[5px] border border-white/15 bg-white backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.12)] transition-all duration-500 group-hover:-translate-y-1  flex items-center justify-center">
+                    <Image
+                      src="/app-logo.png"
+                      alt="Logo"
+                      width={118}
+                      height={52}
+                      className="object-contain transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
                 </div>
               </Link>
             </div>

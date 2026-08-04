@@ -121,7 +121,7 @@ export default function RootLayout({
         <AuthGate>
           <CartSidebar />
           <Navbar />
-          <main className="flex-1 pt-[160px] md:pt-[80px]">{children}</main>
+          <main className="flex-1 pt-[80px]">{children}</main>
           <Footer />
           {/* <AIChatbot /> */}
           <ClickAnimation />
