@@ -169,17 +169,17 @@ export default function ContactUsPageClient() {
             </div>
 
             {/* Headquarters Card - Redesigned */}
-            <div className="group relative bg-white rounded-none p-10 shadow-sm border border-gray-200 transition-all duration-300 hover:shadow-md hover:border-[var(--orange)]">
-              <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="group relative bg-white rounded-3xl p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 transition-all duration-300 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--orange)]/30">
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[var(--olive-dark)] to-[var(--orange)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-t-3xl" />
               <div className="flex items-start justify-between mb-8">
-                <div className="w-16 h-16 bg-gray-50 text-[var(--olive-dark)] rounded-none border border-gray-200 flex items-center justify-center shadow-sm transition-transform duration-500 group-hover:bg-[var(--olive-dark)] group-hover:text-white">
+                <div className="w-16 h-16 bg-[#fafaf9] text-[var(--olive-dark)] rounded-2xl border border-stone-100 flex items-center justify-center shadow-sm transition-transform duration-500 group-hover:bg-[var(--olive-dark)] group-hover:text-white">
                   <MapPin className="w-8 h-8" />
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                  <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-1">
                     {t.contact_us.office_hours}
                   </p>
-                  <p className="text-xs font-bold text-gray-900">
+                  <p className="text-xs font-bold text-[var(--foreground)]">
                     09:30 AM — 06:30 PM
                   </p>
                 </div>
@@ -187,12 +187,12 @@ export default function ContactUsPageClient() {
 
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
+                  <h4 className="text-2xl font-bold text-[var(--foreground)] mb-2 tracking-tight">
                     {t.contact_us.hq}
                   </h4>
                 </div>
 
-                <p className="text-gray-500 leading-relaxed font-medium text-sm">
+                <p className="text-stone-500 leading-relaxed font-medium text-sm">
                   <span className="text-[var(--olive-dark)] uppercase tracking-widest font-bold block mb-1 text-xs">
                     Tradizions.
                   </span>
@@ -201,8 +201,11 @@ export default function ContactUsPageClient() {
 
                 <div className="pt-4 flex items-center gap-6">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-none bg-[var(--olive-dark)]" />
-                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--olive)] opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--olive-dark)]"></span>
+                    </span>
+                    <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">
                       {t.contact_us.active_hub}
                     </span>
                   </div>
@@ -215,16 +218,16 @@ export default function ContactUsPageClient() {
 
             {/* Support & Relations - Redesigned to be more compact and premium */}
             <div className="grid grid-cols-1 gap-5">
-              <div className="flex items-center justify-between p-6 rounded-none bg-white border border-gray-200 shadow-sm transition-all duration-300 hover:border-[var(--orange)] group">
+              <div className="flex items-center justify-between p-6 rounded-2xl bg-white border border-stone-100 shadow-sm transition-all duration-300 hover:border-[var(--orange)]/30 hover:shadow-md group">
                 <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 bg-gray-50 text-gray-500 rounded-none border border-gray-200 flex items-center justify-center group-hover:bg-[var(--olive-dark)] group-hover:text-white transition-all">
+                  <div className="w-12 h-12 bg-[#fafaf9] text-stone-500 rounded-xl border border-stone-100 flex items-center justify-center group-hover:bg-[var(--olive-dark)] group-hover:text-white transition-all shadow-sm">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-0.5">
+                    <p className="text-[10px] font-bold text-stone-400 tracking-widest uppercase mb-0.5">
                       {t.contact_us.email_support}
                     </p>
-                    <p className="text-sm font-bold text-gray-900">
+                    <p className="text-sm font-bold text-[var(--foreground)]">
                       tradizions@gmail.com
                     </p>
                   </div>
@@ -234,9 +237,9 @@ export default function ContactUsPageClient() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-6 rounded-none bg-white border border-gray-200 shadow-sm transition-all duration-300 hover:border-[var(--orange)] group cursor-pointer">
+              <div className="flex items-center justify-between p-6 rounded-2xl bg-white border border-stone-100 shadow-sm transition-all duration-300 hover:border-[var(--orange)]/30 hover:shadow-md group cursor-pointer">
                 <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 bg-gray-50 text-gray-500 rounded-none border border-gray-200 flex items-center justify-center group-hover:bg-[var(--olive-dark)] group-hover:text-white transition-all">
+                  <div className="w-12 h-12 bg-[#fafaf9] text-stone-500 rounded-xl border border-stone-100 flex items-center justify-center group-hover:bg-[#25D366] group-hover:text-white transition-all shadow-sm">
                     <svg
                       className="w-5 h-5"
                       viewBox="0 0 24 24"
@@ -246,14 +249,14 @@ export default function ContactUsPageClient() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-0.5">
+                    <p className="text-[10px] font-bold text-stone-400 tracking-widest uppercase mb-0.5">
                       {t.contact_us.whatsapp_support}
                     </p>
                     <a
                       href="https://wa.me/919940620019"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm font-bold text-gray-900"
+                      className="text-sm font-bold text-[var(--foreground)]"
                     >
                       +91 99406 20019
                     </a>
@@ -265,51 +268,51 @@ export default function ContactUsPageClient() {
               </div>
             </div>
 
-            <div className="group relative bg-white rounded-none p-10 border border-gray-200 shadow-sm transition-all duration-300 hover:border-[var(--orange)] overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="group relative bg-white rounded-3xl p-10 border border-stone-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:border-[var(--orange)]/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] overflow-hidden mt-5">
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[var(--olive-dark)] to-[var(--orange)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-t-3xl" />
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-10">
-                  <div className="w-14 h-14 bg-gray-50 border border-gray-200 text-gray-900 rounded-none flex items-center justify-center transition-all duration-300">
+                  <div className="w-14 h-14 bg-[#fafaf9] border border-stone-100 text-[var(--foreground)] rounded-2xl shadow-sm flex items-center justify-center transition-all duration-300 group-hover:bg-[var(--olive-dark)] group-hover:text-white">
                     <Briefcase className="w-6 h-6" />
                   </div>
                   <div>
                     <span className="text-[10px] font-black tracking-[0.4em] uppercase text-[var(--orange)] block mb-1">
                       {t.corporate}
                     </span>
-                    <h4 className="text-xl font-extrabold text-gray-900 tracking-tight">
+                    <h4 className="text-xl font-extrabold text-[var(--foreground)] tracking-tight">
                       {t.contact_us.enterprise}
                     </h4>
                   </div>
                 </div>
 
-                <p className="text-gray-500 leading-relaxed font-medium mb-10 text-sm max-w-sm">
+                <p className="text-stone-500 leading-relaxed font-medium mb-10 text-sm max-w-sm">
                   {t.contact_us.enterprise_desc}
                 </p>
 
-                <div className="grid grid-cols-1 gap-6 pt-6 border-t border-gray-100">
+                <div className="grid grid-cols-1 gap-6 pt-6 border-t border-stone-100">
                   <div className="flex items-center gap-4 group/item">
-                    <div className="w-10 h-10 rounded-none bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 group-hover/item:bg-[var(--olive-dark)] group-hover/item:text-white transition-all">
+                    <div className="w-10 h-10 rounded-xl bg-[#fafaf9] border border-stone-100 flex items-center justify-center text-stone-500 group-hover/item:bg-[var(--olive-dark)] group-hover/item:text-white transition-all shadow-sm">
                       <Mail className="w-4 h-4" />
                     </div>
                     <div className="space-y-0.5">
-                      <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
+                      <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest">
                         {t.contact_us.email_inquiries}
                       </p>
-                      <p className="text-sm font-bold text-gray-900">
+                      <p className="text-sm font-bold text-[var(--foreground)]">
                         partners@tradizions.com
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-4 group/item">
-                    <div className="w-10 h-10 rounded-none bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 group-hover/item:bg-[var(--olive-dark)] group-hover/item:text-white transition-all">
+                    <div className="w-10 h-10 rounded-xl bg-[#fafaf9] border border-stone-100 flex items-center justify-center text-stone-500 group-hover/item:bg-[var(--olive-dark)] group-hover/item:text-white transition-all shadow-sm">
                       <Phone className="w-4 h-4" />
                     </div>
                     <div className="space-y-0.5">
-                      <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
+                      <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest">
                         {t.contact_us.contact_number}
                       </p>
-                      <p className="text-sm font-bold text-gray-900">
+                      <p className="text-sm font-bold text-[var(--foreground)]">
                         99406 20018
                       </p>
                     </div>
@@ -324,21 +327,21 @@ export default function ContactUsPageClient() {
             ref={formRef.ref}
             className={`w-full lg:w-7/12 transition-all duration-1000 delay-300 ${formRef.isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}
           >
-            <div className="bg-white rounded-none p-8 md:p-12 shadow-sm border border-gray-200 relative min-h-[500px] flex flex-col justify-center">
+            <div className="bg-white rounded-3xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 relative min-h-[500px] flex flex-col justify-center">
               {isSubmitted ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center animate-fade-in">
-                  <div className="w-20 h-20 bg-gray-50 text-[var(--olive-dark)] rounded-none flex items-center justify-center mb-6 border border-gray-200 shadow-sm">
+                  <div className="w-20 h-20 bg-emerald-50 text-[var(--olive-dark)] rounded-full flex items-center justify-center mb-6 border border-emerald-100 shadow-sm">
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 tracking-tight">
+                  <h3 className="text-2xl font-bold text-[var(--foreground)] mb-3 tracking-tight">
                     {t.contact_us.message_sent}
                   </h3>
-                  <p className="text-sm text-gray-500 max-w-sm mb-8 leading-relaxed font-medium">
+                  <p className="text-sm text-stone-500 max-w-sm mb-8 leading-relaxed font-medium">
                     {t.contact_us.message_sent_desc}
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
-                    className="px-8 py-4 rounded-none bg-[var(--olive-dark)] text-white text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[var(--orange)] transition-all shadow-sm cursor-pointer"
+                    className="px-8 py-4 rounded-xl bg-[var(--olive-dark)] text-white text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[var(--orange)] transition-all shadow-[0_8px_20px_rgba(20,54,40,0.2)] cursor-pointer"
                   >
                     {t.contact_us.send_another}
                   </button>
@@ -346,15 +349,15 @@ export default function ContactUsPageClient() {
               ) : (
                 <>
                   {/* Form Header */}
-                  <div className="mb-8 border-b border-gray-100 pb-6">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2 uppercase tracking-tight">
+                  <div className="mb-8 border-b border-stone-100 pb-6">
+                    <h2 className="text-2xl font-bold text-[var(--foreground)] mb-2 uppercase tracking-tight">
                       {t.contact_us.send_message.split(" ")[0]}{" "}
                       {t.contact_us.send_message.split(" ")[1]}{" "}
                       <span className="text-[var(--orange)] font-light">
                         {t.contact_us.send_message.split(" ").slice(2).join(" ")}
                       </span>
                     </h2>
-                    <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                    <p className="text-sm text-stone-500 font-medium leading-relaxed">
                       {t.contact_us.form_desc}
                     </p>
                   </div>
@@ -364,7 +367,7 @@ export default function ContactUsPageClient() {
                       <div className="space-y-2">
                         <label
                           htmlFor="name"
-                          className="block text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase"
+                          className="block text-[10px] font-bold text-stone-400 tracking-[0.2em] uppercase"
                         >
                           {t.contact_us.full_name}
                         </label>
@@ -372,7 +375,7 @@ export default function ContactUsPageClient() {
                           type="text"
                           id="name"
                           placeholder="e.g. Aditi Sharma"
-                          className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:border-[var(--orange)] focus:bg-white transition-all text-sm font-medium text-gray-900 placeholder:text-gray-400"
+                          className="w-full px-5 py-4 bg-[#fafaf9] border border-stone-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-[var(--orange)]/10 focus:border-[var(--orange)] transition-all text-sm font-medium text-[var(--foreground)] placeholder:text-stone-400 shadow-inner"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           required
@@ -381,7 +384,7 @@ export default function ContactUsPageClient() {
                       <div className="space-y-2">
                         <label
                           htmlFor="mobile"
-                          className="block text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase"
+                          className="block text-[10px] font-bold text-stone-400 tracking-[0.2em] uppercase"
                         >
                           {t.contact_us.mobile}
                         </label>
@@ -389,7 +392,7 @@ export default function ContactUsPageClient() {
                           type="tel"
                           id="mobile"
                           placeholder="+91 00000 00000"
-                          className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:border-[var(--orange)] focus:bg-white transition-all text-sm font-medium text-gray-900 placeholder:text-gray-400"
+                          className="w-full px-5 py-4 bg-[#fafaf9] border border-stone-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-[var(--orange)]/10 focus:border-[var(--orange)] transition-all text-sm font-medium text-[var(--foreground)] placeholder:text-stone-400 shadow-inner"
                           value={mobile}
                           onChange={(e) => setMobile(e.target.value)}
                           required
@@ -400,7 +403,7 @@ export default function ContactUsPageClient() {
                     <div className="space-y-2">
                       <label
                         htmlFor="email"
-                        className="block text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase"
+                        className="block text-[10px] font-bold text-stone-400 tracking-[0.2em] uppercase"
                       >
                         {t.contact_us.email}
                       </label>
@@ -408,7 +411,7 @@ export default function ContactUsPageClient() {
                         type="email"
                         id="email"
                         placeholder="aditi@example.com"
-                        className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:border-[var(--orange)] focus:bg-white transition-all text-sm font-medium text-gray-900 placeholder:text-gray-400"
+                        className="w-full px-5 py-4 bg-[#fafaf9] border border-stone-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-[var(--orange)]/10 focus:border-[var(--orange)] transition-all text-sm font-medium text-[var(--foreground)] placeholder:text-stone-400 shadow-inner"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -418,7 +421,7 @@ export default function ContactUsPageClient() {
                     <div className="space-y-2">
                       <label
                         htmlFor="message"
-                        className="block text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase"
+                        className="block text-[10px] font-bold text-stone-400 tracking-[0.2em] uppercase"
                       >
                         {t.contact_us.help_text}
                       </label>
@@ -426,7 +429,7 @@ export default function ContactUsPageClient() {
                         id="message"
                         rows={5}
                         placeholder="Describe your inquiry in detail..."
-                        className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:border-[var(--orange)] focus:bg-white transition-all text-sm font-medium text-gray-900 placeholder:text-gray-400 resize-none"
+                        className="w-full px-5 py-4 bg-[#fafaf9] border border-stone-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-[var(--orange)]/10 focus:border-[var(--orange)] transition-all text-sm font-medium text-[var(--foreground)] placeholder:text-stone-400 resize-none shadow-inner"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         required
@@ -437,7 +440,7 @@ export default function ContactUsPageClient() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group relative w-full py-4 rounded-none bg-[var(--olive-dark)] hover:bg-[var(--orange)] text-white font-bold text-[12px] tracking-[0.2em] shadow-sm overflow-hidden transition-all flex items-center justify-center gap-3 uppercase disabled:opacity-50 cursor-pointer"
+                        className="group relative w-full py-4 rounded-xl bg-[var(--olive-dark)] hover:bg-[var(--orange)] text-white font-bold text-[12px] tracking-[0.2em] shadow-[0_8px_20px_rgba(20,54,40,0.2)] hover:shadow-[0_10px_25px_rgba(208,140,92,0.3)] transition-all duration-300 flex items-center justify-center gap-3 uppercase disabled:opacity-50 cursor-pointer"
                       >
                         <span className="relative z-10 flex items-center gap-3">
                           {isSubmitting ? "SENDING..." : t.contact_us.submit}
@@ -449,21 +452,21 @@ export default function ContactUsPageClient() {
               )}
 
               {/* Trust badges below form */}
-              <div className="mt-8 pt-6 border-t border-gray-100 grid grid-cols-2 gap-6">
+              <div className="mt-8 pt-6 border-t border-stone-100 grid grid-cols-2 gap-6">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-none bg-gray-50 border border-gray-200 text-gray-600">
+                  <div className="p-2.5 rounded-xl bg-[#fafaf9] border border-stone-200 text-[var(--olive)] shadow-sm">
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
-                  <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest leading-tight">
+                  <p className="text-[9px] font-bold text-stone-500 uppercase tracking-widest leading-tight">
                     {t.contact_us.response_24h.split(" ")[0]} <br />{" "}
                     {t.contact_us.response_24h.split(" ").slice(1).join(" ")}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-none bg-gray-50 border border-gray-200 text-gray-600">
+                  <div className="p-2.5 rounded-xl bg-[#fafaf9] border border-stone-200 text-[var(--orange)] shadow-sm">
                     <Heart className="w-4 h-4" />
                   </div>
-                  <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest leading-tight">
+                  <p className="text-[9px] font-bold text-stone-500 uppercase tracking-widest leading-tight">
                     {t.contact_us.expert_cons.split(" ")[0]} <br />{" "}
                     {t.contact_us.expert_cons.split(" ").slice(1).join(" ")}
                   </p>

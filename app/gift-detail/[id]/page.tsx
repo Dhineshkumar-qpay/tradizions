@@ -637,7 +637,7 @@ export default function GiftDetailPage() {
               <button
                 onClick={() => handleActionWithLogin(() => setShowGiftDialog(true))}
                 disabled={isAddingToCart || (gift?.stock ?? 0) <= 0}
-                className={`w-full py-4 rounded-sm bg-[var(--olive-dark)] text-white font-bold text-xs uppercase tracking-widest hover:bg-[var(--orange)] transition-all flex items-center justify-center gap-2 group ${(gift?.stock ?? 0) <= 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer"} disabled:opacity-50 shadow-sm`}
+                className={`w-full py-4 rounded-sm bg-[var(--olive-dark)] text-white font-bold text-xs uppercase tracking-widest hover:bg-[var(--orange-dark)] transition-all flex items-center justify-center gap-2 group ${(gift?.stock ?? 0) <= 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer"} disabled:opacity-50 shadow-sm`}
               >
                 <Zap className="w-4 h-4" />
                 {t.product.buy_now || "BUY NOW"}

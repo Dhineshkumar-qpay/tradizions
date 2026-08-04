@@ -286,9 +286,9 @@ export default function ProductCard({
                 }
               });
             }}
-            className={`flex-1 h-10 rounded font-bold text-[11px] tracking-widest uppercase flex items-center justify-center gap-2 transition-all duration-300 ${(product.availablestock ?? 0) <= 0
+            className={`flex-1 h-10 rounded font-semibold text-[10px] tracking-widest uppercase flex items-center justify-center gap-2 transition-all duration-300 px-3 ${(product.availablestock ?? 0) <= 0
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
-                : "bg-[var(--olive)] hover:bg-[var(--orange)] text-white shadow-md hover:shadow-lg cursor-pointer"
+                : "bg-[var(--olive)] hover:bg-[var(--orange-dark)] text-white shadow-md hover:shadow-lg cursor-pointer"
               } disabled:opacity-50`}
           >
             {isAdding ? (

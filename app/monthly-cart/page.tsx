@@ -225,7 +225,7 @@ export default function MonthlyCartPage() {
               </div>
               
               <div className="flex flex-col gap-4">
-                <Link href={`/order-detail?id=${placedOrderId}`} className="w-full h-14 bg-[var(--olive-dark)] text-white text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center transition-colors hover:bg-[var(--orange)] shadow-sm">{t.track_order || "Track Order"}</Link>
+                <Link href={`/order-detail?id=${placedOrderId}`} className="w-full h-14 bg-[var(--olive-dark)] text-white text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center transition-colors hover:bg-[var(--orange-dark)] shadow-sm">{t.track_order || "Track Order"}</Link>
                 <Link href="/shop" className="w-full h-14 bg-white border border-gray-300 text-[var(--dark-grey)] text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center hover:border-[var(--olive-dark)] hover:text-[var(--olive-dark)] transition-colors">{t.continue_shopping || "Continue Shopping"}</Link>
               </div>
             </div>
@@ -377,7 +377,7 @@ export default function MonthlyCartPage() {
                       </div>
                     </div>
                     <div className="pt-2">
-                      <button type="submit" className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors cursor-pointer">
+                      <button type="submit" className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange-dark)] transition-colors cursor-pointer">
                         SAVE SECURE ADDRESS
                       </button>
                     </div>
@@ -441,7 +441,7 @@ export default function MonthlyCartPage() {
               <button
                 onClick={handlePlaceOrder}
                 disabled={isPlacingOrder || !cartData?.items?.length}
-                className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[12px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors disabled:opacity-50 flex justify-center items-center gap-2 cursor-pointer"
+                className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[12px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange-dark)] transition-colors disabled:opacity-50 flex justify-center items-center gap-2 cursor-pointer"
               >
                 {isPlacingOrder ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

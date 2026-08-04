@@ -369,7 +369,7 @@ export default function CheckoutPage() {
               <div className="flex flex-col gap-4 mt-8">
                 <Link
                   href={`/order-detail?id=${placedOrderId}`}
-                  className="w-full h-14 bg-[var(--olive-dark)] text-white text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center transition-colors hover:bg-[var(--orange)] shadow-sm"
+                  className="w-full h-14 bg-[var(--olive-dark)] text-white text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center transition-colors hover:bg-[var(--orange-dark)] shadow-sm"
                 >
                   {t.track_order || "Track Order"}
                 </Link>
@@ -780,7 +780,7 @@ export default function CheckoutPage() {
                     <div className="pt-2">
                       <button
                         type="submit"
-                        className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors cursor-pointer"
+                        className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange-dark)] transition-colors cursor-pointer"
                       >
                         {t.checkout?.save_address || "SAVE SECURE ADDRESS"}
                       </button>
@@ -981,7 +981,7 @@ export default function CheckoutPage() {
               <button
                 onClick={handlePlaceOrder}
                 disabled={isPlacingOrder}
-                className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-sm uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors flex items-center justify-center gap-3 group cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-sm uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange-dark)] transition-colors flex items-center justify-center gap-3 group cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {isPlacingOrder ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

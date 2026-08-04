@@ -540,7 +540,7 @@ export default function ProductDetailPage() {
               <button
                 onClick={handleBuyNow}
                 disabled={isAddingToCart || (product?.availablestock ?? 0) <= 0}
-                className={`w-full py-4 rounded-sm bg-[var(--olive-dark)] text-white font-bold text-xs uppercase tracking-widest hover:bg-[var(--orange)] transition-all flex items-center justify-center gap-2 group ${(product?.availablestock ?? 0) <= 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer"} disabled:opacity-50 shadow-sm`}
+                className={`w-full py-4 rounded-sm bg-[var(--olive-dark)] text-white font-bold text-xs uppercase tracking-widest hover:bg-[var(--orange-dark)] transition-all flex items-center justify-center gap-2 group ${(product?.availablestock ?? 0) <= 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer"} disabled:opacity-50 shadow-sm`}
               >
                 {isAddingToCart ? (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

@@ -168,9 +168,9 @@ function HealthGoalProductsContent() {
   );
 
   return (
-    <main className="min-h-screen bg-[#fafaf9] pt-24 lg:pt-20">
+    <main className="min-h-screen bg-[#fafaf9]">
       {/* ──── Health Goals Hero / Header ──── */}
-      <section className="relative pt-15 pb-6 px-6 sm:px-12 lg:px-20 overflow-hidden bg-white border-b border-stone-100">
+      <section className="relative pt-10 pb-6 px-6 sm:px-12 lg:px-20 overflow-hidden bg-white border-b border-stone-100">
         <div className="absolute top-0 right-0 w-[400px] h-full bg-gradient-to-l from-[var(--beige)]/60 to-transparent pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[300px] h-1 bg-gradient-to-r from-[var(--olive)] via-[var(--orange)] to-transparent" />
 

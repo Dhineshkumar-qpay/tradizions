@@ -173,7 +173,7 @@ function ImageComparisonBanner() {
           className="absolute top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.15)] transition-transform hover:scale-105 z-20 cursor-ew-resize pointer-events-none"
           style={{ left: `calc(${sliderPosition}% - 24px)` }}
         >
-          <div className="flex gap-0.5 items-center justify-center text-stone-400">
+          <div className="flex gap-0.5 items-center justify-center text-[var(--dark-grey)]">
             <ChevronRight className="w-4 h-4 rotate-180 -mr-1" />
             <ChevronRight className="w-4 h-4 -ml-1" />
           </div>
@@ -356,7 +356,7 @@ export default function Home() {
       {/* Brand Promise Section */}
       <section className="py-8 md:py-10 bg-white relative overflow-hidden border-b border-stone-50">
         <div className="max-w-3xl mx-auto px-6 relative z-10 text-center">
-          <h2 className="text-base md:text-lg font-medium text-gray-700 leading-relaxed italic">
+          <h2 className="text-base md:text-lg font-medium text-[var(--dark-grey)] leading-relaxed italic">
             "{t.home_tagline}"
           </h2>
         </div>
@@ -370,46 +370,50 @@ export default function Home() {
       <HealthBenefitsSection t={t} />
 
       {/* ──── Full Size Banner with Shop Button ──── */}
-      <section className="relative w-full h-[70vh] md:h-[90vh] min-h-[600px] overflow-hidden">
-        {/* Top Wave (Seamless transition from HealthBenefitsSection) */}
-        <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-20">
-          <svg
-            data-name="Layer 1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1200 120"
-            preserveAspectRatio="none"
-            className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px]"
-          >
-            <path
-              d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-              className="fill-[#eee6da]"
-            ></path>
-          </svg>
-        </div>
+      <section className="relative w-full min-h-[600px] h-[75vh] md:h-[90vh] overflow-hidden bg-[#f5f1e8]">
+        {/* Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 hover:scale-105"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1675170636943-3bba5a9ff9d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDAzfHxudXRzJTIwYW5kJTIwc2VlZHN8ZW58MHx8MHx8fDA%3D')",
+              "url('https://images.unsplash.com/photo-1675170636943-3bba5a9ff9d8?w=1600&auto=format&fit=crop&q=80')",
           }}
         />
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 space-y-8 z-10">
-          <div className="space-y-4 max-w-3xl mt-12">
-            <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight drop-shadow-lg">
+
+        {/* Overlay layers */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/80 via-black/45 to-black/20" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_40%)]" />
+
+        {/* Top accent bar */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--olive)] via-[#b7a36a] to-transparent z-20" />
+
+        {/* Content */}
+        <div className="relative z-30 flex items-center h-full px-6 md:px-12 lg:px-20">
+          <div className="max-w-3xl text-left text-white">
+            <div className="inline-flex items-center gap-2 mb-5 px-4 py-2 rounded-full border border-white/15 bg-white/10 backdrop-blur-md text-[11px] md:text-xs tracking-[0.3em] uppercase">
+              Natural Wellness Collection
+            </div>
+
+            <h2 className="text-4xl md:text-4xl lg:text-5xl font-semibold leading-[1.05] tracking-tight">
               {t.banner_title || "Pure Nutrition, Rooted in Tradition"}
             </h2>
-            <p className="text-sm md:text-lg text-white/90 font-medium max-w-2xl mx-auto drop-shadow-md">
+
+            <p className="mt-6 max-w-2xl text-sm md:text-lg lg:text-xl text-white/85 leading-relaxed">
               {t.banner_subtitle ||
-                "Elevate your daily wellness with our premium, carefully sourced natural ingredients. Good for you, and good for your family."}
+                "Discover premium natural ingredients carefully sourced to support a healthier lifestyle for you and your family."}
             </p>
+
+            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+              <a
+                href="/shop"
+                className="inline-flex items-center justify-center rounded-[0px] bg-[var(--olive)] px-8 py-3.5 text-sm md:text-base font-semibold tracking-[0.18em] uppercase text-white shadow-lg transition-all duration-300 hover:bg-[var(--olive-dark)] hover:-translate-y-1 hover:shadow-2xl"
+              >
+                {t.shop_now || "Shop Now"}
+              </a>
+
+
+            </div>
           </div>
-          <a
-            href="/shop"
-            className="bg-[var(--olive)] text-white px-10 py-3 text-sm md:text-base font-semibold tracking-[0.2em] uppercase rounded-full hover:bg-[var(--olive-dark)] transition-all duration-500 shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-1"
-          >
-            {t.shop_now || "Shop Now"}
-          </a>
         </div>
       </section>
 
@@ -508,7 +512,7 @@ function HealthBenefitsSection({ t }: { t: any }) {
           </div>
 
           {/* Title */}
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] leading-tight tracking-tight">
             {t.health_advantage_headline_1}{" "}
             <span className="text-[var(--orange)] font-light">
               {t.health_advantage_headline_2} {t.health_advantage_headline_3}
@@ -522,8 +526,8 @@ function HealthBenefitsSection({ t }: { t: any }) {
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`px-8 py-3 rounded text-[11px] font-bold tracking-widest uppercase transition-all duration-300 border ${activeCategory === cat
-                  ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-[var(--orange)] hover:text-[var(--orange)] shadow-sm"
+                    ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
+                    : "bg-white text-[var(--dark-grey)] border-gray-200 hover:border-[var(--orange)] hover:text-[var(--orange)] shadow-sm"
                   }`}
               >
                 {t.sections?.[cat] || cat}
@@ -537,7 +541,7 @@ function HealthBenefitsSection({ t }: { t: any }) {
           {/* Left Arrow */}
           <button
             onClick={() => slide("left")}
-            className="absolute -left-2 md:-left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-[var(--olive-dark)] rounded border border-gray-200 shadow-sm flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-[var(--orange)] opacity-0 group-hover:opacity-100 hidden sm:flex"
+            className="absolute -left-2 md:-left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-[var(--olive-dark)] rounded border border-gray-200 shadow-sm flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange-dark)] hover:text-white hover:border-[var(--orange)] opacity-0 group-hover:opacity-100 hidden sm:flex"
             aria-label="Scroll left"
           >
             <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
@@ -546,7 +550,7 @@ function HealthBenefitsSection({ t }: { t: any }) {
           {/* Right Arrow */}
           <button
             onClick={() => slide("right")}
-            className="absolute -right-2 md:-right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-[var(--olive-dark)] rounded border border-gray-200 shadow-sm flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-[var(--orange)] opacity-0 group-hover:opacity-100 hidden sm:flex"
+            className="absolute -right-2 md:-right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-[var(--olive-dark)] rounded border border-gray-200 shadow-sm flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange-dark)] hover:text-white hover:border-[var(--orange)] opacity-0 group-hover:opacity-100 hidden sm:flex"
             aria-label="Scroll right"
           >
             <ChevronRight className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
@@ -581,12 +585,12 @@ function HealthBenefitsSection({ t }: { t: any }) {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-sm font-black text-gray-900 tracking-tight uppercase mb-3 leading-snug group-hover/card:text-[var(--olive-dark)] transition-colors duration-300">
+                <h3 className="text-sm font-black text-[var(--foreground)] tracking-tight uppercase mb-3 leading-snug group-hover/card:text-[var(--olive-dark)] transition-colors duration-300">
                   {benefit.name}
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs text-gray-600 leading-relaxed font-medium mb-6 flex-grow">
+                <p className="text-xs text-[var(--dark-grey)] leading-relaxed font-medium mb-6 flex-grow">
                   {benefit.desc}
                 </p>
 
@@ -634,8 +638,8 @@ function HeroSection({
           fill
           priority
           className={`object-cover object-center transition-all duration-[2500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${loaded
-            ? "opacity-100 scale-100 blur-0"
-            : "opacity-0 scale-[1.03] blur-[2px]"
+              ? "opacity-100 scale-100 blur-0"
+              : "opacity-0 scale-[1.03] blur-[2px]"
             }`}
         />
 
@@ -669,7 +673,8 @@ function HeroSection({
         </div>
 
         <h1 className="text-4xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] max-w-5xl">
-          {t.artisanal_millet || "ARTISANAL MILLET &"} <span className="text-[var(--orange)]">{t.nut || "NUT"}</span>{" "}
+          {t.artisanal_millet || "ARTISANAL MILLET &"}{" "}
+          <span className="text-[var(--orange)]">{t.nut || "NUT"}</span>{" "}
           {t.gift_packs || "GIFT PACKS"}
         </h1>
       </div>
@@ -678,7 +683,8 @@ function HeroSection({
       <div className="relative z-20 w-full pb-16 px-6 flex flex-col items-center text-center mt-auto">
         {/* Subheadline */}
         <p className="text-[13px] md:text-sm text-white/75 max-w-2xl mx-auto mb-10 font-medium leading-relaxed tracking-wide">
-          {t.hero_desc_text || "Beautifully curated in traditional jute, elegant tin, and crafted MDF boxes. Health meets heritage."}
+          {t.hero_desc_text ||
+            "Beautifully curated in traditional jute, elegant tin, and crafted MDF boxes. Health meets heritage."}
         </p>
 
         {/* ── Product Slider in Banner ── */}
@@ -698,25 +704,36 @@ function HeroSection({
               return (
                 <div
                   key={idx}
-                  className="flex-shrink-0 w-48 lg:w-56 bg-black/40 backdrop-blur-md rounded-sm border border-white/20 p-3 snap-center group cursor-pointer hover:bg-black/60 transition-all shadow-sm"
+                  className="flex-shrink-0 w-[180px] lg:w-[220px] bg-white/[0.03] backdrop-blur-2xl rounded-3xl border border-white/10 p-3 lg:p-4 snap-center group cursor-pointer hover:bg-white/[0.08] hover:border-[var(--orange)]/50  transition-all duration-500 flex flex-col relative overflow-hidden"
                   onClick={() =>
                     (window.location.href = `/product-detail/${productId}?productid=${productId}&bid=${bid}`)
                   }
                 >
-                  <div className="relative w-full aspect-square rounded-sm overflow-hidden mb-3 border border-white/10">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--orange)]/20 blur-3xl rounded-full -mr-10 -mt-10 pointer-events-none group-hover:bg-[var(--orange-dark)]/30 transition-colors duration-500" />
+
+                  <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/5 border border-white/5 shadow-inner">
                     <img
                       src={getImageUrl(product.image || product.productimage)}
                       alt={product.name || product.productname}
-                      // fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500 w-full h-full"
+                      className="object-cover group-hover:scale-110 transition-transform duration-700 w-full h-full"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-3">
+                      <span className="text-[10px] font-bold text-white uppercase tracking-widest border-b border-[var(--orange)]">
+                        View Product
+                      </span>
+                    </div>
                   </div>
-                  <h3 className="text-white text-xs lg:text-sm font-bold truncate text-left">
-                    {product.name || product.productname}
-                  </h3>
-                  <p className="text-[var(--orange)] font-bold text-xs lg:text-sm text-left mt-1">
-                    ₹{product.sellingprice || product.price}
-                  </p>
+
+                  <div className="mt-auto flex flex-col items-center z-10">
+                    <h3 className="text-white/90 text-xs lg:text-sm font-semibold text-center line-clamp-1 group-hover:text-white transition-colors">
+                      {product.name || product.productname}
+                    </h3>
+                    <div className="mt-2.5">
+                      <p className="text-[var(--orange)] font-bold text-xs lg:text-sm text-center bg-[var(--orange)]/10 px-4 py-1.5 rounded-full border border-[var(--orange)]/20 shadow-sm group-hover:bg-[var(--orange-dark)] group-hover:text-black group-hover:shadow-[0_0_15px_rgba(208,140,92,0.4)] transition-all duration-300">
+                        ₹{product.sellingprice || product.price}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               );
             })}
@@ -729,7 +746,10 @@ function HeroSection({
             <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
               <Leaf className="w-5 h-5" />
             </div>
-            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]" style={{ whiteSpace: "pre-line" }}>
+            <span
+              className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]"
+              style={{ whiteSpace: "pre-line" }}
+            >
               {t.organic_100 || "100%\nOrganic"}
             </span>
           </div>
@@ -738,7 +758,10 @@ function HeroSection({
             <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
               <Star className="w-5 h-5" />
             </div>
-            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]" style={{ whiteSpace: "pre-line" }}>
+            <span
+              className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]"
+              style={{ whiteSpace: "pre-line" }}
+            >
               {t.premium_quality || "Premium\nQuality"}
             </span>
           </div>
@@ -747,7 +770,10 @@ function HeroSection({
             <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
               <Award className="w-5 h-5" />
             </div>
-            <span className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]" style={{ whiteSpace: "pre-line" }}>
+            <span
+              className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]"
+              style={{ whiteSpace: "pre-line" }}
+            >
               {t.certified_pure || "Certified\nPure"}
             </span>
           </div>
@@ -800,14 +826,14 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
             </span>
             <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-none text-center">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
             {t.categories_title?.split(" ").slice(0, 2).join(" ") ||
               "Our Collections"}{" "}
             <span className="text-[var(--orange)] font-light">
               {t.categories_title?.split(" ").slice(2).join(" ") || ""}
             </span>
           </h2>
-          <p className="text-sm font-medium text-gray-500 max-w-lg mx-auto">
+          <p className="text-sm font-medium text-[var(--dark-grey)] max-w-lg mx-auto">
             {t.categories_desc}
           </p>
         </div>
@@ -838,15 +864,15 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
                 {/* Premium Content Overlay */}
                 <div className="absolute inset-x-6 bottom-6 z-20 flex flex-col justify-end overflow-hidden">
                   <div className="transform transition-all duration-500 group-hover:-translate-y-0">
-                    <p className="text-[10px] text-[#e5c158] font-bold uppercase tracking-[0.2em] mb-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                    <p className="text-[10px] text-[var(--orange)] font-bold uppercase tracking-[0.2em] mb-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                       Explore Collection ({cat.products || 0})
                     </p>
 
                     <div className="flex items-end justify-between gap-4">
-                      <h3 className="text-xl md:text-xl text-[#fdfbf7] leading-tight">
+                      <h3 className="text-xl md:text-xl text-[var(--cream)] leading-tight">
                         {cat.categoryname || ""}
                       </h3>
-                      <div className="w-10 h-10 shrink-0 rounded-full border border-[#e5c158]/40 flex items-center justify-center text-[#e5c158] group-hover:bg-[#e5c158] group-hover:text-[#11100e] group-hover:border-[#e5c158] transition-all duration-500 shadow-[0_0_15px_rgba(229,193,88,0)] group-hover:shadow-[0_0_20px_rgba(229,193,88,0.3)]">
+                      <div className="w-10 h-10 shrink-0 rounded-full border border-[#e5c158]/40 flex items-center justify-center text-[var(--orange)] group-hover:bg-[#e5c158] group-hover:text-[#11100e] group-hover:border-[#e5c158] transition-all duration-500 shadow-[0_0_15px_rgba(229,193,88,0)] group-hover:shadow-[0_0_20px_rgba(229,193,88,0.3)]">
                         <ArrowRight
                           className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-0.5"
                           strokeWidth={2}
@@ -894,13 +920,13 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
                 Highlights
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight leading-none">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--foreground)] tracking-tight leading-none">
               {t.featured_products.split(" ")[0]}{" "}
               <span className="text-[var(--orange)] font-light">
                 {t.featured_products.split(" ")[1]}
               </span>
             </h2>
-            <p className="text-sm font-medium text-gray-500 max-w-md">
+            <p className="text-sm font-medium text-[var(--dark-grey)] max-w-md">
               {t.featured_desc}
             </p>
           </div>
@@ -923,7 +949,7 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
         {displayProducts.length === 0 ? (
           <div className="py-12 flex flex-col items-center justify-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
             <Leaf className="w-8 h-8 text-gray-300 mb-3" />
-            <p className="text-gray-500 font-medium text-sm">
+            <p className="text-[var(--dark-grey)] font-medium text-sm">
               No products found.
             </p>
           </div>
@@ -953,12 +979,12 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
                   className="flex-1 group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/50 min-h-[350px]"
                 >
                   <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-[var(--olive)] transition-colors duration-300 shadow-sm group-hover:shadow-md">
-                    <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
+                    <ArrowRight className="w-6 h-6 text-[var(--dark-grey)] group-hover:text-white transition-colors duration-300" />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
+                  <h3 className="text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--olive)] transition-colors">
                     {t.explore_all || "View All"}
                   </h3>
-                  <p className="text-xs text-gray-400 mt-2 font-medium">
+                  <p className="text-xs text-[var(--dark-grey)] mt-2 font-medium">
                     Explore more products
                   </p>
                 </Link>
@@ -1004,7 +1030,7 @@ function GiftingSection({
                     Curated Presents
                   </span>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight leading-none">
+                <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--foreground)] tracking-tight leading-none">
                   {t.gift.split(" ")[0]}{" "}
                   <span className="text-[var(--orange)] font-light">
                     {t.gift.split(" ").slice(1).join(" ")}
@@ -1029,7 +1055,7 @@ function GiftingSection({
             {displayHampers.length === 0 ? (
               <div className="py-12 flex flex-col items-center justify-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
                 <Gift className="w-8 h-8 text-gray-300 mb-3" />
-                <p className="text-gray-500 font-medium text-sm">
+                <p className="text-[var(--dark-grey)] font-medium text-sm">
                   No gifts found.
                 </p>
               </div>
@@ -1079,21 +1105,21 @@ function GiftingSection({
                               </span>
                             </div>
                           )}
-                          <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-stone-400 group-hover:text-[var(--orange)] transition-colors shadow-sm">
+                          <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-[var(--dark-grey)] group-hover:text-[var(--orange)] transition-colors shadow-sm">
                             <ArrowRight className="w-4 h-4" />
                           </div>
                         </div>
                         <div className="space-y-3 px-2 pb-2">
                           <div className="flex justify-between items-start gap-4">
-                            <h4 className="text-lg font-bold text-gray-900 leading-tight group-hover:text-[var(--olive)] transition-colors line-clamp-1">
+                            <h4 className="text-lg font-bold text-[var(--foreground)] leading-tight group-hover:text-[var(--olive)] transition-colors line-clamp-1">
                               {name}
                             </h4>
                           </div>
-                          <p className="text-xs text-gray-400 leading-relaxed font-medium line-clamp-2">
+                          <p className="text-xs text-[var(--dark-grey)] leading-relaxed font-medium line-clamp-2">
                             {desc}
                           </p>
                           <div className="flex items-center gap-2 pt-2">
-                            <span className="text-lg font-black text-gray-900">
+                            <span className="text-lg font-black text-[var(--foreground)]">
                               ₹{price.toLocaleString()}
                             </span>
                             {originalPrice && originalPrice > price && (
@@ -1115,12 +1141,12 @@ function GiftingSection({
                       className="flex-1 group relative bg-[#faf9f6] rounded-[2rem] p-4 border border-transparent hover:border-stone-100 hover:bg-white transition-all duration-500 hover:shadow-xl flex flex-col items-center justify-center min-h-[300px]"
                     >
                       <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-sm group-hover:bg-[var(--olive)] transition-colors duration-300">
-                        <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
+                        <ArrowRight className="w-6 h-6 text-[var(--dark-grey)] group-hover:text-white transition-colors duration-300" />
                       </div>
-                      <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
+                      <h3 className="text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--olive)] transition-colors">
                         {t.view_all || "View All"}
                       </h3>
-                      <p className="text-xs text-gray-400 mt-2 font-medium">
+                      <p className="text-xs text-[var(--dark-grey)] mt-2 font-medium">
                         Explore more hampers
                       </p>
                     </Link>
@@ -1161,10 +1187,10 @@ function WhyChooseUsSection({ t }: { t: any }) {
                   <BadgeCheck className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="text-[15px] font-bold text-stone-900 leading-none mb-1">
+                  <h4 className="text-[15px] font-bold text-[var(--foreground)] leading-none mb-1">
                     100% Pure
                   </h4>
-                  <p className="text-[10px] text-stone-500 font-bold uppercase tracking-widest">
+                  <p className="text-[10px] text-[var(--dark-grey)] font-bold uppercase tracking-widest">
                     Organic Certified
                   </p>
                 </div>
@@ -1177,14 +1203,14 @@ function WhyChooseUsSection({ t }: { t: any }) {
             className={`w-full lg:w-7/12 space-y-12 transition-all duration-700 delay-200 opacity-100 translate-x-0`}
           >
             <div className="space-y-5 text-center lg:text-left">
-              <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-stone-900 leading-[1.15] tracking-tight">
+              <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-[var(--foreground)] leading-[1.15] tracking-tight">
                 {t.why_choose.split(" ").slice(0, 1).join(" ")}
                 <span className="text-[var(--olive-dark)]">
                   {" "}
                   {t.why_choose.split(" ").slice(1).join(" ")}
                 </span>
               </h2>
-              <p className="text-stone-600 text-sm md:text-[15px] font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+              <p className="text-[var(--dark-grey)] text-sm md:text-[15px] font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
                 {t.why_desc}
               </p>
             </div>
@@ -1192,14 +1218,14 @@ function WhyChooseUsSection({ t }: { t: any }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10">
               {whyChooseUs.map((item, idx) => (
                 <div key={idx} className="flex gap-5 group items-start">
-                  <div className="flex-shrink-0 w-[60px] h-[60px] rounded-sm bg-white border border-stone-200 text-stone-900 flex items-center justify-center group-hover:bg-stone-900 group-hover:text-white group-hover:border-stone-900 transition-all duration-300 shadow-sm">
+                  <div className="flex-shrink-0 w-[60px] h-[60px] rounded-sm bg-white border border-stone-200 text-[var(--foreground)] flex items-center justify-center group-hover:bg-[var(--foreground)] group-hover:text-white group-hover:border-[var(--foreground)] transition-all duration-300 shadow-sm">
                     <item.icon className="w-6 h-6" />
                   </div>
                   <div className="space-y-1.5 pt-1">
-                    <h4 className="text-[16px] font-bold text-stone-900 group-hover:text-[var(--olive-dark)] transition-colors">
+                    <h4 className="text-[16px] font-bold text-[var(--foreground)] group-hover:text-[var(--olive-dark)] transition-colors">
                       {t.features[idx * 2]}
                     </h4>
-                    <p className="text-[13px] text-stone-500 font-medium leading-snug">
+                    <p className="text-[13px] text-[var(--dark-grey)] font-medium leading-snug">
                       {t.features[idx * 2 + 1]}
                     </p>
                   </div>
@@ -1264,13 +1290,13 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
             </span>
             <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] leading-tight">
             {t.loved.split(" ").slice(0, 2).join(" ")}{" "}
             <span className="text-[var(--orange)] font-light">
               {t.loved.split(" ").slice(2).join(" ")}
             </span>
           </h2>
-          <p className="text-gray-500 text-sm max-w-lg mx-auto font-medium">
+          <p className="text-[var(--dark-grey)] text-sm max-w-lg mx-auto font-medium">
             {t.community_desc}
           </p>
         </div>
@@ -1306,7 +1332,7 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                           />
                         ))}
                       </div>
-                      <p className="text-gray-600 text-sm font-medium leading-relaxed italic line-clamp-5">
+                      <p className="text-[var(--dark-grey)] text-sm font-medium leading-relaxed italic line-clamp-5">
                         &ldquo;{item.text}&rdquo;
                       </p>
                     </div>
@@ -1316,10 +1342,10 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                         {item.avatar}
                       </div>
                       <div className="text-left">
-                        <h4 className="text-xs font-bold text-gray-900 uppercase tracking-widest">
+                        <h4 className="text-xs font-bold text-[var(--foreground)] uppercase tracking-widest">
                           {item.name}
                         </h4>
-                        <p className="text-[9px] font-bold text-gray-400 tracking-[0.2em] uppercase mt-0.5">
+                        <p className="text-[9px] font-bold text-[var(--dark-grey)] tracking-[0.2em] uppercase mt-0.5">
                           {item.role}
                         </p>
                       </div>
@@ -1350,7 +1376,7 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                         />
                       ))}
                     </div>
-                    <p className="text-gray-600 text-sm font-medium leading-relaxed italic line-clamp-5">
+                    <p className="text-[var(--dark-grey)] text-sm font-medium leading-relaxed italic line-clamp-5">
                       &ldquo;{item.text}&rdquo;
                     </p>
                   </div>
@@ -1360,10 +1386,10 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                       {item.avatar}
                     </div>
                     <div className="text-left">
-                      <h4 className="text-xs font-bold text-gray-900 uppercase tracking-widest">
+                      <h4 className="text-xs font-bold text-[var(--foreground)] uppercase tracking-widest">
                         {item.name}
                       </h4>
-                      <p className="text-[9px] font-bold text-gray-400 tracking-[0.2em] uppercase mt-0.5">
+                      <p className="text-[9px] font-bold text-[var(--dark-grey)] tracking-[0.2em] uppercase mt-0.5">
                         {item.role}
                       </p>
                     </div>
@@ -1394,7 +1420,7 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
             </div>
           </div>
 
-          <p className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase">
+          <p className="text-[10px] font-bold text-[var(--dark-grey)] tracking-[0.2em] uppercase">
             {t.trusted}
           </p>
         </div>
@@ -1493,7 +1519,7 @@ function KuralTrustRow({
 
             {/* Kural */}
             <div className="text-center">
-              <div className="text-lg md:text-xl font-bold text-stone-800 leading-relaxed space-y-1">
+              <div className="text-lg md:text-xl font-bold text-[var(--foreground)] leading-relaxed space-y-1">
                 {formatKural(kuraldata?.kural)}
               </div>
             </div>
@@ -1512,7 +1538,7 @@ function KuralTrustRow({
                   {t.meaning}
                 </h3>
 
-                <p className="text-xs md:text-sm text-stone-700 leading-relaxed">
+                <p className="text-xs md:text-sm text-[var(--dark-grey)] leading-relaxed">
                   {kuraldata.meaning}
                 </p>
               </div>
@@ -1547,14 +1573,14 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                 Targeted Nutrition
               </span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] leading-tight tracking-tight">
               {t.health_goals_title?.split(" ").slice(0, 2).join(" ") ||
                 "Health"}{" "}
               <span className="text-[var(--orange)] font-light">
                 {t.health_goals_title?.split(" ").slice(2).join(" ") || "Goals"}
               </span>
             </h2>
-            <p className="text-base font-medium text-gray-600 max-w-lg leading-relaxed">
+            <p className="text-base font-medium text-[var(--dark-grey)] max-w-lg leading-relaxed">
               {t.health_goals_desc ||
                 "Discover precisely formulated nutrition tailored for your specific wellness objectives."}
             </p>
@@ -1563,7 +1589,7 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
 
         {displayGoals.length === 0 ? (
           <div className="py-12 flex flex-col items-center justify-center bg-white border border-gray-200 shadow-sm">
-            <p className="text-gray-500 font-medium text-sm">
+            <p className="text-[var(--dark-grey)] font-medium text-sm">
               No health goals found.
             </p>
           </div>
@@ -1592,19 +1618,19 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                   {/* Content Section (Right) */}
                   <div className="flex-1 p-6 sm:p-8 flex flex-col justify-center relative">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-8 h-8 rounded flex items-center justify-center bg-[var(--cream)] border border-[var(--olive)]/20 text-[var(--olive-dark)] group-hover:bg-[var(--orange)] group-hover:text-white group-hover:border-transparent transition-colors duration-300">
+                      <div className="w-8 h-8 rounded flex items-center justify-center bg-[var(--cream)] border border-[var(--olive)]/20 text-[var(--olive-dark)] group-hover:bg-[var(--orange-dark)] group-hover:text-white group-hover:border-transparent transition-colors duration-300">
                         <Icon className="w-4 h-4" />
                       </div>
-                      <span className="text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase">
+                      <span className="text-[10px] font-bold tracking-[0.2em] text-[var(--dark-grey)] uppercase">
                         Goal 0{idx + 1}
                       </span>
                     </div>
 
-                    <h3 className="text-xl font-black text-gray-900 tracking-tight transition-colors duration-300 mb-2 group-hover:text-[var(--olive-dark)]">
+                    <h3 className="text-xl font-black text-[var(--foreground)] tracking-tight transition-colors duration-300 mb-2 group-hover:text-[var(--olive-dark)]">
                       {goal.goalname}
                     </h3>
 
-                    <p className="text-sm text-gray-600 font-medium leading-relaxed line-clamp-2 mb-6">
+                    <p className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed line-clamp-2 mb-6">
                       {goal.description}
                     </p>
 
@@ -1788,24 +1814,30 @@ function NutritionPlanner({ t }: { t: any }) {
             <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] leading-tight tracking-tight">
             {t.monthly_product || "Monthly Product"}{" "}
-            <span className="text-[var(--orange)] font-light">{t.calculator || "Calculator"}</span>
+            <span className="text-[var(--orange)] font-light">
+              {t.calculator || "Calculator"}
+            </span>
           </h2>
 
           <div className="max-w-4xl mx-auto bg-white rounded border border-gray-200 p-8 md:p-12 shadow-sm text-left relative overflow-hidden">
-            <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-4 text-center tracking-tight">
-              {t.strategic_nutrition || "Strategic Nutrition Planning for Your Office or Home"}
+            <h3 className="text-xl md:text-2xl font-black text-[var(--foreground)] mb-4 text-center tracking-tight">
+              {t.strategic_nutrition ||
+                "Strategic Nutrition Planning for Your Office or Home"}
             </h3>
-            <p className="text-xs font-bold text-gray-400 mb-8 text-center uppercase tracking-[0.15em]">
-              {t.estimate_requirements || "Estimate Requirements & Costs Instantly:"}
+            <p className="text-xs font-bold text-[var(--dark-grey)] mb-8 text-center uppercase tracking-[0.15em]">
+              {t.estimate_requirements ||
+                "Estimate Requirements & Costs Instantly:"}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
               {[
-                t.calc_req_1 || "Calculate precise quantities based on headcount",
+                t.calc_req_1 ||
+                "Calculate precise quantities based on headcount",
                 t.calc_req_2 || "Estimate daily & monthly consumption in grams",
-                t.calc_req_3 || "Forecast budget based on selected premium products",
+                t.calc_req_3 ||
+                "Forecast budget based on selected premium products",
                 t.calc_req_4 || "Maintain a balanced inventory effortlessly",
               ].map((item, i) => (
                 <div
@@ -1815,7 +1847,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   <div className="w-8 h-8 rounded bg-[var(--cream)] border border-[var(--olive)]/20 flex items-center justify-center flex-shrink-0">
                     <Check className="w-4 h-4 text-[var(--olive-dark)]" />
                   </div>
-                  <span className="text-sm text-gray-700 font-medium leading-relaxed">
+                  <span className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed">
                     {item}
                   </span>
                 </div>
@@ -1823,8 +1855,9 @@ function NutritionPlanner({ t }: { t: any }) {
             </div>
 
             <div className="bg-[var(--cream)]/50 rounded p-5 border border-[var(--olive)]/10 mb-8 text-center">
-              <p className="text-sm text-gray-700 font-medium leading-relaxed">
-                {t.choose_required_products || "Choose your required products, input the number of members, and generate an instant procurement estimate."}
+              <p className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed">
+                {t.choose_required_products ||
+                  "Choose your required products, input the number of members, and generate an instant procurement estimate."}
               </p>
             </div>
           </div>
@@ -1838,28 +1871,29 @@ function NutritionPlanner({ t }: { t: any }) {
                 <span className="w-10 h-10 rounded bg-[var(--olive-dark)] text-white flex items-center justify-center font-black text-sm">
                   01
                 </span>
-                <h2 className="text-2xl font-black text-gray-900 tracking-tight uppercase">
+                <h2 className="text-2xl font-black text-[var(--foreground)] tracking-tight uppercase">
                   {t.select_products || "Select Products"}
                 </h2>
               </div>
-              <p className="text-gray-500 font-medium ml-14 text-sm">
-                {t.curate_selection || "Curate the selection for your monthly estimate."}
+              <p className="text-[var(--dark-grey)] font-medium ml-14 text-sm">
+                {t.curate_selection ||
+                  "Curate the selection for your monthly estimate."}
               </p>
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
               <div className="relative flex-1 md:w-72">
-                <Search className="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-[var(--dark-grey)] absolute left-4 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder={t.search_inventory || "Search inventory..."}
-                  className="w-full pl-11 pr-4 py-3 rounded border border-gray-200 text-sm focus:outline-none focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] font-medium text-gray-800 transition-all bg-gray-50 focus:bg-white"
+                  className="w-full pl-11 pr-4 py-3 rounded border border-gray-200 text-sm focus:outline-none focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] font-medium text-[var(--foreground)] transition-all bg-gray-50 focus:bg-white"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <button
                 onClick={scrollToCalculator}
-                className="group flex items-center gap-2 whitespace-nowrap bg-[var(--olive-dark)] text-white px-6 py-3 rounded font-bold text-[11px] uppercase tracking-widest hover:bg-[var(--orange)] transition-colors duration-300"
+                className="group flex items-center gap-2 whitespace-nowrap bg-[var(--olive-dark)] text-white px-6 py-3 rounded font-bold text-[11px] uppercase tracking-widest hover:bg-[var(--orange-dark)] transition-colors duration-300"
               >
                 {t.view_estimate || "View Estimate"}{" "}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1872,7 +1906,7 @@ function NutritionPlanner({ t }: { t: any }) {
             <div className="w-full lg:w-64 flex flex-col gap-3">
               <button
                 onClick={() => setSelectedCategory(0)}
-                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 0 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-gray-700"}`}
+                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 0 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-[var(--dark-grey)]"}`}
               >
                 <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
                   <LayoutGrid
@@ -1881,7 +1915,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   {t.all_catalog || "All Catalog"}
                 </div>
                 <span
-                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 0 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
+                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 0 ? "bg-white/20 text-white" : "bg-gray-200 text-[var(--dark-grey)]"}`}
                 >
                   {allProducts.length}
                 </span>
@@ -1889,7 +1923,7 @@ function NutritionPlanner({ t }: { t: any }) {
 
               <button
                 onClick={() => setSelectedCategory(1)}
-                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 1 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-gray-700"}`}
+                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 1 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-[var(--dark-grey)]"}`}
               >
                 <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
                   <Circle
@@ -1898,7 +1932,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   {t.nuts || "Nuts"}
                 </div>
                 <span
-                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 1 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
+                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 1 ? "bg-white/20 text-white" : "bg-gray-200 text-[var(--dark-grey)]"}`}
                 >
                   {nutsProducts.length}
                 </span>
@@ -1906,7 +1940,7 @@ function NutritionPlanner({ t }: { t: any }) {
 
               <button
                 onClick={() => setSelectedCategory(2)}
-                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 2 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-gray-700"}`}
+                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 2 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-[var(--dark-grey)]"}`}
               >
                 <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
                   <Wheat
@@ -1915,7 +1949,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   {t.millets || "Millets"}
                 </div>
                 <span
-                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 2 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
+                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 2 ? "bg-white/20 text-white" : "bg-gray-200 text-[var(--dark-grey)]"}`}
                 >
                   {milletsProducts.length}
                 </span>
@@ -1923,7 +1957,7 @@ function NutritionPlanner({ t }: { t: any }) {
 
               <button
                 onClick={() => setSelectedCategory(3)}
-                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 3 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-gray-700"}`}
+                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 3 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-[var(--dark-grey)]"}`}
               >
                 <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
                   <Flame
@@ -1932,7 +1966,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   {t.spices || "Spices"}
                 </div>
                 <span
-                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 3 ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"}`}
+                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 3 ? "bg-white/20 text-white" : "bg-gray-200 text-[var(--dark-grey)]"}`}
                 >
                   {spicesProducts.length}
                 </span>
@@ -1942,14 +1976,14 @@ function NutritionPlanner({ t }: { t: any }) {
             {/* Products Grid */}
             <div className="flex-1 border border-gray-200 bg-gray-50 rounded p-6">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="font-bold text-gray-900 uppercase tracking-widest text-xs">
+                <h3 className="font-bold text-[var(--foreground)] uppercase tracking-widest text-xs">
                   {selectedCategory === 0
-                    ? (t.complete_catalog || "Complete Catalog")
+                    ? t.complete_catalog || "Complete Catalog"
                     : selectedCategory === 1
-                      ? (t.nuts_category || "Nuts Category")
+                      ? t.nuts_category || "Nuts Category"
                       : selectedCategory === 2
-                        ? (t.millets_category || "Millets Category")
-                        : (t.spices_category || "Spices Category")}
+                        ? t.millets_category || "Millets Category"
+                        : t.spices_category || "Spices Category"}
                   <span className="text-[var(--orange)] ml-2">
                     ({displayedProducts.length})
                   </span>
@@ -1959,8 +1993,9 @@ function NutritionPlanner({ t }: { t: any }) {
               {displayedProducts.length === 0 ? (
                 <div className="py-12 flex flex-col items-center justify-center bg-white border border-dashed border-gray-300">
                   <Leaf className="w-8 h-8 text-gray-300 mb-3" />
-                  <p className="text-gray-500 font-medium text-sm">
-                    {t.no_products_inventory || "No products found in inventory."}
+                  <p className="text-[var(--dark-grey)] font-medium text-sm">
+                    {t.no_products_inventory ||
+                      "No products found in inventory."}
                   </p>
                 </div>
               ) : (
@@ -1992,14 +2027,14 @@ function NutritionPlanner({ t }: { t: any }) {
                           />
                         </div>
                         <div className="text-center space-y-2">
-                          <p className="font-bold text-[11px] uppercase tracking-wider text-gray-900 line-clamp-2 leading-snug group-hover:text-[var(--olive-dark)] transition-colors">
+                          <p className="font-bold text-[11px] uppercase tracking-wider text-[var(--foreground)] line-clamp-2 leading-snug group-hover:text-[var(--olive-dark)] transition-colors">
                             {product.productname}
                           </p>
                           <div className="inline-block px-3 py-1 bg-[var(--cream)] border border-[var(--olive)]/20">
                             <span className="text-xs font-black text-[var(--olive-dark)]">
                               ₹{price}
                             </span>
-                            <span className="text-[10px] font-bold text-gray-500 ml-1 uppercase">
+                            <span className="text-[10px] font-bold text-[var(--dark-grey)] ml-1 uppercase">
                               / Kg
                             </span>
                           </div>
@@ -2014,7 +2049,8 @@ function NutritionPlanner({ t }: { t: any }) {
               <div className="mt-8 bg-[var(--olive-dark)] text-white rounded p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
                 <div className="flex items-center gap-3 font-bold text-sm tracking-widest uppercase">
                   <Check className="w-5 h-5 text-[var(--orange)]" />{" "}
-                  {selectedProducts.length} {t.items_selected || "Items Selected"}
+                  {selectedProducts.length}{" "}
+                  {t.items_selected || "Items Selected"}
                 </div>
               </div>
             </div>
@@ -2037,12 +2073,13 @@ function NutritionPlanner({ t }: { t: any }) {
                 <span className="w-10 h-10 rounded bg-[var(--olive-dark)] text-white flex items-center justify-center font-black text-sm">
                   02
                 </span>
-                <h2 className="text-2xl font-black text-gray-900 tracking-tight uppercase">
+                <h2 className="text-2xl font-black text-[var(--foreground)] tracking-tight uppercase">
                   {t.estimate_generation || "Estimate Generation"}
                 </h2>
               </div>
-              <p className="text-gray-500 font-medium ml-14 text-sm">
-                {t.adjust_parameters || "Adjust parameters to forecast your monthly procurement budget."}
+              <p className="text-[var(--dark-grey)] font-medium ml-14 text-sm">
+                {t.adjust_parameters ||
+                  "Adjust parameters to forecast your monthly procurement budget."}
               </p>
             </div>
           </div>
@@ -2051,14 +2088,28 @@ function NutritionPlanner({ t }: { t: any }) {
             <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
                 <tr className="bg-gray-100 text-[10px] font-black text-[var(--olive-dark)] uppercase tracking-widest border-b border-gray-200">
-                  <th className="px-6 py-4">{t.product_name || "Product Name"}</th>
-                  <th className="px-4 py-4 text-center">{t.grams_per_day || "Grams / Day"}</th>
+                  <th className="px-6 py-4">
+                    {t.product_name || "Product Name"}
+                  </th>
+                  <th className="px-4 py-4 text-center">
+                    {t.grams_per_day || "Grams / Day"}
+                  </th>
                   <th className="px-4 py-4 text-center">{t.days || "Days"}</th>
-                  <th className="px-4 py-4 text-center">{t.headcount || "Headcount"}</th>
-                  <th className="px-4 py-4 text-center">{t.total_kg || "Total (KG)"}</th>
-                  <th className="px-4 py-4 text-center">{t.unit_price || "Unit Price"}</th>
-                  <th className="px-6 py-4 text-right">{t.subtotal || "Subtotal"}</th>
-                  <th className="px-4 py-4 text-center">{t.action || "Action"}</th>
+                  <th className="px-4 py-4 text-center">
+                    {t.headcount || "Headcount"}
+                  </th>
+                  <th className="px-4 py-4 text-center">
+                    {t.total_kg || "Total (KG)"}
+                  </th>
+                  <th className="px-4 py-4 text-center">
+                    {t.unit_price || "Unit Price"}
+                  </th>
+                  <th className="px-6 py-4 text-right">
+                    {t.subtotal || "Subtotal"}
+                  </th>
+                  <th className="px-4 py-4 text-center">
+                    {t.action || "Action"}
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -2066,9 +2117,10 @@ function NutritionPlanner({ t }: { t: any }) {
                   <tr>
                     <td
                       colSpan={8}
-                      className="px-6 py-16 text-center text-gray-400 font-bold uppercase tracking-widest text-xs"
+                      className="px-6 py-16 text-center text-[var(--dark-grey)] font-bold uppercase tracking-widest text-xs"
                     >
-                      {t.inventory_empty || "Inventory empty. Select items to generate estimate."}
+                      {t.inventory_empty ||
+                        "Inventory empty. Select items to generate estimate."}
                     </td>
                   </tr>
                 ) : (
@@ -2081,7 +2133,7 @@ function NutritionPlanner({ t }: { t: any }) {
                     return (
                       <tr
                         key={product.productid}
-                        className="hover:bg-gray-50 transition-colors"
+                        className="hover:bg-[var(--site-bg)] transition-colors"
                       >
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-4">
@@ -2092,7 +2144,7 @@ function NutritionPlanner({ t }: { t: any }) {
                                 className="object-cover w-full h-full"
                               />
                             </div>
-                            <p className="text-xs font-bold uppercase tracking-wider text-gray-900">
+                            <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">
                               {product.productname}
                             </p>
                           </div>
@@ -2100,7 +2152,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         <td className="px-4 py-4 text-center">
                           <input
                             type="number"
-                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-gray-900 text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
+                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-[var(--foreground)] text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
                             value={data.grams}
                             onChange={(e) =>
                               setPlannerData((prev) => ({
@@ -2116,7 +2168,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         <td className="px-4 py-4 text-center">
                           <input
                             type="number"
-                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-gray-900 text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
+                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-[var(--foreground)] text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
                             value={data.days}
                             onChange={(e) =>
                               setPlannerData((prev) => ({
@@ -2132,7 +2184,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         <td className="px-4 py-4 text-center">
                           <input
                             type="number"
-                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-gray-900 text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
+                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-[var(--foreground)] text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
                             value={data.members}
                             onChange={(e) =>
                               setPlannerData((prev) => ({
@@ -2147,20 +2199,20 @@ function NutritionPlanner({ t }: { t: any }) {
                         </td>
                         <td className="px-4 py-4 text-center font-bold text-[var(--olive-dark)] text-sm">
                           {qty}{" "}
-                          <span className="text-[10px] uppercase font-bold text-gray-400">
+                          <span className="text-[10px] uppercase font-bold text-[var(--dark-grey)]">
                             Kg
                           </span>
                         </td>
-                        <td className="px-4 py-4 text-center font-bold text-gray-600 text-sm">
+                        <td className="px-4 py-4 text-center font-bold text-[var(--dark-grey)] text-sm">
                           ₹{displayPrice}
                         </td>
-                        <td className="px-6 py-4 text-right font-black text-gray-900 text-base">
+                        <td className="px-6 py-4 text-right font-black text-[var(--foreground)] text-base">
                           ₹{price}
                         </td>
                         <td className="px-4 py-4 text-center">
                           <button
                             onClick={() => handleRemoveItem(product.productid!)}
-                            className="w-8 h-8 mx-auto border border-gray-300 text-gray-400 flex items-center justify-center hover:bg-red-500 hover:text-white hover:border-red-500 transition-all"
+                            className="w-8 h-8 mx-auto border border-gray-300 text-[var(--dark-grey)] flex items-center justify-center hover:bg-[var(--pink)] hover:text-white hover:border-[var(--pink)] transition-all"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -2176,13 +2228,14 @@ function NutritionPlanner({ t }: { t: any }) {
           <div className="mt-8 flex flex-col md:flex-row items-center justify-between gap-6 pt-6 relative border-t border-gray-200">
             <button
               onClick={handleClearAll}
-              className="px-6 py-3 border border-gray-300 text-gray-600 font-bold text-[11px] tracking-widest uppercase flex items-center gap-2 hover:bg-gray-100 transition-all"
+              className="px-6 py-3 border border-gray-300 text-[var(--dark-grey)] font-bold text-[11px] tracking-widest uppercase flex items-center gap-2 hover:bg-[var(--cream)] transition-all"
             >
-              {t.clear_estimate || "Clear Estimate"} <Trash2 className="w-4 h-4" />
+              {t.clear_estimate || "Clear Estimate"}{" "}
+              <Trash2 className="w-4 h-4" />
             </button>
             <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 w-full md:w-auto">
               <div className="text-center sm:text-right">
-                <p className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase mb-1">
+                <p className="text-[10px] font-bold text-[var(--dark-grey)] tracking-[0.2em] uppercase mb-1">
                   {t.estimated_total || "Estimated Total"}
                 </p>
                 <p className="text-3xl sm:text-4xl font-black text-[var(--olive-dark)] leading-none">
@@ -2227,13 +2280,14 @@ function NutritionPlanner({ t }: { t: any }) {
                   })
                 }
                 disabled={selectedProducts.length === 0 || isBuying}
-                className={`flex items-center justify-center gap-3 px-6 sm:px-10 py-4 font-bold text-xs tracking-widest uppercase transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--orange)] text-white hover:bg-gray-900 shadow-md" : "bg-gray-200 text-gray-400 cursor-not-allowed"} w-full sm:w-auto min-w-[200px]`}
+                className={`flex items-center justify-center gap-3 px-6 sm:px-10 py-4 font-bold text-xs tracking-widest uppercase transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--orange)] text-white hover:bg-[var(--olive-dark)] shadow-md" : "bg-gray-200 text-[var(--dark-grey)] cursor-not-allowed"} w-full sm:w-auto min-w-[200px]`}
               >
                 {isBuying ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent animate-spin" />
                 ) : (
                   <>
-                    {t.proceed_to_cart || "Proceed to Cart"} <ArrowRight className="w-4 h-4" />
+                    {t.proceed_to_cart || "Proceed to Cart"}{" "}
+                    <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
@@ -2264,7 +2318,7 @@ function SubscriptionPlans({ t }: { t: any }) {
         "Sacred Pooja Kit",
       ],
       color: "bg-stone-800",
-      accent: "text-stone-800",
+      accent: "text-[var(--foreground)]",
       border: "border-stone-100",
     },
     {
@@ -2319,13 +2373,13 @@ function SubscriptionPlans({ t }: { t: any }) {
             </span>
             <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] leading-tight">
             {t.subscription.split(" ").slice(0, 2).join(" ")}{" "}
             <span className="text-[var(--orange)] font-light">
               {t.subscription.split(" ").slice(2).join(" ")}
             </span>
           </h2>
-          <p className="text-gray-500 text-sm max-w-md mx-auto font-medium">
+          <p className="text-[var(--dark-grey)] text-sm max-w-md mx-auto font-medium">
             {t.subscription_desc}
           </p>
         </div>
@@ -2349,17 +2403,17 @@ function SubscriptionPlans({ t }: { t: any }) {
                     {plan.name}
                   </h3>
                   <div className="flex items-center justify-center gap-1">
-                    <span className="text-[12px] font-bold text-gray-400">
+                    <span className="text-[12px] font-bold text-[var(--dark-grey)]">
                       ₹
                     </span>
-                    <span className="text-4xl font-black text-gray-900 tracking-tighter">
+                    <span className="text-4xl font-black text-[var(--foreground)] tracking-tighter">
                       {plan.price}
                     </span>
-                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                    <span className="text-[10px] font-bold text-[var(--dark-grey)] uppercase tracking-widest ml-1">
                       / mo
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500 font-medium leading-relaxed line-clamp-2 h-10">
+                  <p className="text-xs text-[var(--dark-grey)] font-medium leading-relaxed line-clamp-2 h-10">
                     {plan.desc}
                   </p>
                 </div>
@@ -2368,7 +2422,7 @@ function SubscriptionPlans({ t }: { t: any }) {
                     {plan.features.map((feature, fIdx) => (
                       <li
                         key={fIdx}
-                        className="flex items-center gap-3 text-[11px] font-bold text-gray-600"
+                        className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)]"
                       >
                         <div
                           className={`flex-shrink-0 w-5 h-5 rounded-md ${plan.accent} bg-stone-50 flex items-center justify-center border border-current/5`}
@@ -2392,7 +2446,7 @@ function SubscriptionPlans({ t }: { t: any }) {
                   </ul>
                 </div>
                 <div className="pt-8">
-                  <button className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors cursor-pointer">
+                  <button className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange-dark)] transition-colors cursor-pointer">
                     {t.subscribe}
                   </button>
                 </div>
@@ -2465,13 +2519,13 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
                 Latest Additions
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight leading-none">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--foreground)] tracking-tight leading-none">
               {t.new_arrivals.split(" ")[0]}{" "}
               <span className="text-[var(--orange)] font-light">
                 {t.new_arrivals.split(" ")[1]}
               </span>
             </h2>
-            <p className="text-gray-500 text-sm max-w-md font-medium">
+            <p className="text-[var(--dark-grey)] text-sm max-w-md font-medium">
               {t.new_arrivals_desc}
             </p>
           </div>
@@ -2493,7 +2547,7 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
         {displayProducts.length === 0 ? (
           <div className="py-12 flex flex-col items-center justify-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
             <Leaf className="w-8 h-8 text-gray-300 mb-3" />
-            <p className="text-gray-500 font-medium text-sm">
+            <p className="text-[var(--dark-grey)] font-medium text-sm">
               No products found.
             </p>
           </div>
@@ -2523,12 +2577,12 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
                   className="flex-1 group relative bg-white border border-[var(--olive)]/30 rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/50 min-h-[350px]"
                 >
                   <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-[var(--olive)] transition-colors duration-300 shadow-sm group-hover:shadow-md">
-                    <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" />
+                    <ArrowRight className="w-6 h-6 text-[var(--dark-grey)] group-hover:text-white transition-colors duration-300" />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
+                  <h3 className="text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--olive)] transition-colors">
                     {t.explore_all || "View All"}
                   </h3>
-                  <p className="text-xs text-gray-400 mt-2 font-medium">
+                  <p className="text-xs text-[var(--dark-grey)] mt-2 font-medium">
                     Explore new arrivals
                   </p>
                 </Link>
@@ -2626,14 +2680,15 @@ function CertificationsSection({ t }: { t: any }) {
             </span>
             <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-none text-center">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
             {t.trusted || "Trusted"}{" "}
             <span className="text-[var(--orange)] font-light">
               {t.certifications || "Certifications"}
             </span>
           </h2>
-          <p className="text-sm text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed">
-            {t.certifications_desc || "Every grain and product at Tradizions is backed by absolute standards, natural processes, and government-approved accreditations to deliver uncompromising safety."}
+          <p className="text-sm text-[var(--dark-grey)] font-medium max-w-2xl mx-auto leading-relaxed">
+            {t.certifications_desc ||
+              "Every grain and product at Tradizions is backed by absolute standards, natural processes, and government-approved accreditations to deliver uncompromising safety."}
           </p>
         </div>
 
@@ -2649,10 +2704,10 @@ function CertificationsSection({ t }: { t: any }) {
                 </div>
 
                 <div className="space-y-1.5 relative z-10 mt-auto">
-                  <h4 className="text-[11px] font-bold text-gray-900 tracking-[0.2em] uppercase leading-snug">
+                  <h4 className="text-[11px] font-bold text-[var(--foreground)] tracking-[0.2em] uppercase leading-snug">
                     {cert.title}
                   </h4>
-                  <p className="text-[9px] font-bold text-gray-400 tracking-widest uppercase leading-tight">
+                  <p className="text-[9px] font-bold text-[var(--dark-grey)] tracking-widest uppercase leading-tight">
                     {cert.desc}
                   </p>
                 </div>
@@ -2715,7 +2770,7 @@ function VideoTestimonialsSection() {
             </span>
             <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-none text-center">
+          <h3 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
             Video <span className="text-[var(--orange)] font-light">Testimonials</span>
           </h3>
         </div>
@@ -2775,12 +2830,12 @@ function VideoTestimonialsSection() {
                 className="flex-1 group relative bg-white border border-stone-200/40 rounded-[1rem] overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/30 aspect-square"
               >
                 <div className="w-14 h-14 rounded-full bg-stone-50 flex items-center justify-center mb-4 group-hover:bg-[var(--olive)] transition-colors duration-300 shadow-sm group-hover:shadow-md">
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
+                  <ArrowRight className="w-5 h-5 text-[var(--dark-grey)] group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="text-md font-bold text-gray-900 group-hover:text-[var(--olive)] transition-colors">
+                <h3 className="text-md font-bold text-[var(--foreground)] group-hover:text-[var(--olive)] transition-colors">
                   Show All Cards
                 </h3>
-                <p className="text-xs text-gray-400 mt-1.5 font-medium">
+                <p className="text-xs text-[var(--dark-grey)] mt-1.5 font-medium">
                   Explore full video diaries
                 </p>
               </Link>
@@ -2805,20 +2860,21 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
 
             <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-none bg-gray-50 text-gray-800 flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
+                <div className="w-12 h-12 rounded-none bg-gray-50 text-[var(--foreground)] flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
                   <Shield className="w-5 h-5" strokeWidth={2} />
                 </div>
                 <div className="space-y-1">
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase block">
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-[var(--dark-grey)] uppercase block">
                     {t.trust_shield || "Trust Shield"}
                   </span>
-                  <h4 className="text-[14px] font-bold text-gray-900 tracking-widest uppercase leading-none">
+                  <h4 className="text-[14px] font-bold text-[var(--foreground)] tracking-widest uppercase leading-none">
                     {t.secure_payments || "Secure Payments"}
                   </h4>
                 </div>
               </div>
-              <p className="text-[13px] font-medium text-gray-600 leading-relaxed">
-                {t.secure_payments_desc || "Shop with complete peace of mind. We encrypt and safeguard every transaction with industry-standard 256-bit SSL technology."}
+              <p className="text-[13px] font-medium text-[var(--dark-grey)] leading-relaxed">
+                {t.secure_payments_desc ||
+                  "Shop with complete peace of mind. We encrypt and safeguard every transaction with industry-standard 256-bit SSL technology."}
               </p>
             </div>
 
@@ -2842,20 +2898,21 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
 
             <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-none bg-gray-50 text-gray-800 flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
+                <div className="w-12 h-12 rounded-none bg-gray-50 text-[var(--foreground)] flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
                   <Leaf className="w-5 h-5" strokeWidth={2} />
                 </div>
                 <div className="space-y-1">
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase block">
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-[var(--dark-grey)] uppercase block">
                     {t.eco_stewardship || "Eco Stewardship"}
                   </span>
-                  <h4 className="text-[14px] font-bold text-gray-900 tracking-widest uppercase leading-none">
+                  <h4 className="text-[14px] font-bold text-[var(--foreground)] tracking-widest uppercase leading-none">
                     {t.sustainability || "Sustainability"}
                   </h4>
                 </div>
               </div>
-              <p className="text-[13px] font-medium text-gray-600 leading-relaxed">
-                {t.sustainability_desc || "Caring for the planet and future generations is embedded in our DNA. We focus on low carbon outputs and support organic farming loops."}
+              <p className="text-[13px] font-medium text-[var(--dark-grey)] leading-relaxed">
+                {t.sustainability_desc ||
+                  "Caring for the planet and future generations is embedded in our DNA. We focus on low carbon outputs and support organic farming loops."}
               </p>
             </div>
 
@@ -2869,7 +2926,7 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
                 ].map((text, idx) => (
                   <li
                     key={idx}
-                    className="flex items-center gap-3 text-[11px] font-bold text-gray-700 tracking-wide uppercase"
+                    className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)] tracking-wide uppercase"
                   >
                     <div className="w-4 h-4 rounded-none bg-[var(--olive-dark)] flex items-center justify-center text-white shadow-sm border border-[var(--olive-dark)]">
                       <Check className="w-3 h-3" strokeWidth={3} />
@@ -2897,7 +2954,7 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
 
             <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-none bg-gray-50 text-gray-800 flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
+                <div className="w-12 h-12 rounded-none bg-gray-50 text-[var(--foreground)] flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
                   <svg
                     className="w-5.5 h-5.5"
                     fill="none"
@@ -2913,16 +2970,17 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
                   </svg>
                 </div>
                 <div className="space-y-1">
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase block">
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-[var(--dark-grey)] uppercase block">
                     {t.earth_safe || "Earth Safe"}
                   </span>
-                  <h4 className="text-[14px] font-bold text-gray-900 tracking-widest uppercase leading-none">
+                  <h4 className="text-[14px] font-bold text-[var(--foreground)] tracking-widest uppercase leading-none">
                     {t.plastic_free_packaging || "Plastic-Free Packaging"}
                   </h4>
                 </div>
               </div>
-              <p className="text-[13px] font-medium text-gray-600 leading-relaxed">
-                {t.plastic_free_desc || "Our pledge is zero plastic. We pack exclusively in biodegradable cardboard, jute, and paper, so our shipments leave no toxic footprint."}
+              <p className="text-[13px] font-medium text-[var(--dark-grey)] leading-relaxed">
+                {t.plastic_free_desc ||
+                  "Our pledge is zero plastic. We pack exclusively in biodegradable cardboard, jute, and paper, so our shipments leave no toxic footprint."}
               </p>
             </div>
 
@@ -2936,7 +2994,7 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
                 ].map((text, idx) => (
                   <li
                     key={idx}
-                    className="flex items-center gap-3 text-[11px] font-bold text-gray-700 tracking-wide uppercase"
+                    className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)] tracking-wide uppercase"
                   >
                     <div className="w-4 h-4 rounded-none bg-[var(--olive-dark)] flex items-center justify-center text-white shadow-sm border border-[var(--olive-dark)]">
                       <Check className="w-3 h-3" strokeWidth={3} />

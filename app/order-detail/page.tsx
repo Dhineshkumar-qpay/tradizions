@@ -756,7 +756,7 @@ function OrderDetailContent() {
 
             {/* Actions */}
             <div className="space-y-3">
-              <button className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--olive-dark)] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-stone-900 transition-colors">
+              <button className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--olive-dark)] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--orange-dark)] transition-colors cursor-pointer">
                 <Download className="w-3.5 h-3.5" /> Download Invoice
               </button>
               <Link

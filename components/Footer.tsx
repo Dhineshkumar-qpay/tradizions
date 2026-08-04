@@ -25,10 +25,10 @@ const translations: Record<string, any> = {
 
 export default function Footer() {
   const socialLinks = [
-    { icon: Facebook, href: "#" },
-    { icon: Instagram, href: "#" },
-    { icon: Twitter, href: "#" },
-    { icon: Youtube, href: "#" },
+    { icon: "https://cdn-icons-png.flaticon.com/128/145/145802.png", href: "#" },
+    { icon: "https://cdn-icons-png.flaticon.com/128/3955/3955024.png", href: "#" },
+    { icon: "https://cdn-icons-png.flaticon.com/128/2168/2168336.png", href: "#" },
+    { icon: "https://cdn-icons-png.flaticon.com/128/3670/3670147.png", href: "#" },
   ];
   const currentYear = new Date().getFullYear();
 
@@ -93,7 +93,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[var(--olive-dark)] text-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-12 relative z-10 border-t border-stone-800">
+      <div className="max-w-7xl mx-auto px-6 pt-20 pb-12 relative z-10 border-t border-white/10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Brand */}
           <div className="lg:col-span-4 space-y-8">
@@ -114,14 +114,14 @@ export default function Footer() {
             </p>
 
             <div className="flex items-center gap-4">
-              {socialLinks.map(({ icon: Icon, href }, idx) => (
+              {socialLinks.map(({ icon, href }, idx) => (
                 <Link
                   key={idx}
                   href={href}
                   target="_blank"
-                  className="p-3 rounded-full bg-white/10 hover:bg-[var(--orange)] transition-all duration-300 group"
+                  className="p-3 rounded-full bg-white hover:bg-[var(--orange-dark)] transition-all duration-300 group flex items-center justify-center w-11 h-11"
                 >
-                  <Icon className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                  <img src={icon} alt="Social Icon" className="w-5 h-5 object-contain group-hover:scale-110 transition-transform group-hover:brightness-0 group-hover:invert" />
                 </Link>
               ))}
             </div>
@@ -200,13 +200,13 @@ export default function Footer() {
                   disabled={isLoading}
                   required
                   placeholder={t.contact_us?.email || "Your Email Address"}
-                  className="w-full bg-[var(--olive)] border border-stone-700 rounded-sm py-3.5 px-5 focus:outline-none focus:border-stone-500 disabled:opacity-50 text-sm"
+                  className="w-full bg-white/10 border border-white/20 rounded-sm py-3.5 px-5 focus:outline-none focus:border-[var(--orange)] disabled:opacity-50 text-sm"
                 />
 
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2 bg-[var(--orange)] rounded-sm hover:bg-stone-600 transition disabled:opacity-50"
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2 bg-[var(--orange)] rounded-sm hover:bg-[var(--orange-dark)] transition disabled:opacity-50"
                 >
                   {isLoading ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -220,19 +220,19 @@ export default function Footer() {
             {/* Contact */}
             <div className="space-y-4 text-white/70">
               <div className="flex items-start gap-4">
-                <MapPin className="w-4 h-4 text-stone-500 mt-1" />
+                <MapPin className="w-4 h-4 text-[var(--orange)] mt-1" />
                 <span className="text-sm leading-relaxed">{t.address}</span>
               </div>
 
               <div className="flex items-center gap-4">
-                <Phone className="w-4 h-4 text-stone-500" />
+                <Phone className="w-4 h-4 text-[var(--orange)]" />
                 <a href="tel:+919940620019" className="text-sm">
                   +91 99406 20019
                 </a>
               </div>
 
               <div className="flex items-center gap-4">
-                <Mail className="w-4 h-4 text-stone-500" />
+                <Mail className="w-4 h-4 text-[var(--orange)]" />
                 <a href="mailto:support@tradizions.com" className="text-sm">
                   tradizions@gmail.com
                 </a>
@@ -268,3 +268,4 @@ export default function Footer() {
     </footer>
   );
 }
+

@@ -380,7 +380,7 @@ export default function CartSidebar() {
                 </p>
                 <Link
                   href="/shop"
-                  className="px-8 py-4 bg-[var(--olive-dark)] hover:bg-[var(--orange)] text-white font-bold text-[11px] uppercase tracking-[0.2em] transition-colors flex items-center justify-center"
+                  className="px-8 py-4 bg-[var(--olive-dark)] hover:bg-[var(--orange-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] transition-colors flex items-center justify-center"
                   onClick={() => {
                     setIsOpen(false);
                   }}
@@ -691,7 +691,7 @@ export default function CartSidebar() {
                                       </label>
 
                                       {/* Upload Your Own */}
-                                      <label className="shrink-0 cursor-pointer snap-start group/upload relative flex flex-col items-center justify-center gap-2 w-32 h-24 rounded-2xl border-2 border-dashed border-stone-300 hover:border-[var(--orange)] bg-white hover:bg-[var(--orange)]/5 transition-all text-center">
+                                      <label className="shrink-0 cursor-pointer snap-start group/upload relative flex flex-col items-center justify-center gap-2 w-32 h-24 rounded-2xl border-2 border-dashed border-stone-300 hover:border-[var(--orange)] bg-white hover:bg-[var(--orange-dark)]/5 transition-all text-center">
                                         <input
                                           type="file"
                                           accept="image/*"
@@ -920,7 +920,7 @@ export default function CartSidebar() {
                             }
                           }
                         }}
-                        className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[12px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange)] transition-colors disabled:opacity-50 flex justify-center items-center gap-2 cursor-pointer"
+                        className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[12px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange-dark)] transition-colors disabled:opacity-50 flex justify-center items-center gap-2 cursor-pointer"
                       >
                         {isProceeding ? (
                           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
