@@ -45,6 +45,7 @@ import {
   CalculatorProducts,
 } from "@/models/home_model";
 import { HealthGoalsData } from "@/models/product_detail_model";
+import { motion } from "framer-motion";
 
 const translations: Record<string, any> = {
   EN: en,
@@ -110,78 +111,6 @@ const getImageUrl = (imagePath: string) => {
   return `${cleanedBase}/${cleanedPath}`;
 };
 
-function ImageComparisonBanner() {
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-
-  const handleMove = (e: any) => {
-    if (!isDragging || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
-    const percent = Math.max(0, Math.min((x / rect.width) * 100, 100));
-    setSliderPosition(percent);
-  };
-
-  const handleTouchMove = (e: any) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const touch = e.touches[0];
-    const x = Math.max(0, Math.min(touch.clientX - rect.left, rect.width));
-    const percent = Math.max(0, Math.min((x / rect.width) * 100, 100));
-    setSliderPosition(percent);
-  };
-
-  return (
-    <section className="w-full relative h-[400px] md:h-[600px] overflow-hidden select-none bg-[#f4ece3] my-10">
-      <div
-        ref={containerRef}
-        className="relative w-full h-full cursor-ew-resize group"
-        onMouseMove={handleMove}
-        onMouseDown={() => setIsDragging(true)}
-        onMouseUp={() => setIsDragging(false)}
-        onMouseLeave={() => setIsDragging(false)}
-        onTouchMove={handleTouchMove}
-      >
-        {/* Underneath image (Right side) */}
-        <div className="absolute inset-0 w-full h-full">
-          <img
-            src="/nuts-slide.jpg"
-            alt="Authentic Tradizions Products"
-            className="w-full h-full object-cover object-center pointer-events-none"
-            draggable={false}
-          />
-        </div>
-
-        {/* Overlay image (Left side) */}
-        <div
-          className="absolute inset-y-0 left-0 overflow-hidden border-r-[3px] border-white z-10 shadow-[2px_0_15px_rgba(0,0,0,0.1)]"
-          style={{ width: `${sliderPosition}%` }}
-        >
-          <div className="absolute top-0 left-0 w-[100vw] h-full">
-            <img
-              src="/millets-slide.jpeg"
-              alt="Organic Millets"
-              className="w-full h-full object-cover object-center pointer-events-none"
-              draggable={false}
-            />
-          </div>
-        </div>
-
-        {/* Slider Handle */}
-        <div
-          className="absolute top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.15)] transition-transform hover:scale-105 z-20 cursor-ew-resize pointer-events-none"
-          style={{ left: `calc(${sliderPosition}% - 24px)` }}
-        >
-          <div className="flex gap-0.5 items-center justify-center text-[var(--dark-grey)]">
-            <ChevronRight className="w-4 h-4 rotate-180 -mr-1" />
-            <ChevronRight className="w-4 h-4 -ml-1" />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ── Main Page ── */
 export default function Home() {
@@ -419,7 +348,6 @@ export default function Home() {
 
       <FeaturedSection t={t} products={featuredProducts} />
       <NewArrivalsSection t={t} products={newArrivalsProducts} />
-      <ImageComparisonBanner />
       <WhyChooseUsSection t={t} />
       <GiftingSection
         t={t}
@@ -432,6 +360,7 @@ export default function Home() {
       <CertificationsSection t={t} />
       {/* <VideoTestimonialsSection /> */}
       <SustainabilityAndPackagingSection t={t} />
+
     </div>
   );
 }
@@ -526,8 +455,8 @@ function HealthBenefitsSection({ t }: { t: any }) {
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`px-8 py-3 rounded text-[11px] font-bold tracking-widest uppercase transition-all duration-300 border ${activeCategory === cat
-                    ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
-                    : "bg-white text-[var(--dark-grey)] border-gray-200 hover:border-[var(--orange)] hover:text-[var(--orange)] shadow-sm"
+                  ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
+                  : "bg-white text-[var(--dark-grey)] border-gray-200 hover:border-[var(--orange)] hover:text-[var(--orange)] shadow-sm"
                   }`}
               >
                 {t.sections?.[cat] || cat}
@@ -623,9 +552,19 @@ function HeroSection({
   featuredProducts?: any[];
 }) {
   const [loaded, setLoaded] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setLoaded(true);
   }, []);
+
+  const slide = (direction: "left" | "right") => {
+    if (sliderRef.current) {
+      const { clientWidth } = sliderRef.current;
+      const scrollAmount = direction === "left" ? -clientWidth * 0.8 : clientWidth * 0.8;
+      sliderRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
 
   return (
     <section className="relative w-full h-[95vh] min-h-[800px] flex flex-col justify-between overflow-hidden bg-black">
@@ -638,8 +577,8 @@ function HeroSection({
           fill
           priority
           className={`object-cover object-center transition-all duration-[2500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${loaded
-              ? "opacity-100 scale-100 blur-0"
-              : "opacity-0 scale-[1.03] blur-[2px]"
+            ? "opacity-100 scale-100 blur-0"
+            : "opacity-0 scale-[1.03] blur-[2px]"
             }`}
         />
 
@@ -689,16 +628,24 @@ function HeroSection({
 
         {/* ── Product Slider in Banner ── */}
         {featuredProducts && featuredProducts.length > 0 && (
-          <div
-            className="w-full max-w-5xl mx-auto mb-10 overflow-x-auto flex gap-4 px-2 snap-x snap-mandatory scroll-smooth"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            <style jsx>{`
-              div::-webkit-scrollbar {
-                display: none;
-              }
-            `}</style>
-            {featuredProducts.slice(0, 5).map((product, idx) => {
+          <div className="relative w-full max-w-6xl mx-auto mb-10 flex items-center group/slider">
+            <button
+              onClick={(e) => { e.preventDefault(); slide("left"); }}
+              className="absolute left-0 z-30 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full border border-white/40 text-white shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-all -translate-x-2 md:-translate-x-5"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <div
+              ref={sliderRef}
+              className="w-full max-w-5xl mx-auto overflow-x-auto flex gap-4 px-2 snap-x snap-mandatory scroll-smooth"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              <style jsx>{`
+                div::-webkit-scrollbar {
+                  display: none;
+                }
+              `}</style>
+              {featuredProducts.slice(0, 8).map((product, idx) => {
               const productId = product.productid || product.id;
               const bid = product.bid || 1;
               return (
@@ -737,6 +684,13 @@ function HeroSection({
                 </div>
               );
             })}
+            </div>
+            <button
+              onClick={(e) => { e.preventDefault(); slide("right"); }}
+              className="absolute right-0 z-30 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full border border-white/40 text-white shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-all translate-x-2 md:translate-x-5"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
           </div>
         )}
 
@@ -2602,13 +2556,27 @@ function CertificationsSection({ t }: { t: any }) {
     {
       id: "fssai",
       title: "FSSAI CERTIFIED",
-      desc: "Lic No. 12421012000315",
+      desc: "Lic No. 22426189000450",
       icon: (
         <img
           src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e2/FSSAI_logo.png/250px-FSSAI_logo.png"
           alt="Fssai"
           height={80}
           width={80}
+        />
+      ),
+    },
+    {
+      id: "udyam",
+      title: "UDYAM REGISTERED",
+      desc: "UDYAM-TN-20-0244563",
+      icon: (
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvgDZjcJqhXh0OupnW63EpQExEgKU9WtkSRHfi6dSmNg&s=10"
+          alt="UDYAM"
+          height={80}
+          width={80}
+          className="object-contain"
         />
       ),
     },
@@ -2692,7 +2660,7 @@ function CertificationsSection({ t }: { t: any }) {
           </p>
         </div>
 
-        <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
           {certs.map((cert) => {
             const CardContent = (
               <div className="flex flex-col justify-between items-center h-full text-center p-8 bg-white border border-gray-200 shadow-sm hover:border-[var(--orange)] transition-all duration-500 hover:shadow-md group cursor-pointer relative overflow-hidden rounded-none">

@@ -303,12 +303,12 @@ export default function Navbar() {
   const displayCategories =
     apiCategories.length > 0
       ? apiCategories.map((cat, idx) => ({
-          name: cat.categoryname,
-          href: `/shop?category=${encodeURIComponent(cat.categoryname)}`,
-          desc: cat.description || "Explore premium organic products",
-          icon: iconList[idx % iconList.length],
-          image: cat.categoryimage || cat.image || null,
-        }))
+        name: cat.categoryname,
+        href: `/shop?category=${encodeURIComponent(cat.categoryname)}`,
+        desc: cat.description || "Explore premium organic products",
+        icon: iconList[idx % iconList.length],
+        image: cat.categoryimage || cat.image || null,
+      }))
       : [];
 
   const navItems = [
@@ -340,12 +340,12 @@ export default function Navbar() {
               <Link href="/" className="group block">
                 <div className="relative flex items-center justify-center">
                   {/* Logo Card */}
-                  <div className="relative h-16 w-36 rounded-[5px] border border-white/15 bg-white backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.12)] transition-all duration-500 group-hover:-translate-y-1  flex items-center justify-center">
+                  <div className="relative h-14 w-40 rounded-[5px] border border-white/20 bg-white/80 backdrop-blur-md shadow-[0_4px_15px_rgba(0,0,0,0.1)] transition-all duration-500 group-hover:-translate-y-1 flex items-center justify-center p-1.5">
                     <Image
                       src="/app-logo.png"
                       alt="Logo"
-                      width={110}
-                      height={52}
+                      width={130}
+                      height={45}
                       className="object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
@@ -455,11 +455,10 @@ export default function Navbar() {
                         <button
                           key={lang.code}
                           onClick={() => handleLangChange(lang.code)}
-                          className={`relative w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-colors rounded-sm ${
-                            isActive
-                              ? "bg-[var(--olive-dark)] text-white"
-                              : "text-stone-500 hover:bg-stone-100 hover:text-stone-900"
-                          }`}
+                          className={`relative w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-colors rounded-sm ${isActive
+                            ? "bg-[var(--olive-dark)] text-white"
+                            : "text-stone-500 hover:bg-stone-100 hover:text-stone-900"
+                            }`}
                         >
                           <span className="relative z-10">{lang.name}</span>
                           {isActive && (
@@ -587,11 +586,10 @@ export default function Navbar() {
                     <button
                       key={lang.code}
                       onClick={() => handleLangChange(lang.code)}
-                      className={`flex-1 py-3 rounded-xl border text-[11px] font-bold tracking-widest transition-all ${
-                        selectedLang === lang.code
-                          ? "bg-[var(--olive)] text-white border-[var(--olive)] shadow-lg shadow-[var(--olive)]/20"
-                          : "bg-white text-gray-500 border-[#e0d4b7] hover:bg-gray-50"
-                      }`}
+                      className={`flex-1 py-3 rounded-xl border text-[11px] font-bold tracking-widest transition-all ${selectedLang === lang.code
+                        ? "bg-[var(--olive)] text-white border-[var(--olive)] shadow-lg shadow-[var(--olive)]/20"
+                        : "bg-white text-gray-500 border-[#e0d4b7] hover:bg-gray-50"
+                        }`}
                     >
                       {lang.name}
                     </button>
@@ -628,9 +626,8 @@ export default function Navbar() {
 
       {/* --- Right Side Drawer --- */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white z-[70] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform ${
-          isDrawerOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white z-[70] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform ${isDrawerOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex flex-col h-full relative overflow-hidden">
           {/* Close button */}
@@ -942,10 +939,10 @@ export default function Navbar() {
                               product.brandname,
                             availablestock:
                               product.availablestock !== undefined &&
-                              product.availablestock !== null
+                                product.availablestock !== null
                                 ? product.availablestock
                                 : product.stock !== undefined &&
-                                    product.stock !== null
+                                  product.stock !== null
                                   ? product.stock
                                   : 1,
                             stock: product.stock,
