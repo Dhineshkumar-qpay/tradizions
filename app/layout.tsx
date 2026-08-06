@@ -127,7 +127,7 @@ export default function RootLayout({
           <ClickAnimation />
         </AuthGate>
       </body>
-      <GoogleAnalytics gaId="G-XXXXXXXXXX" />
+      <GoogleAnalytics gaId="G-QQ0DT9W5DB" />
     </html>
   );
 }
