@@ -206,94 +206,87 @@ export default function CustomGiftBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--site-bg) text-[var(--dark-grey)] selection:bg-[var(--olive)] selection:text-white">
-      {/* CORPORATE HERO */}
+    <div className="min-h-screen bg-stone-50 font-sans selection:bg-[var(--olive)] selection:text-white pb-24">
+      {/* ── Premium Hero Section ── */}
       <div className="bg-gradient-to-br from-[var(--olive)]/35 via-white to-[var(--orange)]/15 border-b border-gray-200">
-        <div className="max-w-[1200px] mx-auto px-6 py-10 md:py-12 flex flex-col">
-          <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-6">
-            <Link href="/" className="hover:text-gray-900 transition-colors">
-              Home
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-gray-400">{t.custom_gift?.title || "Custom Gifting"}</span>
+        <div className="max-w-[1200px] mx-auto px-6 py-10 md:py-12 flex flex-col items-center text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 backdrop-blur-md border border-[var(--olive)]/20 mb-4 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-[var(--orange)]" />
+            <span className="text-[10px] font-bold tracking-widest uppercase text-[var(--olive-dark)]">The Artisan Builder</span>
           </div>
-          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
-            {t.custom_gift?.title || "Custom Gifting"}
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight mb-4 text-gray-900">
+            {t.custom_gift?.title || "Bespoke Hampers"}
           </h1>
-          <p className="mt-3 max-w-2xl text-sm text-gray-600">
-            {t.custom_gift?.desc || "Select from our premium range of boxes and artisanal products to build custom hampers for clients, employees, and special occasions."}
+          <p className="max-w-2xl text-sm md:text-base text-gray-600 font-medium">
+            {t.custom_gift?.desc || "Design a truly unique gifting experience. Hand-select from our premium vessels and curate with artisanal products to build the perfect custom hamper."}
           </p>
         </div>
       </div>
 
-      {/* MAIN CONTENT GRID */}
-      <div className="max-w-[1200px] mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* LEFT COLUMN: THE PROCESS */}
-          <div className="lg:col-span-8 space-y-16">
-            {/* STEP 1: PACKAGING */}
-            <section className="relative">
-              <div className="flex items-center gap-6 mb-10 border-b border-gray-200 pb-6">
-                <span className="text-5xl font-light text-[var(--olive)]/20 ">
-                  01
-                </span>
+      {/* ── Builder Interface ── */}
+      <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-12 -mt-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+
+          {/* Left Column: The Process */}
+          <div className="lg:col-span-8 space-y-12">
+
+            {/* Step 1: Packaging */}
+            <section className="bg-white rounded-3xl p-6 md:p-10 shadow-xl shadow-stone-200/40 border border-stone-200/60 relative overflow-hidden">
+              <div className="flex items-center gap-5 mb-10 pb-6 border-b border-stone-100">
+                <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[var(--olive)]/10 text-[var(--olive)] font-bold text-xl">
+                  1
+                </div>
                 <div>
-                  <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase">
-                    {t.custom_gift?.step1_title || "Select the Vessel"}
+                  <h2 className="text-2xl font-bold tracking-tight text-stone-900">
+                    {t.custom_gift?.step1_title || "Choose Your Vessel"}
                   </h2>
-                  <p className="text-xs text-[var(--dark-grey)]/60 uppercase tracking-[0.15em] mt-1">
-                    {t.custom_gift?.step1_desc || "Foundation of your gift"}
+                  <p className="text-sm text-stone-500 mt-1">
+                    {t.custom_gift?.step1_desc || "Select the perfect packaging to present your gifts"}
                   </p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {packagingOptions.map((pkg) => {
                   const active = selectedPackage?.id === pkg.id;
                   return (
                     <div
                       key={pkg.id}
                       onClick={() => setSelectedPackage(pkg)}
-                      className={`group cursor-pointer bg-white transition-all duration-500 ease-out border ${active
-                        ? "border-[var(--olive-dark)] shadow-xl"
-                        : "border-gray-200 hover:border-[var(--olive)]/50 hover:shadow-md"
+                      className={`group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 border-2 ${active
+                          ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-lg shadow-[var(--olive)]/10 scale-[1.02]"
+                          : "border-transparent bg-stone-50 hover:bg-stone-100"
                         }`}
                     >
-                      <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 p-6 flex flex-col justify-end border-b border-gray-100">
+                      <div className="relative aspect-[4/3] overflow-hidden bg-white">
                         {active && (
-                          <div className="absolute top-4 right-4 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--olive-dark)] text-white">
-                            <Check className="w-3 h-3" />
+                          <div className="absolute top-3 right-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--olive)] text-white shadow-md animate-in zoom-in">
+                            <Check className="w-4 h-4" />
                           </div>
                         )}
                         <img
-                          src={
-                            pkg.image.includes("http")
-                              ? pkg.image
-                              : IMAGE_URL + pkg.image
-                          }
+                          src={pkg.image.includes("http") ? pkg.image : IMAGE_URL + pkg.image}
                           alt={pkg.name}
-                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                          className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ${active ? "scale-105" : "group-hover:scale-105"}`}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
-
-                        <div className="relative z-10 text-white">
-                          <span className="inline-block px-2 py-1 bg-white/20 backdrop-blur-md text-[9px] font-bold uppercase tracking-[0.2em] mb-2">
-                            {pkg.tag}
-                          </span>
-                          <h4 className="text-lg font-medium leading-tight">
+                      </div>
+                      <div className="p-5">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="text-sm font-bold text-stone-900 leading-tight">
                             {pkg.name}
                           </h4>
+                          <span className="inline-flex px-2 py-0.5 rounded-full bg-stone-200 text-[9px] font-bold uppercase tracking-widest text-stone-600">
+                            {pkg.tag}
+                          </span>
                         </div>
-                      </div>
-                      <div className="p-5 flex flex-col justify-between">
-                        <p className="text-[11px] leading-relaxed text-[var(--dark-grey)]/70 mb-4 line-clamp-3">
+                        <p className="text-xs text-stone-500 mb-4 line-clamp-2">
                           {pkg.desc}
                         </p>
-                        <div className="flex items-end justify-between pt-4 border-t border-gray-100">
-                          <span className="text-[10px] uppercase tracking-[0.15em] text-[var(--dark-grey)]/50">
+                        <div className="flex items-center justify-between pt-4 border-t border-stone-200/50">
+                          <span className="text-[10px] uppercase font-bold tracking-widest text-stone-400">
                             {pkg.capacity}
                           </span>
-                          <span className="text-sm font-medium text-[var(--orange)]">
+                          <span className="text-sm font-black text-[var(--olive)]">
                             +₹{pkg.price}
                           </span>
                         </div>
@@ -304,91 +297,76 @@ export default function CustomGiftBuilder() {
               </div>
             </section>
 
-            {/* STEP 2: PRODUCTS */}
-            <section className="relative">
-              <div className="flex items-end justify-between gap-6 mb-10 border-b border-gray-200 pb-6">
-                <div className="flex items-center gap-6">
-                  <span className="text-5xl font-light text-[var(--olive)]/20 ">
-                    02
-                  </span>
+            {/* Step 2: Products */}
+            <section className="bg-white rounded-3xl p-6 md:p-10 shadow-xl shadow-stone-200/40 border border-stone-200/60 relative overflow-hidden">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-stone-100">
+                <div className="flex items-center gap-5">
+                  <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[var(--orange)]/10 text-[var(--orange)] font-bold text-xl">
+                    2
+                  </div>
                   <div>
-                    <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase">
+                    <h2 className="text-2xl font-bold tracking-tight text-stone-900">
                       {t.custom_gift?.step2_title || "Curate Contents"}
                     </h2>
-                    <p className="text-xs text-[var(--dark-grey)]/60 uppercase tracking-[0.15em] mt-1">
-                      {t.custom_gift?.step2_desc || "Select premium additions"}
+                    <p className="text-sm text-stone-500 mt-1">
+                      {t.custom_gift?.step2_desc || "Hand-pick artisanal items to fill your vessel"}
                     </p>
                   </div>
                 </div>
 
-                <div className="relative w-full max-w-[240px] hidden sm:block">
+                <div className="relative w-full md:max-w-xs group">
+                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                    <Search className="h-4 w-4 text-stone-400 group-focus-within:text-[var(--orange)] transition-colors" />
+                  </div>
                   <input
                     type="text"
-                    placeholder={t.custom_gift?.search || "SEARCH COLLECTION..."}
+                    placeholder={t.custom_gift?.search || "Search collection..."}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full border-b border-gray-300 bg-transparent px-0 py-2 pr-8 text-[11px] uppercase tracking-[0.2em] text-[var(--dark-grey)] focus:border-[var(--olive-dark)] focus:outline-none transition-colors placeholder:text-gray-400"
+                    className="w-full bg-stone-50 border border-stone-200 text-stone-900 text-sm rounded-xl pl-11 pr-4 py-3 outline-none focus:border-[var(--orange)] focus:ring-4 focus:ring-[var(--orange)]/10 transition-all placeholder:text-stone-400 font-medium"
                   />
-                  <Search className="absolute right-0 top-2 h-4 w-4 text-gray-400" />
                 </div>
               </div>
 
-              {/* Mobile Search */}
-              <div className="relative w-full sm:hidden mb-8">
-                <input
-                  type="text"
-                  placeholder={t.custom_gift?.search || "SEARCH COLLECTION..."}
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-2 pr-8 text-[11px] uppercase tracking-[0.2em] text-[var(--dark-grey)] focus:border-[var(--olive-dark)] focus:outline-none transition-colors placeholder:text-gray-400"
-                />
-                <Search className="absolute right-0 top-2 h-4 w-4 text-gray-400" />
-              </div>
-
               {selectedItems.length > 0 && (
-                <div className="mb-10 bg-white border border-[var(--olive)]/10 p-6">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--olive-dark)] mb-5 flex items-center gap-3">
-                    <span className="w-8 h-px bg-[var(--olive)]/30"></span>{" "}
-                    {t.custom_gift?.inside_vessel || "Inside the Vessel"}
+                <div className="mb-10 bg-stone-50 rounded-2xl p-6 border border-stone-200">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-stone-900 mb-5 flex items-center gap-3">
+                    <Package className="w-4 h-4 text-[var(--orange)]" />
+                    {t.custom_gift?.inside_vessel || "Inside Your Vessel"}
                   </h3>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                     {selectedItems.map((item, idx) => (
-                      <div key={idx} className="flex items-center gap-4 group">
-                        <div className="h-14 w-14 shrink-0 bg-gray-50 border border-gray-100 p-1">
+                      <div key={idx} className="flex items-center gap-4 bg-white p-3 rounded-xl border border-stone-100 shadow-sm">
+                        <div className="h-14 w-14 shrink-0 rounded-lg overflow-hidden bg-stone-100">
                           <img
-                            src={
-                              item.productimage?.includes("http")
-                                ? item.productimage
-                                : IMAGE_URL + item.productimage
-                            }
+                            src={item.productimage?.includes("http") ? item.productimage : IMAGE_URL + item.productimage}
                             alt={item.productname}
                             className="h-full w-full object-cover"
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="truncate text-xs font-medium text-[var(--olive-dark)]">
+                          <p className="truncate text-xs font-bold text-stone-900">
                             {item.productname}
                           </p>
-                          <p className="text-[10px] text-[var(--dark-grey)]/60 mt-1 uppercase tracking-wider">
-                            {item.qty} × ₹{item.sellingprice || item.price}
+                          <p className="text-[11px] font-medium text-[var(--olive)] mt-0.5">
+                            ₹{item.sellingprice || item.price}
                           </p>
                         </div>
-                        <div className="flex items-center gap-3 pr-2">
+                        <div className="flex items-center gap-2 bg-stone-50 rounded-lg p-1 border border-stone-200">
                           <button
                             onClick={() => handleRemoveItem(item.productid)}
-                            className="text-[var(--dark-grey)]/40 hover:text-[var(--orange)] transition-colors"
+                            className="w-6 h-6 flex items-center justify-center rounded-md bg-red-500 text-stone-500 hover:text-stone-900 hover:shadow-sm transition-all"
                           >
-                            <Minus className="w-3.5 h-3.5" />
+                            <Minus className="w-3 h-3" />
                           </button>
-                          <span className="text-xs font-medium w-4 text-center">
+                          <span className="text-xs font-bold w-4 text-center text-stone-900">
                             {item.qty}
                           </span>
                           <button
                             onClick={() => handleAddItem(item)}
-                            className="text-[var(--dark-grey)]/40 hover:text-[var(--olive-dark)] transition-colors"
+                            className="w-6 h-6 flex items-center justify-center rounded-md bg-white text-stone-500 hover:text-stone-900 hover:shadow-sm transition-all"
                           >
-                            <Plus className="w-3.5 h-3.5" />
+                            <Plus className="w-3 h-3" />
                           </button>
                         </div>
                       </div>
@@ -399,70 +377,61 @@ export default function CustomGiftBuilder() {
 
               {isSearching ? (
                 <div className="flex justify-center py-20">
-                  <div className="h-8 w-8 animate-spin border-[3px] border-gray-200 border-t-[var(--olive)] rounded-full" />
+                  <div className="h-10 w-10 animate-spin border-4 border-stone-200 border-t-[var(--orange)] rounded-full" />
                 </div>
               ) : (
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-5">
                   {filteredProducts.map((product, idx) => {
-                    const qty =
-                      selectedItems.find(
-                        (i) => i.productid === product.productid,
-                      )?.qty || 0;
+                    const qty = selectedItems.find((i) => i.productid === product.productid)?.qty || 0;
                     return (
                       <div
                         key={idx}
-                        className="group flex flex-col bg-white border border-gray-200 p-2.5 transition-colors hover:border-[var(--olive)]/30 h-full"
+                        className="group flex flex-col bg-white rounded-2xl border border-stone-200 overflow-hidden hover:shadow-xl hover:shadow-stone-200/50 hover:border-stone-300 transition-all duration-300 h-full"
                       >
-                        <div className="relative aspect-square w-full shrink-0 bg-gray-50 overflow-hidden border border-gray-100 mb-2">
+                        <div className="relative aspect-square w-full shrink-0 bg-stone-50 overflow-hidden">
                           <img
-                            src={
-                              product.productimage?.includes("http")
-                                ? product.productimage
-                                : product.productimage
-                                  ? IMAGE_URL + product.productimage
-                                  : "/placeholder.png"
-                            }
+                            src={product.productimage?.includes("http") ? product.productimage : product.productimage ? IMAGE_URL + product.productimage : "/placeholder.png"}
                             alt={product.productname}
-                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                           {qty > 0 && (
-                            <div className="absolute inset-0 bg-[var(--olive-dark)]/5 transition-opacity" />
+                            <div className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--orange)] text-white shadow-md animate-in zoom-in">
+                              <span className="text-xs font-bold">{qty}</span>
+                            </div>
                           )}
                         </div>
 
-                        <div className="flex flex-col flex-grow">
-                          <h3 className="text-xs font-medium text-[var(--olive-dark)] uppercase tracking-wide leading-snug line-clamp-2">
+                        <div className="flex flex-col flex-grow p-4">
+                          <h3 className="text-xs font-bold text-stone-900 leading-snug line-clamp-2 mb-1">
                             {product.productname}
                           </h3>
-                          <p className="text-xs font-bold text-[var(--dark-grey)]/80 mt-1">
+                          <p className="text-sm font-black text-[var(--olive)] mt-auto">
                             ₹{product.sellingprice || product.price}
                           </p>
                         </div>
 
-                        <div className="w-full mt-4 shrink-0">
+                        <div className="px-4 pb-4 shrink-0">
                           {qty === 0 ? (
                             <button
                               onClick={() => handleAddItem(product)}
-                              className="w-full bg-[var(--olive-dark)] text-white py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[var(--orange)] transition-colors border border-transparent"
+                              className="w-full bg-[var(--olive-dark)] text-white py-2.5 rounded-[0px] text-[11px] font-bold uppercase tracking-widest hover:bg-[var(--orange-dark)] hover:shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2"
                             >
-                              {t.custom_gift?.add || "Add"}
+                              {t.custom_gift?.add || "Add Item"}
                             </button>
                           ) : (
-                            <div className="w-full flex items-center justify-between bg-white border border-[var(--olive-dark)] h-9">
+                            <div className="w-full flex items-center justify-between bg-stone-50 rounded-xl border border-stone-200 h-10 px-1">
                               <button
-                                onClick={() =>
-                                  handleRemoveItem(product.productid)
-                                }
-                                className="h-full w-9 flex items-center justify-center hover:bg-gray-100 text-[var(--dark-grey)] transition-colors"
+                                onClick={() => handleRemoveItem(product.productid)}
+                                className="h-8 w-8 flex items-center justify-center rounded-lg bg-white shadow-sm text-stone-600 hover:text-stone-900 transition-all"
                               >
                                 <Minus className="w-3 h-3" />
                               </button>
-                              <span className="text-xs font-bold text-[var(--olive-dark)]">
+                              <span className="text-sm font-bold text-stone-900">
                                 {qty}
                               </span>
                               <button
                                 onClick={() => handleAddItem(product)}
-                                className="h-full w-9 flex items-center justify-center hover:bg-gray-100 text-[var(--dark-grey)] transition-colors"
+                                className="h-8 w-8 flex items-center justify-center rounded-lg bg-white shadow-sm text-stone-600 hover:text-stone-900 transition-all"
                               >
                                 <Plus className="w-3 h-3" />
                               </button>
@@ -477,88 +446,87 @@ export default function CustomGiftBuilder() {
             </section>
           </div>
 
-          {/* RIGHT COLUMN: SUMMARY RECIEPT */}
+          {/* Right Column: Floating Summary Card */}
           <div className="lg:col-span-4">
-            <div className="sticky top-[100px] bg-white border border-gray-200 p-8 shadow-2xl shadow-[var(--olive)]/5">
-              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--olive-dark)] text-center mb-8 border-b border-gray-200 pb-6">
-                {t.custom_gift?.order_summary || "Order Summary"}
-              </h3>
+            <div className="sticky top-28 bg-white/80 backdrop-blur-xl border border-stone-200/60 rounded-3xl p-6 md:p-8 shadow-2xl shadow-stone-200/50">
+              <div className="flex items-center gap-3 mb-8 pb-6 border-b border-stone-100">
+                <div className="p-2.5 bg-stone-100 rounded-xl">
+                  <ShoppingBag className="w-5 h-5 text-stone-900" />
+                </div>
+                <h3 className="text-lg font-bold text-stone-900">
+                  {t.custom_gift?.order_summary || "Hamper Summary"}
+                </h3>
+              </div>
 
-              {/* Package */}
-              <div className="mb-8">
-                <span className="block text-[9px] uppercase tracking-[0.2em] text-[var(--dark-grey)]/50 mb-4">
-                  {t.custom_gift?.vessel || "Vessel"}
+              {/* Package Summary */}
+              <div className="mb-6">
+                <span className="block text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-3">
+                  {t.custom_gift?.vessel || "Selected Vessel"}
                 </span>
                 {selectedPackage ? (
-                  <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 shrink-0 bg-gray-50 border border-gray-100 p-1">
+                  <div className="flex items-center gap-4 bg-stone-50 p-3 rounded-2xl border border-stone-200/50">
+                    <div className="h-12 w-12 shrink-0 rounded-xl overflow-hidden bg-white">
                       <img
-                        src={
-                          selectedPackage.image.includes("http")
-                            ? selectedPackage.image
-                            : IMAGE_URL + selectedPackage.image
-                        }
+                        src={selectedPackage.image.includes("http") ? selectedPackage.image : IMAGE_URL + selectedPackage.image}
                         alt={selectedPackage.name}
                         className="h-full w-full object-cover"
                       />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-medium text-[var(--olive-dark)] uppercase tracking-wide">
+                      <p className="text-xs font-bold text-stone-900 leading-tight">
                         {selectedPackage.name}
                       </p>
-                      <p className="text-[10px] text-[var(--dark-grey)]/50 mt-1">
+                      <p className="text-[11px] font-medium text-[var(--olive)] mt-0.5">
                         ₹{selectedPackage.price}
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-xs text-gray-400 ">
-                    {t.custom_gift?.none_selected || "None selected"}
+                  <div className="flex items-center gap-3 bg-stone-50 border border-stone-200 border-dashed rounded-2xl p-4 text-xs font-medium text-stone-500">
+                    <Package className="w-4 h-4" />
+                    {t.custom_gift?.none_selected || "No vessel selected yet"}
                   </div>
                 )}
               </div>
 
-              {/* Items */}
+              {/* Items Summary */}
               <div className="mb-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="block text-[9px] uppercase tracking-[0.2em] text-[var(--dark-grey)]/50">
-                    {t.custom_gift?.contents || "Contents"}
+                <div className="flex items-center justify-between mb-3">
+                  <span className="block text-[10px] font-bold uppercase tracking-widest text-stone-400">
+                    {t.custom_gift?.contents || "Curated Items"}
                   </span>
                   {totalQty > 0 && (
-                    <span className="text-[9px] font-medium text-[var(--olive-dark)]">
+                    <span className="inline-flex px-2 py-0.5 rounded-full bg-stone-100 text-[10px] font-bold text-stone-600">
                       {totalQty} {t.custom_gift?.items || "ITEMS"}
                     </span>
                   )}
                 </div>
 
                 {selectedItems.length === 0 ? (
-                  <div className="text-xs text-gray-400  border-t border-gray-100 pt-4">
-                    {t.custom_gift?.empty || "Empty"}
+                  <div className="bg-stone-50 border border-stone-200 border-dashed rounded-2xl p-4 text-xs font-medium text-stone-500 text-center">
+                    {t.custom_gift?.empty || "Your hamper is empty"}
                   </div>
                 ) : (
-                  <ul className="space-y-4 border-t border-gray-100 pt-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                  <ul className="space-y-3 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
                     {selectedItems.map((item, idx) => (
-                      <li
-                        key={idx}
-                        className="flex justify-between items-start group"
-                      >
+                      <li key={idx} className="flex justify-between items-start group bg-white p-3 rounded-xl border border-stone-100 shadow-sm">
                         <div className="flex gap-3">
-                          <span className="text-[10px] text-[var(--dark-grey)]/40 mt-0.5">
-                            {item.qty}×
+                          <span className="flex items-center justify-center w-5 h-5 rounded-md bg-stone-100 text-[10px] font-bold text-stone-600 shrink-0">
+                            {item.qty}
                           </span>
                           <div>
-                            <p className="text-xs font-medium text-[var(--olive-dark)] max-w-[180px] leading-snug">
+                            <p className="text-xs font-bold text-stone-900 max-w-[160px] leading-snug">
                               {item.productname}
                             </p>
                             <button
                               onClick={() => handleDeleteItem(item.productid)}
-                              className="text-[9px] uppercase tracking-wider text-red-400 hover:text-red-600 mt-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              className="text-[10px] font-bold text-red-500 hover:text-red-700 mt-1 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
                             >
-                              {t.custom_gift?.remove || "Remove"}
+                              <Trash2 className="w-3 h-3" /> Remove
                             </button>
                           </div>
                         </div>
-                        <span className="text-xs text-[var(--dark-grey)]/80 pt-0.5">
+                        <span className="text-xs font-black text-[var(--olive)] pt-0.5">
                           ₹{(item.sellingprice || item.price) * item.qty}
                         </span>
                       </li>
@@ -567,49 +535,53 @@ export default function CustomGiftBuilder() {
                 )}
               </div>
 
-              {/* Personalization */}
+              {/* Personalization (if any) */}
               {greetingCard && (
-                <div className="mb-8 border-t border-gray-100 pt-6 flex justify-between items-center">
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--dark-grey)]/80">
-                    {t.custom_gift?.card_addition || "Card Addition"}
-                  </span>
-                  <span className="text-xs text-[var(--dark-grey)]/80">
+                <div className="mb-6 p-4 bg-[var(--orange)]/5 border border-[var(--orange)]/20 rounded-2xl flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <Tag className="w-4 h-4 text-[var(--orange)]" />
+                    <span className="text-xs font-bold text-stone-900">
+                      {t.custom_gift?.card_addition || "Card Addition"}
+                    </span>
+                  </div>
+                  <span className="text-xs font-black text-[var(--orange)]">
                     ₹50
                   </span>
                 </div>
               )}
 
               {/* Totals */}
-              <div className="border-t-2 border-black pt-6 mb-8 space-y-3">
-                <div className="flex justify-between text-[11px] text-[var(--dark-grey)]/70 uppercase tracking-widest">
+              <div className="bg-stone-50 rounded-2xl p-5 mb-6 border border-stone-200">
+                <div className="flex justify-between text-[11px] font-bold text-stone-500 uppercase tracking-widest mb-3">
                   <span>{t.custom_gift?.subtotal || "Subtotal"}</span>
-                  <span>
-                    ₹{productsTotal + packageTotal + personalizationTotal}
-                  </span>
+                  <span>₹{productsTotal + packageTotal + personalizationTotal}</span>
                 </div>
-                <div className="flex justify-between text-sm font-medium text-[var(--olive-dark)] uppercase tracking-widest pt-2">
+                <div className="flex justify-between text-base font-black text-stone-900 uppercase tracking-wide pt-3 border-t border-stone-200">
                   <span>{t.custom_gift?.total || "Total"}</span>
-                  <span className="text-[var(--orange)] font-bold">
-                    ₹{grandTotal}
-                  </span>
+                  <span className="text-[var(--olive)]">₹{grandTotal}</span>
                 </div>
               </div>
 
               {/* CTA */}
               <button
                 onClick={handleCompleteGift}
-                disabled={
-                  selectedItems.length === 0 || !selectedPackage || isSubmitting
-                }
-                className="w-full bg-[var(--olive)] text-white py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all hover:bg-[var(--olive-dark)] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-3 group cursor-pointer"
+                disabled={selectedItems.length === 0 || !selectedPackage || isSubmitting}
+                className="w-full bg-[var(--olive)] text-white py-4 rounded-[0px] text-xs font-bold uppercase tracking-widest transition-all hover:bg-[var(--olive)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 group shadow-xl shadow-[var(--olive)]/20 active:scale-[0.98]"
               >
-                {isSubmitting ? (t.custom_gift?.processing || "Processing...") : (t.custom_gift?.complete_gift || "Complete Gift")}
-                {!isSubmitting && (
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                {isSubmitting ? (
+                  <span className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    {t.custom_gift?.processing || "Processing..."}
+                  </span>
+                ) : (
+                  <>
+                    <CreditCard className="w-4 h-4" />
+                    {t.custom_gift?.complete_gift || "Add to Cart"}
+                  </>
                 )}
               </button>
 
-              <p className="text-center text-[9px] uppercase tracking-[0.15em] text-[var(--olive-dark)]/40 mt-5">
+              <p className="text-center text-[10px] font-medium text-stone-400 mt-5">
                 {t.custom_gift?.shipping_note || "Complimentary shipping on orders above ₹999"}
               </p>
             </div>
@@ -620,10 +592,10 @@ export default function CustomGiftBuilder() {
       <style
         dangerouslySetInnerHTML={{
           __html: `
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--olive); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
       `,
         }}
       />

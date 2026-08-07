@@ -285,7 +285,7 @@ export default function Home() {
       {/* Brand Promise Section */}
       <section className="py-8 md:py-10 bg-white relative overflow-hidden border-b border-stone-50">
         <div className="max-w-3xl mx-auto px-6 relative z-10 text-center">
-          <h2 className="text-base md:text-lg font-medium text-[var(--dark-grey)] leading-relaxed italic">
+          <h2 className="text-base md:text-lg font-medium text-[var(--dark-grey)] leading-relaxed">
             "{t.home_tagline}"
           </h2>
         </div>
@@ -424,39 +424,39 @@ function HealthBenefitsSection({ t }: { t: any }) {
   };
 
   return (
-    <section className="pt-24 pb-24 relative overflow-hidden bg-white border-b border-gray-100">
-      {/* Subtle Corporate Grid Background */}
-      <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+    <section className="pt-28 pb-32 relative overflow-hidden bg-[var(--cream)] border-t border-stone-200/50">
+      {/* Aesthetic Background Touches */}
+      <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--orange)]/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--olive)]/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 z-10">
         {/* --- Header Section --- */}
-        <div className="flex flex-col items-center text-center mb-12">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-3 mb-6">
-            <span className="w-8 h-px bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
-              {t.health_advantage || "HEALTH BENEFITS"}
-            </span>
-            <span className="w-8 h-px bg-[var(--orange)]" />
+        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between mb-16 gap-8">
+          <div className="max-w-2xl text-left">
+            <div className="inline-flex items-center gap-3 mb-4">
+              <span className="w-8 h-[2px] bg-[var(--orange)]" />
+              <span className="text-[11px] font-black tracking-[0.3em] uppercase text-[var(--olive-dark)]">
+                {t.health_advantage || "HEALTH BENEFITS"}
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black font-semibold text-[var(--foreground)] leading-[1.1] tracking-tight">
+              {t.health_advantage_headline_1}{" "}
+              <span className="text-[var(--orange)] font-light">
+                {t.health_advantage_headline_2} {t.health_advantage_headline_3}
+              </span>
+            </h2>
           </div>
 
-          {/* Title */}
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] leading-tight tracking-tight">
-            {t.health_advantage_headline_1}{" "}
-            <span className="text-[var(--orange)] font-light">
-              {t.health_advantage_headline_2} {t.health_advantage_headline_3}
-            </span>
-          </h2>
-
           {/* Category Tabs */}
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
+          <div className="flex flex-wrap justify-start lg:justify-end gap-3 pb-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-8 py-3 rounded text-[11px] font-bold tracking-widest uppercase transition-all duration-300 border ${activeCategory === cat
-                  ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
-                  : "bg-white text-[var(--dark-grey)] border-gray-200 hover:border-[var(--orange)] hover:text-[var(--orange)] shadow-sm"
+                className={`px-6 py-3 rounded-full text-[11px] font-black tracking-widest uppercase transition-all duration-500 border ${activeCategory === cat
+                    ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] -translate-y-1"
+                    : "bg-white/60 backdrop-blur-sm text-[var(--dark-grey)] border-[var(--olive)]/20 hover:border-[var(--orange)] hover:bg-white hover:text-[var(--orange)] shadow-sm hover:-translate-y-0.5"
                   }`}
               >
                 {t.sections?.[cat] || cat}
@@ -465,30 +465,30 @@ function HealthBenefitsSection({ t }: { t: any }) {
           </div>
         </div>
 
-        {/* --- Sliding Cards (Corporate Style) --- */}
+        {/* --- Sliding Cards (Editorial Style) --- */}
         <div className="relative group mt-8">
           {/* Left Arrow */}
           <button
             onClick={() => slide("left")}
-            className="absolute -left-2 md:-left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-[var(--olive-dark)] rounded border border-gray-200 shadow-sm flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange-dark)] hover:text-white hover:border-[var(--orange)] opacity-0 group-hover:opacity-100 hidden sm:flex"
+            className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white text-[var(--olive-dark)] rounded-full border border-stone-100 shadow-[0_8px_20px_rgba(0,0,0,0.08)] flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-transparent opacity-0 group-hover:opacity-100 hidden sm:flex hover:scale-110"
             aria-label="Scroll left"
           >
-            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
+            <ChevronLeft className="w-6 h-6" strokeWidth={2.5} />
           </button>
 
           {/* Right Arrow */}
           <button
             onClick={() => slide("right")}
-            className="absolute -right-2 md:-right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white text-[var(--olive-dark)] rounded border border-gray-200 shadow-sm flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange-dark)] hover:text-white hover:border-[var(--orange)] opacity-0 group-hover:opacity-100 hidden sm:flex"
+            className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white text-[var(--olive-dark)] rounded-full border border-stone-100 shadow-[0_8px_20px_rgba(0,0,0,0.08)] flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-transparent opacity-0 group-hover:opacity-100 hidden sm:flex hover:scale-110"
             aria-label="Scroll right"
           >
-            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
+            <ChevronRight className="w-6 h-6" strokeWidth={2.5} />
           </button>
 
           <div
             ref={sliderRef}
             onScroll={handleScroll}
-            className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-10 pt-4 px-2"
+            className="flex gap-5 md:gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-12 pt-4 px-2"
           >
             <style
               dangerouslySetInnerHTML={{
@@ -502,38 +502,47 @@ function HealthBenefitsSection({ t }: { t: any }) {
             {activeBenefits.map((benefit: any, idx: number) => (
               <div
                 key={benefit.name + idx}
-                className="flex-shrink-0 w-[260px] md:w-[280px] snap-start bg-white rounded border border-gray-200 p-8 flex flex-col shadow-sm transition-all duration-300 hover:shadow-md hover:border-[var(--orange)] group/card relative"
+                className="flex-shrink-0 w-[260px] md:w-[320px] snap-start bg-white/80 backdrop-blur-xl rounded-[1.5rem] p-6 md:p-8 flex flex-col border border-white shadow-[0_4px_15px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.08)] hover:-translate-y-2 hover:border-[var(--olive)]/30 transition-all duration-700 ease-out group/card relative overflow-hidden"
               >
+                {/* Decorative Top Right Corner Glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--olive)]/5 rounded-bl-[100px] pointer-events-none group-hover/card:bg-[var(--orange)]/10 transition-colors duration-700" />
+                <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-[var(--cream)] rounded-full pointer-events-none group-hover/card:scale-150 transition-transform duration-700 ease-out" />
+
                 {/* Structural Icon Box */}
-                <div className="w-12 h-12 rounded bg-[var(--cream)] border border-[var(--olive)]/20 flex items-center justify-center mb-6 group-hover/card:bg-[var(--orange)] group-hover/card:border-transparent transition-colors duration-300">
+                <div className="w-14 h-14 rounded-2xl bg-white border border-stone-100 flex items-center justify-center mb-6 group-hover/card:bg-[var(--orange)] group-hover/card:border-transparent transition-all duration-500 shadow-sm group-hover/card:shadow-[0_8px_15px_rgba(208,140,92,0.3)] relative z-10 group-hover/card:-rotate-6">
                   <img
                     src={meta.emoji}
                     alt="icons"
-                    className="w-6 h-6 object-cover opacity-80 group-hover/card:opacity-100 group-hover/card:brightness-0 group-hover/card:invert transition-all"
+                    className="w-7 h-7 object-cover opacity-60 group-hover/card:opacity-100 group-hover/card:brightness-0 group-hover/card:invert transition-all duration-500"
                   />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-sm font-black text-[var(--foreground)] tracking-tight uppercase mb-3 leading-snug group-hover/card:text-[var(--olive-dark)] transition-colors duration-300">
+                <h3 className="text-xl font-black text-[var(--foreground)] tracking-tight mb-4 leading-snug group-hover/card:text-[var(--olive-dark)] transition-colors duration-300 relative z-10">
                   {benefit.name}
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs text-[var(--dark-grey)] leading-relaxed font-medium mb-6 flex-grow">
+                <p className="text-[13px] text-[var(--dark-grey)] leading-relaxed font-medium mb-8 flex-grow relative z-10 line-clamp-4">
                   {benefit.desc}
                 </p>
 
-                {/* Corporate Divider Line */}
-                <div className="h-[2px] w-8 bg-gray-200 mt-auto group-hover/card:bg-[var(--orange)] group-hover/card:w-16 transition-all duration-500" />
+                {/* Elegant Animated Divider Line */}
+                <div className="flex items-center justify-between mt-auto relative z-10">
+                  <span className="h-[2px] w-10 bg-stone-200 group-hover/card:bg-[var(--orange)] group-hover/card:w-16 transition-all duration-700 ease-out rounded-full" />
+                  <span className="text-[9px] font-black tracking-[0.2em] uppercase text-stone-300 group-hover/card:text-[var(--orange)] transition-colors duration-500 opacity-0 group-hover/card:opacity-100 translate-x-3 group-hover/card:translate-x-0">
+                    Read More
+                  </span>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Slider Progress indicator */}
-        <div className="max-w-md mx-auto w-full h-[2px] bg-gray-100 rounded-none overflow-hidden mt-4 relative">
+        <div className="max-w-md mx-auto w-full h-[3px] bg-stone-200/60 rounded-full overflow-hidden mt-2 relative">
           <div
-            className="absolute top-0 bottom-0 left-0 bg-[var(--olive-dark)] transition-all duration-300 ease-out"
+            className="absolute top-0 bottom-0 left-0 bg-[var(--olive-dark)] rounded-full transition-all duration-300 ease-out"
             style={{ width: `${Math.max(5, scrollProgress)}%` }}
           />
         </div>
@@ -572,7 +581,7 @@ function HeroSection({
       <div className="absolute inset-0 z-0">
         {/* Background Image */}
         <Image
-          src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSO-MEYF6S4m4yNGAU1KoxpGjKhGp9YIt5V3GF2PD0BzC7Ks7JE"
+          src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070&auto=format&fit=crop"
           alt="Premium Artisanal Millet & Nut Gift Packs"
           fill
           priority
@@ -646,44 +655,48 @@ function HeroSection({
                 }
               `}</style>
               {featuredProducts.slice(0, 8).map((product, idx) => {
-              const productId = product.productid || product.id;
-              const bid = product.bid || 1;
-              return (
-                <div
-                  key={idx}
-                  className="flex-shrink-0 w-[180px] lg:w-[220px] bg-white/[0.03] backdrop-blur-2xl rounded-3xl border border-white/10 p-3 lg:p-4 snap-center group cursor-pointer hover:bg-white/[0.08] hover:border-[var(--orange)]/50  transition-all duration-500 flex flex-col relative overflow-hidden"
-                  onClick={() =>
-                    (window.location.href = `/product-detail/${productId}?productid=${productId}&bid=${bid}`)
-                  }
-                >
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--orange)]/20 blur-3xl rounded-full -mr-10 -mt-10 pointer-events-none group-hover:bg-[var(--orange-dark)]/30 transition-colors duration-500" />
+                const productId = product.productid || product.id;
+                const bid = product.bid || 1;
+                return (
+                  <div
+                    key={idx}
+                    className="flex-shrink-0 w-[180px] lg:w-[240px] bg-black/40 backdrop-blur-md border border-white/10 snap-center group cursor-pointer hover:border-white/40 transition-all duration-700 flex flex-col relative overflow-hidden"
+                    onClick={() =>
+                      (window.location.href = `/product-detail/${productId}?productid=${productId}&bid=${bid}`)
+                    }
+                  >
+                    <div className="relative w-full aspect-[4/5] overflow-hidden bg-[#111]">
+                      <img
+                        src={getImageUrl(product.image || product.productimage)}
+                        alt={product.name || product.productname}
+                        className="object-cover w-full h-full opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
+                      />
 
-                  <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/5 border border-white/5 shadow-inner">
-                    <img
-                      src={getImageUrl(product.image || product.productimage)}
-                      alt={product.name || product.productname}
-                      className="object-cover group-hover:scale-110 transition-transform duration-700 w-full h-full"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-3">
-                      <span className="text-[10px] font-bold text-white uppercase tracking-widest border-b border-[var(--orange)]">
-                        View Product
-                      </span>
+                      {/* Dark gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-700" />
+
+                      <div className="absolute inset-0 p-5 flex flex-col justify-end">
+                        <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-out">
+                          <span className="block text-[9px] font-bold tracking-[0.3em] uppercase text-[var(--orange)] mb-2">
+                            Featured
+                          </span>
+                          <h3 className="text-white text-sm lg:text-base font-medium leading-snug line-clamp-2 mb-3">
+                            {product.name || product.productname}
+                          </h3>
+                          <div className="flex items-center justify-between">
+                            <p className="text-white/80 font-bold text-xs lg:text-sm tracking-widest">
+                              ₹{product.sellingprice || product.price}
+                            </p>
+                            <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-700 delay-100">
+                              <ArrowRight className="w-3 h-3 text-white" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                  <div className="mt-auto flex flex-col items-center z-10">
-                    <h3 className="text-white/90 text-xs lg:text-sm font-semibold text-center line-clamp-1 group-hover:text-white transition-colors">
-                      {product.name || product.productname}
-                    </h3>
-                    <div className="mt-2.5">
-                      <p className="text-[var(--orange)] font-bold text-xs lg:text-sm text-center bg-[var(--orange)]/10 px-4 py-1.5 rounded-full border border-[var(--orange)]/20 shadow-sm group-hover:bg-[var(--orange-dark)] group-hover:text-black group-hover:shadow-[0_0_15px_rgba(208,140,92,0.4)] transition-all duration-300">
-                        ₹{product.sellingprice || product.price}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
             </div>
             <button
               onClick={(e) => { e.preventDefault(); slide("right"); }}
@@ -1286,7 +1299,7 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                           />
                         ))}
                       </div>
-                      <p className="text-[var(--dark-grey)] text-sm font-medium leading-relaxed italic line-clamp-5">
+                      <p className="text-[var(--dark-grey)] text-sm font-medium leading-relaxed  line-clamp-5">
                         &ldquo;{item.text}&rdquo;
                       </p>
                     </div>
@@ -1330,7 +1343,7 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
                         />
                       ))}
                     </div>
-                    <p className="text-[var(--dark-grey)] text-sm font-medium leading-relaxed italic line-clamp-5">
+                    <p className="text-[var(--dark-grey)] text-sm font-medium leading-relaxed  line-clamp-5">
                       &ldquo;{item.text}&rdquo;
                     </p>
                   </div>
@@ -1513,9 +1526,10 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
   const defaultIcons = [Activity, Scale, Baby];
 
   return (
-    <section ref={ref} className="py-24 bg-[#FFF5EF] relative overflow-hidden">
-      {/* Subtle Corporate Grid */}
-      <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
+    <section ref={ref} className="py-24 bg-stone-50 relative overflow-hidden">
+      {/* App Color Decor */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-[var(--olive)]/5 pointer-events-none" />
+      <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-[var(--orange)]/5 blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header */}
@@ -1523,7 +1537,7 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
           <div className="space-y-4 max-w-2xl">
             <div className="inline-flex items-center gap-3">
               <span className="w-8 h-px bg-[var(--orange)]" />
-              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive-dark)]">
                 Targeted Nutrition
               </span>
             </div>
@@ -1534,21 +1548,27 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                 {t.health_goals_title?.split(" ").slice(2).join(" ") || "Goals"}
               </span>
             </h2>
-            <p className="text-base font-medium text-[var(--dark-grey)] max-w-lg leading-relaxed">
+            <p className="text-sm font-medium text-[var(--dark-grey)] max-w-lg leading-relaxed">
               {t.health_goals_desc ||
                 "Discover precisely formulated nutrition tailored for your specific wellness objectives."}
             </p>
           </div>
+          <Link
+            href="/shop"
+            className="hidden md:flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--olive-dark)] border-b border-[var(--olive-dark)] pb-1 hover:text-[var(--orange)] hover:border-[var(--orange)] transition-colors"
+          >
+            {t.explore_all || "Explore Collection"} <ArrowRight className="w-3 h-3" />
+          </Link>
         </div>
 
         {displayGoals.length === 0 ? (
-          <div className="py-12 flex flex-col items-center justify-center bg-white border border-gray-200 shadow-sm">
+          <div className="py-12 flex flex-col items-center justify-center bg-white border border-gray-200 shadow-sm rounded-2xl">
             <p className="text-[var(--dark-grey)] font-medium text-sm">
               No health goals found.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             {displayGoals.map((goal, idx) => {
               const Icon = defaultIcons[idx % defaultIcons.length];
               const image = getImageUrl(goal.goalimage);
@@ -1557,42 +1577,42 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                 <Link
                   href={`/health-goal-products?goalid=${goal.goalid}`}
                   key={goal.goalid || idx}
-                  className="group flex flex-col sm:flex-row bg-white overflow-hidden border border-gray-200 hover:border-[var(--orange)] shadow-sm hover:shadow-[0_15px_40px_rgba(0,0,0,0.08)] transition-all duration-300"
+                  className="group flex flex-col bg-white border border-stone-100 hover:border-[var(--olive)] shadow-sm hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden"
                 >
-                  {/* Image Section (Left) */}
-                  <div className="relative w-full sm:w-48 h-48 sm:h-auto overflow-hidden bg-gray-50 shrink-0">
-                    <img
-                      src={image}
-                      alt={goal.goalname || ""}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-[var(--olive-dark)]/10 mix-blend-multiply transition-opacity duration-300 group-hover:opacity-0" />
-                  </div>
-
-                  {/* Content Section (Right) */}
-                  <div className="flex-1 p-6 sm:p-8 flex flex-col justify-center relative">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-8 h-8 rounded flex items-center justify-center bg-[var(--cream)] border border-[var(--olive)]/20 text-[var(--olive-dark)] group-hover:bg-[var(--orange-dark)] group-hover:text-white group-hover:border-transparent transition-colors duration-300">
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <span className="text-[10px] font-bold tracking-[0.2em] text-[var(--dark-grey)] uppercase">
-                        Goal 0{idx + 1}
-                      </span>
+                  {/* Arch Image Section */}
+                  <div className="w-full pt-8 px-8 bg-white flex justify-center relative">
+                    {/* Goal Number Badge */}
+                    <div className="absolute top-4 right-4 z-20 text-[10px] font-bold tracking-[0.2em] text-[var(--dark-grey)] uppercase bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
+                      0{idx + 1}
                     </div>
 
-                    <h3 className="text-xl font-black text-[var(--foreground)] tracking-tight transition-colors duration-300 mb-2 group-hover:text-[var(--olive-dark)]">
-                      {goal.goalname}
-                    </h3>
+                    <div className="relative w-full aspect-[4/3.5] overflow-hidden rounded-t-[120px] rounded-b-2xl border-4 border-stone-50 group-hover:border-[var(--cream)] transition-colors duration-500 shadow-inner">
+                      <div className="absolute inset-0 bg-[var(--olive)]/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none" />
+                      <img
+                        src={image}
+                        alt={goal.goalname || ""}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="p-8 flex flex-col flex-1 bg-white">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-8 h-8 rounded-full bg-[var(--cream)] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--orange)] group-hover:text-white transition-colors duration-500 shadow-sm">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-black text-[var(--foreground)] tracking-tight group-hover:text-[var(--olive-dark)] transition-colors duration-300">
+                        {goal.goalname}
+                      </h3>
+                    </div>
 
                     <p className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed line-clamp-2 mb-6">
                       {goal.description}
                     </p>
 
-                    <div className="flex items-center gap-2 mt-auto">
-                      <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--olive-dark)] group-hover:text-[var(--orange)] transition-colors duration-300">
-                        {t.explore_all || "Explore"}
-                      </span>
-                      <ArrowRight className="w-4 h-4 text-[var(--olive-dark)] group-hover:text-[var(--orange)] group-hover:translate-x-1 transition-all duration-300" />
+                    <div className="mt-auto inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--olive-dark)] group-hover:text-[var(--orange)] transition-colors duration-300">
+                      {t.explore_all || "Explore"} <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
                     </div>
                   </div>
                 </Link>
