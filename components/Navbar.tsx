@@ -354,14 +354,14 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-5 xl:gap-8 z-0 pt-1">
+            <div className="hidden lg:flex items-center gap-3 xl:gap-5 z-0 pt-1">
               {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
+                    className={`group relative py-2 px-1 text-[10px] xl:text-[11px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
                   >
                     {item.name}
                     <span
@@ -373,7 +373,7 @@ export default function Navbar() {
 
               {/* Categories Dropdown */}
               <div className="relative group/catdrop h-full flex items-center">
-                <button className="group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 text-white/70 hover:text-white">
+                <button className="group relative py-2 px-1 text-[10px] xl:text-[11px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 text-white/70 hover:text-white">
                   {t.categories || "CATEGORIES"}
                   <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover/catdrop:-rotate-180" />
                   <span className="absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
@@ -386,7 +386,7 @@ export default function Navbar() {
                         <Link
                           key={cat.href}
                           href={cat.href}
-                          className="px-5 py-3 text-[11px] font-bold text-stone-600 hover:text-[var(--orange)] hover:bg-orange-50/50 transition-all duration-300 uppercase tracking-widest whitespace-nowrap flex items-center gap-3 border-b border-stone-100/50 last:border-0 group/item"
+                          className="px-5 py-3 text-[10px] font-bold text-stone-600 hover:text-[var(--orange)] hover:bg-orange-50/50 transition-all duration-300 uppercase tracking-widest whitespace-nowrap flex items-center gap-3 border-b border-stone-100/50 last:border-0 group/item"
                         >
                           <span className="transform transition-transform duration-300 group-hover/item:translate-x-1">{cat.name}</span>
                         </Link>
@@ -398,7 +398,7 @@ export default function Navbar() {
 
               <Link
                 href="/gifts"
-                className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${pathname === "/gifts" ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
+                className={`group relative py-2 px-1 text-[10px] xl:text-[11px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${pathname === "/gifts" ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
               >
                 {t.gifting || "Gifts"}
                 <span
@@ -407,7 +407,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/corporate-orders"
-                className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${pathname === "/corporate-orders" ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
+                className={`group relative py-2 px-1 text-[10px] xl:text-[11px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${pathname === "/corporate-orders" ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
               >
                 {t.corporate || "Corporate Orders"}
                 <span
@@ -421,7 +421,7 @@ export default function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
+                    className={`group relative py-2 px-1 text-[10px] xl:text-[11px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
                   >
                     {item.name}
                     <span
@@ -439,7 +439,7 @@ export default function Navbar() {
             <div className="hidden md:block relative group/langdrop">
               <button className="group flex items-center h-10 gap-2 px-4 rounded-full bg-white/5 border border-white/10 hover:border-[var(--orange)]/50 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300 cursor-pointer">
                 <Globe className="w-4 h-4 text-white/70 group-hover:text-[var(--orange)] transition-colors" />
-                <span className="text-[11px] font-bold tracking-widest uppercase text-white/90 group-hover:text-white transition-colors">
+                <span className="text-[10px] font-bold tracking-widest uppercase text-white/90 group-hover:text-white transition-colors">
                   {selectedLang}
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-white/70 group-hover:text-white transition-all group-hover/langdrop:rotate-180" />
