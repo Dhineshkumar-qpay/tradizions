@@ -3,6 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Phone, MapPin, ArrowRight, Leaf } from "lucide-react";
+
+import {
+  FaFacebook as Facebook,
+  FaInstagram as Instagram,
+  FaTwitter as Twitter,
+  FaYoutube as Youtube,
+} from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { API } from "@/service/api_service";
 import { API_ROUTES } from "@/routes/api_routes";
@@ -85,42 +92,47 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="bg-stone-50 border-t border-stone-200 pt-20 pb-10 relative mt-20">
-      {/* Subtle Corporate Accent Line */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--olive)] via-[var(--orange)] to-[var(--olive)]" />
-
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 mb-16">
-
-          {/* Brand & Contact (Span 4) */}
-          <div className="md:col-span-12 lg:col-span-4 flex flex-col">
-            <Link href="/" className="inline-block mb-6">
-              <Image src="/app-logo-new.png" alt="Tradizions" width={140} height={42} className="object-contain" />
+    <footer className="bg-[var(--olive-dark)] text-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 pt-20 pb-12 relative z-10 border-t border-white/10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          {/* Brand */}
+          <div className="lg:col-span-4 space-y-8">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="p-2 bg-white rounded-sm transition-transform duration-300 group-hover:scale-105 shadow-sm">
+                <Image
+                  src="/app-logo-new.png"
+                  alt="Tradizions Logo"
+                  width={140}
+                  height={40}
+                  className="object-contain"
+                />
+              </div>
             </Link>
-            <p className="text-sm text-stone-600 leading-relaxed mb-8 max-w-sm">
+
+            <p className="text-sm text-white/70 font-light leading-relaxed max-w-sm">
               {t.footer_description}
             </p>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 text-sm text-stone-600">
-                <MapPin className="w-4 h-4 text-[var(--olive)]" />
-                <span>{t.address}</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-stone-600">
-                <Phone className="w-4 h-4 text-[var(--olive)]" />
-                <a href="tel:+919940620019" className="hover:text-[var(--olive)] transition-colors">+91 99406 20019</a>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-stone-600">
-                <Mail className="w-4 h-4 text-[var(--olive)]" />
-                <a href="mailto:tradizions@gmail.com" className="hover:text-[var(--olive)] transition-colors">tradizions@gmail.com</a>
-              </div>
+            <div className="flex items-center gap-4">
+              {socialLinks.map(({ icon, href }, idx) => (
+                <Link
+                  key={idx}
+                  href={href}
+                  target="_blank"
+                  className="p-3 rounded-full bg-white hover:bg-[var(--orange-dark)] transition-all duration-300 group flex items-center justify-center w-11 h-11"
+                >
+                  <img src={icon} alt="Social Icon" className="w-5 h-5 object-contain group-hover:scale-110 transition-transform group-hover:brightness-0 group-hover:invert" />
+                </Link>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links (Span 2) */}
-          <div className="md:col-span-4 lg:col-span-2">
-            <h4 className="text-[11px] font-bold text-stone-900 uppercase tracking-[0.2em] mb-6">{t.quick_links}</h4>
-            <ul className="space-y-4">
+          {/* Quick Links */}
+          <div className="lg:col-span-2 space-y-8">
+            <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-[var(--orange)]">
+              {t.quick_links}
+            </h4>
+            <ul className="space-y-4 text-sm">
               {[
                 { name: t.aboutUs, path: "/about-us" },
                 { name: t.contactUs, path: "/contact-us" },
@@ -129,7 +141,11 @@ export default function Footer() {
                 { name: t.nutritionGuides || "Guides & Nutrition", path: "/nutrition-guides" },
               ].map((link) => (
                 <li key={link.path}>
-                  <Link href={link.path} className="text-sm text-stone-500 hover:text-[var(--olive)] transition-colors">
+                  <Link
+                    href={link.path}
+                    className="text-white/60 hover:text-white flex items-center gap-2 group transition"
+                  >
+                    <span className="w-0 h-px bg-[var(--orange)] group-hover:w-4 transition-all duration-300" />
                     {link.name}
                   </Link>
                 </li>
@@ -137,10 +153,12 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Policies (Span 2) */}
-          <div className="md:col-span-4 lg:col-span-2">
-            <h4 className="text-[11px] font-bold text-stone-900 uppercase tracking-[0.2em] mb-6">{t.policies}</h4>
-            <ul className="space-y-4">
+          {/* Company */}
+          <div className="lg:col-span-2 space-y-8">
+            <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-[var(--orange)]">
+              {t.policies}
+            </h4>
+            <ul className="space-y-4 text-sm">
               {[
                 { name: t.terms, path: "/policies/terms-and-conditions" },
                 { name: t.privacyPolicy, path: "/policies/privacy-policy" },
@@ -151,7 +169,11 @@ export default function Footer() {
                 if (!policy.name) return null;
                 return (
                   <li key={policy.path}>
-                    <Link href={policy.path} className="text-sm text-stone-500 hover:text-[var(--olive)] transition-colors">
+                    <Link
+                      href={policy.path}
+                      className="text-white/60 hover:text-white flex items-center gap-2 group transition"
+                    >
+                      <span className="w-0 h-px bg-[var(--orange)] group-hover:w-4 transition-all duration-300" />
                       {policy.name}
                     </Link>
                   </li>
@@ -160,74 +182,84 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Newsletter (Span 4) */}
-          <div className="md:col-span-4 lg:col-span-4">
-            <h4 className="text-[11px] font-bold text-stone-900 uppercase tracking-[0.2em] mb-6">{t.newsletter}</h4>
-            <p className="text-sm text-stone-600 mb-6 leading-relaxed">
-              Subscribe to our corporate newsletter for exclusive gifting guides, bulk order discounts, and industry trends.
-            </p>
-            <form onSubmit={handleSubscribe} className="relative flex items-center mb-8">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
-                required
-                placeholder={t.contact_us?.email || "Email address"}
-                className="w-full bg-white border border-stone-200 rounded-lg py-3 pl-4 pr-12 focus:outline-none focus:border-[var(--olive)] focus:ring-1 focus:ring-[var(--olive)] transition-all text-sm font-medium placeholder-stone-400"
-              />
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="absolute right-2 w-8 h-8 rounded-md bg-[var(--olive)] text-white flex items-center justify-center hover:bg-[var(--olive-dark)] transition-colors disabled:opacity-50"
-              >
-                {isLoading ? (
-                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  <ArrowRight className="w-4 h-4" />
-                )}
-              </button>
-            </form>
+          {/* Newsletter & Contact */}
+          <div className="lg:col-span-4 space-y-10">
+            {/* Newsletter */}
+            <div className="space-y-6">
+              <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-[var(--orange)]">
+                {t.newsletter}
+              </h4>
 
-            <h4 className="text-[11px] font-bold text-stone-900 uppercase tracking-[0.2em] mb-4">Connect With Us</h4>
-            <div className="flex items-center gap-3">
-              {socialLinks.map(({ icon, href }, idx) => (
-                <Link
-                  key={idx}
-                  href={href}
-                  target="_blank"
-                  className="w-9 h-9 rounded-full bg-white border border-stone-200 flex items-center justify-center hover:border-[var(--olive)] hover:shadow-sm transition-all group"
+              <p className="text-white/60 text-sm">{t.newsletter_text}</p>
+
+              <form onSubmit={handleSubscribe} className="relative">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
+                  required
+                  placeholder={t.contact_us?.email || "Your Email Address"}
+                  className="w-full bg-white/10 border border-white/20 rounded-sm py-3.5 px-5 focus:outline-none focus:border-[var(--orange)] disabled:opacity-50 text-sm"
+                />
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2 bg-[var(--orange)] rounded-sm hover:bg-[var(--orange-dark)] transition disabled:opacity-50"
                 >
-                  <img src={icon} alt="Social Icon" className="w-4 h-4 object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all" />
-                </Link>
-              ))}
+                  {isLoading ? (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <ArrowRight className="w-4 h-4 text-white" />
+                  )}
+                </button>
+              </form>
+            </div>
+
+            {/* Contact */}
+            <div className="space-y-4 text-white/70">
+              <div className="flex items-start gap-4">
+                <MapPin className="w-4 h-4 text-[var(--orange)] mt-1" />
+                <span className="text-sm leading-relaxed">{t.address}</span>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <Phone className="w-4 h-4 text-[var(--orange)]" />
+                <a href="tel:+919940620019" className="text-sm">
+                  +91 99406 20019
+                </a>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <Mail className="w-4 h-4 text-[var(--orange)]" />
+                <a href="mailto:support@tradizions.com" className="text-sm">
+                  tradizions@gmail.com
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-stone-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[11px] font-semibold tracking-wider text-stone-500 uppercase">
+        {/* Bottom */}
+        <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-xs text-white/40">
             © {currentYear} TRADIZIONS. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-4">
-            <span className="text-[10px] font-bold text-stone-400 tracking-[0.2em] uppercase">
+          <div className="flex items-center gap-2 px-4 py-2 ">
+            <span className="text-[10px] font-bold text-white/60 tracking-widest uppercase">
               {t.purely_traditional || "Purely Traditional"}
             </span>
           </div>
-
-          <p className="text-[11px] font-semibold text-stone-500">
-            Designed for Corporate Excellence
-          </p>
         </div>
       </div>
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-8 right-8 z-50 animate-fade-in-up">
+        <div className="fixed bottom-4 right-4 z-50 animate-fade-in-up">
           <div
-            className={`px-6 py-4 rounded-xl shadow-lg flex items-center gap-3 text-[13px] font-bold tracking-wide ${toastMessage.type === "success" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"}`}
+            className={`px-6 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-bold tracking-wide ${toastMessage.type === "success" ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-red-50 text-red-600 border border-red-100"}`}
           >
             {toastMessage.text}
           </div>
@@ -236,4 +268,3 @@ export default function Footer() {
     </footer>
   );
 }
-
