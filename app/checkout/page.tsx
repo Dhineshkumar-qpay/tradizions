@@ -265,7 +265,7 @@ export default function CheckoutPage() {
       }
 
       const options = {
-        key: "rzp_test_TOP1xWTgy7L6M2",
+        key: "rzp_live_TQmjNlUYT2QAlj",
         amount: Math.round(grandTotal * 100),
         currency: "INR",
         name: "Tradizions",

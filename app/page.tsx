@@ -280,7 +280,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
-      <HeroSection t={t} featuredProducts={featuredProducts} />
+      <HeroSection t={t} />
 
       {/* Brand Promise Section */}
       <section className="py-8 md:py-10 bg-white relative overflow-hidden border-b border-stone-50">
@@ -368,10 +368,7 @@ export default function Home() {
 //  HEALTH BENEFITS SECTION (REDESIGNED)
 //  ══════════════════════════════════════════════════════════════ */
 function HealthBenefitsSection({ t }: { t: any }) {
-  const [activeCategory, setActiveCategory] = useState<
-    "nuts" | "millets" | "spices"
-  >("nuts");
-
+  const [activeCategory, setActiveCategory] = useState<"nuts" | "millets" | "spices">("nuts");
   const [scrollProgress, setScrollProgress] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -384,19 +381,12 @@ function HealthBenefitsSection({ t }: { t: any }) {
   const categoryMeta: Record<string, { emoji: string }> = {
     nuts: { emoji: "https://cdn-icons-png.flaticon.com/128/7451/7451659.png" },
     millets: { emoji: "https://cdn-icons-png.flaticon.com/128/616/616428.png" },
-    spices: {
-      emoji: "https://cdn-icons-png.flaticon.com/128/9273/9273863.png",
-    },
+    spices: { emoji: "https://cdn-icons-png.flaticon.com/128/9273/9273863.png" },
   };
 
   const activeBenefits = benefitsMap[activeCategory];
   const meta = categoryMeta[activeCategory];
-
-  const categories: Array<"nuts" | "millets" | "spices"> = [
-    "nuts",
-    "millets",
-    "spices",
-  ];
+  const categories: Array<"nuts" | "millets" | "spices"> = ["nuts", "millets", "spices"];
 
   useEffect(() => {
     if (sliderRef.current) {
@@ -417,46 +407,40 @@ function HealthBenefitsSection({ t }: { t: any }) {
   const slide = (direction: "left" | "right") => {
     if (sliderRef.current) {
       const { clientWidth } = sliderRef.current;
-      const scrollAmount =
-        direction === "left" ? -clientWidth * 0.8 : clientWidth * 0.8;
+      const scrollAmount = direction === "left" ? -clientWidth * 0.8 : clientWidth * 0.8;
       sliderRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
 
   return (
-    <section className="pt-28 pb-32 relative overflow-hidden bg-[var(--cream)] border-t border-stone-200/50">
-      {/* Aesthetic Background Touches */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
-      <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--orange)]/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--olive)]/10 rounded-full blur-[120px] pointer-events-none" />
+    <section className="py-24 relative overflow-hidden bg-white border-t border-stone-100">
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-[#FAF8F5] rounded-l-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--olive)]/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 z-10">
-        {/* --- Header Section --- */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between mb-16 gap-8">
-          <div className="max-w-2xl text-left">
-            <div className="inline-flex items-center gap-3 mb-4">
-              <span className="w-8 h-[2px] bg-[var(--orange)]" />
-              <span className="text-[11px] font-black tracking-[0.3em] uppercase text-[var(--olive-dark)]">
-                {t.health_advantage || "HEALTH BENEFITS"}
-              </span>
-            </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black font-semibold text-[var(--foreground)] leading-[1.1] tracking-tight">
-              {t.health_advantage_headline_1}{" "}
-              <span className="text-[var(--orange)] font-light">
-                {t.health_advantage_headline_2} {t.health_advantage_headline_3}
-              </span>
-            </h2>
+        <div className="flex flex-col items-center text-center mb-16 gap-6">
+          <div className="inline-flex items-center gap-3">
+            <span className="w-8 h-[2px] bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
+              {t.health_advantage || "HEALTH BENEFITS"}
+            </span>
+            <span className="w-8 h-[2px] bg-[var(--orange)]" />
           </div>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] tracking-tight">
+            {t.health_advantage_headline_1}{" "}
+            <span className="text-[var(--olive)] font-light">
+              {t.health_advantage_headline_2} {t.health_advantage_headline_3}
+            </span>
+          </h2>
 
-          {/* Category Tabs */}
-          <div className="flex flex-wrap justify-start lg:justify-end gap-3 pb-2">
+          <div className="flex flex-wrap justify-center gap-3 mt-4">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-3 rounded-full text-[11px] font-black tracking-widest uppercase transition-all duration-500 border ${activeCategory === cat
-                  ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] -translate-y-1"
-                  : "bg-white/60 backdrop-blur-sm text-[var(--dark-grey)] border-[var(--olive)]/20 hover:border-[var(--orange)] hover:bg-white hover:text-[var(--orange)] shadow-sm hover:-translate-y-0.5"
+                className={`px-8 py-3.5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase transition-all duration-300 border ${activeCategory === cat
+                    ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
+                    : "bg-transparent text-[var(--dark-grey)] border-stone-200 hover:border-[var(--olive)] hover:text-[var(--olive-dark)]"
                   }`}
               >
                 {t.sections?.[cat] || cat}
@@ -465,85 +449,66 @@ function HealthBenefitsSection({ t }: { t: any }) {
           </div>
         </div>
 
-        {/* --- Sliding Cards (Editorial Style) --- */}
-        <div className="relative group mt-8">
-          {/* Left Arrow */}
+        <div className="relative group max-w-6xl mx-auto">
           <button
             onClick={() => slide("left")}
-            className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white text-[var(--olive-dark)] rounded-full border border-stone-100 shadow-[0_8px_20px_rgba(0,0,0,0.08)] flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-transparent opacity-0 group-hover:opacity-100 hidden sm:flex hover:scale-110"
-            aria-label="Scroll left"
+            className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white text-[var(--olive-dark)] rounded-full border border-stone-100 shadow-md flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-transparent opacity-0 group-hover:opacity-100 hidden sm:flex hover:scale-105"
           >
-            <ChevronLeft className="w-6 h-6" strokeWidth={2.5} />
+            <ChevronLeft className="w-5 h-5" />
           </button>
 
-          {/* Right Arrow */}
           <button
             onClick={() => slide("right")}
-            className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white text-[var(--olive-dark)] rounded-full border border-stone-100 shadow-[0_8px_20px_rgba(0,0,0,0.08)] flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-transparent opacity-0 group-hover:opacity-100 hidden sm:flex hover:scale-110"
-            aria-label="Scroll right"
+            className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white text-[var(--olive-dark)] rounded-full border border-stone-100 shadow-md flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-transparent opacity-0 group-hover:opacity-100 hidden sm:flex hover:scale-105"
           >
-            <ChevronRight className="w-6 h-6" strokeWidth={2.5} />
+            <ChevronRight className="w-5 h-5" />
           </button>
 
           <div
             ref={sliderRef}
             onScroll={handleScroll}
-            className="flex gap-5 md:gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-12 pt-4 px-2"
+            className="flex gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-10 pt-4 px-4"
           >
-            <style
-              dangerouslySetInnerHTML={{
-                __html: `
-              .no-scrollbar::-webkit-scrollbar { display: none; }
-              .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-            `,
-              }}
-            />
+            <style jsx>{`
+              div::-webkit-scrollbar { display: none; }
+            `}</style>
 
             {activeBenefits.map((benefit: any, idx: number) => (
               <div
                 key={benefit.name + idx}
-                className="flex-shrink-0 w-[260px] md:w-[320px] snap-start bg-white/80 backdrop-blur-xl rounded-[1.5rem] p-6 md:p-8 flex flex-col border border-white shadow-[0_4px_15px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.08)] hover:-translate-y-2 hover:border-[var(--olive)]/30 transition-all duration-700 ease-out group/card relative overflow-hidden"
+                className="flex-shrink-0 w-[280px] md:w-[340px] snap-start bg-[#FAF8F5] rounded-[24px] p-8 flex flex-col border border-stone-100 shadow-sm hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:-translate-y-2 hover:bg-white hover:border-[var(--olive)]/20 transition-all duration-500 group/card relative overflow-hidden"
               >
-                {/* Decorative Top Right Corner Glow */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--olive)]/5 rounded-bl-[100px] pointer-events-none group-hover/card:bg-[var(--orange)]/10 transition-colors duration-700" />
-                <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-[var(--cream)] rounded-full pointer-events-none group-hover/card:scale-150 transition-transform duration-700 ease-out" />
-
-                {/* Structural Icon Box */}
-                <div className="w-14 h-14 rounded-2xl bg-white border border-stone-100 flex items-center justify-center mb-6 group-hover/card:bg-[var(--orange)] group-hover/card:border-transparent transition-all duration-500 shadow-sm group-hover/card:shadow-[0_8px_15px_rgba(208,140,92,0.3)] relative z-10 group-hover/card:-rotate-6">
+                <div className="w-14 h-14 rounded-2xl bg-white border border-stone-200 flex items-center justify-center mb-8 group-hover/card:bg-[var(--olive)] group-hover/card:border-transparent transition-all duration-500 shadow-sm">
                   <img
                     src={meta.emoji}
-                    alt="icons"
-                    className="w-7 h-7 object-cover opacity-60 group-hover/card:opacity-100 group-hover/card:brightness-0 group-hover/card:invert transition-all duration-500"
+                    alt="icon"
+                    className="w-6 h-6 object-contain opacity-70 group-hover/card:opacity-100 group-hover/card:brightness-0 group-hover/card:invert transition-all duration-500"
                   />
                 </div>
 
-                {/* Title */}
-                <h3 className="text-xl font-black text-[var(--foreground)] tracking-tight mb-4 leading-snug group-hover/card:text-[var(--olive-dark)] transition-colors duration-300 relative z-10">
+                <h3 className="text-xl font-bold text-[var(--foreground)] mb-4 group-hover/card:text-[var(--olive-dark)] transition-colors duration-300">
                   {benefit.name}
                 </h3>
 
-                {/* Description */}
-                <p className="text-[13px] text-[var(--dark-grey)] leading-relaxed font-medium mb-8 flex-grow relative z-10 line-clamp-4">
+                <p className="text-sm text-[var(--dark-grey)] leading-relaxed font-medium mb-8 flex-grow">
                   {benefit.desc}
                 </p>
 
-                {/* Elegant Animated Divider Line */}
-                <div className="flex items-center justify-between mt-auto relative z-10">
-                  <span className="h-[2px] w-10 bg-stone-200 group-hover/card:bg-[var(--orange)] group-hover/card:w-16 transition-all duration-700 ease-out rounded-full" />
-                  <span className="text-[9px] font-black tracking-[0.2em] uppercase text-stone-300 group-hover/card:text-[var(--orange)] transition-colors duration-500 opacity-0 group-hover/card:opacity-100 translate-x-3 group-hover/card:translate-x-0">
-                    Read More
+                <div className="mt-auto flex items-center gap-2 group-hover/card:gap-3 transition-all duration-300">
+                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--orange)]">
+                    Learn More
                   </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-[var(--orange)]" />
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Slider Progress indicator */}
-        <div className="max-w-md mx-auto w-full h-[3px] bg-stone-200/60 rounded-full overflow-hidden mt-2 relative">
+        <div className="max-w-md mx-auto w-full h-[2px] bg-stone-100 rounded-full overflow-hidden mt-2 relative">
           <div
             className="absolute top-0 bottom-0 left-0 bg-[var(--olive-dark)] rounded-full transition-all duration-300 ease-out"
-            style={{ width: `${Math.max(5, scrollProgress)}%` }}
+            style={{ width: `${Math.max(10, scrollProgress)}%` }}
           />
         </div>
       </div>
@@ -555,196 +520,137 @@ function HealthBenefitsSection({ t }: { t: any }) {
 
 function HeroSection({
   t,
-  featuredProducts = [],
 }: {
   t: any;
-  featuredProducts?: any[];
 }) {
   const [loaded, setLoaded] = useState(false);
-  const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setLoaded(true);
   }, []);
 
-  const slide = (direction: "left" | "right") => {
-    if (sliderRef.current) {
-      const { clientWidth } = sliderRef.current;
-      const scrollAmount = direction === "left" ? -clientWidth * 0.8 : clientWidth * 0.8;
-      sliderRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    }
-  };
-
   return (
-    <section className="relative w-full h-[95vh] min-h-[800px] flex flex-col justify-between overflow-hidden bg-black">
-      {/* ── Background ── */}
-      <div className="absolute inset-0 z-0">
-        {/* Background Image */}
-        <Image
-          src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070&auto=format&fit=crop"
-          alt="Premium Artisanal Millet & Nut Gift Packs"
-          fill
-          priority
-          className={`object-cover object-center transition-all duration-[2500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${loaded
-            ? "opacity-100 scale-100 blur-0"
-            : "opacity-0 scale-[1.03] blur-[2px]"
-            }`}
-        />
+    <section className="relative w-full min-h-[750px] h-[95vh] flex items-center bg-[#FAF8F5] overflow-hidden selection:bg-[var(--olive)] selection:text-white border-b border-stone-200">
+      {/* ── Background Accents ── */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-[var(--olive)]/5 rounded-l-[200px] blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 left-0 w-[500px] h-[500px] bg-[var(--orange)]/5 rounded-full blur-[120px] pointer-events-none" />
 
-        {/* Soft Black Overlay */}
-        <div className="absolute inset-0 bg-black/20 z-[5]" />
+      {/* ── Content Area ── */}
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-4 md:mt-8">
 
-        {/* Top Gradient */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/20 via-transparent to-transparent z-[6]" />
+        {/* Left: Text Content */}
+        <div className="max-w-2xl text-left">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="inline-flex items-center gap-4 mb-6"
+          >
+            <span className="w-8 h-[2px] bg-[var(--orange)]" />
+            <span className="text-[10px] md:text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
+              {t.premium_wellness_gifting || "Premium Wellness Gifting"}
+            </span>
+          </motion.div>
 
-        {/* Bottom Gradient */}
-        <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-black/50 via-black/20 to-transparent z-[6]" />
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.1] text-[var(--foreground)]"
+          >
+            {t.artisanal_millet || "ARTISANAL MILLET &"}{" "}
+            <span className="text-[var(--olive)]">
+              {t.nut || "NUT"}
+            </span>{" "}
+            <br className="hidden md:block" />
+            {t.gift_packs || "GIFT PACKS"}
+          </motion.h1>
 
-        {/* Left Ambient Shadow */}
-        <div className="absolute -left-40 top-1/3 w-[650px] h-[650px] rounded-full bg-black/15 blur-[160px] z-[6]" />
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-sm md:text-lg text-[var(--dark-grey)] mt-6 font-medium leading-relaxed max-w-lg"
+          >
+            {t.hero_desc_text ||
+              "Beautifully curated in traditional jute, elegant tin, and crafted MDF boxes. Health meets heritage in every package."}
+          </motion.p>
 
-        {/* Right Ambient Shadow */}
-        <div className="absolute -right-40 top-0 w-[700px] h-[700px] rounded-full bg-black/15 blur-[180px] z-[6]" />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="mt-10 flex flex-wrap gap-4"
+          >
+            <Link href="/shop" className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 bg-[var(--olive)] rounded-full overflow-hidden hover:bg-[var(--olive-dark)] hover:shadow-[0_8px_25px_rgba(var(--olive-rgb),0.3)] hover:-translate-y-1">
+              <span className="relative text-[12px] tracking-[0.2em] uppercase flex items-center gap-3">
+                Explore Collection
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </Link>
+            <Link href="/about" className="group inline-flex items-center justify-center px-8 py-4 font-bold text-[var(--olive-dark)] transition-all duration-300 bg-transparent border-2 border-[var(--olive)]/20 rounded-full hover:border-[var(--olive)] hover:bg-[var(--olive)]/5">
+              <span className="text-[12px] tracking-[0.2em] uppercase">
+                Our Story
+              </span>
+            </Link>
+          </motion.div>
 
-        {/* Edge Vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_45%,rgba(0,0,0,0.18)_100%)] z-[6]" />
-      </div>
-
-      {/* ── Top Text Area ── */}
-      <div className="relative z-20 w-full pt-32 px-6 flex flex-col items-center text-center">
-        <div className="inline-flex items-center gap-3 mb-6">
-          <span className="w-8 h-px bg-[var(--orange)]" />
-          <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-white/80">
-            {t.premium_wellness_gifting || "Premium Wellness Gifting"}
-          </span>
-          <span className="w-8 h-px bg-[var(--orange)]" />
+          {/* Corporate Trust Badges - Minimal Row */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="mt-12 pt-8 border-t border-stone-200 flex flex-wrap gap-6 md:gap-10"
+          >
+            {[
+              { icon: Leaf, text: t.organic_100 || "100% Organic" },
+              { icon: Star, text: t.premium_quality || "Premium Quality" },
+              { icon: Shield, text: t.certified_pure || "Certified Pure" }
+            ].map((badge, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-[var(--orange)] shadow-sm">
+                  <badge.icon className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] font-bold tracking-widest text-[var(--olive-dark)] uppercase">
+                  {badge.text}
+                </span>
+              </div>
+            ))}
+          </motion.div>
         </div>
 
-        <h1 className="text-4xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] max-w-5xl">
-          {t.artisanal_millet || "ARTISANAL MILLET &"}{" "}
-          <span className="text-[var(--orange)]">{t.nut || "NUT"}</span>{" "}
-          {t.gift_packs || "GIFT PACKS"}
-        </h1>
-      </div>
+        {/* Right: Elegant Image Layout */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.3 }}
+          className="hidden lg:block relative w-full h-[600px]"
+        >
+          {/* Decorative Back Shape */}
+          <div className="absolute top-10 right-4 w-[400px] h-[520px] rounded-t-full rounded-b-[40px] bg-[var(--olive)]/10" />
 
-      {/* ── Bottom Content Area ── */}
-      <div className="relative z-20 w-full pb-16 px-6 flex flex-col items-center text-center mt-auto">
-        {/* Subheadline */}
-        <p className="text-[13px] md:text-sm text-white/75 max-w-2xl mx-auto mb-10 font-medium leading-relaxed tracking-wide">
-          {t.hero_desc_text ||
-            "Beautifully curated in traditional jute, elegant tin, and crafted MDF boxes. Health meets heritage."}
-        </p>
-
-        {/* ── Product Slider in Banner ── */}
-        {featuredProducts && featuredProducts.length > 0 && (
-          <div className="relative w-full max-w-6xl mx-auto mb-10 flex items-center group/slider">
-            <button
-              onClick={(e) => { e.preventDefault(); slide("left"); }}
-              className="absolute left-0 z-30 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full border border-white/40 text-white shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-all -translate-x-2 md:-translate-x-5"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <div
-              ref={sliderRef}
-              className="w-full max-w-5xl mx-auto overflow-x-auto flex gap-4 px-2 snap-x snap-mandatory scroll-smooth"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              <style jsx>{`
-                div::-webkit-scrollbar {
-                  display: none;
-                }
-              `}</style>
-              {featuredProducts.slice(0, 8).map((product, idx) => {
-                const productId = product.productid || product.id;
-                const bid = product.bid || 1;
-                return (
-                  <div
-                    key={idx}
-                    className="flex-shrink-0 w-[180px] lg:w-[240px] bg-black/40 backdrop-blur-md border border-white/10 snap-center group cursor-pointer hover:border-white/40 transition-all duration-700 flex flex-col relative overflow-hidden"
-                    onClick={() =>
-                      (window.location.href = `/product-detail/${productId}?productid=${productId}&bid=${bid}`)
-                    }
-                  >
-                    <div className="relative w-full aspect-[4/5] overflow-hidden bg-[#111]">
-                      <img
-                        src={getImageUrl(product.image || product.productimage)}
-                        alt={product.name || product.productname}
-                        className="object-cover w-full h-full opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
-                      />
-
-                      {/* Dark gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-700" />
-
-                      <div className="absolute inset-0 p-5 flex flex-col justify-end">
-                        <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-out">
-                          <span className="block text-[9px] font-bold tracking-[0.3em] uppercase text-[var(--orange)] mb-2">
-                            Featured
-                          </span>
-                          <h3 className="text-white text-sm lg:text-base font-medium leading-snug line-clamp-2 mb-3">
-                            {product.name || product.productname}
-                          </h3>
-                          <div className="flex items-center justify-between">
-                            <p className="text-white/80 font-bold text-xs lg:text-sm tracking-widest">
-                              ₹{product.sellingprice || product.price}
-                            </p>
-                            <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-700 delay-100">
-                              <ArrowRight className="w-3 h-3 text-white" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <button
-              onClick={(e) => { e.preventDefault(); slide("right"); }}
-              className="absolute right-0 z-30 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full border border-white/40 text-white shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-all translate-x-2 md:translate-x-5"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        )}
-
-        {/* Trust Badges */}
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 border-t border-white/10 pt-10 w-full max-w-4xl mx-auto">
-          <div className="flex items-center gap-4 group">
-            <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
-              <Leaf className="w-5 h-5" />
-            </div>
-            <span
-              className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]"
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {t.organic_100 || "100%\nOrganic"}
-            </span>
+          {/* Main Image */}
+          <div className="absolute top-0 right-12 w-[420px] h-[540px] rounded-t-full rounded-b-[40px] overflow-hidden border-[8px] border-white shadow-2xl">
+            <Image
+              src="https://images.unsplash.com/photo-1597919926163-9419065218b4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDN8fG51dHN8ZW58MHx8MHx8fDA%3D"
+              alt="Premium Millets & Nuts"
+              fill
+              priority
+              className="object-cover hover:scale-105 transition-transform duration-[2000ms]"
+            />
           </div>
 
-          <div className="flex items-center gap-4 group">
-            <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
-              <Star className="w-5 h-5" />
+          {/* Floating Aesthetic Badge */}
+          <div className="absolute bottom-24 -left-6 bg-white p-5 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] flex items-center gap-4 border border-stone-100 animate-[bounce_5s_infinite]">
+            <div className="w-12 h-12 rounded-full bg-[var(--orange)]/10 flex items-center justify-center text-[var(--orange)]">
+              <Award className="w-6 h-6" />
             </div>
-            <span
-              className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]"
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {t.premium_quality || "Premium\nQuality"}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 group">
-            <div className="w-12 h-12 rounded border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm text-white group-hover:border-[var(--orange)] transition-colors duration-300">
-              <Award className="w-5 h-5" />
+            <div>
+              <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--dark-grey)]">Trusted Quality</p>
+              <p className="text-xl font-extrabold text-[var(--olive-dark)]">100% Pure</p>
             </div>
-            <span
-              className="text-[11px] font-bold tracking-widest text-white uppercase leading-[1.4]"
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {t.certified_pure || "Certified\nPure"}
-            </span>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -805,7 +711,7 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
           {displayCategories.map((cat, idx) => {
             const imageUrl = getCategoryImageUrl(cat.categoryimage);
 
@@ -813,42 +719,38 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
               <Link
                 href={`/shop?category=${encodeURIComponent(cat.categoryname || "")}`}
                 key={idx}
-                className={`group relative h-[380px] rounded-sm overflow-hidden transition-all duration-700 opacity-100 translate-y-0`}
+                className="group flex flex-col bg-white border border-stone-100 hover:border-[var(--olive)] shadow-sm hover:shadow-xl transition-all duration-500 rounded-[24px] overflow-hidden p-3"
                 style={{
                   transitionDelay: isVisible ? `${idx * 100}ms` : "0ms",
                 }}
               >
-                {/* Background Image */}
-                <img
-                  src={imageUrl}
-                  alt={cat.categoryname || ""}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-[1.08]"
-                />
+                <div className="relative w-full aspect-[4/3.5] overflow-hidden rounded-[16px] bg-[#FAF8F5]">
+                  <img
+                    src={imageUrl}
+                    alt={cat.categoryname || ""}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                  />
+                  {/* Decorative Item Count Badge */}
+                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[9px] font-bold tracking-[0.2em] text-[var(--olive-dark)] uppercase shadow-sm">
+                    {cat.products || 0} Items
+                  </div>
 
-                {/* Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#11100e] via-[#11100e]/30 to-transparent opacity-70 group-hover:opacity-95 transition-opacity duration-500 z-10" />
+                  {/* Subtle Image Overlay */}
+                  <div className="absolute inset-0 bg-[var(--olive)]/0 group-hover:bg-[var(--olive)]/10 transition-colors duration-500 z-10 pointer-events-none" />
+                </div>
 
-                {/* Premium Content Overlay */}
-                <div className="absolute inset-x-6 bottom-6 z-20 flex flex-col justify-end overflow-hidden">
-                  <div className="transform transition-all duration-500 group-hover:-translate-y-0">
-                    <p className="text-[10px] text-[var(--orange)] font-bold uppercase tracking-[0.2em] mb-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-                      Explore Collection ({cat.products || 0})
-                    </p>
+                <div className="pt-5 pb-3 px-3 flex flex-col items-center text-center">
+                  <h3 className="text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--olive-dark)] transition-colors duration-300">
+                    {cat.categoryname || ""}
+                  </h3>
 
-                    <div className="flex items-end justify-between gap-4">
-                      <h3 className="text-xl md:text-xl text-[var(--cream)] leading-tight">
-                        {cat.categoryname || ""}
-                      </h3>
-                      <div className="w-10 h-10 shrink-0 rounded-full border border-[#e5c158]/40 flex items-center justify-center text-[var(--orange)] group-hover:bg-[#e5c158] group-hover:text-[#11100e] group-hover:border-[#e5c158] transition-all duration-500 shadow-[0_0_15px_rgba(229,193,88,0)] group-hover:shadow-[0_0_20px_rgba(229,193,88,0.3)]">
-                        <ArrowRight
-                          className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-0.5"
-                          strokeWidth={2}
-                        />
-                      </div>
+                  <div className="mt-4 flex items-center justify-between w-full px-2">
+                    <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--orange)] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      Explore
+                    </span>
+                    <div className="w-8 h-8 rounded-full border border-stone-200 flex items-center justify-center text-[var(--orange)] group-hover:bg-[var(--orange)] group-hover:text-white group-hover:border-transparent transition-all duration-300 shadow-sm">
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </div>
-
-                    {/* Animated Divider */}
-                    <div className="h-[1px] w-0 bg-[#e5c158]/70 mt-5 transition-all duration-700 ease-out group-hover:w-full" />
                   </div>
                 </div>
               </Link>
@@ -1520,49 +1422,37 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
   const defaultIcons = [Activity, Scale, Baby];
 
   return (
-    <section ref={ref} className="py-24 bg-stone-50 relative overflow-hidden">
-      {/* App Color Decor */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-[var(--olive)]/5 pointer-events-none" />
-      <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-[var(--orange)]/5 blur-[100px] pointer-events-none" />
+    <section ref={ref} className="py-24 bg-white relative overflow-hidden border-t border-stone-100">
+      <div className="absolute top-0 left-0 w-1/3 h-full bg-[#FAF8F5] rounded-r-[200px] blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
-          <div className="space-y-4 max-w-2xl">
-            <div className="inline-flex items-center gap-3">
-              <span className="w-8 h-px bg-[var(--orange)]" />
-              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive-dark)]">
-                Targeted Nutrition
-              </span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] leading-tight tracking-tight">
-              {t.health_goals_title?.split(" ").slice(0, 2).join(" ") ||
-                "Health"}{" "}
-              <span className="text-[var(--orange)] font-light">
-                {t.health_goals_title?.split(" ").slice(2).join(" ") || "Goals"}
-              </span>
-            </h2>
-            <p className="text-sm font-medium text-[var(--dark-grey)] max-w-lg leading-relaxed">
-              {t.health_goals_desc ||
-                "Discover precisely formulated nutrition tailored for your specific wellness objectives."}
-            </p>
+        <div className="flex flex-col items-center text-center mb-16 gap-5">
+          <div className="inline-flex items-center gap-3">
+            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive-dark)]">
+              Targeted Nutrition
+            </span>
+            <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
-          <Link
-            href="/shop"
-            className="hidden md:flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--olive-dark)] border-b border-[var(--olive-dark)] pb-1 hover:text-[var(--orange)] hover:border-[var(--orange)] transition-colors"
-          >
-            {t.explore_all || "Explore Collection"} <ArrowRight className="w-3 h-3" />
-          </Link>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] tracking-tight">
+            {t.health_goals_title?.split(" ").slice(0, 2).join(" ") || "Health"}{" "}
+            <span className="text-[var(--olive)] font-light">
+              {t.health_goals_title?.split(" ").slice(2).join(" ") || "Goals"}
+            </span>
+          </h2>
+          <p className="text-sm text-[var(--dark-grey)] max-w-lg leading-relaxed font-medium">
+            {t.health_goals_desc || "Discover precisely formulated nutrition tailored for your specific wellness objectives."}
+          </p>
         </div>
 
         {displayGoals.length === 0 ? (
-          <div className="py-12 flex flex-col items-center justify-center bg-white border border-gray-200 shadow-sm rounded-2xl">
+          <div className="py-12 flex flex-col items-center justify-center bg-[#FAF8F5] border border-stone-200 rounded-3xl">
             <p className="text-[var(--dark-grey)] font-medium text-sm">
               No health goals found.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {displayGoals.map((goal, idx) => {
               const Icon = defaultIcons[idx % defaultIcons.length];
               const image = getImageUrl(goal.goalimage);
@@ -1571,42 +1461,26 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                 <Link
                   href={`/health-goal-products?goalid=${goal.goalid}`}
                   key={goal.goalid || idx}
-                  className="group flex flex-col bg-white border border-stone-100 hover:border-[var(--olive)] shadow-sm hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden"
+                  className="group relative h-[420px] rounded-[28px] overflow-hidden flex flex-col justify-end shadow-sm hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] transition-all duration-500"
                 >
-                  {/* Arch Image Section */}
-                  <div className="w-full pt-8 px-8 bg-white flex justify-center relative">
-                    {/* Goal Number Badge */}
-                    <div className="absolute top-4 right-4 z-20 text-[10px] font-bold tracking-[0.2em] text-[var(--dark-grey)] uppercase bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
-                      0{idx + 1}
-                    </div>
+                  <img
+                    src={image}
+                    alt={goal.goalname || ""}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1500ms] ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500 z-10" />
 
-                    <div className="relative w-full aspect-[4/3.5] overflow-hidden rounded-t-[120px] rounded-b-2xl border-4 border-stone-50 group-hover:border-[var(--cream)] transition-colors duration-500 shadow-inner">
-                      <div className="absolute inset-0 bg-[var(--olive)]/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none" />
-                      <img
-                        src={image}
-                        alt={goal.goalname || ""}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                      />
+                  <div className="relative z-20 p-8 flex flex-col gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 group-hover:bg-[var(--orange)] group-hover:border-transparent transition-all duration-500 shadow-sm">
+                      <Icon className="w-5 h-5" />
                     </div>
-                  </div>
-
-                  {/* Content Section */}
-                  <div className="p-8 flex flex-col flex-1 bg-white">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-8 h-8 rounded-full bg-[var(--cream)] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--orange)] group-hover:text-white transition-colors duration-500 shadow-sm">
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <h3 className="text-xl md:text-2xl font-black text-[var(--foreground)] tracking-tight group-hover:text-[var(--olive-dark)] transition-colors duration-300">
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-[var(--orange)] transition-colors duration-300">
                         {goal.goalname}
                       </h3>
-                    </div>
-
-                    <p className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed line-clamp-2 mb-6">
-                      {goal.description}
-                    </p>
-
-                    <div className="mt-auto inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--olive-dark)] group-hover:text-[var(--orange)] transition-colors duration-300">
-                      {t.explore_all || "Explore"} <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
+                      <p className="text-sm text-white/80 line-clamp-2 font-medium leading-relaxed">
+                        {goal.description}
+                      </p>
                     </div>
                   </div>
                 </Link>
@@ -1773,57 +1647,54 @@ function NutritionPlanner({ t }: { t: any }) {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
         {/* Main Calculator Header & Description */}
-        <div className="text-center mb-10 space-y-6">
+        <div className="text-center mb-12 space-y-6">
           <div className="inline-flex items-center gap-3">
-            <span className="w-8 h-px bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+            <span className="w-8 h-[2px] bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
               {t.budget_planning || "Budget & Planning"}
             </span>
-            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="w-8 h-[2px] bg-[var(--orange)]" />
           </div>
 
           <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] leading-tight tracking-tight">
             {t.monthly_product || "Monthly Product"}{" "}
-            <span className="text-[var(--orange)] font-light">
+            <span className="text-[var(--olive)] font-light">
               {t.calculator || "Calculator"}
             </span>
           </h2>
 
-          <div className="max-w-4xl mx-auto bg-white rounded border border-gray-200 p-8 md:p-12 shadow-sm text-left relative overflow-hidden">
-            <h3 className="text-xl md:text-2xl font-black text-[var(--foreground)] mb-4 text-center tracking-tight">
-              {t.strategic_nutrition ||
-                "Strategic Nutrition Planning for Your Office or Home"}
+          <div className="max-w-4xl mx-auto bg-white rounded-[32px] border border-stone-100 p-8 md:p-12 shadow-[0_15px_40px_rgba(0,0,0,0.03)] text-left relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-[80px] pointer-events-none group-hover:bg-[var(--olive)]/10 transition-colors duration-700" />
+            <h3 className="text-xl md:text-2xl font-black text-[var(--foreground)] mb-3 text-center tracking-tight relative z-10">
+              {t.strategic_nutrition || "Strategic Nutrition Planning"}
             </h3>
-            <p className="text-xs font-bold text-[var(--dark-grey)] mb-8 text-center uppercase tracking-[0.15em]">
-              {t.estimate_requirements ||
-                "Estimate Requirements & Costs Instantly:"}
+            <p className="text-[10px] font-bold text-[var(--orange)] mb-10 text-center uppercase tracking-[0.2em] relative z-10">
+              {t.estimate_requirements || "Estimate Requirements & Costs Instantly"}
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10 relative z-10">
               {[
-                t.calc_req_1 ||
-                "Calculate precise quantities based on headcount",
+                t.calc_req_1 || "Calculate precise quantities based on headcount",
                 t.calc_req_2 || "Estimate daily & monthly consumption in grams",
-                t.calc_req_3 ||
-                "Forecast budget based on selected premium products",
+                t.calc_req_3 || "Forecast budget based on selected premium products",
                 t.calc_req_4 || "Maintain a balanced inventory effortlessly",
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-4 bg-gray-50 p-5 rounded border border-gray-100 hover:border-[var(--orange)] transition-colors duration-300"
+                  className="flex items-start gap-4 bg-[#FAF8F5] p-6 rounded-2xl border border-stone-100 hover:border-[var(--olive)]/30 hover:shadow-sm transition-all duration-300"
                 >
-                  <div className="w-8 h-8 rounded bg-[var(--cream)] border border-[var(--olive)]/20 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-4 h-4 text-[var(--olive-dark)]" />
+                  <div className="w-10 h-10 rounded-xl bg-white border border-stone-100 flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <Check className="w-4 h-4 text-[var(--olive-dark)]" strokeWidth={2.5} />
                   </div>
-                  <span className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed">
+                  <span className="text-[13px] text-[var(--dark-grey)] font-medium leading-relaxed pt-1">
                     {item}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="bg-[var(--cream)]/50 rounded p-5 border border-[var(--olive)]/10 mb-8 text-center">
-              <p className="text-sm text-[var(--dark-grey)] font-medium leading-relaxed">
+            <div className="bg-[var(--olive)]/5 rounded-2xl p-6 border border-[var(--olive)]/10 text-center relative z-10">
+              <p className="text-sm text-[var(--olive-dark)] font-bold leading-relaxed">
                 {t.choose_required_products ||
                   "Choose your required products, input the number of members, and generate an instant procurement estimate."}
               </p>
@@ -1832,179 +1703,128 @@ function NutritionPlanner({ t }: { t: any }) {
         </div>
 
         {/* Step 1: Select Products */}
-        <div className="bg-white rounded border border-gray-200 shadow-sm p-6 md:p-10 relative">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+        <div className="bg-white rounded-[32px] border border-stone-100 shadow-[0_15px_40px_rgba(0,0,0,0.03)] p-8 md:p-12 relative overflow-hidden">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6 relative z-10">
             <div>
               <div className="flex items-center gap-4 mb-2">
-                <span className="w-10 h-10 rounded bg-[var(--olive-dark)] text-white flex items-center justify-center font-black text-sm">
+                <span className="w-12 h-12 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] border border-stone-100 flex items-center justify-center font-black text-sm shadow-sm">
                   01
                 </span>
-                <h2 className="text-2xl font-black text-[var(--foreground)] tracking-tight uppercase">
+                <h2 className="text-2xl md:text-3xl font-black text-[var(--foreground)] tracking-tight">
                   {t.select_products || "Select Products"}
                 </h2>
               </div>
-              <p className="text-[var(--dark-grey)] font-medium ml-14 text-sm">
-                {t.curate_selection ||
-                  "Curate the selection for your monthly estimate."}
+              <p className="text-[var(--dark-grey)] font-medium ml-16 text-sm">
+                {t.curate_selection || "Curate the selection for your monthly estimate."}
               </p>
             </div>
-            <div className="flex items-center gap-3 w-full md:w-auto">
-              <div className="relative flex-1 md:w-72">
-                <Search className="w-4 h-4 text-[var(--dark-grey)] absolute left-4 top-1/2 -translate-y-1/2" />
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+              <div className="relative w-full sm:w-72">
+                <Search className="w-4 h-4 text-[var(--dark-grey)] absolute left-5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder={t.search_inventory || "Search inventory..."}
-                  className="w-full pl-11 pr-4 py-3 rounded border border-gray-200 text-sm focus:outline-none focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] font-medium text-[var(--foreground)] transition-all bg-gray-50 focus:bg-white"
+                  className="w-full pl-12 pr-5 py-3.5 rounded-full border border-stone-200 text-sm focus:outline-none focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 font-medium text-[var(--foreground)] transition-all bg-[#FAF8F5] focus:bg-white placeholder-stone-400"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <button
                 onClick={scrollToCalculator}
-                className="group flex items-center gap-2 whitespace-nowrap bg-[var(--olive-dark)] text-white px-6 py-3 rounded font-bold text-[11px] uppercase tracking-widest hover:bg-[var(--orange-dark)] transition-colors duration-300"
+                className="w-full sm:w-auto group flex items-center justify-center gap-2 whitespace-nowrap bg-[var(--olive-dark)] text-white px-8 py-3.5 rounded-full font-bold text-[11px] uppercase tracking-[0.2em] hover:bg-[var(--orange)] shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:-translate-y-0.5 transition-all duration-300"
               >
-                {t.view_estimate || "View Estimate"}{" "}
+                {t.view_estimate || "View Estimate"}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex flex-col lg:flex-row gap-8 relative z-10">
             {/* Sidebar Categories */}
-            <div className="w-full lg:w-64 flex flex-col gap-3">
-              <button
-                onClick={() => setSelectedCategory(0)}
-                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 0 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-[var(--dark-grey)]"}`}
-              >
-                <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
-                  <LayoutGrid
-                    className={`w-4 h-4 ${selectedCategory === 0 ? "text-white" : "text-[var(--olive-dark)]"}`}
-                  />{" "}
-                  {t.all_catalog || "All Catalog"}
-                </div>
-                <span
-                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 0 ? "bg-white/20 text-white" : "bg-gray-200 text-[var(--dark-grey)]"}`}
+            <div className="w-full lg:w-72 flex flex-col gap-3">
+              {[
+                { id: 0, icon: LayoutGrid, label: t.all_catalog || "All Catalog", count: allProducts.length },
+                { id: 1, icon: Circle, label: t.nuts || "Nuts", count: nutsProducts.length },
+                { id: 2, icon: Wheat, label: t.millets || "Millets", count: milletsProducts.length },
+                { id: 3, icon: Flame, label: t.spices || "Spices", count: spicesProducts.length },
+              ].map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${
+                    selectedCategory === cat.id
+                      ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md -translate-y-0.5"
+                      : "bg-[#FAF8F5] border-stone-100 hover:border-[var(--olive)]/50 hover:bg-white text-[var(--dark-grey)]"
+                  }`}
                 >
-                  {allProducts.length}
-                </span>
-              </button>
-
-              <button
-                onClick={() => setSelectedCategory(1)}
-                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 1 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-[var(--dark-grey)]"}`}
-              >
-                <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
-                  <Circle
-                    className={`w-4 h-4 ${selectedCategory === 1 ? "text-white" : "text-[var(--olive-dark)]"}`}
-                  />{" "}
-                  {t.nuts || "Nuts"}
-                </div>
-                <span
-                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 1 ? "bg-white/20 text-white" : "bg-gray-200 text-[var(--dark-grey)]"}`}
-                >
-                  {nutsProducts.length}
-                </span>
-              </button>
-
-              <button
-                onClick={() => setSelectedCategory(2)}
-                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 2 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-[var(--dark-grey)]"}`}
-              >
-                <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
-                  <Wheat
-                    className={`w-4 h-4 ${selectedCategory === 2 ? "text-white" : "text-[var(--olive-dark)]"}`}
-                  />{" "}
-                  {t.millets || "Millets"}
-                </div>
-                <span
-                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 2 ? "bg-white/20 text-white" : "bg-gray-200 text-[var(--dark-grey)]"}`}
-                >
-                  {milletsProducts.length}
-                </span>
-              </button>
-
-              <button
-                onClick={() => setSelectedCategory(3)}
-                className={`flex items-center justify-between p-4 rounded border transition-all ${selectedCategory === 3 ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-200 hover:border-[var(--olive-dark)] text-[var(--dark-grey)]"}`}
-              >
-                <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-wider">
-                  <Flame
-                    className={`w-4 h-4 ${selectedCategory === 3 ? "text-white" : "text-[var(--olive-dark)]"}`}
-                  />{" "}
-                  {t.spices || "Spices"}
-                </div>
-                <span
-                  className={`text-[10px] font-bold px-2 py-1 rounded ${selectedCategory === 3 ? "bg-white/20 text-white" : "bg-gray-200 text-[var(--dark-grey)]"}`}
-                >
-                  {spicesProducts.length}
-                </span>
-              </button>
+                  <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-widest">
+                    <cat.icon className={`w-4 h-4 ${selectedCategory === cat.id ? "text-[var(--orange)]" : "text-[var(--olive-dark)]"}`} />
+                    {cat.label}
+                  </div>
+                  <span className={`text-[10px] font-black px-2.5 py-1 rounded-lg ${selectedCategory === cat.id ? "bg-white/20 text-white" : "bg-white text-[var(--dark-grey)] border border-stone-200"}`}>
+                    {cat.count}
+                  </span>
+                </button>
+              ))}
             </div>
 
             {/* Products Grid */}
-            <div className="flex-1 border border-gray-200 bg-gray-50 rounded p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-bold text-[var(--foreground)] uppercase tracking-widest text-xs">
-                  {selectedCategory === 0
-                    ? t.complete_catalog || "Complete Catalog"
-                    : selectedCategory === 1
-                      ? t.nuts_category || "Nuts Category"
-                      : selectedCategory === 2
-                        ? t.millets_category || "Millets Category"
-                        : t.spices_category || "Spices Category"}
-                  <span className="text-[var(--orange)] ml-2">
-                    ({displayedProducts.length})
+            <div className="flex-1 border border-stone-100 bg-[#FAF8F5]/50 rounded-[24px] p-6 md:p-8">
+              <div className="flex justify-between items-center mb-8">
+                <h3 className="font-bold text-[var(--foreground)] uppercase tracking-widest text-[11px]">
+                  {selectedCategory === 0 ? t.complete_catalog || "Complete Catalog"
+                    : selectedCategory === 1 ? t.nuts_category || "Nuts Category"
+                    : selectedCategory === 2 ? t.millets_category || "Millets Category"
+                    : t.spices_category || "Spices Category"}
+                  <span className="text-[var(--orange)] ml-2 bg-white px-2 py-1 rounded-full shadow-sm">
+                    {displayedProducts.length} items
                   </span>
                 </h3>
               </div>
 
               {displayedProducts.length === 0 ? (
-                <div className="py-12 flex flex-col items-center justify-center bg-white border border-dashed border-gray-300">
-                  <Leaf className="w-8 h-8 text-gray-300 mb-3" />
+                <div className="py-16 flex flex-col items-center justify-center bg-white border border-dashed border-stone-200 rounded-[20px]">
+                  <Leaf className="w-10 h-10 text-stone-300 mb-4" />
                   <p className="text-[var(--dark-grey)] font-medium text-sm">
-                    {t.no_products_inventory ||
-                      "No products found in inventory."}
+                    {t.no_products_inventory || "No products found in inventory."}
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-5">
                   {displayedProducts.map((product) => {
-                    const isSelected = !!selectedProducts.find(
-                      (p) => p.productid === product.productid,
-                    );
+                    const isSelected = !!selectedProducts.find((p) => p.productid === product.productid);
                     const price = product.sellingprice || product.price || 0;
                     return (
                       <div
                         key={product.productid}
                         onClick={() => handleToggleProduct(product)}
-                        className={`group relative p-4 bg-white border-2 cursor-pointer transition-all duration-300 ${isSelected ? "border-[var(--olive-dark)] shadow-[0_4px_12px_rgba(0,0,0,0.1)]" : "border-gray-200 hover:border-[var(--orange)] hover:shadow-md"}`}
+                        className={`group relative p-5 bg-white border rounded-[20px] cursor-pointer transition-all duration-300 ${
+                          isSelected
+                            ? "border-[var(--olive-dark)] shadow-[0_8px_25px_rgba(0,0,0,0.08)] ring-1 ring-[var(--olive-dark)] -translate-y-1"
+                            : "border-stone-100 hover:border-[var(--orange)] hover:shadow-lg hover:-translate-y-1"
+                        }`}
                       >
-                        <div
-                          className={`absolute top-3 left-3 w-5 h-5 flex items-center justify-center transition-colors duration-300 border ${isSelected ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-gray-50 border-gray-300 group-hover:border-[var(--orange)] text-transparent"}`}
-                        >
-                          <Check
-                            className={`w-3 h-3 ${isSelected ? "opacity-100" : "opacity-0"}`}
-                            strokeWidth={3}
-                          />
+                        <div className={`absolute top-4 left-4 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 border-2 z-10 ${
+                          isSelected ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-white border-stone-200 group-hover:border-[var(--orange)]"
+                        }`}>
+                          <Check className={`w-3.5 h-3.5 ${isSelected ? "opacity-100 scale-100" : "opacity-0 scale-50"} transition-all duration-300`} strokeWidth={3} />
                         </div>
-                        <div className="h-[80px] w-full relative mb-4 mt-6 bg-gray-50 overflow-hidden flex items-center justify-center border border-gray-100">
+                        
+                        <div className="h-[100px] w-full relative mb-5 mt-4 bg-[#FAF8F5] rounded-[16px] overflow-hidden flex items-center justify-center group-hover:bg-[var(--orange)]/5 transition-colors">
                           <img
                             src={`${IMAGE_URL ?? ""}${product.productimage ?? ""}`}
                             alt={product.productname ?? "product image"}
-                            className="object-contain mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500 w-full h-full absolute inset-0 p-2"
+                            className="object-contain mix-blend-multiply opacity-90 group-hover:scale-110 transition-transform duration-700 w-full h-full absolute inset-0 p-3"
                           />
                         </div>
-                        <div className="text-center space-y-2">
-                          <p className="font-bold text-[11px] uppercase tracking-wider text-[var(--foreground)] line-clamp-2 leading-snug group-hover:text-[var(--olive-dark)] transition-colors">
+                        
+                        <div className="text-center space-y-3">
+                          <p className="font-bold text-[11px] uppercase tracking-wider text-[var(--foreground)] line-clamp-2 leading-snug group-hover:text-[var(--olive-dark)] transition-colors h-8">
                             {product.productname}
                           </p>
-                          <div className="inline-block px-3 py-1 bg-[var(--cream)] border border-[var(--olive)]/20">
-                            <span className="text-xs font-black text-[var(--olive-dark)]">
-                              ₹{price}
-                            </span>
-                            <span className="text-[10px] font-bold text-[var(--dark-grey)] ml-1 uppercase">
-                              / Kg
-                            </span>
+                          <div className="inline-block px-3 py-1.5 bg-white border border-stone-100 rounded-full shadow-sm">
+                            <span className="text-[11px] font-black text-[var(--olive-dark)]">₹{price}</span>
+                            <span className="text-[9px] font-bold text-[var(--dark-grey)] ml-1 uppercase">/ Kg</span>
                           </div>
                         </div>
                       </div>
@@ -2014,173 +1834,125 @@ function NutritionPlanner({ t }: { t: any }) {
               )}
 
               {/* Selection Summary */}
-              <div className="mt-8 bg-[var(--olive-dark)] text-white rounded p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
-                <div className="flex items-center gap-3 font-bold text-sm tracking-widest uppercase">
-                  <Check className="w-5 h-5 text-[var(--orange)]" />{" "}
-                  {selectedProducts.length}{" "}
-                  {t.items_selected || "Items Selected"}
+              <div className="mt-8 bg-[var(--olive-dark)] text-white rounded-[20px] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+                <div className="flex items-center gap-3 font-bold text-[11px] tracking-widest uppercase">
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                    <Check className="w-4 h-4 text-[var(--orange)]" />
+                  </div>
+                  <span>{selectedProducts.length} {t.items_selected || "Items Selected"}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Separator Arrow */}
-        <div className="flex justify-center -my-2 opacity-50">
-          <ArrowDown className="w-6 h-6 text-[var(--olive-dark)]" />
+        {/* Separator */}
+        <div className="flex justify-center my-6 relative z-10">
+          <div className="w-12 h-12 bg-white rounded-full shadow-sm border border-stone-100 flex items-center justify-center">
+            <ArrowDown className="w-5 h-5 text-[var(--olive-dark)] animate-bounce" />
+          </div>
         </div>
 
         {/* Step 2: Calculator */}
-        <div
-          id="calculator-section"
-          className="bg-white rounded border border-gray-200 shadow-sm p-6 md:p-10 relative"
-        >
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+        <div id="calculator-section" className="bg-white rounded-[32px] border border-stone-100 shadow-[0_15px_40px_rgba(0,0,0,0.03)] p-8 md:p-12 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--orange)]/5 rounded-full blur-[80px] pointer-events-none" />
+          
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 relative z-10">
             <div>
               <div className="flex items-center gap-4 mb-2">
-                <span className="w-10 h-10 rounded bg-[var(--olive-dark)] text-white flex items-center justify-center font-black text-sm">
+                <span className="w-12 h-12 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] border border-stone-100 flex items-center justify-center font-black text-sm shadow-sm">
                   02
                 </span>
-                <h2 className="text-2xl font-black text-[var(--foreground)] tracking-tight uppercase">
+                <h2 className="text-2xl md:text-3xl font-black text-[var(--foreground)] tracking-tight">
                   {t.estimate_generation || "Estimate Generation"}
                 </h2>
               </div>
-              <p className="text-[var(--dark-grey)] font-medium ml-14 text-sm">
-                {t.adjust_parameters ||
-                  "Adjust parameters to forecast your monthly procurement budget."}
+              <p className="text-[var(--dark-grey)] font-medium ml-16 text-sm">
+                {t.adjust_parameters || "Adjust parameters to forecast your monthly procurement budget."}
               </p>
             </div>
           </div>
 
-          <div className="overflow-x-auto border border-gray-200 bg-white">
+          <div className="overflow-x-auto border border-stone-100 rounded-[24px] bg-white relative z-10 shadow-sm">
             <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
-                <tr className="bg-gray-100 text-[10px] font-black text-[var(--olive-dark)] uppercase tracking-widest border-b border-gray-200">
-                  <th className="px-6 py-4">
-                    {t.product_name || "Product Name"}
-                  </th>
-                  <th className="px-4 py-4 text-center">
-                    {t.grams_per_day || "Grams / Day"}
-                  </th>
-                  <th className="px-4 py-4 text-center">{t.days || "Days"}</th>
-                  <th className="px-4 py-4 text-center">
-                    {t.headcount || "Headcount"}
-                  </th>
-                  <th className="px-4 py-4 text-center">
-                    {t.total_kg || "Total (KG)"}
-                  </th>
-                  <th className="px-4 py-4 text-center">
-                    {t.unit_price || "Unit Price"}
-                  </th>
-                  <th className="px-6 py-4 text-right">
-                    {t.subtotal || "Subtotal"}
-                  </th>
-                  <th className="px-4 py-4 text-center">
-                    {t.action || "Action"}
-                  </th>
+                <tr className="bg-[#FAF8F5] text-[10px] font-black text-[var(--olive-dark)] uppercase tracking-[0.15em] border-b border-stone-100">
+                  <th className="px-6 py-5 rounded-tl-[24px]">{t.product_name || "Product Name"}</th>
+                  <th className="px-4 py-5 text-center">{t.grams_per_day || "Grams / Day"}</th>
+                  <th className="px-4 py-5 text-center">{t.days || "Days"}</th>
+                  <th className="px-4 py-5 text-center">{t.headcount || "Headcount"}</th>
+                  <th className="px-4 py-5 text-center">{t.total_kg || "Total (KG)"}</th>
+                  <th className="px-4 py-5 text-center">{t.unit_price || "Unit Price"}</th>
+                  <th className="px-6 py-5 text-right">{t.subtotal || "Subtotal"}</th>
+                  <th className="px-6 py-5 text-center rounded-tr-[24px]">{t.action || "Action"}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-stone-50">
                 {selectedProducts.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={8}
-                      className="px-6 py-16 text-center text-[var(--dark-grey)] font-bold uppercase tracking-widest text-xs"
-                    >
-                      {t.inventory_empty ||
-                        "Inventory empty. Select items to generate estimate."}
+                    <td colSpan={8} className="px-6 py-20 text-center text-[var(--dark-grey)] font-bold uppercase tracking-widest text-xs bg-white">
+                      {t.inventory_empty || "Inventory empty. Select items to generate estimate."}
                     </td>
                   </tr>
                 ) : (
                   selectedProducts.map((product) => {
                     const data = plannerData[product.productid!];
                     const { qty, price } = calculateRow(product);
-                    const displayPrice =
-                      product.sellingprice || product.price || 0;
+                    const displayPrice = product.sellingprice || product.price || 0;
 
                     return (
-                      <tr
-                        key={product.productid}
-                        className="hover:bg-[var(--site-bg)] transition-colors"
-                      >
-                        <td className="px-6 py-4">
+                      <tr key={product.productid} className="hover:bg-stone-50/50 transition-colors bg-white">
+                        <td className="px-6 py-5">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 relative bg-white border border-gray-200 flex-shrink-0 p-1">
+                            <div className="w-14 h-14 rounded-2xl bg-[#FAF8F5] border border-stone-100 flex-shrink-0 p-2 shadow-sm">
                               <img
                                 src={`${IMAGE_URL ?? ""}${product.productimage ?? ""}`}
                                 alt={product.productname || ""}
-                                className="object-cover w-full h-full"
+                                className="object-contain w-full h-full mix-blend-multiply"
                               />
                             </div>
-                            <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">
+                            <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--foreground)]">
                               {product.productname}
                             </p>
                           </div>
                         </td>
-                        <td className="px-4 py-4 text-center">
+                        <td className="px-4 py-5 text-center">
                           <input
                             type="number"
-                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-[var(--foreground)] text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
+                            className="w-20 px-3 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm font-black text-[var(--foreground)] text-center focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-inner"
                             value={data.grams}
-                            onChange={(e) =>
-                              setPlannerData((prev) => ({
-                                ...prev,
-                                [product.productid!]: {
-                                  ...data,
-                                  grams: Number(e.target.value),
-                                },
-                              }))
-                            }
+                            onChange={(e) => setPlannerData(prev => ({...prev, [product.productid!]: {...data, grams: Number(e.target.value)}}))}
                           />
                         </td>
-                        <td className="px-4 py-4 text-center">
+                        <td className="px-4 py-5 text-center">
                           <input
                             type="number"
-                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-[var(--foreground)] text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
+                            className="w-20 px-3 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm font-black text-[var(--foreground)] text-center focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-inner"
                             value={data.days}
-                            onChange={(e) =>
-                              setPlannerData((prev) => ({
-                                ...prev,
-                                [product.productid!]: {
-                                  ...data,
-                                  days: Number(e.target.value),
-                                },
-                              }))
-                            }
+                            onChange={(e) => setPlannerData(prev => ({...prev, [product.productid!]: {...data, days: Number(e.target.value)}}))}
                           />
                         </td>
-                        <td className="px-4 py-4 text-center">
+                        <td className="px-4 py-5 text-center">
                           <input
                             type="number"
-                            className="w-20 px-2 py-2 rounded-none border border-gray-300 bg-white text-sm font-bold text-[var(--foreground)] text-center focus:border-[var(--olive-dark)] focus:ring-1 focus:ring-[var(--olive-dark)] outline-none transition-all"
+                            className="w-20 px-3 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm font-black text-[var(--foreground)] text-center focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-inner"
                             value={data.members}
-                            onChange={(e) =>
-                              setPlannerData((prev) => ({
-                                ...prev,
-                                [product.productid!]: {
-                                  ...data,
-                                  members: Number(e.target.value),
-                                },
-                              }))
-                            }
+                            onChange={(e) => setPlannerData(prev => ({...prev, [product.productid!]: {...data, members: Number(e.target.value)}}))}
                           />
                         </td>
-                        <td className="px-4 py-4 text-center font-bold text-[var(--olive-dark)] text-sm">
-                          {qty}{" "}
-                          <span className="text-[10px] uppercase font-bold text-[var(--dark-grey)]">
-                            Kg
-                          </span>
+                        <td className="px-4 py-5 text-center font-black text-[var(--olive-dark)] text-sm">
+                          {qty} <span className="text-[10px] uppercase font-bold text-[var(--dark-grey)]">Kg</span>
                         </td>
-                        <td className="px-4 py-4 text-center font-bold text-[var(--dark-grey)] text-sm">
-                          ₹{displayPrice}
+                        <td className="px-4 py-5 text-center font-bold text-[var(--dark-grey)] text-xs">
+                          <span className="bg-[#FAF8F5] px-3 py-1.5 rounded-full border border-stone-100">₹{displayPrice}</span>
                         </td>
-                        <td className="px-6 py-4 text-right font-black text-[var(--foreground)] text-base">
+                        <td className="px-6 py-5 text-right font-black text-[var(--foreground)] text-[15px]">
                           ₹{price}
                         </td>
-                        <td className="px-4 py-4 text-center">
+                        <td className="px-6 py-5 text-center">
                           <button
                             onClick={() => handleRemoveItem(product.productid!)}
-                            className="w-8 h-8 mx-auto border border-gray-300 text-[var(--dark-grey)] flex items-center justify-center hover:bg-[var(--pink)] hover:text-white hover:border-[var(--pink)] transition-all"
+                            className="w-9 h-9 mx-auto rounded-full bg-white border border-stone-200 text-stone-400 flex items-center justify-center hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all shadow-sm"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -2193,20 +1965,19 @@ function NutritionPlanner({ t }: { t: any }) {
             </table>
           </div>
 
-          <div className="mt-8 flex flex-col md:flex-row items-center justify-between gap-6 pt-6 relative border-t border-gray-200">
+          <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-6 pt-8 relative border-t border-stone-100 z-10">
             <button
               onClick={handleClearAll}
-              className="px-6 py-3 border border-gray-300 text-[var(--dark-grey)] font-bold text-[11px] tracking-widest uppercase flex items-center gap-2 hover:bg-[var(--cream)] transition-all"
+              className="px-6 py-3 rounded-full border border-stone-200 text-[var(--dark-grey)] font-bold text-[10px] tracking-[0.2em] uppercase flex items-center gap-2 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all bg-white shadow-sm"
             >
-              {t.clear_estimate || "Clear Estimate"}{" "}
-              <Trash2 className="w-4 h-4" />
+              {t.clear_estimate || "Clear Estimate"} <Trash2 className="w-3.5 h-3.5" />
             </button>
-            <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 w-full md:w-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-12 w-full md:w-auto">
               <div className="text-center sm:text-right">
-                <p className="text-[10px] font-bold text-[var(--dark-grey)] tracking-[0.2em] uppercase mb-1">
+                <p className="text-[10px] font-black text-[var(--orange)] tracking-[0.2em] uppercase mb-1">
                   {t.estimated_total || "Estimated Total"}
                 </p>
-                <p className="text-3xl sm:text-4xl font-black text-[var(--olive-dark)] leading-none">
+                <p className="text-3xl sm:text-4xl font-black text-[var(--olive-dark)] tracking-tight">
                   ₹{grandTotal.toLocaleString()}
                 </p>
               </div>
@@ -2227,10 +1998,7 @@ function NutritionPlanner({ t }: { t: any }) {
                           };
                         }),
                       };
-                      const response = await API.post(
-                        API_ROUTES.ADDCALCULATORCART,
-                        payload,
-                      );
+                      const response = await API.post(API_ROUTES.ADDCALCULATORCART, payload);
                       if (response.status === 200) {
                         router.push("/monthly-cart");
                       } else {
@@ -2238,24 +2006,24 @@ function NutritionPlanner({ t }: { t: any }) {
                       }
                     } catch (err: any) {
                       console.error("Error adding to monthly cart", err);
-                      alert(
-                        err?.response?.data?.message ||
-                        "An error occurred while adding to monthly cart.",
-                      );
+                      alert(err?.response?.data?.message || "An error occurred while adding to monthly cart.");
                     } finally {
                       setIsBuying(false);
                     }
                   })
                 }
                 disabled={selectedProducts.length === 0 || isBuying}
-                className={`flex items-center justify-center gap-3 px-6 sm:px-10 py-4 font-bold text-xs tracking-widest uppercase transition-all cursor-pointer ${selectedProducts.length > 0 ? "bg-[var(--orange)] text-white hover:bg-[var(--olive-dark)] shadow-md" : "bg-gray-200 text-[var(--dark-grey)] cursor-not-allowed"} w-full sm:w-auto min-w-[200px]`}
+                className={`flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-full font-bold text-[11px] tracking-[0.2em] uppercase transition-all shadow-[0_8px_25px_rgba(0,0,0,0.12)] ${
+                  selectedProducts.length > 0 
+                    ? "bg-[var(--olive-dark)] text-white hover:bg-[var(--orange)] hover:-translate-y-1" 
+                    : "bg-stone-200 text-stone-400 cursor-not-allowed shadow-none"
+                } w-full sm:w-auto min-w-[220px]`}
               >
                 {isBuying ? (
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent animate-spin" />
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
-                    {t.proceed_to_cart || "Proceed to Cart"}{" "}
-                    <ArrowRight className="w-4 h-4" />
+                    {t.proceed_to_cart || "Proceed to Cart"} <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
@@ -2548,7 +2316,7 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
                     <ArrowRight className="w-6 h-6 text-[var(--dark-grey)] group-hover:text-white transition-colors duration-300" />
                   </div>
                   <h3 className="text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--olive)] transition-colors">
-                    {t.explore_all || "View All"}
+                    View all
                   </h3>
                   <p className="text-xs text-[var(--dark-grey)] mt-2 font-medium">
                     Explore new arrivals
@@ -2563,8 +2331,6 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
   );
 }
 
-// ── NEW AESTHETIC TRUST, CERTIFICATIONS, TESTIMONIALS & BRANDS SECTION ──
-
 function CertificationsSection({ t }: { t: any }) {
   const certs = [
     {
@@ -2575,8 +2341,7 @@ function CertificationsSection({ t }: { t: any }) {
         <img
           src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e2/FSSAI_logo.png/250px-FSSAI_logo.png"
           alt="Fssai"
-          height={80}
-          width={80}
+          className="object-contain w-full h-full"
         />
       ),
     },
@@ -2588,9 +2353,7 @@ function CertificationsSection({ t }: { t: any }) {
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvgDZjcJqhXh0OupnW63EpQExEgKU9WtkSRHfi6dSmNg&s=10"
           alt="UDYAM"
-          height={80}
-          width={80}
-          className="object-contain"
+          className="object-contain w-full h-full mix-blend-multiply"
         />
       ),
     },
@@ -2602,8 +2365,7 @@ function CertificationsSection({ t }: { t: any }) {
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1ifz3iX9oeiQcRzLs682dy3pu5qc1Z19ung&s"
           alt="ORGANIC"
-          height={80}
-          width={80}
+          className="object-contain w-full h-full mix-blend-multiply"
         />
       ),
     },
@@ -2613,10 +2375,9 @@ function CertificationsSection({ t }: { t: any }) {
       desc: "Sacred Preparation",
       icon: (
         <img
-          src=" https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXeNOEa13cQBn9f-8AGTanzzu5f4LhWC2eUQ&s"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXeNOEa13cQBn9f-8AGTanzzu5f4LhWC2eUQ&s"
           alt="TEMPLE"
-          height={80}
-          width={80}
+          className="object-contain w-full h-full mix-blend-multiply"
         />
       ),
     },
@@ -2628,8 +2389,7 @@ function CertificationsSection({ t }: { t: any }) {
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr8HSqIlEzBDL1dun3R9_0CHjfSqP9dK0Ncg&s"
           alt="LAB"
-          height={80}
-          width={80}
+          className="object-contain w-full h-full mix-blend-multiply"
         />
       ),
     },
@@ -2641,75 +2401,77 @@ function CertificationsSection({ t }: { t: any }) {
         <img
           src="https://cdn-icons-png.flaticon.com/256/4726/4726010.png"
           alt="PDF"
-          height={60}
-          width={60}
-          className="object-cover"
-        ></img>
+          className="object-contain w-full h-full opacity-80"
+        />
       ),
       clickable: true,
     },
   ];
 
   return (
-    <section className="py-16 bg-[var(--site-bg)] relative overflow-hidden">
+    <section className="py-24 bg-[#FAF8F5] relative overflow-hidden">
+      {/* Abstract Background Elements */}
+      <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--olive)]/10 to-transparent" />
+      
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Centered Title Block */}
-        <div className="text-center space-y-4 mb-16">
-          <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
-            <span className="w-8 h-px bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+        <div className="text-center space-y-4 mb-14">
+          <div className="inline-flex items-center gap-3 justify-center w-full mb-1">
+            <span className="text-[10px] font-black tracking-[0.4em] uppercase text-[var(--orange)]">
               {t.accreditations || "Accreditations"}
             </span>
-            <span className="w-8 h-px bg-[var(--orange)]" />
           </div>
           <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
             {t.trusted || "Trusted"}{" "}
-            <span className="text-[var(--orange)] font-light">
+            <span className="text-[var(--olive)] font-light">
               {t.certifications || "Certifications"}
             </span>
           </h2>
-          <p className="text-sm text-[var(--dark-grey)] font-medium max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm text-[var(--dark-grey)] font-medium max-w-xl mx-auto leading-relaxed">
             {t.certifications_desc ||
-              "Every grain and product at Tradizions is backed by absolute standards, natural processes, and government-approved accreditations to deliver uncompromising safety."}
+              "Every grain and product is backed by absolute standards, natural processes, and government-approved accreditations."}
           </p>
         </div>
 
-        <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-          {certs.map((cert) => {
-            const CardContent = (
-              <div className="flex flex-col justify-between items-center h-full text-center p-8 bg-white border border-gray-200 shadow-sm hover:border-[var(--orange)] transition-all duration-500 hover:shadow-md group cursor-pointer relative overflow-hidden rounded-none">
-                {/* Top accent line */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Unified Premium Container */}
+        <div className="bg-white rounded-[32px] p-8 md:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.04)] border border-stone-100 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[var(--orange)]/5 rounded-full blur-[80px] pointer-events-none" />
 
-                <div className="h-20 flex items-center justify-center mb-6 relative z-10">
-                  {cert.icon}
-                </div>
-
-                <div className="space-y-1.5 relative z-10 mt-auto">
-                  <h4 className="text-[11px] font-bold text-[var(--foreground)] tracking-[0.2em] uppercase leading-snug">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-y-12 gap-x-6 relative z-10 lg:divide-x divide-stone-100/50">
+            {certs.map((cert) => {
+              const Content = (
+                <div className="flex flex-col items-center text-center group cursor-pointer px-2">
+                  <div className="w-16 h-16 md:w-20 md:h-20 mb-5 relative flex items-center justify-center">
+                    {/* Subtle glow behind icon */}
+                    <div className="absolute inset-0 bg-[var(--olive)]/0 group-hover:bg-[var(--olive)]/10 rounded-full transition-colors duration-500 blur-xl" />
+                    <div className="relative w-full h-full opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 drop-shadow-sm">
+                      {cert.icon}
+                    </div>
+                  </div>
+                  <h4 className="text-[10px] md:text-[11px] font-bold text-[var(--foreground)] tracking-[0.2em] uppercase leading-snug group-hover:text-[var(--olive-dark)] transition-colors mb-1">
                     {cert.title}
                   </h4>
-                  <p className="text-[9px] font-bold text-[var(--dark-grey)] tracking-widest uppercase leading-tight">
+                  <p className="text-[9px] md:text-[10px] font-semibold text-[var(--dark-grey)] uppercase tracking-widest">
                     {cert.desc}
                   </p>
                 </div>
-              </div>
-            );
-
-            if (cert.clickable) {
-              return (
-                <Link key={cert.id} href="/shop" className="block h-full">
-                  {CardContent}
-                </Link>
               );
-            }
 
-            return (
-              <div key={cert.id} className="h-full">
-                {CardContent}
-              </div>
-            );
-          })}
+              if (cert.clickable) {
+                return (
+                  <Link key={cert.id} href="/shop" className="block h-full">
+                    {Content}
+                  </Link>
+                );
+              }
+
+              return (
+                <div key={cert.id} className="h-full">
+                  {Content}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -2721,184 +2483,170 @@ function VideoTestimonialsSection() {
     {
       name: "Sravani",
       duration: "0:45",
-      cover:
-        "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=400",
+      cover: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=400",
     },
     {
       name: "Karthik",
       duration: "0:58",
-      cover:
-        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400",
+      cover: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400",
     },
     {
       name: "Deepika",
       duration: "0:50",
-      cover:
-        "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=400",
+      cover: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=400",
     },
   ];
 
   return (
-    <section className="py-16 bg-[#FAFBF9] border-t border-stone-200/50 relative overflow-hidden">
-      {/* <div className="absolute inset-0 opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] pointer-events-none" />
+    <section className="py-24 bg-white relative overflow-hidden border-t border-stone-100">
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-[#FAF8F5] rounded-l-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         <div className="text-center space-y-4 mb-16">
-          <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
-            <span className="w-8 h-px bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
+          <div className="inline-flex items-center gap-3 justify-center w-full mb-1">
+            <span className="w-8 h-[2px] bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
               Real Stories
             </span>
-            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="w-8 h-[2px] bg-[var(--orange)]" />
           </div>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
-            Video <span className="text-[var(--orange)] font-light">Testimonials</span>
-          </h3>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
+            Video <span className="text-[var(--olive)] font-light">Testimonials</span>
+          </h2>
+          <p className="text-sm text-[var(--dark-grey)] font-medium max-w-xl mx-auto leading-relaxed mt-4">
+            Hear directly from our community about their experiences and journeys with our products.
+          </p>
         </div>
 
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-6 px-6 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
           {videoReviews.map((video, idx) => (
-            <div
-              key={idx}
-              className="w-[220px] md:w-[250px] snap-start flex-shrink-0"
-            >
-              <div className="group relative aspect-square rounded-[1rem] overflow-hidden border border-stone-200/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer">
-                <img
-                  src={video.cover}
-                  alt={video.name}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105 filter brightness-95"
-                />
+            <div key={idx} className="group relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-700 cursor-pointer">
+              <img
+                src={video.cover}
+                alt={video.name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-110 filter brightness-95"
+              />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/95 via-stone-900/40 to-transparent transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-all duration-500 z-10" />
 
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative">
-                    <div className="absolute -inset-4 bg-amber-500/25 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse" />
-                    <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/25 transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:text-[var(--olive)] shadow-xl relative z-10">
-                      <svg
-                        className="w-4.5 h-4.5 fill-current ml-0.5"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
+              {/* Play Button Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center z-20">
+                <div className="relative group-hover:scale-110 transition-transform duration-500">
+                  <div className="absolute -inset-4 bg-[var(--orange)]/30 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse" />
+                  <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 transition-all duration-500 shadow-xl group-hover:bg-[var(--orange)] group-hover:border-transparent">
+                    <svg className="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
                   </div>
                 </div>
+              </div>
 
-                <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-white z-10">
-                  <div className="space-y-0.5">
-                    <span className="text-[11px] font-black tracking-widest uppercase leading-none block">
-                      {video.name}
-                    </span>
-                    <p className="text-[8.5px] text-stone-300 font-medium">
-                      Family Member
-                    </p>
-                  </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-md border border-white/10 text-[8px] font-black tracking-widest text-white/90">
-                    {video.duration}
+              {/* Content Overlay */}
+              <div className="absolute bottom-8 left-8 right-8 flex items-end justify-between text-white z-20">
+                <div className="space-y-1">
+                  <span className="text-[14px] font-black tracking-widest uppercase leading-none block group-hover:text-[var(--orange)] transition-colors">
+                    {video.name}
                   </span>
+                  <p className="text-[10px] text-white/80 font-medium tracking-wide">
+                    Verified Customer
+                  </p>
                 </div>
-
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-[var(--orange)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
+                <span className="px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/20 text-[10px] font-bold tracking-widest text-white">
+                  {video.duration}
+                </span>
               </div>
             </div>
           ))}
-
-          {videoReviews.length > 10 && (
-            <div className="w-[220px] md:w-[250px] snap-start flex-shrink-0 flex">
-              <Link
-                href="/about-us"
-                className="flex-1 group relative bg-white border border-stone-200/40 rounded-[1rem] overflow-hidden flex flex-col items-center justify-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/30 aspect-square"
-              >
-                <div className="w-14 h-14 rounded-full bg-stone-50 flex items-center justify-center mb-4 group-hover:bg-[var(--olive)] transition-colors duration-300 shadow-sm group-hover:shadow-md">
-                  <ArrowRight className="w-5 h-5 text-[var(--dark-grey)] group-hover:text-white transition-colors duration-300" />
-                </div>
-                <h3 className="text-md font-bold text-[var(--foreground)] group-hover:text-[var(--olive)] transition-colors">
-                  Show All Cards
-                </h3>
-                <p className="text-xs text-[var(--dark-grey)] mt-1.5 font-medium">
-                  Explore full video diaries
-                </p>
-              </Link>
-            </div>
-          )}
         </div>
-      </div> */}
-      {/* Video testimonials section commented out */}
+      </div>
     </section>
   );
 }
 
 function SustainabilityAndPackagingSection({ t }: { t: any }) {
   return (
-    <section className="py-16 bg-[var(--site-bg)] relative overflow-hidden border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+    <section className="py-24 bg-[#FAF8F5] relative overflow-hidden border-t border-stone-100">
+      <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--olive)]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-[var(--orange)]/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center space-y-4 mb-16">
+          <div className="inline-flex items-center gap-3 justify-center w-full mb-1">
+            <span className="w-8 h-[2px] bg-[var(--orange)]" />
+            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
+              Our Commitment
+            </span>
+            <span className="w-8 h-[2px] bg-[var(--orange)]" />
+          </div>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
+            Purity & <span className="text-[var(--olive)] font-light">Planet</span>
+          </h2>
+          <p className="text-sm text-[var(--dark-grey)] font-medium max-w-xl mx-auto leading-relaxed mt-4">
+            We believe in creating products that are as good for the earth as they are for you.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-stretch">
           {/* Card 1: SECURE PAYMENTS */}
-          <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-500 hover:border-[var(--orange)] group relative overflow-hidden rounded-none">
-            {/* Top Accent Line */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="flex flex-col justify-between p-10 bg-white border border-stone-100 shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:-translate-y-2 transition-all duration-500 hover:border-[var(--olive)]/30 group relative overflow-hidden rounded-[32px]">
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-[var(--orange)]/5 rounded-full group-hover:bg-[var(--orange)]/10 transition-colors duration-500 blur-2xl" />
 
             <div className="space-y-6 relative z-10">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-none bg-gray-50 text-[var(--foreground)] flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
-                  <Shield className="w-5 h-5" strokeWidth={2} />
-                </div>
-                <div className="space-y-1">
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-[var(--dark-grey)] uppercase block">
-                    {t.trust_shield || "Trust Shield"}
-                  </span>
-                  <h4 className="text-[14px] font-bold text-[var(--foreground)] tracking-widest uppercase leading-none">
-                    {t.secure_payments || "Secure Payments"}
-                  </h4>
-                </div>
+              <div className="w-16 h-16 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--orange)] group-hover:text-white transition-all duration-500 shadow-sm">
+                <Shield className="w-7 h-7" strokeWidth={1.5} />
               </div>
+              
+              <div className="space-y-2">
+                <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--orange)] uppercase block">
+                  {t.trust_shield || "Trust Shield"}
+                </span>
+                <h4 className="text-xl font-bold text-[var(--foreground)] tracking-tight group-hover:text-[var(--olive-dark)] transition-colors duration-300">
+                  {t.secure_payments || "Secure Payments"}
+                </h4>
+              </div>
+              
               <p className="text-[13px] font-medium text-[var(--dark-grey)] leading-relaxed">
                 {t.secure_payments_desc ||
                   "Shop with complete peace of mind. We encrypt and safeguard every transaction with industry-standard 256-bit SSL technology."}
               </p>
             </div>
 
-            {/* Payment Logos with a luxurious border */}
             <div className="pt-8 relative z-10 mt-auto">
-              <div className="flex flex-wrap items-center gap-3 p-4 bg-gray-50 border border-gray-200 rounded-none shadow-sm relative z-10 justify-center">
+              <div className="flex items-center justify-center p-4 bg-[#FAF8F5] rounded-2xl border border-stone-100 shadow-sm">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7dF5Nw5vpBW8gqDSjtXyCr3vMzWn5slCTlg&s"
-                  alt="logo-"
-                  height={100}
-                  width={100}
+                  alt="Secure Payments"
+                  className="h-8 object-contain opacity-80 mix-blend-multiply"
                 />
               </div>
             </div>
           </div>
 
           {/* Card 2: SUSTAINABILITY */}
-          <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-500 hover:border-[var(--orange)] group relative overflow-hidden rounded-none">
-            {/* Top Accent Line */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="flex flex-col justify-between p-10 bg-white border border-stone-100 shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:-translate-y-2 transition-all duration-500 hover:border-[var(--olive)]/30 group relative overflow-hidden rounded-[32px]">
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-[var(--olive)]/5 rounded-full group-hover:bg-[var(--olive)]/10 transition-colors duration-500 blur-2xl" />
 
             <div className="space-y-6 relative z-10">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-none bg-gray-50 text-[var(--foreground)] flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
-                  <Leaf className="w-5 h-5" strokeWidth={2} />
-                </div>
-                <div className="space-y-1">
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-[var(--dark-grey)] uppercase block">
-                    {t.eco_stewardship || "Eco Stewardship"}
-                  </span>
-                  <h4 className="text-[14px] font-bold text-[var(--foreground)] tracking-widest uppercase leading-none">
-                    {t.sustainability || "Sustainability"}
-                  </h4>
-                </div>
+              <div className="w-16 h-16 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--olive)] group-hover:text-white transition-all duration-500 shadow-sm">
+                <Leaf className="w-7 h-7" strokeWidth={1.5} />
               </div>
+              
+              <div className="space-y-2">
+                <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--olive)] uppercase block">
+                  {t.eco_stewardship || "Eco Stewardship"}
+                </span>
+                <h4 className="text-xl font-bold text-[var(--foreground)] tracking-tight group-hover:text-[var(--olive-dark)] transition-colors duration-300">
+                  {t.sustainability || "Sustainability"}
+                </h4>
+              </div>
+
               <p className="text-[13px] font-medium text-[var(--dark-grey)] leading-relaxed">
                 {t.sustainability_desc ||
                   "Caring for the planet and future generations is embedded in our DNA. We focus on low carbon outputs and support organic farming loops."}
               </p>
             </div>
 
-            {/* Checklist + Illustration */}
             <div className="flex items-center justify-between gap-4 pt-8 relative z-10 mt-auto">
               <ul className="space-y-3">
                 {[
@@ -2906,67 +2654,43 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
                   t.eco_friendly_processes || "Eco Friendly Processes",
                   t.supporting_local_farmers || "Supporting Local Farmers",
                 ].map((text, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)] tracking-wide uppercase"
-                  >
-                    <div className="w-4 h-4 rounded-none bg-[var(--olive-dark)] flex items-center justify-center text-white shadow-sm border border-[var(--olive-dark)]">
-                      <Check className="w-3 h-3" strokeWidth={3} />
+                  <li key={idx} className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)] tracking-wide uppercase">
+                    <div className="w-4 h-4 rounded-full bg-[var(--olive-dark)] flex items-center justify-center text-white shadow-sm">
+                      <Check className="w-2.5 h-2.5" strokeWidth={3} />
                     </div>
                     {text}
                   </li>
                 ))}
               </ul>
-              <div className="flex-shrink-0 bg-gray-50 p-3 rounded-none border border-gray-200 shadow-sm">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzLHYU8RaSU1ayRH9Lw_67vEs3Vz7Wct_PRQ&s"
-                  alt="sustainability"
-                  height={100}
-                  width={100}
-                  className="p-2"
-                />
-              </div>
             </div>
           </div>
 
           {/* Card 3: PLASTIC-FREE PACKAGING */}
-          <div className="flex flex-col justify-between p-8 md:p-10 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-500 hover:border-[var(--orange)] group relative overflow-hidden rounded-none">
-            {/* Top Accent Line */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-[var(--olive-dark)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="flex flex-col justify-between p-10 bg-white border border-stone-100 shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:-translate-y-2 transition-all duration-500 hover:border-[var(--olive)]/30 group relative overflow-hidden rounded-[32px]">
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-[var(--orange)]/5 rounded-full group-hover:bg-[var(--orange)]/10 transition-colors duration-500 blur-2xl" />
 
             <div className="space-y-6 relative z-10">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-none bg-gray-50 text-[var(--foreground)] flex items-center justify-center border border-gray-200 shadow-sm transition-transform duration-500">
-                  <svg
-                    className="w-5.5 h-5.5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                    />
-                  </svg>
-                </div>
-                <div className="space-y-1">
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-[var(--dark-grey)] uppercase block">
-                    {t.earth_safe || "Earth Safe"}
-                  </span>
-                  <h4 className="text-[14px] font-bold text-[var(--foreground)] tracking-widest uppercase leading-none">
-                    {t.plastic_free_packaging || "Plastic-Free Packaging"}
-                  </h4>
-                </div>
+              <div className="w-16 h-16 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--orange)] group-hover:text-white transition-all duration-500 shadow-sm">
+                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
               </div>
+
+              <div className="space-y-2">
+                <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--orange)] uppercase block">
+                  {t.earth_safe || "Earth Safe"}
+                </span>
+                <h4 className="text-xl font-bold text-[var(--foreground)] tracking-tight group-hover:text-[var(--olive-dark)] transition-colors duration-300">
+                  {t.plastic_free_packaging || "Plastic-Free Packaging"}
+                </h4>
+              </div>
+
               <p className="text-[13px] font-medium text-[var(--dark-grey)] leading-relaxed">
                 {t.plastic_free_desc ||
                   "Our pledge is zero plastic. We pack exclusively in biodegradable cardboard, jute, and paper, so our shipments leave no toxic footprint."}
               </p>
             </div>
 
-            {/* Checklist + Illustration */}
             <div className="flex items-center justify-between gap-4 pt-8 relative z-10 mt-auto">
               <ul className="space-y-3">
                 {[
@@ -2974,25 +2698,14 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
                   t.fully_biodegradable || "Fully Biodegradable",
                   t.better_for_earth || "Better for Earth",
                 ].map((text, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)] tracking-wide uppercase"
-                  >
-                    <div className="w-4 h-4 rounded-none bg-[var(--olive-dark)] flex items-center justify-center text-white shadow-sm border border-[var(--olive-dark)]">
-                      <Check className="w-3 h-3" strokeWidth={3} />
+                  <li key={idx} className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)] tracking-wide uppercase">
+                    <div className="w-4 h-4 rounded-full bg-[var(--olive-dark)] flex items-center justify-center text-white shadow-sm">
+                      <Check className="w-2.5 h-2.5" strokeWidth={3} />
                     </div>
                     {text}
                   </li>
                 ))}
               </ul>
-              <div className="flex-shrink-0 bg-gray-50 p-3 rounded-none border border-gray-200 shadow-sm">
-                <img
-                  src="https://static.vecteezy.com/system/resources/previews/025/400/219/non_2x/plastic-free-icon-bpa-free-warranty-packaging-sign-for-graphic-design-logo-website-social-media-mobile-app-ui-illustration-vector.jpg"
-                  alt="Plastic free"
-                  height={100}
-                  width={100}
-                />
-              </div>
             </div>
           </div>
         </div>
