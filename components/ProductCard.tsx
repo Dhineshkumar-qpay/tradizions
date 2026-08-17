@@ -172,8 +172,8 @@ export default function ProductCard({
               });
             }}
             className={`w-8 h-8 bg-white shadow-sm border flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer rounded-sm ${isFav
-                ? "border-[var(--orange)] text-[var(--orange)]"
-                : "border-gray-200 text-gray-400 hover:text-[var(--orange)] hover:border-[var(--orange)]"
+              ? "border-[var(--orange)] text-[var(--orange)]"
+              : "border-gray-200 text-gray-400 hover:text-[var(--orange)] hover:border-[var(--orange)]"
               }`}
           >
             <Heart
@@ -287,8 +287,8 @@ export default function ProductCard({
               });
             }}
             className={`flex-1 h-10 rounded font-semibold text-[10px] tracking-widest uppercase flex items-center justify-center gap-2 transition-all duration-300 px-3 ${(product.availablestock ?? 0) <= 0
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
-                : "bg-[var(--olive)] hover:bg-[var(--orange-dark)] text-white shadow-md hover:shadow-lg cursor-pointer"
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
+              : "bg-[var(--olive)] hover:bg-[var(--orange-dark)] text-white shadow-md hover:shadow-lg cursor-pointer"
               } disabled:opacity-50`}
           >
             {isAdding ? (

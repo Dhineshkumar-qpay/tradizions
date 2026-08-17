@@ -100,7 +100,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-3 group">
               <div className="p-2 bg-white rounded-sm transition-transform duration-300 group-hover:scale-105 shadow-sm">
                 <Image
-                  src="/app-logo.png"
+                  src="/app-logo-new.png"
                   alt="Tradizions Logo"
                   width={140}
                   height={40}

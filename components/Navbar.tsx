@@ -327,26 +327,26 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+      <div className="fixed top-0 left-0 w-full z-50 transition-all duration-500 shadow-xl">
         {/* Top Announcement Bar */}
-        <div className="w-full bg-[var(--olive-dark)] text-white text-[10px] md:text-[11px] font-bold py-0.5 text-center tracking-widest uppercase">
+        <div className="w-full bg-gradient-to-r from-[var(--olive-dark)] via-gray-900 to-[var(--olive-dark)] text-white/90 text-[10px] md:text-[11px] font-bold py-1 text-center tracking-widest uppercase">
           {/* Powered By-TRADIZIONS. Freshness Delivered Daily! | Free Shipping on Orders ₹999+ | 100% Natural, No Preservatives! */}
         </div>
 
-        <nav className="w-full h-[80px] bg-[var(--olive-dark)] border-b border-white/10 shadow-sm px-3 lg:px-5 flex items-center justify-between pointer-events-auto relative">
+        <nav className="w-full h-[84px] bg-[var(--olive-dark)]/95 backdrop-blur-xl border-b border-white/10 px-4 lg:px-8 flex items-center justify-between pointer-events-auto relative z-50">
           <div className="flex items-center gap-4 lg:gap-6 xl:gap-14">
             {/* Logo Section */}
             <div className="flex-shrink-0 z-20">
               <Link href="/" className="group block">
                 <div className="relative flex items-center justify-center">
                   {/* Logo Card */}
-                  <div className="relative h-14 w-40 rounded-[5px] border border-white/20 bg-white/80 backdrop-blur-md shadow-[0_4px_15px_rgba(0,0,0,0.1)] transition-all duration-500 group-hover:-translate-y-1 flex items-center justify-center p-1.5">
+                  <div className="relative h-12 w-36 lg:h-14 lg:w-40 rounded-xl border border-white/10 bg-gradient-to-br from-white/10 to-transparent backdrop-blur-md shadow-lg transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_rgba(255,255,255,0.1)] flex items-center justify-center p-2">
                     <Image
-                      src="/app-logo.png"
+                      src="/app-logo-new.png"
                       alt="Logo"
                       width={130}
                       height={45}
-                      className="object-contain transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-md"
                     />
                   </div>
                 </div>
@@ -354,18 +354,18 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-4 xl:gap-7 z-0 pt-1">
+            <div className="hidden lg:flex items-center gap-5 xl:gap-8 z-0 pt-1">
               {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group relative py-2 text-[11px] tracking-[0.1em] font-bold uppercase transition-colors duration-300 whitespace-nowrap ${isActive ? "text-white" : "text-white/80 hover:text-white"}`}
+                    className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
                   >
                     {item.name}
                     <span
-                      className={`absolute bottom-0 left-0 w-full h-[2px] bg-white transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                      className={`absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
                     />
                   </Link>
                 );
@@ -373,22 +373,22 @@ export default function Navbar() {
 
               {/* Categories Dropdown */}
               <div className="relative group/catdrop h-full flex items-center">
-                <button className="group relative py-2 text-[11px] tracking-[0.1em] font-bold uppercase transition-colors duration-300 whitespace-nowrap flex items-center gap-1 text-white/80 hover:text-white">
+                <button className="group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 text-white/70 hover:text-white">
                   {t.categories || "CATEGORIES"}
-                  <ChevronDown className="w-3.5 h-3.5" />
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-white transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
+                  <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover/catdrop:-rotate-180" />
+                  <span className="absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
                 </button>
 
-                <div className="absolute top-[80%] left-0 pt-4 opacity-0 translate-y-1 pointer-events-none group-hover/catdrop:opacity-100 group-hover/catdrop:translate-y-0 group-hover/catdrop:pointer-events-auto transition-all duration-200 z-50">
-                  <div className="min-w-[200px] bg-white border border-stone-200 shadow-md relative rounded-sm">
+                <div className="absolute top-[80%] left-0 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover/catdrop:opacity-100 group-hover/catdrop:translate-y-0 group-hover/catdrop:pointer-events-auto transition-all duration-300 z-50">
+                  <div className="min-w-[220px] bg-white/95 backdrop-blur-xl border border-white/20 shadow-2xl relative rounded-xl overflow-hidden ring-1 ring-black/5">
                     <div className="flex flex-col py-2">
                       {displayCategories.map((cat) => (
                         <Link
                           key={cat.href}
                           href={cat.href}
-                          className="px-5 py-2.5 text-[10px] font-bold text-stone-600 hover:text-[var(--olive-dark)] hover:bg-stone-50 transition-colors uppercase tracking-widest whitespace-nowrap flex items-center gap-3 border-b border-stone-100 last:border-0"
+                          className="px-5 py-3 text-[11px] font-bold text-stone-600 hover:text-[var(--orange)] hover:bg-orange-50/50 transition-all duration-300 uppercase tracking-widest whitespace-nowrap flex items-center gap-3 border-b border-stone-100/50 last:border-0 group/item"
                         >
-                          {cat.name}
+                          <span className="transform transition-transform duration-300 group-hover/item:translate-x-1">{cat.name}</span>
                         </Link>
                       ))}
                     </div>
@@ -398,20 +398,20 @@ export default function Navbar() {
 
               <Link
                 href="/gifts"
-                className={`group relative py-2 text-[11px] tracking-[0.1em] font-bold uppercase transition-colors duration-300 whitespace-nowrap ${pathname === "/gifts" ? "text-white" : "text-white/80 hover:text-white"}`}
+                className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${pathname === "/gifts" ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
               >
                 {t.gifting || "Gifts"}
                 <span
-                  className={`absolute bottom-0 left-0 w-full h-[2px] bg-white transform origin-left transition-transform duration-300 ease-out ${pathname === "/gifts" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                  className={`absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/gifts" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
                 />
               </Link>
               <Link
                 href="/corporate-orders"
-                className={`group relative py-2 text-[11px] tracking-[0.1em] font-bold uppercase transition-colors duration-300 whitespace-nowrap ${pathname === "/corporate-orders" ? "text-white" : "text-white/80 hover:text-white"}`}
+                className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${pathname === "/corporate-orders" ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
               >
                 {t.corporate || "Corporate Orders"}
                 <span
-                  className={`absolute bottom-0 left-0 w-full h-[2px] bg-white transform origin-left transition-transform duration-300 ease-out ${pathname === "/corporate-orders" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                  className={`absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/corporate-orders" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
                 />
               </Link>
 
@@ -421,11 +421,11 @@ export default function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group relative py-2 text-[11px] tracking-[0.1em] font-bold uppercase transition-colors duration-300 whitespace-nowrap ${isActive ? "text-white" : "text-white/80 hover:text-white"}`}
+                    className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
                   >
                     {item.name}
                     <span
-                      className={`absolute bottom-0 left-0 w-full h-[2px] bg-white transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                      className={`absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
                     />
                   </Link>
                 );
@@ -434,20 +434,20 @@ export default function Navbar() {
           </div>
 
           {/* RIGHT: Right Section */}
-          <div className="flex items-center gap-2.5 lg:gap-2.5 flex-1 justify-end z-10">
+          <div className="flex items-center gap-2 lg:gap-3 flex-1 justify-end z-10">
             {/* Professional Language Selection */}
             <div className="hidden md:block relative group/langdrop">
-              <button className="group flex items-center h-10 gap-2 px-4 rounded-sm bg-white/10 border border-white/20 hover:border-white/50 hover:bg-white/20 transition-all cursor-pointer">
-                <Globe className="w-3.5 h-3.5 text-white/80 group-hover:text-white transition-colors" />
-                <span className="text-[10px] font-bold tracking-widest uppercase text-white/90 group-hover:text-white transition-colors">
+              <button className="group flex items-center h-10 gap-2 px-4 rounded-full bg-white/5 border border-white/10 hover:border-[var(--orange)]/50 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300 cursor-pointer">
+                <Globe className="w-4 h-4 text-white/70 group-hover:text-[var(--orange)] transition-colors" />
+                <span className="text-[11px] font-bold tracking-widest uppercase text-white/90 group-hover:text-white transition-colors">
                   {selectedLang}
                 </span>
-                <ChevronDown className="w-3.5 h-3.5 text-white/80 group-hover:text-white transition-colors" />
+                <ChevronDown className="w-3.5 h-3.5 text-white/70 group-hover:text-white transition-all group-hover/langdrop:rotate-180" />
               </button>
 
               {/* Stylish Dropdown Card */}
-              <div className="absolute top-full right-0 pt-2 opacity-0 translate-y-1 pointer-events-none group-hover/langdrop:opacity-100 group-hover/langdrop:translate-y-0 group-hover/langdrop:pointer-events-auto transition-all duration-200 z-50">
-                <div className="w-40 bg-white border border-stone-200 shadow-sm relative">
+              <div className="absolute top-full right-0 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover/langdrop:opacity-100 group-hover/langdrop:translate-y-0 group-hover/langdrop:pointer-events-auto transition-all duration-300 z-50">
+                <div className="w-40 bg-white/95 backdrop-blur-xl border border-white/20 shadow-2xl relative rounded-xl overflow-hidden ring-1 ring-black/5">
                   <div className="p-2 relative z-10 flex flex-col gap-1">
                     {languages.map((lang) => {
                       const isActive = selectedLang === lang.code;
@@ -455,9 +455,9 @@ export default function Navbar() {
                         <button
                           key={lang.code}
                           onClick={() => handleLangChange(lang.code)}
-                          className={`relative w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-colors rounded-sm ${isActive
-                            ? "bg-[var(--olive-dark)] text-white"
-                            : "text-stone-500 hover:bg-stone-100 hover:text-stone-900"
+                          className={`relative w-full flex items-center justify-between px-4 py-2.5 text-[11px] font-bold tracking-widest uppercase transition-all duration-300 rounded-lg group/langbtn ${isActive
+                            ? "bg-[var(--orange)] text-white shadow-md"
+                            : "text-stone-500 hover:bg-orange-50 hover:text-[var(--orange)]"
                             }`}
                         >
                           <span className="relative z-10">{lang.name}</span>
@@ -478,21 +478,21 @@ export default function Navbar() {
                 onClick={() => {
                   if (!isSearchOpen) setIsSearchOpen(true);
                 }}
-                className="flex items-center justify-center w-10 h-10 rounded-sm bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:border-white/50 transition-all"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/90 hover:bg-[var(--orange)]/10 hover:text-[var(--orange)] hover:border-[var(--orange)]/30 hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300 group"
                 aria-label="Search"
               >
-                <Search className="w-4 h-4" />
+                <Search className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" />
               </button>
             </div>
 
             <button
               onClick={() => window.dispatchEvent(new Event("openCartSidebar"))}
-              className="relative cursor-pointer border-none bg-transparent outline-none"
+              className="relative cursor-pointer border-none bg-transparent outline-none group"
             >
-              <div className="flex items-center justify-center w-10 h-10 rounded-sm bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:border-white/50 transition-all">
-                <ShoppingCart className="w-4 h-4" />
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/90 group-hover:bg-[var(--orange)]/10 group-hover:text-[var(--orange)] group-hover:border-[var(--orange)]/30 group-hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300">
+                <ShoppingCart className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-sm bg-white text-[9px] font-bold text-[var(--olive-dark)] shadow-sm border border-[var(--olive-dark)]">
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--orange)] text-[10px] font-bold text-white shadow-md border-[1.5px] border-white scale-100 group-hover:scale-110 transition-transform">
                     {cartCount}
                   </span>
                 )}
@@ -509,17 +509,17 @@ export default function Navbar() {
                     setIsDrawerOpen(true);
                   }
                 }}
-                className="flex items-center justify-center w-10 h-10 rounded-sm bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:border-white/50 transition-all"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/90 hover:bg-[var(--orange)]/10 hover:text-[var(--orange)] hover:border-[var(--orange)]/30 hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300 group"
               >
-                <User className="w-4 h-4" />
+                <User className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" />
               </button>
             </div>
 
             <button
               onClick={() => setOpen(!open)}
-              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-sm bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:border-white/50 transition-all"
+              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/90 hover:bg-[var(--orange)]/10 hover:text-[var(--orange)] hover:border-[var(--orange)]/30 hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300 group"
             >
-              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {open ? <X className="w-5 h-5 group-hover:scale-110 transition-transform" /> : <Menu className="w-5 h-5 group-hover:scale-110 transition-transform" />}
             </button>
           </div>
         </nav>

@@ -455,8 +455,8 @@ function HealthBenefitsSection({ t }: { t: any }) {
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`px-6 py-3 rounded-full text-[11px] font-black tracking-widest uppercase transition-all duration-500 border ${activeCategory === cat
-                    ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] -translate-y-1"
-                    : "bg-white/60 backdrop-blur-sm text-[var(--dark-grey)] border-[var(--olive)]/20 hover:border-[var(--orange)] hover:bg-white hover:text-[var(--orange)] shadow-sm hover:-translate-y-0.5"
+                  ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] -translate-y-1"
+                  : "bg-white/60 backdrop-blur-sm text-[var(--dark-grey)] border-[var(--olive)]/20 hover:border-[var(--orange)] hover:bg-white hover:text-[var(--orange)] shadow-sm hover:-translate-y-0.5"
                   }`}
               >
                 {t.sections?.[cat] || cat}
@@ -1422,6 +1422,8 @@ function KuralTrustRow({
   t: any;
   kuraldata: KuralData | null;
 }) {
+  if (!kuraldata || !kuraldata.kural) return null;
+
   const formatKural = (kuralText: string | undefined | null) => {
     if (!kuralText) return "";
 
@@ -1438,8 +1440,6 @@ function KuralTrustRow({
     }
 
     const words = normalized.trim().split(/\s+/);
-
-    // Force real Kural format: 4 words on the first row, up to 3 on the second
     return (
       <>
         <p>{words.slice(0, 4).join(" ")}</p>
@@ -1449,67 +1449,61 @@ function KuralTrustRow({
   };
 
   return (
-    <section className="relative py-8 md:py-10 bg-gradient-to-b from-[#faf8f3] via-white to-[#faf8f3] overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 opacity-[0.04]">
-        <img
-          src="/kural-book.jpg"
-          alt="Background"
-          className="w-full h-full object-cover"
-        />
-      </div>
-
-      <div className="relative max-w-2xl mx-auto px-5">
-        {/* Heading */}
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <span className="w-8 h-px bg-amber-500"></span>
-
-          <span className="uppercase tracking-[0.3em] text-[10px] font-semibold text-amber-700">
-            {t.kural_title}
-          </span>
-
-          <span className="w-8 h-px bg-amber-500"></span>
+    <section className="relative w-full bg-[#344b2b] overflow-hidden py-16 md:py-24">
+      <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-center">
+        {/* Left Image */}
+        <div className="hidden lg:flex justify-center lg:justify-end">
+          <div className="relative w-[280px] aspect-[4/4.5] lg:aspect-[4/5] max-w-[280px]">
+            <div className="absolute inset-0 -translate-x-3 translate-y-3 border-[1.5px] border-[#59784b] rounded-t-[200px] rounded-b-[20px] pointer-events-none" />
+            <div className="relative w-full h-full rounded-t-[200px] rounded-b-[20px] overflow-hidden z-10">
+              <img
+                src="https://images.unsplash.com/photo-1710149468014-3d0eb40caaeb?q=80&w=700&auto=format&fit=crop"
+                alt="Hands holding grains"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
         </div>
 
-        {/* Card */}
-        <div className="relative bg-white rounded-xl border border-amber-100 shadow-md overflow-hidden">
-          {/* Top Accent */}
-          <div className="h-1 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500"></div>
+        {/* Center Text */}
+        <div className="flex flex-col items-center text-center px-4 w-full">
+          <div className="flex items-center gap-2 mb-8">
+            <span className="w-[5px] h-[5px] rounded-full bg-[#e09133]" />
+            <span className="w-[5px] h-[5px] rounded-full bg-[#e09133]" />
+            <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-[#e09133] ml-2">
+              {t.kural_title || "THE VERSE WE LIVE BY"}
+            </span>
+          </div>
 
-          <div className="p-4 md:p-6">
-            {/* Icon */}
-            <div className="flex justify-center mb-4">
-              <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center shadow-sm">
-                <ScrollText className="w-5 h-5 text-amber-600" />
-              </div>
+          <div className="text-[20px] md:text-[24px] font-bold text-white leading-[1.8] mb-8 space-y-2">
+            {formatKural(kuraldata.kural)}
+          </div>
+
+          {kuraldata.meaning && (
+            <div className="text-[13px] md:text-[14px] text-[#a9bca1] leading-[1.8] mb-10 max-w-lg font-medium">
+              {kuraldata.meaning}
             </div>
+          )}
 
-            {/* Kural */}
-            <div className="text-center">
-              <div className="text-lg md:text-xl font-bold text-[var(--foreground)] leading-relaxed space-y-1">
-                {formatKural(kuraldata?.kural)}
-              </div>
+          <div className="flex items-center gap-4">
+            <span className="w-8 h-[2px] bg-[#e09133]" />
+            <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase text-[#e09133]">
+              THIRUKKURAL • KURAL {kuraldata.kuralid || ""}
+            </span>
+          </div>
+        </div>
+
+        {/* Right Image */}
+        <div className="hidden lg:flex justify-center lg:justify-start">
+          <div className="relative w-[280px] aspect-[4/4.5] lg:aspect-[4/5] max-w-[280px]">
+            <div className="absolute inset-0 -translate-x-3 translate-y-3 border-[1.5px] border-[#59784b] rounded-t-[200px] rounded-b-[20px] pointer-events-none" />
+            <div className="relative w-full h-full rounded-t-[200px] rounded-b-[20px] overflow-hidden z-10">
+              <img
+                src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=600&auto=format&fit=crop"
+                alt="Hand touching wheat field"
+                className="w-full h-full object-cover"
+              />
             </div>
-
-            {/* Divider */}
-            <div className="flex items-center justify-center my-4">
-              <span className="w-16 h-px bg-amber-300"></span>
-              <div className="mx-2 w-1.5 h-1.5 rounded-full bg-amber-500"></div>
-              <span className="w-16 h-px bg-amber-300"></span>
-            </div>
-
-            {/* Meaning */}
-            {kuraldata?.meaning && (
-              <div className="bg-[#fffdf8] border border-amber-100 rounded-lg p-4">
-                <h3 className="text-[10px] uppercase tracking-[0.3em] font-semibold text-amber-700 mb-2">
-                  {t.meaning}
-                </h3>
-
-                <p className="text-xs md:text-sm text-[var(--dark-grey)] leading-relaxed">
-                  {kuraldata.meaning}
-                </p>
-              </div>
-            )}
           </div>
         </div>
       </div>

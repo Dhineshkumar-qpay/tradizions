@@ -22,7 +22,7 @@ const content: Record<string, any> = {
         id: 3,
         title: "3. Products",
         intro: "We offer:",
-        list: ["Nuts & dry fruits", "Millets", "Spices", "Pooja items", "Gift boxes & hampers"],
+        list: ["Nuts & dry fruits", "Millets", "Spices",  "Gift boxes & hampers"],
         footer: "All products are subject to availability."
       },
       {

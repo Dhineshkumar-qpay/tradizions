@@ -64,7 +64,7 @@ const content: Record<string, any> = {
         id: 8,
         title: "8. Perishable & Sensitive Products",
         intro: "Since we deal in:",
-        list: ["Food items (nuts, millets, spices)", "Pooja items", "Gift packs"],
+        list: ["Food items (nuts, millets, spices)",  "Gift packs"],
         footerTitle: "Please ensure:",
         footerList: ["Someone is available to receive the order", "Products are checked immediately upon delivery"]
       },

@@ -23,6 +23,20 @@ const translations: Record<string, any> = {
   HI: hi,
 };
 
+const loadRazorpay = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+};
+
 export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const [selectedLang, setSelectedLang] = useState("EN");
@@ -243,33 +257,76 @@ export default function CheckoutPage() {
 
     setIsPlacingOrder(true);
     try {
-      const body: any = {
-        addressid: selectionMode === "single" ? selectedAddressId || 0 : 0,
-        issameaddress: selectionMode === "single",
-        addressids:
-          selectionMode === "multi"
-            ? multipleAddress.map(({ addressid, productid }) => ({
-                addressid,
-                productid,
-              }))
-            : [],
-      };
-      const response = await API.post(API_ROUTES.PLACEORDER, body);
-      if (response.status === 200 && response.data?.data) {
-        setPlacedOrderId(response.data.data.orderid || response.data.orderid);
-        setOrderPlaced(true);
-        window.dispatchEvent(new Event("cartUpdated"));
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        alert("Failed to place order.");
+      const res = await loadRazorpay();
+      if (!res) {
+        alert("Razorpay SDK failed to load. Are you online?");
+        setIsPlacingOrder(false);
+        return;
       }
+
+      const options = {
+        key: "rzp_test_TOP1xWTgy7L6M2",
+        amount: Math.round(grandTotal * 100),
+        currency: "INR",
+        name: "Tradizions",
+        description: "Order Payment",
+        handler: async function (response: any) {
+          try {
+            const body: any = {
+              addressid: selectionMode === "single" ? selectedAddressId || 0 : 0,
+              issameaddress: selectionMode === "single",
+              addressids:
+                selectionMode === "multi"
+                  ? multipleAddress.map(({ addressid, productid }) => ({
+                      addressid,
+                      productid,
+                    }))
+                  : [],
+              razorpay_payment_id: response.razorpay_payment_id,
+            };
+            const apiRes = await API.post(API_ROUTES.PLACEORDER, body);
+            if (apiRes.status === 200 && apiRes.data?.data) {
+              setPlacedOrderId(apiRes.data.data.orderid || apiRes.data.orderid);
+              setOrderPlaced(true);
+              window.dispatchEvent(new Event("cartUpdated"));
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+              alert("Failed to place order.");
+            }
+          } catch (err: any) {
+            console.error("Error placing order:", err);
+            alert(
+              err?.response?.data?.message ||
+                "An error occurred while placing your order.",
+            );
+          } finally {
+            setIsPlacingOrder(false);
+          }
+        },
+        prefill: {
+          name: "Customer",
+          email: "customer@example.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#556B2F",
+        },
+        modal: {
+          ondismiss: function () {
+            setIsPlacingOrder(false);
+          },
+        },
+      };
+
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.open();
+
+      paymentObject.on("payment.failed", function (response: any) {
+        alert(response.error.description);
+        setIsPlacingOrder(false);
+      });
     } catch (err: any) {
-      console.error("Error placing order:", err);
-      alert(
-        err?.response?.data?.message ||
-          "An error occurred while placing your order.",
-      );
-    } finally {
+      console.error("Error with payment:", err);
       setIsPlacingOrder(false);
     }
   };

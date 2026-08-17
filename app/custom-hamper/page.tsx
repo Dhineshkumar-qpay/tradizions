@@ -1,16 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState, useEffect } from "react";
 import {
   Plus,
   Minus,
   Search,
   Package,
   CreditCard,
-  ChevronRight,
   Check,
-  ArrowRight,
   Sparkles,
   Tag,
   ShoppingBag,
@@ -254,8 +251,8 @@ export default function CustomGiftBuilder() {
                       key={pkg.id}
                       onClick={() => setSelectedPackage(pkg)}
                       className={`group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 border-2 ${active
-                          ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-lg shadow-[var(--olive)]/10 scale-[1.02]"
-                          : "border-transparent bg-stone-50 hover:bg-stone-100"
+                        ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-lg shadow-[var(--olive)]/10 scale-[1.02]"
+                        : "border-transparent bg-stone-50 hover:bg-stone-100"
                         }`}
                     >
                       <div className="relative aspect-[4/3] overflow-hidden bg-white">
