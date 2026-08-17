@@ -205,7 +205,8 @@ export default function CustomGiftBuilder() {
   return (
     <div className="min-h-screen bg-stone-50 font-sans selection:bg-[var(--olive)] selection:text-white pb-24">
       {/* ── Premium Hero Section ── */}
-      <div className="bg-gradient-to-br from-[var(--olive)]/35 via-white to-[var(--orange)]/15 border-b border-gray-200">
+      <div className="bg-gradient-to-br from-[var(--olive)]/20 via-white to-[var(--orange)]/10 rounded-b-[40px] shadow-sm mb-12 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[var(--olive)]/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-[1200px] mx-auto px-6 py-10 md:py-12 flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 backdrop-blur-md border border-[var(--olive)]/20 mb-4 shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-[var(--orange)]" />
@@ -228,7 +229,7 @@ export default function CustomGiftBuilder() {
           <div className="lg:col-span-8 space-y-12">
 
             {/* Step 1: Packaging */}
-            <section className="bg-white rounded-3xl p-6 md:p-10 shadow-xl shadow-stone-200/40 border border-stone-200/60 relative overflow-hidden">
+            <section className="bg-white/80 backdrop-blur-xl rounded-[40px] p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-black/5 relative overflow-hidden">
               <div className="flex items-center gap-5 mb-10 pb-6 border-b border-stone-100">
                 <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[var(--olive)]/10 text-[var(--olive)] font-bold text-xl">
                   1
@@ -250,9 +251,9 @@ export default function CustomGiftBuilder() {
                     <div
                       key={pkg.id}
                       onClick={() => setSelectedPackage(pkg)}
-                      className={`group cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 border-2 ${active
-                        ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-lg shadow-[var(--olive)]/10 scale-[1.02]"
-                        : "border-transparent bg-stone-50 hover:bg-stone-100"
+                      className={`group cursor-pointer rounded-[32px] overflow-hidden transition-all duration-300 border-2 ${active
+                        ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-[0_15px_30px_rgba(22,163,74,0.15)] scale-[1.02]"
+                        : "border-transparent bg-stone-50 hover:bg-white hover:shadow-[0_15px_30px_rgba(0,0,0,0.06)] hover:border-black/5"
                         }`}
                     >
                       <div className="relative aspect-[4/3] overflow-hidden bg-white">
@@ -295,7 +296,7 @@ export default function CustomGiftBuilder() {
             </section>
 
             {/* Step 2: Products */}
-            <section className="bg-white rounded-3xl p-6 md:p-10 shadow-xl shadow-stone-200/40 border border-stone-200/60 relative overflow-hidden">
+            <section className="bg-white/80 backdrop-blur-xl rounded-[40px] p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-black/5 relative overflow-hidden">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-stone-100">
                 <div className="flex items-center gap-5">
                   <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[var(--orange)]/10 text-[var(--orange)] font-bold text-xl">
@@ -320,7 +321,7 @@ export default function CustomGiftBuilder() {
                     placeholder={t.custom_gift?.search || "Search collection..."}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-stone-50 border border-stone-200 text-stone-900 text-sm rounded-xl pl-11 pr-4 py-3 outline-none focus:border-[var(--orange)] focus:ring-4 focus:ring-[var(--orange)]/10 transition-all placeholder:text-stone-400 font-medium"
+                    className="w-full bg-white border border-black/5 shadow-sm text-stone-900 text-sm rounded-full pl-11 pr-4 py-3 outline-none focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 transition-all placeholder:text-stone-400 font-medium"
                   />
                 </div>
               </div>
@@ -383,7 +384,7 @@ export default function CustomGiftBuilder() {
                     return (
                       <div
                         key={idx}
-                        className="group flex flex-col bg-white rounded-2xl border border-stone-200 overflow-hidden hover:shadow-xl hover:shadow-stone-200/50 hover:border-stone-300 transition-all duration-300 h-full"
+                        className="group flex flex-col bg-white rounded-[24px] border border-black/5 overflow-hidden hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:border-[var(--olive)]/20 transition-all duration-500 h-full"
                       >
                         <div className="relative aspect-square w-full shrink-0 bg-stone-50 overflow-hidden">
                           <img
@@ -411,7 +412,7 @@ export default function CustomGiftBuilder() {
                           {qty === 0 ? (
                             <button
                               onClick={() => handleAddItem(product)}
-                              className="w-full bg-[var(--olive-dark)] text-white py-2.5 rounded-[0px] text-[11px] font-bold uppercase tracking-widest hover:bg-[var(--orange-dark)] hover:shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2"
+                              className="w-full bg-[var(--olive-dark)] text-white py-2.5 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-gradient-to-r hover:from-[var(--olive)] hover:to-[var(--olive-dark)] hover:shadow-[0_10px_20px_rgba(22,163,74,0.3)] transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2"
                             >
                               {t.custom_gift?.add || "Add Item"}
                             </button>
@@ -445,7 +446,7 @@ export default function CustomGiftBuilder() {
 
           {/* Right Column: Floating Summary Card */}
           <div className="lg:col-span-4">
-            <div className="sticky top-28 bg-white/80 backdrop-blur-xl border border-stone-200/60 rounded-3xl p-6 md:p-8 shadow-2xl shadow-stone-200/50">
+            <div className="sticky top-32 bg-white/90 backdrop-blur-xl border border-black/5 rounded-[40px] p-6 md:p-8 shadow-[0_30px_60px_rgba(0,0,0,0.08)]">
               <div className="flex items-center gap-3 mb-8 pb-6 border-b border-stone-100">
                 <div className="p-2.5 bg-stone-100 rounded-xl">
                   <ShoppingBag className="w-5 h-5 text-stone-900" />
@@ -563,7 +564,7 @@ export default function CustomGiftBuilder() {
               <button
                 onClick={handleCompleteGift}
                 disabled={selectedItems.length === 0 || !selectedPackage || isSubmitting}
-                className="w-full bg-[var(--olive)] text-white py-4 rounded-[0px] text-xs font-bold uppercase tracking-widest transition-all hover:bg-[var(--olive)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 group shadow-xl shadow-[var(--olive)]/20 active:scale-[0.98]"
+                className="w-full bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all hover:shadow-[0_15px_40px_rgba(22,163,74,0.35)] hover:-translate-y-1 disabled:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 group active:scale-[0.98]"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">

@@ -70,15 +70,15 @@ const NoResultsFound = ({ onClear, t }: { onClear: () => void; t: any }) => (
 );
 
 const ProductSkeleton = () => (
-  <div className="bg-white border border-stone-200 rounded-2xl overflow-hidden flex flex-col animate-pulse h-full shadow-sm">
-    <div className="aspect-[4/3] bg-stone-200" />
+  <div className="bg-white border border-black/5 rounded-[24px] overflow-hidden flex flex-col animate-pulse h-full shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+    <div className="aspect-[4/3] bg-stone-100" />
     <div className="p-4 space-y-3 flex flex-col flex-1">
       <div className="space-y-2">
-        <div className="h-4 bg-stone-200 rounded-md w-3/4" />
-        <div className="h-3 bg-stone-100 rounded-md w-5/6" />
+        <div className="h-4 bg-stone-100 rounded-full w-3/4" />
+        <div className="h-3 bg-stone-50 rounded-full w-5/6" />
       </div>
-      <div className="h-5 bg-stone-200 rounded-md w-1/3 mt-2" />
-      <div className="h-10 bg-stone-200 rounded-xl w-full mt-auto" />
+      <div className="h-5 bg-stone-100 rounded-full w-1/3 mt-2" />
+      <div className="h-10 bg-stone-100 rounded-full w-full mt-auto" />
     </div>
   </div>
 );
@@ -503,21 +503,25 @@ export default function GiftsPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#faf9f6] ">
+    <main className="min-h-screen bg-[#f7f6f3]">
       {/* ──── Gifts Hero / Header ──── */}
-      <div className="bg-gradient-to-br from-[var(--olive)]/35 via-white to-[var(--orange)]/15 border-b border-gray-200">
-        <div className="max-w-[1200px] mx-auto px-6 py-10 md:py-12 flex flex-col">
+      <div className="bg-gradient-to-br from-[var(--olive)]/20 via-white to-[var(--orange)]/10 rounded-b-[40px] shadow-sm mb-10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--orange)]/8 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute -bottom-10 -left-10 w-[400px] h-[400px] bg-[var(--olive)]/8 rounded-full blur-[100px] pointer-events-none" />
+        <div className="max-w-[1200px] mx-auto px-6 py-10 md:py-14 flex flex-col relative z-10">
           <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-6">
-            <Link href="/" className="hover:text-gray-900 transition-colors">
-              Home
-            </Link>
+            <Link href="/" className="hover:text-gray-900 transition-colors">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-gray-400">{t.gifting || "Gifting"}</span>
           </div>
-          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
-            {t.gifts_headline || "Corporate Gifting"}
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 backdrop-blur-md border border-[var(--olive)]/15 mb-5 shadow-sm w-fit">
+            <span className="w-2 h-2 rounded-full bg-[var(--orange)] animate-pulse" />
+            <span className="text-[10px] font-bold tracking-widest uppercase text-[var(--olive-dark)]">Premium Collection</span>
+          </div>
+          <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+            {t.gifts_headline || "Curated"} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--olive)] to-[var(--orange)]">Gift Hampers</span>
           </h1>
-          <p className="mt-3 max-w-2xl text-sm text-gray-600">
+          <p className="mt-4 max-w-xl text-sm md:text-base text-gray-500 font-medium leading-relaxed">
             {t.gifts_desc || "Curated gift hampers crafted with love — perfect for clients, teams, and premium events."}
           </p>
         </div>
@@ -528,14 +532,15 @@ export default function GiftsPage() {
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* DESKTOP SIDEBAR */}
           <aside className="hidden lg:block w-64 shrink-0">
-            <div className="sticky top-28 bg-white border border-stone-200 shadow-sm rounded-sm">
-              <div className="px-5 py-4 border-b border-stone-100 flex items-center justify-between bg-stone-50 rounded-t-sm">
-                <h3 className="text-xs font-bold text-stone-900 tracking-widest uppercase">
+            <div className="sticky top-32 bg-white/90 backdrop-blur-xl border border-black/5 rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.06)] overflow-hidden">
+              <div className="px-5 py-5 border-b border-black/5 flex items-center justify-between">
+                <h3 className="text-xs font-bold text-stone-900 tracking-widest uppercase flex items-center gap-2">
+                  <Filter className="w-3.5 h-3.5 text-[var(--olive)]" />
                   {t.gifts_filters?.title || "Filters"}
                 </h3>
                 <button
                   onClick={clearAllFilters}
-                  className="text-[11px] font-bold text-stone-400 hover:text-[var(--orange)] transition-colors uppercase tracking-tight cursor-pointer"
+                  className="text-[10px] font-bold text-stone-400 hover:text-[var(--orange)] transition-colors uppercase tracking-tight cursor-pointer"
                 >
                   {t.gifts_filters?.clear_all || "Clear All"}
                 </button>
@@ -550,114 +555,67 @@ export default function GiftsPage() {
               <div className="flex items-center gap-3 w-full sm:w-auto">
                 <button
                   onClick={() => setIsMobileFilterOpen(true)}
-                  className="lg:hidden flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-sm text-xs font-bold text-stone-900 shadow-sm hover:border-stone-400 transition-colors uppercase tracking-widest"
+                  className="lg:hidden flex items-center gap-2 px-5 py-2.5 bg-white/90 backdrop-blur-md border border-black/5 rounded-full text-xs font-bold text-stone-900 shadow-sm hover:shadow-md transition-all"
                 >
-                  <Filter className="w-4 h-4" />
+                  <Filter className="w-3.5 h-3.5" />
                   Filters
                 </button>
 
-                {/* Custom Sort By Dropdown */}
+                {/* Sort By Dropdown */}
                 <div className="relative z-30 min-w-[160px] sm:min-w-[190px]">
                   <button
                     onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                    onBlur={() =>
-                      setTimeout(() => setIsSortDropdownOpen(false), 200)
-                    }
-                    className="flex items-center justify-between w-full bg-white border border-stone-200 rounded-sm shadow-sm px-4 py-3 text-xs font-bold text-stone-900 hover:border-stone-400 transition-all duration-300 cursor-pointer select-none uppercase tracking-widest"
+                    onBlur={() => setTimeout(() => setIsSortDropdownOpen(false), 200)}
+                    className="flex items-center justify-between w-full bg-white/90 backdrop-blur-md border border-black/5 rounded-full shadow-sm px-5 py-2.5 text-xs font-bold text-stone-900 hover:shadow-md transition-all cursor-pointer select-none"
                   >
                     <span className="flex items-center gap-1.5">
                       {sortBy === "" && "Sort: Default"}
-                      {sortBy === "lowToHigh" && "Price: Low to High"}
-                      {sortBy === "highToLow" && "Price: High to Low"}
+                      {sortBy === "lowToHigh" && "Price: Low → High"}
+                      {sortBy === "highToLow" && "Price: High → Low"}
                     </span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-stone-400 transition-transform duration-300 ${isSortDropdownOpen ? "rotate-180 text-[var(--olive)]" : ""}`}
-                    />
+                    <ChevronDown className={`w-4 h-4 text-stone-400 transition-transform duration-300 ${isSortDropdownOpen ? "rotate-180 text-[var(--olive)]" : ""}`} />
                   </button>
 
                   {isSortDropdownOpen && (
-                    <div className="absolute top-full left-0 mt-1.5 w-full bg-white border border-stone-200 rounded-sm shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                      <div className="py-1 text-xs">
-                        <button
-                          onClick={() => {
-                            setSortBy("");
-                            setActiveFilters((prev: any) => ({
-                              ...prev,
-                              sortby: "",
-                              page: 1,
-                            }));
-                            setIsSortDropdownOpen(false);
-                          }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
-                            sortBy === ""
-                              ? "bg-stone-50 text-[var(--olive)]"
-                              : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                          }`}
-                        >
-                          Sort: Default
-                          {sortBy === "" && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]" />
-                          )}
-                        </button>
-                        <button
-                          onClick={() => {
-                            setSortBy("lowToHigh");
-                            setActiveFilters((prev: any) => ({
-                              ...prev,
-                              sortby: "price-low-high",
-                              page: 1,
-                            }));
-                            setIsSortDropdownOpen(false);
-                          }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
-                            sortBy === "lowToHigh"
-                              ? "bg-stone-50 text-[var(--olive)]"
-                              : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                          }`}
-                        >
-                          Price: Low to High
-                          {sortBy === "lowToHigh" && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]" />
-                          )}
-                        </button>
-                        <button
-                          onClick={() => {
-                            setSortBy("highToLow");
-                            setActiveFilters((prev: any) => ({
-                              ...prev,
-                              sortby: "price-high-low",
-                              page: 1,
-                            }));
-                            setIsSortDropdownOpen(false);
-                          }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
-                            sortBy === "highToLow"
-                              ? "bg-stone-50 text-[var(--olive)]"
-                              : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                          }`}
-                        >
-                          Price: High to Low
-                          {sortBy === "highToLow" && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]" />
-                          )}
-                        </button>
+                    <div className="absolute top-full left-0 mt-2 w-full bg-white/95 backdrop-blur-xl border border-black/5 rounded-[20px] shadow-[0_20px_40px_rgba(0,0,0,0.1)] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="py-2 text-xs">
+                        {[
+                          { label: "Default", val: "", api: "" },
+                          { label: "Price: Low → High", val: "lowToHigh", api: "price-low-high" },
+                          { label: "Price: High → Low", val: "highToLow", api: "price-high-low" },
+                        ].map((opt) => (
+                          <button
+                            key={opt.val}
+                            onClick={() => {
+                              setSortBy(opt.val);
+                              setActiveFilters((prev: any) => ({ ...prev, sortby: opt.api, page: 1 }));
+                              setIsSortDropdownOpen(false);
+                            }}
+                            className={`flex items-center justify-between w-full px-5 py-2.5 text-left font-bold transition-colors cursor-pointer rounded-xl mx-1 w-[calc(100%-8px)] ${
+                              sortBy === opt.val ? "bg-[var(--olive)]/8 text-[var(--olive)]" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"
+                            }`}
+                          >
+                            {opt.label}
+                            {sortBy === opt.val && <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)]" />}
+                          </button>
+                        ))}
                       </div>
                     </div>
                   )}
                 </div>
               </div>
 
-              <div className="relative w-full sm:max-w-xs flex items-center bg-white border border-stone-200 rounded-sm shadow-sm px-4 py-3 transition-all hover:border-stone-400">
-                <Search className="h-4 w-4 text-stone-400 mr-3" />
+              <div className="relative w-full sm:max-w-xs flex items-center bg-white/90 backdrop-blur-md border border-black/5 rounded-full shadow-sm px-5 py-2.5 transition-all hover:shadow-md focus-within:border-[var(--olive)]/30 focus-within:ring-4 focus-within:ring-[var(--olive)]/5">
+                <Search className="h-4 w-4 text-stone-400 mr-3 shrink-0" />
                 <input
                   type="text"
-                  placeholder={t.searchPlaceholder || "Search..."}
+                  placeholder={t.searchPlaceholder || "Search gifts..."}
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
                     setActiveFilters((prev) => ({ ...prev, page: 1 }));
                   }}
-                  className="bg-transparent text-xs font-bold text-stone-900 outline-none w-full placeholder:text-stone-400 uppercase tracking-widest"
+                  className="bg-transparent text-xs font-bold text-stone-900 outline-none w-full placeholder:text-stone-400"
                 />
               </div>
             </div>
@@ -727,15 +685,17 @@ export default function GiftsPage() {
       {isMobileFilterOpen && (
         <div className="fixed inset-0 z-[100] flex">
           <div
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
             onClick={() => setIsMobileFilterOpen(false)}
           />
-          <div className="relative ml-auto w-full max-w-[300px] bg-white h-full shadow-2xl overflow-y-auto">
-            <div className="p-6 border-b border-stone-100 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-stone-900">Filters</h3>
+          <div className="relative ml-auto w-full max-w-[300px] bg-white/95 backdrop-blur-xl h-full shadow-[0_0_60px_rgba(0,0,0,0.15)] overflow-y-auto rounded-l-[32px]">
+            <div className="p-6 border-b border-black/5 flex items-center justify-between">
+              <h3 className="text-lg font-bold text-stone-900 flex items-center gap-2">
+                <Filter className="w-4 h-4 text-[var(--olive)]" /> Filters
+              </h3>
               <button
                 onClick={() => setIsMobileFilterOpen(false)}
-                className="p-2 hover:bg-stone-50 rounded-full transition-colors"
+                className="p-2 hover:bg-stone-100 rounded-full transition-colors"
               >
                 <X className="w-5 h-5 text-stone-400" />
               </button>
@@ -744,7 +704,7 @@ export default function GiftsPage() {
             <div className="p-6">
               <button
                 onClick={() => setIsMobileFilterOpen(false)}
-                className="w-full py-4 bg-[var(--olive)] text-white font-bold text-xs tracking-widest rounded-xl shadow-lg shadow-emerald-900/10"
+                className="w-full py-4 bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white font-bold text-xs tracking-widest rounded-full shadow-[0_10px_30px_rgba(22,163,74,0.3)] hover:-translate-y-0.5 transition-all"
               >
                 APPLY FILTERS
               </button>

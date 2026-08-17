@@ -22,6 +22,20 @@ const translations: Record<string, any> = {
 
 const locationData: Record<string, string[]> = locationDataRaw as any;
 
+const loadRazorpay = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+};
+
 export default function MonthlyCartPage() {
   const router = useRouter();
   const [cartData, setCartData] = useState<MonthlyCartData | null>(null);
@@ -169,18 +183,66 @@ export default function MonthlyCartPage() {
 
     setIsPlacingOrder(true);
     try {
-      const body = { addressid: selectedAddressId };
-      const response = await API.post(API_ROUTES.PLACECALCULATORORDER, body);
-      if (response.status === 200 && response.data?.data) {
-        setPlacedOrderId(response.data.data.orderid);
-        setOrderPlaced(true);
-      } else {
-        alert("Failed to place order.");
+      const res = await loadRazorpay();
+      if (!res) {
+        alert("Razorpay SDK failed to load. Are you online?");
+        setIsPlacingOrder(false);
+        return;
       }
+
+      const grandTotal = cartData?.totalamount || 0;
+
+      const options = {
+        key: "rzp_live_TQmjNlUYT2QAlj",
+        amount: Math.round(grandTotal * 100),
+        currency: "INR",
+        name: "Tradizions",
+        description: "Monthly Order Payment",
+        handler: async function (response: any) {
+          try {
+            const body = { 
+              addressid: selectedAddressId,
+              razorpay_payment_id: response.razorpay_payment_id 
+            };
+            const apiRes = await API.post(API_ROUTES.PLACECALCULATORORDER, body);
+            if (apiRes.status === 200 && apiRes.data?.data) {
+              setPlacedOrderId(apiRes.data.data.orderid);
+              setOrderPlaced(true);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+              alert("Failed to place order.");
+            }
+          } catch (err: any) {
+            console.error("Error placing order:", err);
+            alert(err?.response?.data?.message || "An error occurred while placing your order.");
+          } finally {
+            setIsPlacingOrder(false);
+          }
+        },
+        prefill: {
+          name: "Customer",
+          email: "customer@example.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#556B2F",
+        },
+        modal: {
+          ondismiss: function () {
+            setIsPlacingOrder(false);
+          },
+        },
+      };
+
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.open();
+
+      paymentObject.on("payment.failed", function (response: any) {
+        alert(response.error.description);
+        setIsPlacingOrder(false);
+      });
     } catch (err: any) {
-      console.error("Error placing order:", err);
-      alert(err?.response?.data?.message || "An error occurred while placing your order.");
-    } finally {
+      console.error("Error with payment:", err);
       setIsPlacingOrder(false);
     }
   };

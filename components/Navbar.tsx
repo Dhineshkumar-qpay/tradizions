@@ -327,26 +327,26 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full z-50 transition-all duration-500 shadow-xl">
+      <div className="fixed top-0 left-0 w-full z-50 transition-all duration-500 px-4 pt-2 lg:px-6 lg:pt-3 pointer-events-none">
         {/* Top Announcement Bar */}
-        <div className="w-full bg-gradient-to-r from-[var(--olive-dark)] via-gray-900 to-[var(--olive-dark)] text-white/90 text-[10px] md:text-[11px] font-bold py-1 text-center tracking-widest uppercase">
+        <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-[var(--olive-dark)] via-[var(--olive)] to-[var(--olive-dark)] text-white/90 text-[10px] md:text-[11px] font-bold py-1 text-center tracking-widest uppercase shadow-sm">
           {/* Powered By-TRADIZIONS. Freshness Delivered Daily! | Free Shipping on Orders ₹999+ | 100% Natural, No Preservatives! */}
         </div>
 
-        <nav className="w-full h-[84px] bg-[var(--olive-dark)]/95 backdrop-blur-xl border-b border-white/10 px-4 lg:px-8 flex items-center justify-between pointer-events-auto relative z-50">
+        <nav className="w-full max-w-[1400px] mx-auto h-[76px] lg:h-[84px] bg-gradient-to-r from-[var(--olive-dark)]/95 to-[#151c10]/95 backdrop-blur-xl rounded-[40px] border border-white/10 px-4 lg:px-8 flex items-center justify-between pointer-events-auto relative mt-2 z-50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 hover:border-white/20">
           <div className="flex items-center gap-4 lg:gap-6 xl:gap-14">
             {/* Logo Section */}
             <div className="flex-shrink-0 z-20">
               <Link href="/" className="group block">
                 <div className="relative flex items-center justify-center">
-                  {/* Logo Card */}
-                  <div className="relative h-12 w-36 lg:h-14 lg:w-40 rounded-xl border border-white/10 bg-gradient-to-br from-white/10 to-transparent backdrop-blur-md shadow-lg transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_rgba(255,255,255,0.1)] flex items-center justify-center p-2">
+                  {/* Clean Seamless Logo */}
+                  <div className="relative h-10 w-32 lg:h-12 lg:w-36 transition-all duration-500 group-hover:-translate-y-1 flex items-center justify-center">
                     <Image
                       src="/app-logo-new.png"
                       alt="Logo"
-                      width={130}
+                      width={140}
                       height={45}
-                      className="object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-md"
+                      className="object-contain transition-transform duration-700 group-hover:scale-105 drop-shadow-lg"
                     />
                   </div>
                 </div>
@@ -379,7 +379,7 @@ export default function Navbar() {
                   <span className="absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
                 </button>
 
-                <div className="absolute top-[80%] left-0 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover/catdrop:opacity-100 group-hover/catdrop:translate-y-0 group-hover/catdrop:pointer-events-auto transition-all duration-300 z-50">
+                <div className="absolute top-[100%] left-0 pt-6 opacity-0 translate-y-2 pointer-events-none group-hover/catdrop:opacity-100 group-hover/catdrop:translate-y-0 group-hover/catdrop:pointer-events-auto transition-all duration-300 z-50">
                   <div className="min-w-[220px] bg-white/95 backdrop-blur-xl border border-white/20 shadow-2xl relative rounded-xl overflow-hidden ring-1 ring-black/5">
                     <div className="flex flex-col py-2">
                       {displayCategories.map((cat) => (
@@ -446,7 +446,7 @@ export default function Navbar() {
               </button>
 
               {/* Stylish Dropdown Card */}
-              <div className="absolute top-full right-0 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover/langdrop:opacity-100 group-hover/langdrop:translate-y-0 group-hover/langdrop:pointer-events-auto transition-all duration-300 z-50">
+              <div className="absolute top-full right-0 pt-7 opacity-0 translate-y-2 pointer-events-none group-hover/langdrop:opacity-100 group-hover/langdrop:translate-y-0 group-hover/langdrop:pointer-events-auto transition-all duration-300 z-50">
                 <div className="w-40 bg-white/95 backdrop-blur-xl border border-white/20 shadow-2xl relative rounded-xl overflow-hidden ring-1 ring-black/5">
                   <div className="p-2 relative z-10 flex flex-col gap-1">
                     {languages.map((lang) => {

@@ -531,7 +531,7 @@ export default function ProfilePage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your name"
-              className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
+              className="w-full border border-gray-200 bg-white focus:bg-white rounded-full py-3 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
             />
           </div>
           <div>
@@ -544,7 +544,7 @@ export default function ProfilePage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
+              className="w-full border border-gray-200 bg-white focus:bg-white rounded-full py-3 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
             />
           </div>
           <div>
@@ -564,7 +564,7 @@ export default function ProfilePage() {
           <button
             type="submit"
             disabled={isSavingProfile}
-            className="btn-standard w-full rounded-lg font-bold text-[13px] tracking-widest shadow-md shadow-[var(--olive)]/20 hover:shadow-lg hover:-translate-y-0.5 transition-all mt-4 disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-full bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white font-extrabold text-[13px] tracking-widest shadow-[0_10px_30px_rgba(22,163,74,0.25)] hover:shadow-[0_15px_40px_rgba(22,163,74,0.35)] hover:-translate-y-1 active:scale-[0.98] transition-all mt-4 disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {isSavingProfile ? (
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -594,7 +594,7 @@ export default function ProfilePage() {
           <button
             type="button"
             onClick={() => setIsMapOpen(true)}
-            className="mb-6 w-full max-w-sm flex items-center justify-center gap-2 py-2.5 px-4 bg-[var(--olive)] text-white border border-stone-800 rounded-md font-bold text-xs uppercase tracking-widest hover:bg-[var(--olive-dark)] transition-colors shadow-sm"
+            className="mb-6 w-full max-w-sm flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-[var(--olive)] to-[var(--olive-dark)] text-white rounded-full font-bold text-xs uppercase tracking-widest hover:shadow-[0_10px_25px_rgba(22,163,74,0.3)] hover:-translate-y-0.5 transition-all shadow-sm"
           >
             <MapPin className="w-4 h-4" /> Select Address from Map
           </button>
@@ -608,7 +608,7 @@ export default function ProfilePage() {
                 placeholder="e.g. Home, Office"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
+                className="w-full border border-gray-200 bg-white focus:bg-white rounded-full py-3 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
               />
             </div>
             <div>
@@ -727,7 +727,7 @@ export default function ProfilePage() {
             </div>
             <button
               type="submit"
-              className="btn-standard w-full rounded-lg font-bold text-[13px] tracking-widest shadow-md shadow-[var(--olive)]/20 hover:shadow-lg hover:-translate-y-0.5 transition-all mt-4"
+              className="btn-standard w-full rounded-full font-bold text-[13px] tracking-widest shadow-[0_10px_30px_rgba(22,163,74,0.2)] hover:shadow-[0_15px_40px_rgba(22,163,74,0.3)] hover:-translate-y-1 transition-all mt-4"
             >
               {addressView === "add"
                 ? t.my_account.save_addr
@@ -793,7 +793,7 @@ export default function ProfilePage() {
           {addresses.map((addr) => (
             <div
               key={addr.addressid}
-              className="p-5 rounded-md border border-gray-200 bg-white relative group transition-all hover:shadow-sm hover:border-gray-300 cursor-pointer"
+              className="p-5 rounded-[28px] border border-black/5 bg-white/80 backdrop-blur-sm relative group transition-all hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:border-[var(--olive)]/20 cursor-pointer"
             >
               <div className="absolute top-5 right-5 flex items-center gap-3">
                 <button
@@ -813,7 +813,7 @@ export default function ProfilePage() {
                 </button>
               </div>
               <div className="mb-4">
-                <span className="inline-block px-2 py-1 bg-gray-50 text-gray-600 border border-gray-200 text-[10px] font-bold tracking-widest rounded-sm mb-3 uppercase">
+                <span className="inline-block px-3 py-1 bg-[var(--olive)]/10 text-[var(--olive)] border border-[var(--olive)]/20 text-[10px] font-bold tracking-widest rounded-full mb-3 uppercase">
                   {addr.title || "Address"}
                 </span>
                 <h3 className="text-sm font-bold text-gray-900 leading-tight">
@@ -889,7 +889,7 @@ export default function ProfilePage() {
             return (
               <div
                 key={item.productid}
-                className="group relative bg-white rounded-md p-4 border border-gray-200 hover:shadow-sm transition-all flex flex-col"
+                className="group relative bg-white rounded-[24px] p-4 border border-black/5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:border-[var(--olive)]/20 transition-all flex flex-col shadow-sm"
               >
                 <div className="relative aspect-[4/5] w-full rounded-sm overflow-hidden bg-stone-50 border border-stone-100 mb-4">
                   <img
@@ -927,7 +927,7 @@ export default function ProfilePage() {
                         item.productid &&
                         handleAddToCart(item.productid, "product")
                       }
-                      className="w-8 h-8 rounded-sm border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:text-[var(--olive)] hover:border-[var(--olive)] transition-colors cursor-pointer disabled:opacity-50"
+                      className="w-9 h-9 rounded-full border border-black/5 bg-white flex items-center justify-center text-gray-500 hover:text-[var(--olive)] hover:border-[var(--olive)]/30 hover:shadow-md transition-all cursor-pointer disabled:opacity-50"
                     >
                       <ShoppingCart className="w-4 h-4" />
                     </button>
@@ -1010,7 +1010,7 @@ export default function ProfilePage() {
                   <Link
                     key={order.orderid || index}
                     href={`/order-detail?id=${order.orderid}`}
-                    className="group flex items-center gap-4 p-4 rounded-md bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all"
+                    className="group flex items-center gap-4 p-4 rounded-[20px] bg-white border border-black/5 hover:border-[var(--olive)]/20 hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-all shadow-sm"
                   >
                     {(() => {
                       const hasItems = order.items && order.items.length > 0;
@@ -1427,93 +1427,71 @@ export default function ProfilePage() {
   );
 
   return (
-    <main className="min-h-screen bg-stone-50 py-10">
+    <main className="min-h-screen bg-gradient-to-br from-[var(--olive)]/5 via-[#f7f6f3] to-[var(--orange)]/5 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-8">
         {/* Left Sidebar Menu */}
-        <div className="w-full md:w-72 shrink-0 space-y-6">
-          <div className="p-6 bg-white rounded-md border border-stone-200 shadow-sm flex flex-col items-center text-center">
-            <div className="w-20 h-20 rounded-sm bg-stone-50 text-[var(--olive-dark)] flex items-center justify-center border border-stone-200 mb-4">
-              <User className="w-8 h-8" />
+        <div className="w-full md:w-72 shrink-0 space-y-5">
+          {/* Avatar / User Card */}
+          <div className="relative p-6 bg-gradient-to-br from-[var(--olive)] to-[var(--olive-dark)] rounded-[32px] shadow-[0_20px_50px_rgba(22,163,74,0.2)] flex flex-col items-center text-center overflow-hidden">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+            <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm text-white flex items-center justify-center border-2 border-white/30 mb-4 shadow-lg">
+              <User className="w-9 h-9" />
             </div>
-            <h2 className="text-lg font-bold text-stone-900 tracking-tight">
-              Tradizions User
+            <h2 className="text-base font-extrabold text-white tracking-tight">
+              {username || "Tradizions User"}
             </h2>
-            <p className="text-sm text-stone-500 mt-1">
+            <p className="text-xs text-white/70 mt-1 font-medium">
               +91 {mobile}
             </p>
+            <span className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white/90 text-[9px] font-bold tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-300 animate-pulse" /> Active Member
+            </span>
           </div>
 
-          <nav className="flex flex-col gap-1 bg-white rounded-md border border-stone-200 shadow-sm p-2">
+          {/* Nav Menu */}
+          <nav className="flex flex-col gap-1 bg-white/80 backdrop-blur-xl rounded-[32px] border border-black/5 shadow-[0_15px_40px_rgba(0,0,0,0.05)] p-3">
+            {[
+              { id: "profile", icon: User, label: t.my_account.edit_profile },
+              { id: "orders", icon: Package, label: t.my_account.order_history },
+              { id: "subscriptions", icon: Zap, label: t.my_account.subscriptions },
+              { id: "wishlist", icon: Heart, label: t.my_account.wishlist },
+              { id: "referrals", icon: Users, label: t.my_account.refer_earn },
+              { id: "wallet", icon: Wallet, label: t.my_account.wallet_coupons },
+            ].map(({ id, icon: Icon, label }) => (
+              <button
+                key={id}
+                onClick={() => setActiveTab(id)}
+                className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all font-semibold text-sm ${
+                  activeTab === id
+                    ? "bg-[var(--olive)] text-white shadow-[0_8px_20px_rgba(22,163,74,0.25)]"
+                    : "text-stone-500 hover:bg-stone-50 hover:text-stone-900"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </div>
+                {activeTab === id && <ChevronRight className="w-4 h-4 opacity-70" />}
+              </button>
+            ))}
             <button
-              onClick={() => setActiveTab("profile")}
-              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "profile" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
+              onClick={() => { setActiveTab("addresses"); setAddressView("list"); }}
+              className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all font-semibold text-sm ${
+                activeTab === "addresses"
+                  ? "bg-[var(--olive)] text-white shadow-[0_8px_20px_rgba(22,163,74,0.25)]"
+                  : "text-stone-500 hover:bg-stone-50 hover:text-stone-900"
+              }`}
             >
               <div className="flex items-center gap-3">
-                <User className="w-4 h-4" /> {t.my_account.edit_profile}
+                <MapPin className="w-4 h-4" />
+                {t.my_account.saved_addresses}
               </div>
-              {activeTab === "profile" && <ChevronRight className="w-4 h-4 text-stone-400" />}
+              {activeTab === "addresses" && <ChevronRight className="w-4 h-4 opacity-70" />}
             </button>
-            <button
-              onClick={() => setActiveTab("orders")}
-              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "orders" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
-            >
-              <div className="flex items-center gap-3">
-                <Package className="w-4 h-4" /> {t.my_account.order_history}
-              </div>
-              {activeTab === "orders" && <ChevronRight className="w-4 h-4 text-stone-400" />}
-            </button>
-            <button
-              onClick={() => setActiveTab("subscriptions")}
-              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "subscriptions" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
-            >
-              <div className="flex items-center gap-3">
-                <Zap className="w-4 h-4" /> {t.my_account.subscriptions}
-              </div>
-              {activeTab === "subscriptions" && <ChevronRight className="w-4 h-4 text-stone-400" />}
-            </button>
-            <button
-              onClick={() => setActiveTab("wishlist")}
-              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "wishlist" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
-            >
-              <div className="flex items-center gap-3">
-                <Heart className="w-4 h-4" /> {t.my_account.wishlist}
-              </div>
-              {activeTab === "wishlist" && <ChevronRight className="w-4 h-4 text-stone-400" />}
-            </button>
-            <button
-              onClick={() => setActiveTab("referrals")}
-              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "referrals" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
-            >
-              <div className="flex items-center gap-3">
-                <Users className="w-4 h-4" /> {t.my_account.refer_earn}
-              </div>
-              {activeTab === "referrals" && <ChevronRight className="w-4 h-4 text-stone-400" />}
-            </button>
-            <button
-              onClick={() => setActiveTab("wallet")}
-              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "wallet" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
-            >
-              <div className="flex items-center gap-3">
-                <Wallet className="w-4 h-4" /> {t.my_account.wallet_coupons}
-              </div>
-              {activeTab === "wallet" && <ChevronRight className="w-4 h-4 text-stone-400" />}
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab("addresses");
-                setAddressView("list");
-              }}
-              className={`flex items-center justify-between p-3 rounded-sm transition-all font-semibold text-sm ${activeTab === "addresses" ? "bg-stone-100 text-stone-900" : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"}`}
-            >
-              <div className="flex items-center gap-3">
-                <MapPin className="w-4 h-4" /> {t.my_account.saved_addresses}
-              </div>
-              {activeTab === "addresses" && <ChevronRight className="w-4 h-4 text-stone-400" />}
-            </button>
-            <div className="h-px w-full bg-stone-200 my-2" />
+            <div className="h-px w-full bg-black/5 my-1" />
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 p-3 rounded-sm transition-all font-semibold text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
+              className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm text-red-500 hover:bg-red-50 hover:text-red-600"
             >
               <LogOut className="w-4 h-4" /> {t.my_account.logout}
             </button>
@@ -1521,13 +1499,12 @@ export default function ProfilePage() {
         </div>
 
         {/* Right Content Area */}
-        <div className="flex-1 bg-white rounded-md border border-stone-200 shadow-sm p-6 sm:p-8 md:p-10 min-h-[600px]">
+        <div className="flex-1 bg-white/80 backdrop-blur-xl rounded-[40px] border border-black/5 shadow-[0_20px_60px_rgba(0,0,0,0.06)] p-6 sm:p-8 md:p-10 min-h-[600px]">
           {activeTab === "profile" && renderProfileForm()}
           {activeTab === "addresses" && renderAddresses()}
           {activeTab === "wishlist" && renderWishlist()}
           {activeTab === "orders" && renderOrders()}
           {activeTab === "gift-orders" && renderOrders()}
-
           {activeTab === "monthly-orders" && renderMonthlyOrders()}
           {activeTab === "subscriptions" && renderSubscriptionManagement()}
           {activeTab === "referrals" && renderReferrals()}
