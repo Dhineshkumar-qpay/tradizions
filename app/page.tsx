@@ -439,8 +439,8 @@ function HealthBenefitsSection({ t }: { t: any }) {
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`px-8 py-3.5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase transition-all duration-300 border ${activeCategory === cat
-                    ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
-                    : "bg-transparent text-[var(--dark-grey)] border-stone-200 hover:border-[var(--olive)] hover:text-[var(--olive-dark)]"
+                  ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
+                  : "bg-transparent text-[var(--dark-grey)] border-stone-200 hover:border-[var(--olive)] hover:text-[var(--olive-dark)]"
                   }`}
               >
                 {t.sections?.[cat] || cat}
@@ -1751,11 +1751,10 @@ function NutritionPlanner({ t }: { t: any }) {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${
-                    selectedCategory === cat.id
+                  className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${selectedCategory === cat.id
                       ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md -translate-y-0.5"
                       : "bg-[#FAF8F5] border-stone-100 hover:border-[var(--olive)]/50 hover:bg-white text-[var(--dark-grey)]"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-widest">
                     <cat.icon className={`w-4 h-4 ${selectedCategory === cat.id ? "text-[var(--orange)]" : "text-[var(--olive-dark)]"}`} />
@@ -1774,8 +1773,8 @@ function NutritionPlanner({ t }: { t: any }) {
                 <h3 className="font-bold text-[var(--foreground)] uppercase tracking-widest text-[11px]">
                   {selectedCategory === 0 ? t.complete_catalog || "Complete Catalog"
                     : selectedCategory === 1 ? t.nuts_category || "Nuts Category"
-                    : selectedCategory === 2 ? t.millets_category || "Millets Category"
-                    : t.spices_category || "Spices Category"}
+                      : selectedCategory === 2 ? t.millets_category || "Millets Category"
+                        : t.spices_category || "Spices Category"}
                   <span className="text-[var(--orange)] ml-2 bg-white px-2 py-1 rounded-full shadow-sm">
                     {displayedProducts.length} items
                   </span>
@@ -1798,18 +1797,16 @@ function NutritionPlanner({ t }: { t: any }) {
                       <div
                         key={product.productid}
                         onClick={() => handleToggleProduct(product)}
-                        className={`group relative p-5 bg-white border rounded-[20px] cursor-pointer transition-all duration-300 ${
-                          isSelected
+                        className={`group relative p-5 bg-white border rounded-[20px] cursor-pointer transition-all duration-300 ${isSelected
                             ? "border-[var(--olive-dark)] shadow-[0_8px_25px_rgba(0,0,0,0.08)] ring-1 ring-[var(--olive-dark)] -translate-y-1"
                             : "border-stone-100 hover:border-[var(--orange)] hover:shadow-lg hover:-translate-y-1"
-                        }`}
+                          }`}
                       >
-                        <div className={`absolute top-4 left-4 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 border-2 z-10 ${
-                          isSelected ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-white border-stone-200 group-hover:border-[var(--orange)]"
-                        }`}>
+                        <div className={`absolute top-4 left-4 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 border-2 z-10 ${isSelected ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-white border-stone-200 group-hover:border-[var(--orange)]"
+                          }`}>
                           <Check className={`w-3.5 h-3.5 ${isSelected ? "opacity-100 scale-100" : "opacity-0 scale-50"} transition-all duration-300`} strokeWidth={3} />
                         </div>
-                        
+
                         <div className="h-[100px] w-full relative mb-5 mt-4 bg-[#FAF8F5] rounded-[16px] overflow-hidden flex items-center justify-center group-hover:bg-[var(--orange)]/5 transition-colors">
                           <img
                             src={`${IMAGE_URL ?? ""}${product.productimage ?? ""}`}
@@ -1817,7 +1814,7 @@ function NutritionPlanner({ t }: { t: any }) {
                             className="object-contain mix-blend-multiply opacity-90 group-hover:scale-110 transition-transform duration-700 w-full h-full absolute inset-0 p-3"
                           />
                         </div>
-                        
+
                         <div className="text-center space-y-3">
                           <p className="font-bold text-[11px] uppercase tracking-wider text-[var(--foreground)] line-clamp-2 leading-snug group-hover:text-[var(--olive-dark)] transition-colors h-8">
                             {product.productname}
@@ -1856,7 +1853,7 @@ function NutritionPlanner({ t }: { t: any }) {
         {/* Step 2: Calculator */}
         <div id="calculator-section" className="bg-white rounded-[32px] border border-stone-100 shadow-[0_15px_40px_rgba(0,0,0,0.03)] p-8 md:p-12 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--orange)]/5 rounded-full blur-[80px] pointer-events-none" />
-          
+
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 relative z-10">
             <div>
               <div className="flex items-center gap-4 mb-2">
@@ -1921,7 +1918,7 @@ function NutritionPlanner({ t }: { t: any }) {
                             type="number"
                             className="w-20 px-3 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm font-black text-[var(--foreground)] text-center focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-inner"
                             value={data.grams}
-                            onChange={(e) => setPlannerData(prev => ({...prev, [product.productid!]: {...data, grams: Number(e.target.value)}}))}
+                            onChange={(e) => setPlannerData(prev => ({ ...prev, [product.productid!]: { ...data, grams: Number(e.target.value) } }))}
                           />
                         </td>
                         <td className="px-4 py-5 text-center">
@@ -1929,7 +1926,7 @@ function NutritionPlanner({ t }: { t: any }) {
                             type="number"
                             className="w-20 px-3 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm font-black text-[var(--foreground)] text-center focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-inner"
                             value={data.days}
-                            onChange={(e) => setPlannerData(prev => ({...prev, [product.productid!]: {...data, days: Number(e.target.value)}}))}
+                            onChange={(e) => setPlannerData(prev => ({ ...prev, [product.productid!]: { ...data, days: Number(e.target.value) } }))}
                           />
                         </td>
                         <td className="px-4 py-5 text-center">
@@ -1937,7 +1934,7 @@ function NutritionPlanner({ t }: { t: any }) {
                             type="number"
                             className="w-20 px-3 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm font-black text-[var(--foreground)] text-center focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-inner"
                             value={data.members}
-                            onChange={(e) => setPlannerData(prev => ({...prev, [product.productid!]: {...data, members: Number(e.target.value)}}))}
+                            onChange={(e) => setPlannerData(prev => ({ ...prev, [product.productid!]: { ...data, members: Number(e.target.value) } }))}
                           />
                         </td>
                         <td className="px-4 py-5 text-center font-black text-[var(--olive-dark)] text-sm">
@@ -2013,11 +2010,10 @@ function NutritionPlanner({ t }: { t: any }) {
                   })
                 }
                 disabled={selectedProducts.length === 0 || isBuying}
-                className={`flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-full font-bold text-[11px] tracking-[0.2em] uppercase transition-all shadow-[0_8px_25px_rgba(0,0,0,0.12)] ${
-                  selectedProducts.length > 0 
-                    ? "bg-[var(--olive-dark)] text-white hover:bg-[var(--orange)] hover:-translate-y-1" 
+                className={`flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-full font-bold text-[11px] tracking-[0.2em] uppercase transition-all shadow-[0_8px_25px_rgba(0,0,0,0.12)] ${selectedProducts.length > 0
+                    ? "bg-[var(--olive-dark)] text-white hover:bg-[var(--orange)] hover:-translate-y-1"
                     : "bg-stone-200 text-stone-400 cursor-not-allowed shadow-none"
-                } w-full sm:w-auto min-w-[220px]`}
+                  } w-full sm:w-auto min-w-[220px]`}
               >
                 {isBuying ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -2412,7 +2408,7 @@ function CertificationsSection({ t }: { t: any }) {
     <section className="py-24 bg-[#FAF8F5] relative overflow-hidden">
       {/* Abstract Background Elements */}
       <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--olive)]/10 to-transparent" />
-      
+
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center space-y-4 mb-14">
           <div className="inline-flex items-center gap-3 justify-center w-full mb-1">
@@ -2502,7 +2498,7 @@ function VideoTestimonialsSection() {
       <div className="absolute top-0 right-0 w-1/3 h-full bg-[#FAF8F5] rounded-l-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
+
         <div className="text-center space-y-4 mb-16">
           <div className="inline-flex items-center gap-3 justify-center w-full mb-1">
             <span className="w-8 h-[2px] bg-[var(--orange)]" />
@@ -2596,7 +2592,7 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
               <div className="w-16 h-16 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--orange)] group-hover:text-white transition-all duration-500 shadow-sm">
                 <Shield className="w-7 h-7" strokeWidth={1.5} />
               </div>
-              
+
               <div className="space-y-2">
                 <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--orange)] uppercase block">
                   {t.trust_shield || "Trust Shield"}
@@ -2605,7 +2601,7 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
                   {t.secure_payments || "Secure Payments"}
                 </h4>
               </div>
-              
+
               <p className="text-[13px] font-medium text-[var(--dark-grey)] leading-relaxed">
                 {t.secure_payments_desc ||
                   "Shop with complete peace of mind. We encrypt and safeguard every transaction with industry-standard 256-bit SSL technology."}
@@ -2631,7 +2627,7 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
               <div className="w-16 h-16 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--olive)] group-hover:text-white transition-all duration-500 shadow-sm">
                 <Leaf className="w-7 h-7" strokeWidth={1.5} />
               </div>
-              
+
               <div className="space-y-2">
                 <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--olive)] uppercase block">
                   {t.eco_stewardship || "Eco Stewardship"}

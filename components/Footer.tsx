@@ -200,7 +200,7 @@ export default function Footer() {
                   disabled={isLoading}
                   required
                   placeholder={t.contact_us?.email || "Your Email Address"}
-                  className="w-full bg-white/10 border border-white/20 rounded-sm py-3.5 px-5 focus:outline-none focus:border-[var(--orange)] disabled:opacity-50 text-sm"
+                  className="w-full bg-white/5 border border-white/10 rounded-md py-3 px-4 focus:outline-none focus:border-[var(--orange)] focus:ring-1 focus:ring-[var(--orange)] disabled:opacity-50 text-sm transition-all text-white placeholder:text-white/40"
                 />
 
                 <button

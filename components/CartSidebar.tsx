@@ -340,14 +340,14 @@ export default function CartSidebar() {
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-[var(--site-bg)] z-[90] shadow-xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-gray-50 z-[90] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        } flex flex-col`}
+        } flex flex-col border-l border-gray-200`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-200 bg-white shrink-0">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200 bg-white shrink-0 shadow-sm z-10">
           <div className="flex flex-col">
-            <h2 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase flex items-center gap-2">
+            <h2 className="text-xl font-extrabold text-gray-900 tracking-tight uppercase flex items-center gap-2">
               {t.cart_sidebar?.your_cart || "Your Cart"}
             </h2>
             <p className="text-[10px] text-gray-500 font-bold tracking-[0.2em] uppercase mt-1">
@@ -357,22 +357,25 @@ export default function CartSidebar() {
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="p-2 hover:text-[var(--orange)] transition-colors text-[var(--dark-grey)]"
+            className="w-10 h-10 flex items-center justify-center rounded bg-gray-50 border border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto w-full">
-          <div className="p-4 w-full">
+        <div className="flex-1 overflow-y-auto w-full custom-scrollbar">
+          <div className="p-5 w-full">
             {isLoading ? (
-              <div className="bg-white border border-gray-200 h-64 flex items-center justify-center shadow-sm">
-                <div className="w-12 h-12 border-4 border-gray-200 border-t-[var(--olive-dark)] animate-spin" />
+              <div className="bg-white rounded-[var(--radius-sm)] border border-gray-200 h-64 flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 border-4 border-gray-200 border-t-[var(--olive)] rounded-full animate-spin" />
               </div>
             ) : cartItems.length === 0 ? (
-              <div className="w-full bg-white border border-gray-200 shadow-sm py-16 flex flex-col items-center justify-center text-center px-8 relative overflow-hidden mt-6">
-                <h3 className="text-xl font-medium tracking-wide text-[var(--olive-dark)] uppercase mb-3">
+              <div className="w-full bg-white border border-gray-200 rounded-[var(--radius-sm)] shadow-sm py-20 flex flex-col items-center justify-center text-center px-8 mt-2">
+                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 mb-6 border border-gray-100">
+                  <ShoppingCart className="w-8 h-8" />
+                </div>
+                <h3 className="text-xl font-extrabold text-gray-900 uppercase tracking-tight mb-2">
                   {t.cart_sidebar?.cart_empty || "Your cart is empty"}
                 </h3>
                 <p className="text-gray-500 text-sm font-medium mb-8 max-w-xs leading-relaxed">
@@ -380,10 +383,8 @@ export default function CartSidebar() {
                 </p>
                 <Link
                   href="/shop"
-                  className="px-8 py-4 bg-[var(--olive-dark)] hover:bg-[var(--orange-dark)] text-white font-bold text-[11px] uppercase tracking-[0.2em] transition-colors flex items-center justify-center"
-                  onClick={() => {
-                    setIsOpen(false);
-                  }}
+                  className="btn-standard uppercase w-full max-w-[240px]"
+                  onClick={() => setIsOpen(false)}
                 >
                   {t.cart_sidebar?.explore_shop || "Explore Shop"}
                 </Link>
@@ -440,19 +441,19 @@ export default function CartSidebar() {
                     return (
                       <div
                         key={`cart-item-${item.cartid || "new"}-${index}`}
-                        className="bg-white border border-gray-200 shadow-sm transition-all overflow-hidden"
+                        className="bg-white border border-gray-200 rounded-[var(--radius-sm)] shadow-sm mb-4 overflow-hidden transition-all group"
                       >
-                        <div className="p-5 relative">
+                        <div className="p-4 relative">
                           <div className="flex gap-4">
                             {/* Product Image */}
-                            <div className="relative w-20 h-20 overflow-hidden bg-gray-50 shrink-0 border border-gray-100">
+                            <div className="relative w-20 h-20 overflow-hidden bg-gray-50 rounded-[var(--radius-sm)] shrink-0 border border-gray-100">
                               <img
                                 src={itemImage}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 alt={itemName}
                               />
                               {item.itemtype === "gift" && (
-                                <div className="absolute top-2 left-2 bg-[var(--orange)] text-white text-[9px] font-black px-2 py-1 rounded-lg uppercase tracking-widest shadow-md">
+                                <div className="absolute top-1 left-1 bg-[var(--olive)] text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm uppercase tracking-widest">
                                   {t.cart_sidebar?.gift || "Gift"}
                                 </div>
                               )}
@@ -460,24 +461,24 @@ export default function CartSidebar() {
 
                             {/* Details */}
                             <div className="flex-1 min-w-0 flex flex-col justify-center">
-                              <div className="flex items-start justify-between gap-4">
+                              <div className="flex items-start justify-between gap-3">
                                 <div className="min-w-0 flex-1">
-                                  <p className="text-[10px] text-[var(--olive)] font-bold tracking-widest uppercase mb-1">
+                                  <p className="text-[10px] text-gray-500 font-bold tracking-widest uppercase mb-1">
                                     {item.categoryname || "Tradizions"}
                                   </p>
-                                  <h3 className="text-base font-black text-stone-900 leading-tight line-clamp-2">
+                                  <h3 className="text-sm font-bold text-gray-900 leading-tight line-clamp-2">
                                     {itemName}
                                   </h3>
                                   {isCustomGift &&
                                     item.products &&
                                     item.products.length > 0 && (
-                                      <div className="mt-3 flex flex-col gap-2 bg-stone-50 p-3 rounded-xl border border-stone-100">
-                                        <div className="flex justify-between items-center border-b border-stone-200 pb-2">
-                                          <p className="text-[10px] font-bold text-stone-500 uppercase tracking-widest">
+                                      <div className="mt-3 flex flex-col gap-2 bg-gray-50 p-3 rounded-[var(--radius-sm)] border border-gray-100">
+                                        <div className="flex justify-between items-center border-b border-gray-200 pb-2">
+                                          <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">
                                             {t.cart_sidebar?.included_items || "Included Items:"}
                                           </p>
-                                          <p className="text-[11px] font-semibold text-stone-700">
-                                            {t.cart_sidebar?.gift_pack_price || "Gift Pack Price:"} ₹
+                                          <p className="text-[10px] font-bold text-gray-900">
+                                            {t.cart_sidebar?.gift_pack_price || "Pack Price:"} ₹
                                             {item.giftpackprice || 0}
                                           </p>
                                         </div>
@@ -488,7 +489,7 @@ export default function CartSidebar() {
                                               className="flex items-center justify-between gap-3"
                                             >
                                               <div className="flex items-center gap-3 flex-1 min-w-0">
-                                                <div className="w-8 h-8 rounded-lg overflow-hidden border border-stone-200 shrink-0 bg-white">
+                                                <div className="w-8 h-8 rounded overflow-hidden border border-gray-200 shrink-0 bg-white">
                                                   <img
                                                     src={
                                                       p.productimage
@@ -504,16 +505,16 @@ export default function CartSidebar() {
                                                   />
                                                 </div>
                                                 <div className="flex-1 min-w-0">
-                                                  <p className="text-xs font-semibold text-stone-700 truncate">
+                                                  <p className="text-[11px] font-bold text-gray-900 truncate">
                                                     {p.productname}
                                                   </p>
-                                                  <p className="text-[10px] font-medium text-stone-500">
+                                                  <p className="text-[9px] font-bold text-gray-500">
                                                     {t.cart_sidebar?.qty || "Qty:"} {p.quantity}
                                                   </p>
                                                 </div>
                                               </div>
                                               <div className="text-right shrink-0">
-                                                <p className="text-xs font-semibold text-stone-800">
+                                                <p className="text-[11px] font-bold text-gray-900">
                                                   ₹
                                                   {(
                                                     p.totalprice ||
@@ -537,10 +538,10 @@ export default function CartSidebar() {
                                       -(item.quantity ?? 0),
                                     )
                                   }
-                                  className="shrink-0 w-8 h-8 flex items-center justify-center rounded-sm text-stone-400 hover:text-stone-900 bg-white border border-stone-200 hover:border-stone-400 transition-colors"
+                                  className="shrink-0 w-8 h-8 flex items-center justify-center rounded bg-gray-50 text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors border border-gray-200"
                                   title="Remove item"
                                 >
-                                  <Trash2 className="w-4 h-4" />
+                                  <Trash2 className="w-3.5 h-3.5" />
                                 </button>
                               </div>
 
@@ -548,21 +549,21 @@ export default function CartSidebar() {
                                 <div>
                                   {totalPrice !==
                                     totalPrice / (item.quantity ?? 1) && (
-                                    <p className="text-sm md:text-md font-black font-semibold text-[var(--orange)] tracking-tight my-2">
+                                    <p className="text-xs font-bold text-[var(--olive)] tracking-tight mb-0.5">
                                       ₹
                                       {(totalPrice / (item.quantity ?? 1)).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}{" "}
                                     </p>
                                   )}
-                                  <p className="text-lg font-black text-stone-900 tracking-tight">
+                                  <p className="text-base font-extrabold text-gray-900 tracking-tight">
                                     ₹{totalPrice.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                   </p>
                                   {hasDiscount && (
                                     <div className="flex items-center gap-2 mt-1">
-                                      <p className="text-xs text-stone-400 line-through">
+                                      <p className="text-[10px] text-gray-400 font-bold line-through">
                                         ₹
                                         {originalTotal.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                       </p>
-                                      <span className="text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-md">
+                                      <span className="text-[9px] font-bold text-white bg-[var(--orange)] px-1.5 py-0.5 rounded shadow-sm uppercase tracking-widest">
                                         {t.cart_sidebar?.save || "SAVE"} ₹
                                         {(originalTotal - totalPrice).toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                                       </span>
@@ -571,7 +572,7 @@ export default function CartSidebar() {
                                 </div>
 
                                 {/* Quantity stepper */}
-                                <div className="flex items-center bg-white rounded-sm border border-stone-200 overflow-hidden shrink-0">
+                                <div className="flex items-center bg-gray-50 rounded-[var(--radius-sm)] border border-gray-200 overflow-hidden shrink-0 h-8">
                                   <button
                                     onClick={() =>
                                       updateQuantity(
@@ -583,13 +584,13 @@ export default function CartSidebar() {
                                     disabled={
                                       isUpdating || (item.quantity ?? 0) <= 1
                                     }
-                                    className="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors text-gray-600 disabled:opacity-30 border-r border-gray-200"
+                                    className="w-8 h-full flex items-center justify-center bg-white hover:bg-gray-100 transition-colors text-gray-600 disabled:opacity-30 border-r border-gray-200"
                                   >
-                                    <Minus className="w-4 h-4" />
+                                    <Minus className="w-3 h-3" />
                                   </button>
-                                  <div className="w-10 text-center text-[13px] font-bold text-stone-900">
+                                  <div className="w-8 text-center text-xs font-bold text-gray-900 bg-gray-50">
                                     {isUpdating ? (
-                                      <div className="w-3 h-3 border-2 border-stone-200 border-t-stone-800 rounded-full animate-spin mx-auto" />
+                                      <div className="w-2.5 h-2.5 border-2 border-gray-300 border-t-[var(--olive)] rounded-full animate-spin mx-auto" />
                                     ) : (
                                       item.quantity
                                     )}
@@ -605,9 +606,9 @@ export default function CartSidebar() {
                                     disabled={
                                       isUpdating || (item.quantity ?? 0) >= 10
                                     }
-                                    className="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors text-gray-600 disabled:opacity-30 border-l border-gray-200"
+                                    className="w-8 h-full flex items-center justify-center bg-white hover:bg-gray-100 transition-colors text-gray-600 disabled:opacity-30 border-l border-gray-200"
                                   >
-                                    <Plus className="w-4 h-4" />
+                                    <Plus className="w-3 h-3" />
                                   </button>
                                 </div>
                               </div>
@@ -618,23 +619,23 @@ export default function CartSidebar() {
                         {/* Gift Card Accordion */}
                         {item.itemtype === "gift" &&
                           globalGiftCards.length > 0 && (
-                            <div className="border-t border-stone-100 bg-stone-50/50">
+                            <div className="border-t border-gray-100 bg-gray-50">
                               <button
                                 onClick={() =>
                                   toggleGiftExpansion(item.cartid || 0)
                                 }
-                                className="w-full px-6 py-4 flex items-center justify-between hover:bg-stone-50 transition-colors group/gift"
+                                className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-colors group/gift"
                               >
-                                <div className="flex items-center gap-4">
-                                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--orange)] to-[var(--olive)] flex items-center justify-center shadow-md group-hover/gift:scale-110 transition-transform">
-                                    <Gift className="w-5 h-5 text-white" />
+                                <div className="flex items-center gap-3">
+                                  <div className="w-8 h-8 rounded bg-[var(--olive)] flex items-center justify-center shadow-sm">
+                                    <Gift className="w-4 h-4 text-white" />
                                   </div>
                                   <div className="text-left">
-                                    <p className="text-[12px] font-black text-stone-900 uppercase tracking-widest mb-0.5">
+                                    <p className="text-[10px] font-bold text-gray-900 uppercase tracking-widest mb-0.5">
                                       {t.cart_sidebar?.personalize_gift || "Personalize Gift"}
                                     </p>
                                     {item.giftcardid && item.giftcardid > 0 ? (
-                                      <p className="text-[11px] text-[var(--olive)] font-bold flex items-center gap-1">
+                                      <p className="text-[9px] text-[var(--olive)] font-bold flex items-center gap-1">
                                         <Sparkles className="w-3 h-3" />
                                         {globalGiftCards.find(
                                           (gc) =>
@@ -642,33 +643,34 @@ export default function CartSidebar() {
                                         )?.cardname || (t.cart_sidebar?.card_selected || "Card Selected")}
                                       </p>
                                     ) : (
-                                      <p className="text-[11px] text-stone-500 font-medium">
-                                        {t.cart_sidebar?.add_custom_card || "Add a custom card & message"}
+                                      <p className="text-[9px] text-gray-500 font-bold uppercase">
+                                        {t.cart_sidebar?.add_custom_card || "Add custom card & message"}
                                       </p>
                                     )}
                                   </div>
                                 </div>
                                 <div
-                                  className={`w-8 h-8 rounded-full border border-stone-200 flex items-center justify-center bg-white transition-all duration-300 ${isExpanded ? "rotate-180 border-[var(--olive)] text-[var(--olive)]" : "text-stone-400 group-hover/gift:border-stone-300"}`}
+                                  className={`w-6 h-6 rounded bg-white border border-gray-200 flex items-center justify-center transition-all duration-300 ${isExpanded ? "rotate-180 border-[var(--olive)] text-[var(--olive)] shadow-sm" : "text-gray-400 group-hover/gift:border-gray-300"}`}
                                 >
-                                  <ChevronDown className="w-4 h-4" />
+                                  <ChevronDown className="w-3 h-3" />
                                 </div>
                               </button>
 
                               {isExpanded && (
-                                <div className="px-6 pb-6 pt-2 space-y-6 relative border-t border-stone-100/50">
+                                <div className="px-4 pb-4 pt-1 space-y-5 relative border-t border-gray-100">
                                   {isUpdating && (
-                                    <div className="absolute inset-0 z-10 bg-white/60 backdrop-blur-sm flex items-center justify-center rounded-b-3xl">
-                                      <div className="w-10 h-10 border-4 border-stone-200 border-t-[var(--olive)] rounded-full animate-spin" />
+                                    <div className="absolute inset-0 z-10 bg-white/60 backdrop-blur-sm flex items-center justify-center">
+                                      <div className="w-8 h-8 border-2 border-gray-200 border-t-[var(--olive)] rounded-full animate-spin" />
                                     </div>
                                   )}
 
                                   {/* Card thumbnails */}
                                   <div>
-                                    <h4 className="text-[11px] font-black text-stone-500 uppercase tracking-widest mb-3">
-                                      {t.cart_sidebar?.choose_card || "1. Choose a Card"}
+                                    <h4 className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                      <span className="w-3 h-3 rounded-sm bg-gray-200 text-gray-600 flex items-center justify-center">1</span>
+                                      {t.cart_sidebar?.choose_card || "Choose a Card"}
                                     </h4>
-                                    <div className="flex flex-row flex-nowrap gap-4 overflow-x-auto pb-4 w-full snap-x scroll-smooth no-scrollbar pt-2 px-1">
+                                    <div className="flex flex-row flex-nowrap gap-3 overflow-x-auto pb-3 w-full snap-x scroll-smooth custom-scrollbar">
                                       <label className="shrink-0 cursor-pointer snap-start">
                                         <input
                                           type="radio"
@@ -682,16 +684,16 @@ export default function CartSidebar() {
                                             updateGiftCard(item.cartid || 0, 0)
                                           }
                                         />
-                                        <div className="w-32 h-24 rounded-2xl border-2 border-stone-200 bg-white flex flex-col items-center justify-center gap-2 transition-all peer-checked:border-[var(--olive)] peer-checked:bg-[var(--olive)]/5 peer-checked:shadow-md hover:border-stone-300 hover:shadow-sm">
-                                          <X className="w-6 h-6 text-stone-400" />
-                                          <p className="text-[10px] font-black text-stone-500 uppercase tracking-wider">
+                                        <div className="w-24 h-16 rounded border border-gray-200 bg-white flex flex-col items-center justify-center gap-1 transition-all peer-checked:border-[var(--olive)] peer-checked:bg-[var(--olive)]/5 peer-checked:shadow-sm hover:border-gray-300">
+                                          <X className="w-4 h-4 text-gray-400" />
+                                          <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">
                                             {t.cart_sidebar?.no_card || "No Card"}
                                           </p>
                                         </div>
                                       </label>
 
                                       {/* Upload Your Own */}
-                                      <label className="shrink-0 cursor-pointer snap-start group/upload relative flex flex-col items-center justify-center gap-2 w-32 h-24 rounded-2xl border-2 border-dashed border-stone-300 hover:border-[var(--orange)] bg-white hover:bg-[var(--orange-dark)]/5 transition-all text-center">
+                                      <label className="shrink-0 cursor-pointer snap-start group/upload relative flex flex-col items-center justify-center gap-1 w-24 h-16 rounded border border-dashed border-gray-300 bg-white hover:border-[var(--orange)] hover:bg-[var(--orange)]/5 transition-all text-center">
                                         <input
                                           type="file"
                                           accept="image/*"
@@ -709,12 +711,12 @@ export default function CartSidebar() {
                                         />
                                         {uploadingGiftForCartId ===
                                         item.cartid ? (
-                                          <div className="w-6 h-6 border-2 border-stone-300 border-t-[var(--orange)] rounded-full animate-spin" />
+                                          <div className="w-4 h-4 border-2 border-gray-300 border-t-[var(--orange)] rounded-full animate-spin" />
                                         ) : (
-                                          <Upload className="w-6 h-6 text-stone-400 group-hover/upload:text-[var(--orange)] transition-colors" />
+                                          <Upload className="w-4 h-4 text-gray-400 group-hover/upload:text-[var(--orange)] transition-colors" />
                                         )}
-                                        <p className="text-[10px] font-black text-stone-500 group-hover/upload:text-[var(--orange)] transition-colors w-full px-2 uppercase tracking-wider">
-                                          {t.cart_sidebar?.upload_custom || "Upload Custom"}
+                                        <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest group-hover/upload:text-[var(--orange)]">
+                                          {t.cart_sidebar?.upload_custom || "Custom"}
                                         </p>
                                       </label>
 
@@ -739,19 +741,19 @@ export default function CartSidebar() {
                                                 )
                                               }
                                             />
-                                            <div className="w-32 h-24 rounded-2xl border-2 border-stone-200 overflow-hidden transition-all peer-checked:border-[var(--olive)] peer-checked:shadow-lg hover:border-stone-300 hover:shadow-sm relative group/card">
+                                            <div className="w-24 h-16 rounded border border-gray-200 overflow-hidden transition-all peer-checked:border-[var(--olive)] peer-checked:shadow-sm hover:border-gray-300 relative group/card">
                                               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/card:opacity-100 peer-checked:opacity-0 transition-opacity flex items-center justify-center z-10">
-                                                <p className="text-white text-[10px] font-bold uppercase tracking-widest">
+                                                <p className="text-white text-[9px] font-bold uppercase tracking-widest">
                                                   {t.cart_sidebar?.select || "Select"}
                                                 </p>
                                               </div>
                                               {item.giftcardid ===
                                                 gc.giftcardid && (
-                                                <div className="absolute top-1.5 right-1.5 z-10 bg-[var(--olive)] rounded-full p-0.5 shadow-sm">
-                                                  <Check className="w-3 h-3 text-white" />
+                                                <div className="absolute top-1 right-1 z-10 bg-[var(--olive)] rounded-sm p-0.5 shadow-sm">
+                                                  <Check className="w-2.5 h-2.5 text-white" />
                                                 </div>
                                               )}
-                                              <div className="h-[60%] bg-stone-100 w-full relative">
+                                              <div className="h-[60%] bg-gray-100 w-full relative border-b border-gray-100">
                                                 <img
                                                   src={
                                                     (
@@ -764,8 +766,8 @@ export default function CartSidebar() {
                                                   alt={gc.cardname || ""}
                                                 />
                                               </div>
-                                              <div className="h-[40%] px-2 py-1.5 bg-white flex items-center justify-center border-t border-stone-100">
-                                                <p className="text-[10px] font-black text-stone-800 truncate w-full text-center">
+                                              <div className="h-[40%] px-1 py-1 bg-white flex items-center justify-center">
+                                                <p className="text-[9px] font-bold text-gray-800 truncate w-full text-center">
                                                   {gc.cardname || ""}
                                                 </p>
                                               </div>
@@ -778,45 +780,42 @@ export default function CartSidebar() {
 
                                   {/* Message + Sender fields */}
                                   <div>
-                                    <h4 className="text-[11px] font-black text-stone-500 uppercase tracking-widest mb-3">
-                                      {t.cart_sidebar?.add_message || "2. Add Your Message"}
+                                    <h4 className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                      <span className="w-3 h-3 rounded-sm bg-gray-200 text-gray-600 flex items-center justify-center">2</span>
+                                      {t.cart_sidebar?.add_message || "Add Your Message"}
                                     </h4>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                      <div className="md:col-span-2">
-                                        <textarea
-                                          value={
-                                            giftMessages[item.cartid || 0]
-                                              ?.message || ""
-                                          }
-                                          onChange={(e) =>
-                                            handleMessageChange(
-                                              item.cartid || 0,
-                                              "message",
-                                              e.target.value,
-                                            )
-                                          }
-                                          className="w-full px-4 py-4 rounded-2xl bg-white border-2 border-stone-200 text-[13px] font-medium focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none transition-all resize-none h-24 placeholder:text-stone-400 shadow-sm"
-                                          placeholder={t.cart_sidebar?.message_placeholder || "Write a thoughtful message here..."}
-                                        />
-                                      </div>
-                                      <div className="md:col-span-1">
-                                        <input
-                                          type="text"
-                                          value={
-                                            giftMessages[item.cartid || 0]
-                                              ?.from || ""
-                                          }
-                                          onChange={(e) =>
-                                            handleMessageChange(
-                                              item.cartid || 0,
-                                              "from",
-                                              e.target.value,
-                                            )
-                                          }
-                                          className="w-full px-4 py-3.5 rounded-2xl bg-white border-2 border-stone-200 text-[13px] font-medium focus:border-[var(--olive)] focus:ring-4 focus:ring-[var(--olive)]/10 outline-none transition-all placeholder:text-stone-400 shadow-sm"
-                                          placeholder={t.cart_sidebar?.sender_name || "Sender Name (From)"}
-                                        />
-                                      </div>
+                                    <div className="space-y-3">
+                                      <textarea
+                                        value={
+                                          giftMessages[item.cartid || 0]
+                                            ?.message || ""
+                                        }
+                                        onChange={(e) =>
+                                          handleMessageChange(
+                                            item.cartid || 0,
+                                            "message",
+                                            e.target.value,
+                                          )
+                                        }
+                                        className="w-full px-3 py-2 rounded bg-white border border-gray-200 text-xs font-medium focus:border-[var(--olive)] outline-none transition-all resize-none h-16 placeholder:text-gray-400"
+                                        placeholder={t.cart_sidebar?.message_placeholder || "Write a thoughtful message here..."}
+                                      />
+                                      <input
+                                        type="text"
+                                        value={
+                                          giftMessages[item.cartid || 0]
+                                            ?.from || ""
+                                        }
+                                        onChange={(e) =>
+                                          handleMessageChange(
+                                            item.cartid || 0,
+                                            "from",
+                                            e.target.value,
+                                          )
+                                        }
+                                        className="w-full px-3 py-2 rounded bg-white border border-gray-200 text-xs font-medium focus:border-[var(--olive)] outline-none transition-all placeholder:text-gray-400"
+                                        placeholder={t.cart_sidebar?.sender_name || "Sender Name (From)"}
+                                      />
                                     </div>
                                   </div>
                                 </div>
@@ -830,20 +829,20 @@ export default function CartSidebar() {
 
                 {/* RIGHT: Order Summary */}
                 <div className="w-full shrink-0">
-                  <div className="bg-white border border-gray-200 shadow-sm overflow-hidden relative">
+                  <div className="bg-white border border-gray-200 rounded-[var(--radius-sm)] shadow-sm overflow-hidden relative mt-2">
                     {/* Header */}
-                    <div className="p-6 border-b border-gray-100 flex items-center gap-3">
+                    <div className="p-5 border-b border-gray-100 bg-gray-50 flex items-center gap-3">
                       <div>
-                        <h2 className="text-sm font-bold text-[var(--olive-dark)] uppercase tracking-[0.1em]">
+                        <h2 className="text-xs font-black text-gray-900 uppercase tracking-widest">
                           {t.cart_sidebar?.order_summary || "Order Summary"}
                         </h2>
                       </div>
                     </div>
 
                     {/* Line items */}
-                    <div className="px-6 py-5 space-y-4">
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-[var(--dark-grey)] font-medium uppercase tracking-wider">
+                    <div className="px-5 py-4 space-y-3">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-gray-500 font-bold uppercase tracking-widest">
                           {t.cart_sidebar?.subtotal || "Subtotal"} ({cartItems.length} {t.cart_sidebar?.items_lower || "items"})
                         </span>
                         <span className="font-bold text-gray-900">
@@ -851,8 +850,8 @@ export default function CartSidebar() {
                         </span>
                       </div>
                       {cartItems.filter((i) => i.giftcardid).length > 0 && (
-                        <div className="flex justify-between items-center text-sm">
-                          <span className="text-[var(--dark-grey)] font-medium uppercase tracking-wider">
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="text-gray-500 font-bold uppercase tracking-widest">
                             {t.cart_sidebar?.gift_cards || "Gift Cards"}
                           </span>
                           <span className="font-bold text-gray-900">
@@ -860,28 +859,28 @@ export default function CartSidebar() {
                           </span>
                         </div>
                       )}
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-[var(--dark-grey)] font-medium uppercase tracking-wider">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-gray-500 font-bold uppercase tracking-widest">
                           {t.cart_sidebar?.shipping || "Shipping"}
                         </span>
-                        <span className="font-bold text-gray-900">{t.cart_sidebar?.free || "Free"}</span>
+                        <span className="font-bold text-[var(--olive)] uppercase tracking-widest">{t.cart_sidebar?.free || "Free"}</span>
                       </div>
                     </div>
 
                     {/* Total panel */}
-                    <div className="px-6 py-5 flex justify-between items-center border-t border-gray-100">
+                    <div className="px-5 py-4 flex justify-between items-center border-t border-gray-100 bg-gray-50">
                       <div>
-                        <p className="text-[12px] font-bold text-[var(--olive-dark)] uppercase tracking-widest mb-0.5">
+                        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-0.5">
                           {t.cart_sidebar?.grand_total || "Grand Total"}
                         </p>
                       </div>
-                      <p className="text-xl font-bold text-[var(--olive-dark)] tracking-tight">
+                      <p className="text-xl font-extrabold text-gray-900 tracking-tight">
                         ₹{grandTotal.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                       </p>
                     </div>
 
                     {/* Actions */}
-                    <div className="px-5 pb-5 pt-5 space-y-4">
+                    <div className="p-5">
                       <button
                         disabled={isProceeding}
                         onClick={async () => {
@@ -920,31 +919,34 @@ export default function CartSidebar() {
                             }
                           }
                         }}
-                        className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[12px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange-dark)] transition-colors disabled:opacity-50 flex justify-center items-center gap-2 cursor-pointer"
+                        className="btn-standard w-full uppercase py-3.5"
                       >
                         {isProceeding ? (
                           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                         ) : (
-                          t.cart_sidebar?.proceed_to_checkout || "PROCEED TO CHECKOUT"
+                          <span className="flex items-center gap-2">
+                            <Lock className="w-3.5 h-3.5" />
+                            {t.cart_sidebar?.proceed_to_checkout || "PROCEED TO CHECKOUT"}
+                          </span>
                         )}
                       </button>
 
                       {/* Trust badges row */}
-                      <div className="flex items-center justify-center gap-4 pt-2">
+                      <div className="flex items-center justify-center gap-3 pt-4">
                         <div className="flex items-center gap-1.5 text-gray-400">
-                          <span className="text-[9px] font-bold uppercase tracking-widest">
+                          <span className="text-[8px] font-bold uppercase tracking-widest">
                             {t.cart_sidebar?.secure || "Secure"}
                           </span>
                         </div>
-                        <div className="w-1 h-1 bg-gray-200" />
+                        <div className="w-1 h-1 rounded-full bg-gray-200" />
                         <div className="flex items-center gap-1.5 text-gray-400">
-                          <span className="text-[9px] font-bold uppercase tracking-widest">
+                          <span className="text-[8px] font-bold uppercase tracking-widest">
                             {t.cart_sidebar?.best_price || "Best Price"}
                           </span>
                         </div>
-                        <div className="w-1 h-1 bg-gray-200" />
+                        <div className="w-1 h-1 rounded-full bg-gray-200" />
                         <div className="flex items-center gap-1.5 text-gray-400">
-                          <span className="text-[9px] font-bold uppercase tracking-widest">
+                          <span className="text-[8px] font-bold uppercase tracking-widest">
                             {t.cart_sidebar?.quality || "Quality"}
                           </span>
                         </div>

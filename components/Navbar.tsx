@@ -327,14 +327,14 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full z-50 transition-all duration-500 px-4 pt-2 lg:px-6 lg:pt-3 pointer-events-none">
+      <div className="fixed top-0 left-0 w-full z-50 transition-all duration-300 pointer-events-none">
         {/* Top Announcement Bar */}
-        <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-[var(--olive-dark)] via-[var(--olive)] to-[var(--olive-dark)] text-white/90 text-[10px] md:text-[11px] font-bold py-1 text-center tracking-widest uppercase shadow-sm">
+        <div className="w-full bg-[var(--olive-dark)] text-white/90 text-[10px] md:text-[11px] font-medium py-1.5 text-center tracking-widest uppercase pointer-events-auto">
           {/* Powered By-TRADIZIONS. Freshness Delivered Daily! | Free Shipping on Orders ₹999+ | 100% Natural, No Preservatives! */}
         </div>
 
-        <nav className="w-full max-w-[1400px] mx-auto h-[76px] lg:h-[84px] bg-gradient-to-r from-[var(--olive-dark)]/95 to-[#151c10]/95 backdrop-blur-xl rounded-[40px] border border-white/10 px-4 lg:px-8 flex items-center justify-between pointer-events-auto relative mt-2 z-50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-500 hover:border-white/20">
-          <div className="flex items-center gap-4 lg:gap-6 xl:gap-14">
+        <nav className="w-full h-[70px] lg:h-[80px] bg-white/95 backdrop-blur-lg border-b border-gray-100 px-4 lg:px-8 flex items-center justify-between pointer-events-auto relative z-50 shadow-sm transition-all duration-300">
+          <div className="flex items-center gap-4 lg:gap-8 xl:gap-12">
             {/* Logo Section */}
             <div className="flex-shrink-0 z-20">
               <Link href="/" className="group block">
@@ -361,11 +361,11 @@ export default function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group relative py-2 px-1 text-[10px] xl:text-[11px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
+                    className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-wide font-semibold transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
                   >
                     {item.name}
                     <span
-                      className={`absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                      className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-t-md bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
                     />
                   </Link>
                 );
@@ -373,20 +373,20 @@ export default function Navbar() {
 
               {/* Categories Dropdown */}
               <div className="relative group/catdrop h-full flex items-center">
-                <button className="group relative py-2 px-1 text-[10px] xl:text-[11px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 text-white/70 hover:text-white">
+                <button className="group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-wide font-semibold transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 text-gray-600 hover:text-[var(--olive)]">
                   {t.categories || "CATEGORIES"}
                   <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover/catdrop:-rotate-180" />
-                  <span className="absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
+                  <span className="absolute -bottom-1 left-0 w-full h-[2px] rounded-t-md bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
                 </button>
 
                 <div className="absolute top-[100%] left-0 pt-6 opacity-0 translate-y-2 pointer-events-none group-hover/catdrop:opacity-100 group-hover/catdrop:translate-y-0 group-hover/catdrop:pointer-events-auto transition-all duration-300 z-50">
-                  <div className="min-w-[220px] bg-white/95 backdrop-blur-xl border border-white/20 shadow-2xl relative rounded-xl overflow-hidden ring-1 ring-black/5">
+                  <div className="min-w-[220px] bg-white border border-gray-100 shadow-lg relative rounded-md overflow-hidden ring-1 ring-black/5">
                     <div className="flex flex-col py-2">
                       {displayCategories.map((cat) => (
                         <Link
                           key={cat.href}
                           href={cat.href}
-                          className="px-5 py-3 text-[10px] font-bold text-stone-600 hover:text-[var(--orange)] hover:bg-orange-50/50 transition-all duration-300 uppercase tracking-widest whitespace-nowrap flex items-center gap-3 border-b border-stone-100/50 last:border-0 group/item"
+                          className="px-5 py-3 text-[11px] font-medium text-gray-600 hover:text-[var(--olive)] hover:bg-gray-50 transition-all duration-200 tracking-wider whitespace-nowrap flex items-center gap-3 border-b border-gray-50 last:border-0 group/item"
                         >
                           <span className="transform transition-transform duration-300 group-hover/item:translate-x-1">{cat.name}</span>
                         </Link>
@@ -398,20 +398,20 @@ export default function Navbar() {
 
               <Link
                 href="/gifts"
-                className={`group relative py-2 px-1 text-[10px] xl:text-[11px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${pathname === "/gifts" ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
+                className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-wide font-semibold transition-all duration-300 whitespace-nowrap ${pathname === "/gifts" ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
               >
                 {t.gifting || "Gifts"}
                 <span
-                  className={`absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/gifts" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                  className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-t-md bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/gifts" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
                 />
               </Link>
               <Link
                 href="/corporate-orders"
-                className={`group relative py-2 px-1 text-[10px] xl:text-[11px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${pathname === "/corporate-orders" ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
+                className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-wide font-semibold transition-all duration-300 whitespace-nowrap ${pathname === "/corporate-orders" ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
               >
                 {t.corporate || "Corporate Orders"}
                 <span
-                  className={`absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/corporate-orders" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                  className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-t-md bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/corporate-orders" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
                 />
               </Link>
 
@@ -421,11 +421,11 @@ export default function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group relative py-2 px-1 text-[10px] xl:text-[11px] tracking-[0.15em] font-bold uppercase transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--orange)] drop-shadow-sm" : "text-white/70 hover:text-white"}`}
+                    className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-wide font-semibold transition-all duration-300 whitespace-nowrap ${isActive ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
                   >
                     {item.name}
                     <span
-                      className={`absolute -bottom-1 left-0 w-full h-[3px] rounded-t-md bg-[var(--orange)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                      className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-t-md bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
                     />
                   </Link>
                 );
@@ -437,12 +437,12 @@ export default function Navbar() {
           <div className="flex items-center gap-2 lg:gap-3 flex-1 justify-end z-10">
             {/* Professional Language Selection */}
             <div className="hidden md:block relative group/langdrop">
-              <button className="group flex items-center h-10 gap-2 px-4 rounded-full bg-white/5 border border-white/10 hover:border-[var(--orange)]/50 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300 cursor-pointer">
-                <Globe className="w-4 h-4 text-white/70 group-hover:text-[var(--orange)] transition-colors" />
-                <span className="text-[10px] font-bold tracking-widest uppercase text-white/90 group-hover:text-white transition-colors">
+              <button className="group flex items-center h-10 gap-2 px-4 rounded-md bg-gray-50 border border-gray-100 hover:border-gray-300 hover:bg-gray-100 transition-all duration-200 cursor-pointer">
+                <Globe className="w-4 h-4 text-gray-500 group-hover:text-gray-800 transition-colors" />
+                <span className="text-[11px] font-medium tracking-wide text-gray-600 group-hover:text-gray-900 transition-colors">
                   {selectedLang}
                 </span>
-                <ChevronDown className="w-3.5 h-3.5 text-white/70 group-hover:text-white transition-all group-hover/langdrop:rotate-180" />
+                <ChevronDown className="w-3.5 h-3.5 text-gray-500 group-hover:text-gray-800 transition-all group-hover/langdrop:rotate-180" />
               </button>
 
               {/* Stylish Dropdown Card */}
@@ -478,25 +478,23 @@ export default function Navbar() {
                 onClick={() => {
                   if (!isSearchOpen) setIsSearchOpen(true);
                 }}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/90 hover:bg-[var(--orange)]/10 hover:text-[var(--orange)] hover:border-[var(--orange)]/30 hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300 group"
+                className="flex items-center justify-center w-10 h-10 rounded-full text-gray-600 hover:bg-gray-50 hover:text-[var(--olive)] transition-all duration-200 group"
                 aria-label="Search"
               >
-                <Search className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" />
+                <Search className="w-5 h-5 group-hover:scale-105 transition-transform" />
               </button>
             </div>
 
             <button
               onClick={() => window.dispatchEvent(new Event("openCartSidebar"))}
-              className="relative cursor-pointer border-none bg-transparent outline-none group"
+              className="relative flex items-center justify-center w-10 h-10 rounded-full text-gray-600 hover:bg-gray-50 hover:text-[var(--olive)] transition-all duration-200 group border-none bg-transparent outline-none cursor-pointer"
             >
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/90 group-hover:bg-[var(--orange)]/10 group-hover:text-[var(--orange)] group-hover:border-[var(--orange)]/30 group-hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300">
-                <ShoppingCart className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--orange)] text-[10px] font-bold text-white shadow-md border-[1.5px] border-white scale-100 group-hover:scale-110 transition-transform">
-                    {cartCount}
-                  </span>
-                )}
-              </div>
+              <ShoppingCart className="w-5 h-5 group-hover:scale-105 transition-transform" />
+              {cartCount > 0 && (
+                <span className="absolute -top-0 -right-0 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--olive)] text-[9px] font-bold text-white shadow-sm border-[1.5px] border-white">
+                  {cartCount}
+                </span>
+              )}
             </button>
 
             <div className="relative">
@@ -509,17 +507,17 @@ export default function Navbar() {
                     setIsDrawerOpen(true);
                   }
                 }}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/90 hover:bg-[var(--orange)]/10 hover:text-[var(--orange)] hover:border-[var(--orange)]/30 hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300 group"
+                className="flex items-center justify-center w-10 h-10 rounded-full text-gray-600 hover:bg-gray-50 hover:text-[var(--olive)] transition-all duration-200 group"
               >
-                <User className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" />
+                <User className="w-5 h-5 group-hover:scale-105 transition-transform" />
               </button>
             </div>
 
             <button
               onClick={() => setOpen(!open)}
-              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/90 hover:bg-[var(--orange)]/10 hover:text-[var(--orange)] hover:border-[var(--orange)]/30 hover:shadow-[0_0_15px_rgba(255,165,0,0.15)] transition-all duration-300 group"
+              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full text-gray-600 hover:bg-gray-50 hover:text-[var(--olive)] transition-all duration-200 group"
             >
-              {open ? <X className="w-5 h-5 group-hover:scale-110 transition-transform" /> : <Menu className="w-5 h-5 group-hover:scale-110 transition-transform" />}
+              {open ? <X className="w-5 h-5 group-hover:scale-105 transition-transform" /> : <Menu className="w-5 h-5 group-hover:scale-105 transition-transform" />}
             </button>
           </div>
         </nav>

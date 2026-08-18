@@ -424,25 +424,25 @@ function OrderDetailContent() {
         </div>
 
         {/* Hero Banner */}
-        <div className="bg-[var(--olive-dark)] p-8 sm:p-10 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-l-4 border-[var(--olive)] shadow-sm">
+        <div className="bg-gray-900 rounded-[var(--radius-sm)] p-8 sm:p-10 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6 shadow-sm">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.25em] mb-3 text-[var(--olive)]">
+            <p className="text-[10px] font-black uppercase tracking-[0.25em] mb-3 text-gray-400">
               {isMonthly ? "Monthly Subscription" : "Standard Order"}
             </p>
-            <h1 className="text-2xl sm:text-3xl font-light text-white tracking-tight mb-2">
-              ORDER <span className="font-bold">#{orderInfo.id}</span>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2 uppercase">
+              ORDER <span className="text-[var(--olive)]">#{orderInfo.id}</span>
             </h1>
-            <p className="text-sm text-stone-400">
+            <p className="text-sm font-bold text-gray-400">
               {orderInfo.items.length} item{orderInfo.items.length > 1 ? "s" : ""} · ₹{orderInfo.billing.total.toLocaleString()} total
             </p>
           </div>
           <div className="flex gap-3">
-            <button onClick={handleDownloadInvoice} className="flex items-center gap-2 px-6 py-3 bg-white text-[var(--olive-dark)] text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors shadow-sm">
+            <button onClick={handleDownloadInvoice} className="btn-standard py-3 px-6 text-[10px]">
               <Download className="w-3.5 h-3.5" /> Invoice
             </button>
             <Link
               href="/contact-us"
-              className="flex items-center gap-2 px-6 py-3 border border-[var(--olive)] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--olive)] transition-colors shadow-sm"
+              className="flex items-center gap-2 px-6 py-3 border border-gray-700 text-white text-[10px] font-bold uppercase tracking-widest hover:bg-gray-800 rounded-[var(--radius-sm)] transition-colors shadow-sm"
             >
               Support
             </Link>
@@ -455,23 +455,23 @@ function OrderDetailContent() {
           <div className="flex-1 w-full space-y-5">
             {/* Monthly: global status + address */}
             {isMonthly && (
-              <div className="bg-white border border-stone-200 shadow-sm overflow-hidden">
-                <div className="p-6 border-b border-stone-100">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-2 text-stone-900">
-                    <Clock className="w-3.5 h-3.5 text-stone-400" /> Subscription Status
+              <div className="bg-white border border-gray-200 rounded-[var(--radius-sm)] shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-gray-100">
+                  <p className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-gray-900">
+                    <Clock className="w-3.5 h-3.5 text-gray-400" /> Subscription Status
                   </p>
                 </div>
                 <div className="px-6 pb-6">
                   <TrackingTimeline status={orderInfo.orderstatus} />
                 </div>
                 {orderInfo.address && (
-                  <div className="p-6 border-t border-stone-100 bg-stone-50 flex items-start gap-4">
-                    <MapPin className="w-4 h-4 text-stone-400 mt-0.5 shrink-0" />
+                  <div className="p-6 border-t border-gray-100 bg-gray-50 flex items-start gap-4">
+                    <MapPin className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest mb-1 text-stone-500">
+                      <p className="text-[10px] font-extrabold uppercase tracking-widest mb-1 text-gray-500">
                         Delivery Address
                       </p>
-                      <p className="text-sm text-stone-900 font-medium leading-relaxed">
+                      <p className="text-sm text-gray-900 font-bold leading-relaxed">
                         {orderInfo.address}
                       </p>
                     </div>
@@ -484,11 +484,11 @@ function OrderDetailContent() {
             {orderInfo.items.map((item, itemIdx) => (
               <div
                 key={item.key}
-                className="bg-white border border-stone-200 shadow-sm overflow-hidden group hover:border-[var(--olive-dark)] transition-colors duration-300"
+                className="bg-white border border-gray-200 rounded-[var(--radius-sm)] shadow-sm overflow-hidden group hover:border-gray-400 transition-colors duration-300"
               >
                 {/* Top label row */}
-                <div className="px-6 py-4 flex items-center justify-between border-b border-stone-100">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-stone-500">
+                <div className="px-6 py-4 flex items-center justify-between border-b border-gray-100">
+                  <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-gray-500">
                     Item {itemIdx + 1} of {orderInfo.items.length}
                   </span>
                   <StatusPill status={item.status} />
@@ -496,7 +496,7 @@ function OrderDetailContent() {
 
                 <div className="flex flex-col sm:flex-row">
                   {/* Image */}
-                  <div className="sm:w-52 p-6 flex items-center justify-center shrink-0 bg-stone-50 border-r border-stone-100">
+                  <div className="sm:w-52 p-6 flex items-center justify-center shrink-0 bg-gray-50 border-r border-gray-100">
                     {item.giftpack ? (
                       <div className="relative w-36 h-36">
                         <div className="absolute top-0 left-0 w-28 h-28 rounded-sm overflow-hidden bg-white shadow-sm border border-stone-200 z-10">
@@ -791,10 +791,10 @@ function OrderDetailContent() {
           {/* Right Sidebar */}
           <div className="w-full lg:w-[320px] shrink-0 space-y-5 lg:sticky lg:top-24">
             {/* Payment card */}
-            <div className="border border-stone-200 shadow-sm bg-white">
+            <div className="border border-gray-200 rounded-[var(--radius-sm)] shadow-sm bg-white">
               <div className="p-6">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-5 flex items-center gap-2 text-stone-900 border-b border-stone-100 pb-4">
-                  <CreditCard className="w-3.5 h-3.5 text-stone-400" /> Payment Summary
+                <p className="text-[10px] font-extrabold uppercase tracking-widest mb-5 flex items-center gap-2 text-gray-900 border-b border-gray-100 pb-4">
+                  <CreditCard className="w-3.5 h-3.5 text-gray-400" /> Payment Summary
                 </p>
                 <div className="space-y-4 mb-5">
                   {[
@@ -807,53 +807,53 @@ function OrderDetailContent() {
                   ].map(({ label, val }) => (
                     <div
                       key={label}
-                      className="flex justify-between items-center text-xs font-semibold"
+                      className="flex justify-between items-center text-xs font-bold"
                     >
-                      <span className="text-stone-500">
+                      <span className="text-gray-500">
                         {label}
                       </span>
-                      <span className="text-stone-900">
+                      <span className="text-gray-900">
                         {val}
                       </span>
                     </div>
                   ))}
                 </div>
-                <div className="pt-5 border-t border-stone-100 flex justify-between items-center">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">
+                <div className="pt-5 border-t border-gray-100 flex justify-between items-center">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-gray-400">
                     Total
                   </span>
-                  <span className="text-xl font-bold text-stone-900">
+                  <span className="text-xl font-extrabold text-gray-900">
                     ₹{orderInfo.billing.total.toFixed(2).toLocaleString()}
                   </span>
                 </div>
               </div>
               {/* Paid bar */}
-              <div className="px-6 py-3 flex items-center gap-2.5 bg-stone-50 border-t border-stone-100">
+              <div className="px-6 py-3 flex items-center gap-2.5 bg-gray-50 border-t border-gray-100">
                 <ShieldCheck className="w-4 h-4 text-[var(--olive)]" />
-                <span className="text-stone-900 text-[10px] font-bold uppercase tracking-widest">
+                <span className="text-gray-900 text-[10px] font-extrabold uppercase tracking-widest">
                   Payment Confirmed
                 </span>
               </div>
             </div>
 
             {/* Order type */}
-            <div className="bg-white border border-stone-200 p-6 shadow-sm">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4 text-stone-900 border-b border-stone-100 pb-4">
+            <div className="bg-white border border-gray-200 rounded-[var(--radius-sm)] p-6 shadow-sm">
+              <p className="text-[10px] font-extrabold uppercase tracking-widest mb-4 text-gray-900 border-b border-gray-100 pb-4">
                 Order Info
               </p>
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-stone-50 border border-stone-200 flex items-center justify-center">
+                <div className="w-10 h-10 bg-gray-50 rounded border border-gray-200 flex items-center justify-center">
                   {isMonthly ? (
-                    <CalendarDays className="w-4 h-4 text-stone-400" />
+                    <CalendarDays className="w-4 h-4 text-gray-400" />
                   ) : (
-                    <Package className="w-4 h-4 text-stone-400" />
+                    <Package className="w-4 h-4 text-gray-400" />
                   )}
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-stone-900 uppercase tracking-wider">
+                  <p className="text-xs font-extrabold text-gray-900 uppercase tracking-widest">
                     {orderInfo.ordertype} Order
                   </p>
-                  <p className="text-[10px] text-stone-500">
+                  <p className="text-[10px] font-bold text-gray-500 mt-1">
                     {orderInfo.items.length} product{orderInfo.items.length > 1 ? "s" : ""}
                   </p>
                 </div>
@@ -862,12 +862,12 @@ function OrderDetailContent() {
 
             {/* Actions */}
             <div className="space-y-3">
-              <button onClick={handleDownloadInvoice} className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--olive-dark)] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--orange-dark)] transition-colors cursor-pointer">
+              <button onClick={handleDownloadInvoice} className="btn-standard w-full py-3.5 text-[10px]">
                 <Download className="w-3.5 h-3.5" /> Download Invoice
               </button>
               <Link
                 href="/contact-us"
-                className="w-full flex items-center justify-center gap-2 py-3 border border-stone-300 text-stone-900 text-[10px] font-bold uppercase tracking-widest hover:bg-stone-50 transition-colors"
+                className="w-full flex items-center justify-center gap-2 py-3 border border-gray-300 rounded-[var(--radius-sm)] text-gray-900 text-[10px] font-bold uppercase tracking-widest hover:bg-gray-50 transition-colors"
               >
                 Need Help?
               </Link>

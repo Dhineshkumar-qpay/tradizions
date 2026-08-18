@@ -335,7 +335,7 @@ export default function ShopPage() {
       itemtype:
         p.itemtype ||
         ((p.categoryname && p.categoryname.toLowerCase().includes("gift")) ||
-        p.categoryid === 4
+          p.categoryid === 4
           ? "gift"
           : "product"),
       bid: p.bid || 1,
@@ -367,11 +367,10 @@ export default function ShopPage() {
               }));
               if (isMobileFilterOpen) setIsMobileFilterOpen(false);
             }}
-            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
-              selectedCategory === "All Categories"
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${selectedCategory === "All Categories"
                 ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                 : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
-            }`}
+              }`}
           >
             <span className="text-[11px] font-bold">
               {t.shop_filters.all_collections}
@@ -401,11 +400,10 @@ export default function ShopPage() {
                     }));
                     if (isMobileFilterOpen) setIsMobileFilterOpen(false);
                   }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
-                    isSelected
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${isSelected
                       ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                       : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
-                  }`}
+                    }`}
                 >
                   <span className="text-[11px] font-bold">
                     {cat.categoryname}
@@ -449,11 +447,10 @@ export default function ShopPage() {
                       page: 1,
                     }));
                   }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
-                    isSelected
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${isSelected
                       ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                       : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
-                  }`}
+                    }`}
                 >
                   <span className="text-[11px] font-bold">
                     {sub.subcategoryname}
@@ -510,11 +507,10 @@ export default function ShopPage() {
                     page: 1,
                   }));
                 }}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
-                  isSelected
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${isSelected
                     ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                     : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
-                }`}
+                  }`}
               >
                 <span className="text-[11px] font-bold">{range.label}</span>
                 <div
@@ -551,11 +547,10 @@ export default function ShopPage() {
                     page: 1,
                   }));
                 }}
-                className={`w-full flex items-center justify-center px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${
-                  isSelected
+                className={`w-full flex items-center justify-center px-3 py-2 rounded-lg border transition-all duration-300 cursor-pointer ${isSelected
                     ? "bg-[var(--olive)]/5 border-[var(--olive)] text-[var(--olive)] shadow-sm scale-[1.02]"
                     : "bg-white border-stone-100 text-stone-600 hover:border-stone-200 hover:bg-stone-50/50 hover:shadow-sm"
-                }`}
+                  }`}
               >
                 <span className="text-[11px] font-bold">{w}</span>
               </button>
@@ -671,11 +666,10 @@ export default function ShopPage() {
                             }));
                             setIsSortDropdownOpen(false);
                           }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
-                            sortBy === ""
+                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${sortBy === ""
                               ? "bg-stone-50 text-[var(--olive)]"
                               : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                          }`}
+                            }`}
                         >
                           Sort: Default
                           {sortBy === "" && (
@@ -692,11 +686,10 @@ export default function ShopPage() {
                             }));
                             setIsSortDropdownOpen(false);
                           }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
-                            sortBy === "lowToHigh"
+                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${sortBy === "lowToHigh"
                               ? "bg-stone-50 text-[var(--olive)]"
                               : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                          }`}
+                            }`}
                         >
                           Price: Low to High
                           {sortBy === "lowToHigh" && (
@@ -713,11 +706,10 @@ export default function ShopPage() {
                             }));
                             setIsSortDropdownOpen(false);
                           }}
-                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${
-                            sortBy === "highToLow"
+                          className={`flex items-center justify-between w-full px-4 py-2.5 text-left font-bold transition-colors cursor-pointer ${sortBy === "highToLow"
                               ? "bg-stone-50 text-[var(--olive)]"
                               : "text-stone-600 hover:bg-stone-50/80 hover:text-stone-900"
-                          }`}
+                            }`}
                         >
                           Price: High to Low
                           {sortBy === "highToLow" && (
