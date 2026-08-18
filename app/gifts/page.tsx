@@ -518,7 +518,7 @@ export default function GiftsPage() {
             <span className="w-2 h-2 rounded-full bg-[var(--orange)] animate-pulse" />
             <span className="text-[10px] font-bold tracking-widest uppercase text-[var(--olive-dark)]">Premium Collection</span>
           </div>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+          <h1 className="text-3xl md:text-3xl font-extrabold text-gray-900 tracking-tight leading-tight">
             {t.gifts_headline || "Curated"} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--olive)] to-[var(--orange)]">Gift Hampers</span>
           </h1>
           <p className="mt-4 max-w-xl text-sm md:text-base text-gray-500 font-medium leading-relaxed">

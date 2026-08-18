@@ -27,6 +27,8 @@ import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
 import hi from "@/languages/hi.json";
 import { Data } from "@/models/order_item_model";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const translations: Record<string, any> = { EN: en, TA: ta, HI: hi };
 
@@ -303,6 +305,110 @@ function OrderDetailContent() {
 
   const isMonthly = orderInfo.ordertype === "monthly";
 
+  const handleDownloadInvoice = () => {
+    if (!orderInfo) return;
+
+    const doc = new jsPDF();
+    
+    // Add App Logo
+    const logoImg = new window.Image();
+    logoImg.src = "/app-logo-new.png";
+    
+    const generatePdf = (hasLogo = true) => {
+      const pageWidth = doc.internal.pageSize.getWidth();
+      
+      if (hasLogo) {
+        doc.addImage(logoImg, "PNG", 14, 15, 30, 25);
+        doc.setFontSize(20);
+        doc.setTextColor(85, 107, 47); // Olive color
+        doc.text("TRADIZIONS", 50, 25);
+        
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text("Invoice / Order Receipt", 50, 32);
+      } else {
+        doc.setFontSize(20);
+        doc.setTextColor(85, 107, 47);
+        doc.text("TRADIZIONS", 14, 25);
+        
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text("Invoice / Order Receipt", 14, 32);
+      }
+      
+      const startY = hasLogo ? 55 : 45;
+      
+      doc.setFontSize(10);
+      doc.setTextColor(0);
+      doc.text(`Order ID: #${orderInfo.id}`, 14, startY);
+      doc.text(`Status: ${orderInfo.orderstatus?.toUpperCase() || "PENDING"}`, 14, startY + 7);
+      doc.text(`Order Type: ${orderInfo.ordertype}`, 14, startY + 14);
+      
+      if (orderInfo.address) {
+        doc.text("Shipping Address:", 120, startY);
+        doc.setFontSize(9);
+        const splitAddress = doc.splitTextToSize(orderInfo.address, 75);
+        doc.text(splitAddress, 120, startY + 7);
+      }
+      
+      // Prepare Table Data
+      const tableColumn = ["Item", "Unit Price", "Qty", "Total"];
+      const tableRows: any[] = [];
+      
+      orderInfo.items.forEach(item => {
+        let itemName = item.name || "Product";
+        if (item.giftpack) {
+          itemName = `[Bundle] ${item.giftpack.giftpackname}`;
+        }
+        
+        if (orderInfo.ordertype === "monthly") {
+          itemName += `\n(Daily: ${item.gramsperday}g, Days: ${item.dayspermonth}, Members: ${item.familymembers}, Total: ${item.totalquantitykg}kg)`;
+        } else {
+          if (item.address && item.address.city) {
+            itemName += `\nDelivering to: ${item.address.city}, ${item.address.pincode}`;
+          }
+        }
+        
+        if (item.giftcard) {
+          itemName += `\n[Gift Card: ${item.giftcard.cardname}]`;
+        }
+
+        const rowData = [
+          itemName,
+          `Rs. ${item.price || (item.totalprice / item.qty) || 0}`,
+          item.qty.toString(),
+          `Rs. ${item.totalprice}`
+        ];
+        tableRows.push(rowData);
+      });
+      
+      autoTable(doc, {
+        startY: startY + 30,
+        head: [tableColumn],
+        body: tableRows,
+        theme: 'striped',
+        headStyles: { fillColor: [85, 107, 47] },
+      });
+      
+      const finalY = (doc as any).lastAutoTable.finalY || (startY + 30);
+      
+      doc.setFontSize(11);
+      doc.setTextColor(0);
+      doc.text(`Subtotal: Rs. ${orderInfo.billing.subtotal.toFixed(2)}`, 140, finalY + 10);
+      doc.text(`Total Amount: Rs. ${orderInfo.billing.total.toFixed(2)}`, 140, finalY + 18);
+      
+      // Footer
+      doc.setFontSize(9);
+      doc.setTextColor(150);
+      doc.text("Thank you for shopping with Tradizions!", pageWidth / 2, 280, { align: "center" });
+      
+      doc.save(`Invoice_Tradizions_Order_${orderInfo.id}.pdf`);
+    };
+
+    logoImg.onload = () => generatePdf(true);
+    logoImg.onerror = () => generatePdf(false);
+  };
+
   return (
     <main className="min-h-screen bg-[var(--site-bg)] py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -331,7 +437,7 @@ function OrderDetailContent() {
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="flex items-center gap-2 px-6 py-3 bg-white text-[var(--olive-dark)] text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors shadow-sm">
+            <button onClick={handleDownloadInvoice} className="flex items-center gap-2 px-6 py-3 bg-white text-[var(--olive-dark)] text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors shadow-sm">
               <Download className="w-3.5 h-3.5" /> Invoice
             </button>
             <Link
@@ -756,7 +862,7 @@ function OrderDetailContent() {
 
             {/* Actions */}
             <div className="space-y-3">
-              <button className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--olive-dark)] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--orange-dark)] transition-colors cursor-pointer">
+              <button onClick={handleDownloadInvoice} className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--olive-dark)] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--orange-dark)] transition-colors cursor-pointer">
                 <Download className="w-3.5 h-3.5" /> Download Invoice
               </button>
               <Link

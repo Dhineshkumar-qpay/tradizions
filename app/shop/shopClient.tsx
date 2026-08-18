@@ -585,7 +585,7 @@ export default function ShopPage() {
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-gray-400">{t.shop || "Shop"}</span>
           </div>
-          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
+          <h1 className="text-3xl md:text-3xl font-bold text-gray-900 tracking-tight">
             {t.shop_headline || "Enterprise Collections"}
           </h1>
           <p className="mt-3 max-w-2xl text-sm text-gray-600">

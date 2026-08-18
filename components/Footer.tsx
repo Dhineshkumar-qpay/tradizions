@@ -258,7 +258,7 @@ export default function Footer() {
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-4 right-4 z-50 animate-fade-in-up">
-          <div
+          <div 
             className={`px-6 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-bold tracking-wide ${toastMessage.type === "success" ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-red-50 text-red-600 border border-red-100"}`}
           >
             {toastMessage.text}
