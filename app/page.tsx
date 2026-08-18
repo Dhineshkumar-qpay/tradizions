@@ -588,7 +588,7 @@ function HeroSection({
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
             </Link>
-            <Link href="/about" className="group inline-flex items-center justify-center px-8 py-4 font-bold text-[var(--olive-dark)] transition-all duration-300 bg-transparent border-2 border-[var(--olive)]/20 rounded-full hover:border-[var(--olive)] hover:bg-[var(--olive)]/5">
+            <Link href="/about-us" className="group inline-flex items-center justify-center px-8 py-4 font-bold text-[var(--olive-dark)] transition-all duration-300 bg-transparent border-2 border-[var(--olive)]/20 rounded-full hover:border-[var(--olive)] hover:bg-[var(--olive)]/5">
               <span className="text-[12px] tracking-[0.2em] uppercase">
                 Our Story
               </span>
