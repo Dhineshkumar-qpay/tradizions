@@ -54,6 +54,9 @@ export const API_ROUTES = {
   GIFTPRODUCTS: "/business/getproducts",
   ADDCUSTOMGIFTCART: "/cart/add-custom-gift-cart",
   CREATECUSTOMGIFT: "/customgift/create-custom-gift",
+  ADD_WALLET_POINTS: "/wallet/add-points",
+  GET_WALLET_BALANCE: "/wallet/balance",
+  APPLY_COUPON: "/coupon/apply",
 };
 
 export const BASE_URL = "https://demo.sevanta.in/api";

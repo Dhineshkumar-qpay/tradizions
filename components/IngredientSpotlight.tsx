@@ -193,7 +193,7 @@ export default function IngredientSpotlight() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif text-amber-950 mb-4">Ingredient Spotlight</h2>
+          <h2 className="text-3xl md:text-4xl text-amber-950 mb-4">Ingredient Spotlight</h2>
           <p className="text-stone-600 max-w-2xl mx-auto">
             Explore deep dives into our core organic products. Discover how to cook them, their nutritional profiles, and expert chef tips.
           </p>
@@ -235,7 +235,7 @@ export default function IngredientSpotlight() {
               >
                 <div className="flex items-center gap-4 mb-6">
                   <span className="text-5xl">{activeIngredient.icon}</span>
-                  <h3 className="text-3xl font-serif text-amber-950">{activeIngredient.name}</h3>
+                  <h3 className="text-3xl text-amber-950">{activeIngredient.name}</h3>
                 </div>
                 
                 <p className="text-stone-600 leading-relaxed mb-10 text-lg">
@@ -248,7 +248,7 @@ export default function IngredientSpotlight() {
                   <div className="space-y-8">
                     {/* Cooking Guide */}
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
-                      <h4 className="text-lg font-serif text-amber-900 mb-4 flex items-center gap-2">
+                      <h4 className="text-lg text-amber-900 mb-4 flex items-center gap-2">
                         <Utensils className="w-5 h-5" /> Recommended Prep
                       </h4>
                       <p className="font-medium text-stone-800 mb-3">{activeIngredient.recipe.title}</p>
@@ -273,7 +273,7 @@ export default function IngredientSpotlight() {
 
                     {/* Storage Guide */}
                     <div className="bg-amber-50 p-6 rounded-2xl border border-amber-100">
-                      <h4 className="text-lg font-serif text-amber-900 mb-3 flex items-center gap-2">
+                      <h4 className="text-lg text-amber-900 mb-3 flex items-center gap-2">
                         <Package className="w-5 h-5" /> Storage Guide
                       </h4>
                       <p className="text-sm text-amber-800 leading-relaxed">{activeIngredient.storage}</p>
@@ -284,7 +284,7 @@ export default function IngredientSpotlight() {
                   <div className="space-y-8">
                     {/* Health Benefits */}
                     <div>
-                      <h4 className="text-lg font-serif text-amber-900 mb-4 flex items-center gap-2">
+                      <h4 className="text-lg text-amber-900 mb-4 flex items-center gap-2">
                         <Shield className="w-5 h-5" /> Core Health Benefits
                       </h4>
                       <div className="space-y-3">
@@ -299,7 +299,7 @@ export default function IngredientSpotlight() {
 
                     {/* Nutrition Facts */}
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
-                      <h4 className="text-lg font-serif text-amber-900 mb-4 flex items-center gap-2">
+                      <h4 className="text-lg text-amber-900 mb-4 flex items-center gap-2">
                         <Activity className="w-5 h-5" /> Nutrition (per 100g)
                       </h4>
                       <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-sm">
@@ -314,7 +314,7 @@ export default function IngredientSpotlight() {
 
                     {/* Chef Tips */}
                     <div>
-                      <h4 className="text-lg font-serif text-amber-900 mb-4 flex items-center gap-2">
+                      <h4 className="text-lg text-amber-900 mb-4 flex items-center gap-2">
                         <ChefHat className="w-5 h-5" /> Chef's Secrets
                       </h4>
                       <ul className="space-y-2">

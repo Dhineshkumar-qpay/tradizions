@@ -111,6 +111,8 @@ export interface Order {
   paymentstatus?: string;
   ordertype?: string;
   address?: string;
+  coupon_code?: string;
+  discount_amount?: number;
 }
 
 export interface Giftcard {

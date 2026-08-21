@@ -49,17 +49,17 @@ function StatusPill({ status }: { status?: string }) {
   const color = isCancelled
     ? "bg-red-50 text-red-600 border-red-200"
     : isDelivered
-    ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-    : isShipped
-      ? "bg-orange-50 text-[var(--orange)] border-orange-200"
-      : "bg-[var(--olive)]/10 text-[var(--olive)] border-[var(--olive)]/25";
+      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+      : isShipped
+        ? "bg-orange-50 text-[var(--orange)] border-orange-200"
+        : "bg-[var(--olive)]/10 text-[var(--olive)] border-[var(--olive)]/25";
   const dot = isCancelled
     ? "bg-red-500"
     : isDelivered
-    ? "bg-emerald-500"
-    : isShipped
-      ? "bg-[var(--orange)] animate-pulse"
-      : "bg-[var(--olive)] animate-pulse";
+      ? "bg-emerald-500"
+      : isShipped
+        ? "bg-[var(--orange)] animate-pulse"
+        : "bg-[var(--olive)] animate-pulse";
   return (
     <span
       className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-sm border text-[9px] font-bold uppercase tracking-widest ${color}`}
@@ -73,7 +73,7 @@ function StatusPill({ status }: { status?: string }) {
 function TrackingTimeline({ status }: { status?: string }) {
   const cur = status?.toLowerCase() || "pending";
   const isCancelled = cur === "cancelled";
-  
+
   // If cancelled, show steps up to cancelled instead of delivered
   const stepsToShow = isCancelled
     ? ORDER_STEPS.filter(s => s.key !== "delivered")
@@ -114,13 +114,12 @@ function TrackingTimeline({ status }: { status?: string }) {
                 className="flex flex-col items-center gap-2.5"
               >
                 <div
-                  className={`w-7 h-7 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
-                    done
-                      ? isCancelStep
-                        ? "border-red-500 bg-red-500 shadow-[0_0_0_3px_rgba(239,68,68,0.15)]"
-                        : "border-[var(--olive)] bg-[var(--olive)] shadow-[0_0_0_3px_rgba(85,107,47,0.15)]"
-                      : "bg-white border-stone-200"
-                  }`}
+                  className={`w-7 h-7 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${done
+                    ? isCancelStep
+                      ? "border-red-500 bg-red-500 shadow-[0_0_0_3px_rgba(239,68,68,0.15)]"
+                      : "border-[var(--olive)] bg-[var(--olive)] shadow-[0_0_0_3px_rgba(85,107,47,0.15)]"
+                    : "bg-white border-stone-200"
+                    }`}
                 >
                   {done ? (
                     isCancelStep ? (
@@ -133,11 +132,10 @@ function TrackingTimeline({ status }: { status?: string }) {
                   )}
                 </div>
                 <span
-                  className={`text-[9px] font-semibold text-center leading-tight max-w-[52px] ${
-                    done 
-                      ? isCancelStep ? "text-red-500" : "text-[var(--olive)]" 
-                      : "text-stone-400"
-                  }`}
+                  className={`text-[9px] font-semibold text-center leading-tight max-w-[52px] ${done
+                    ? isCancelStep ? "text-red-500" : "text-[var(--olive)]"
+                    : "text-stone-400"
+                    }`}
                 >
                   {step.label}
                 </span>
@@ -173,13 +171,12 @@ function TrackingTimeline({ status }: { status?: string }) {
               className="flex items-center gap-3 relative z-10 py-2.5"
             >
               <div
-                className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center border-2 transition-all ${
-                  done 
-                    ? isCancelStep 
-                      ? "bg-red-500 border-red-500" 
-                      : "bg-[var(--olive)] border-[var(--olive)]" 
-                    : "bg-white border-stone-200"
-                }`}
+                className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center border-2 transition-all ${done
+                  ? isCancelStep
+                    ? "bg-red-500 border-red-500"
+                    : "bg-[var(--olive)] border-[var(--olive)]"
+                  : "bg-white border-stone-200"
+                  }`}
               >
                 {done ? (
                   isCancelStep ? (
@@ -192,11 +189,10 @@ function TrackingTimeline({ status }: { status?: string }) {
                 )}
               </div>
               <span
-                className={`text-sm font-semibold ${
-                  done 
-                    ? isCancelStep ? "text-red-500" : "text-[var(--olive)]" 
-                    : "text-stone-400"
-                }`}
+                className={`text-sm font-semibold ${done
+                  ? isCancelStep ? "text-red-500" : "text-[var(--olive)]"
+                  : "text-stone-400"
+                  }`}
               >
                 {step.label}
               </span>
@@ -240,41 +236,40 @@ function OrderDetailContent() {
   const orderInfo =
     orderData?.order && orderData?.items && orderData.items.length > 0
       ? {
-          id: `${orderData.order.orderid}`,
-          ordertype: orderData.order.ordertype,
-          orderstatus: orderData.order.orderstatus,
-          address: orderData.order.address,
-          items: orderData.items.map((item, idx) => ({
-            key: item.orderitemid || idx,
-            name: item.product?.productname,
-            price: item.price ?? 0,
-            totalprice: item.totalprice ?? 0,
-            qty: item.quantity ?? 1,
-            status: item.itemstatus,
-            ordertype: item.ordertype,
-            giftpack: item.giftpack,
-            giftpackproducts: item.giftpackproducts,
-            giftcard: item.giftcard,
-            address: item.address,
-            gramsperday: item.gramsperday,
-            dayspermonth: item.dayspermonth,
-            familymembers: item.familymembers,
-            totalquantitykg: item.totalquantitykg,
-            image: item.product?.productimage?.startsWith("http")
-              ? item.product.productimage
-              : `${IMAGE_URL || ""}${item.product?.productimage}`,
-          })),
-          billing: {
-            subtotal: orderData.items.reduce(
-              (acc, item) => acc + (parseFloat(item.totalprice?.toString() || "0") ?? 0),
-              0,
-            ),
-            total: orderData.items.reduce(
-              (acc, item) => acc + (parseFloat(item.totalprice?.toString() || "0") ?? 0),
-              0,
-            ),
-          },
-        }
+        id: `${orderData.order.orderid}`,
+        ordertype: orderData.order.ordertype,
+        orderstatus: orderData.order.orderstatus,
+        address: orderData.order.address,
+        items: orderData.items.map((item, idx) => ({
+          key: item.orderitemid || idx,
+          name: item.product?.productname,
+          price: item.price ?? 0,
+          totalprice: item.totalprice ?? 0,
+          qty: item.quantity ?? 1,
+          status: item.itemstatus,
+          ordertype: item.ordertype,
+          giftpack: item.giftpack,
+          giftpackproducts: item.giftpackproducts,
+          giftcard: item.giftcard,
+          address: item.address,
+          gramsperday: item.gramsperday,
+          dayspermonth: item.dayspermonth,
+          familymembers: item.familymembers,
+          totalquantitykg: item.totalquantitykg,
+          image: item.product?.productimage?.startsWith("http")
+            ? item.product.productimage
+            : `${IMAGE_URL || ""}${item.product?.productimage}`,
+        })),
+        billing: {
+          subtotal: orderData.items.reduce(
+            (acc, item) => acc + (parseFloat(item.totalprice?.toString() || "0") ?? 0),
+            0,
+          ),
+          total: orderData.order.totalamount ?? 0,
+          coupon_code: orderData.order.coupon_code,
+          discount_amount: orderData.order.discount_amount ?? 0,
+        },
+      }
       : null;
 
   if (isLoading) {
@@ -309,20 +304,20 @@ function OrderDetailContent() {
     if (!orderInfo) return;
 
     const doc = new jsPDF();
-    
+
     // Add App Logo
     const logoImg = new window.Image();
     logoImg.src = "/app-logo-new.png";
-    
+
     const generatePdf = (hasLogo = true) => {
       const pageWidth = doc.internal.pageSize.getWidth();
-      
+
       if (hasLogo) {
         doc.addImage(logoImg, "PNG", 14, 15, 30, 25);
         doc.setFontSize(20);
         doc.setTextColor(85, 107, 47); // Olive color
         doc.text("TRADIZIONS", 50, 25);
-        
+
         doc.setFontSize(10);
         doc.setTextColor(100);
         doc.text("Invoice / Order Receipt", 50, 32);
@@ -330,37 +325,37 @@ function OrderDetailContent() {
         doc.setFontSize(20);
         doc.setTextColor(85, 107, 47);
         doc.text("TRADIZIONS", 14, 25);
-        
+
         doc.setFontSize(10);
         doc.setTextColor(100);
         doc.text("Invoice / Order Receipt", 14, 32);
       }
-      
+
       const startY = hasLogo ? 55 : 45;
-      
+
       doc.setFontSize(10);
       doc.setTextColor(0);
       doc.text(`Order ID: #${orderInfo.id}`, 14, startY);
       doc.text(`Status: ${orderInfo.orderstatus?.toUpperCase() || "PENDING"}`, 14, startY + 7);
       doc.text(`Order Type: ${orderInfo.ordertype}`, 14, startY + 14);
-      
+
       if (orderInfo.address) {
         doc.text("Shipping Address:", 120, startY);
         doc.setFontSize(9);
         const splitAddress = doc.splitTextToSize(orderInfo.address, 75);
         doc.text(splitAddress, 120, startY + 7);
       }
-      
+
       // Prepare Table Data
       const tableColumn = ["Item", "Unit Price", "Qty", "Total"];
       const tableRows: any[] = [];
-      
+
       orderInfo.items.forEach(item => {
         let itemName = item.name || "Product";
         if (item.giftpack) {
           itemName = `[Bundle] ${item.giftpack.giftpackname}`;
         }
-        
+
         if (orderInfo.ordertype === "monthly") {
           itemName += `\n(Daily: ${item.gramsperday}g, Days: ${item.dayspermonth}, Members: ${item.familymembers}, Total: ${item.totalquantitykg}kg)`;
         } else {
@@ -368,7 +363,7 @@ function OrderDetailContent() {
             itemName += `\nDelivering to: ${item.address.city}, ${item.address.pincode}`;
           }
         }
-        
+
         if (item.giftcard) {
           itemName += `\n[Gift Card: ${item.giftcard.cardname}]`;
         }
@@ -381,7 +376,7 @@ function OrderDetailContent() {
         ];
         tableRows.push(rowData);
       });
-      
+
       autoTable(doc, {
         startY: startY + 30,
         head: [tableColumn],
@@ -389,19 +384,32 @@ function OrderDetailContent() {
         theme: 'striped',
         headStyles: { fillColor: [85, 107, 47] },
       });
-      
+
       const finalY = (doc as any).lastAutoTable.finalY || (startY + 30);
-      
+
+      const rightMarginX = pageWidth - 14;
       doc.setFontSize(11);
       doc.setTextColor(0);
-      doc.text(`Subtotal: Rs. ${orderInfo.billing.subtotal.toFixed(2)}`, 140, finalY + 10);
-      doc.text(`Total Amount: Rs. ${orderInfo.billing.total.toFixed(2)}`, 140, finalY + 18);
-      
+      let currentY = finalY + 10;
+      doc.text(`Subtotal: Rs. ${orderInfo.billing.subtotal.toFixed(2)}`, rightMarginX, currentY, { align: "right" });
+      currentY += 8;
+
+      if (orderInfo.billing.discount_amount && orderInfo.billing.discount_amount > 0) {
+        doc.setTextColor(34, 197, 94); // green-500
+        doc.text(`Discount (${orderInfo.billing.coupon_code || ''}): -Rs. ${orderInfo.billing.discount_amount.toFixed(2)}`, rightMarginX, currentY, { align: "right" });
+        doc.setTextColor(0); // reset color
+        currentY += 8;
+      }
+
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "bold");
+      doc.text(`Total Amount: Rs. ${orderInfo.billing.total.toFixed(2)}`, rightMarginX, currentY, { align: "right" });
+
       // Footer
       doc.setFontSize(9);
       doc.setTextColor(150);
       doc.text("Thank you for shopping with Tradizions!", pageWidth / 2, 280, { align: "center" });
-      
+
       doc.save(`Invoice_Tradizions_Order_${orderInfo.id}.pdf`);
     };
 
@@ -563,7 +571,7 @@ function OrderDetailContent() {
                               Custom Gift Bundle
                             </span>
                           </div>
-                          
+
                           <div className="bg-stone-50 border border-stone-100 p-3.5 rounded-sm mb-4">
                             <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-3 border-b border-stone-200 pb-2">
                               Bundle Contents
@@ -661,13 +669,13 @@ function OrderDetailContent() {
                               style={
                                 accent
                                   ? {
-                                      background: "rgba(85,107,47,0.07)",
-                                      borderColor: "rgba(85,107,47,0.18)",
-                                    }
+                                    background: "rgba(85,107,47,0.07)",
+                                    borderColor: "rgba(85,107,47,0.18)",
+                                  }
                                   : {
-                                      background: "var(--site-bg)",
-                                      borderColor: "#e7e5e4",
-                                    }
+                                    background: "var(--site-bg)",
+                                    borderColor: "#e7e5e4",
+                                  }
                               }
                             >
                               <div className="flex items-center gap-1.5 mb-1.5">
@@ -804,7 +812,8 @@ function OrderDetailContent() {
                     },
                     { label: "Delivery", val: "FREE" },
                     { label: "Tax (GST)", val: "₹0" },
-                  ].map(({ label, val }) => (
+                    ...(orderInfo.billing.discount_amount > 0 ? [{ label: `Coupon Discount (${orderInfo.billing.coupon_code || ''})`, val: `-₹${orderInfo.billing.discount_amount.toFixed(2).toLocaleString()}`, color: "text-green-600" }] : []),
+                  ].map(({ label, val, color }) => (
                     <div
                       key={label}
                       className="flex justify-between items-center text-xs font-bold"
@@ -812,7 +821,7 @@ function OrderDetailContent() {
                       <span className="text-gray-500">
                         {label}
                       </span>
-                      <span className="text-gray-900">
+                      <span className={color || "text-gray-900"}>
                         {val}
                       </span>
                     </div>

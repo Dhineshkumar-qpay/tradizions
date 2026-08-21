@@ -1329,23 +1329,19 @@ function KuralTrustRow({
   const formatKural = (kuralText: string | undefined | null) => {
     if (!kuralText) return "";
 
-    const normalized = kuralText
-      .replace(/<br\s*\/?>/gi, "\n")
-      .replace(/\r\n/g, "\n");
+    // Ignore any existing breaks and force a strict 4-word and 3-word split
+    const cleanText = kuralText
+      .replace(/<br\s*\/?>/gi, " ")
+      .replace(/\r?\n/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
 
-    if (normalized.includes("\n")) {
-      return normalized.split("\n").map((line, index) => (
-        <p key={index} className="leading-relaxed">
-          {line.trim()}
-        </p>
-      ));
-    }
-
-    const words = normalized.trim().split(/\s+/);
+    const words = cleanText.split(" ");
+    
     return (
       <>
-        <p>{words.slice(0, 4).join(" ")}</p>
-        <p>{words.slice(4).join(" ")}</p>
+        <p className="leading-relaxed">{words.slice(0, 4).join(" ")}</p>
+        <p className="leading-relaxed">{words.slice(4).join(" ")}</p>
       </>
     );
   };
@@ -1368,7 +1364,7 @@ function KuralTrustRow({
         </div>
 
         {/* Center Text */}
-        <div className="flex flex-col items-center text-center px-4 w-full">
+        <div className="max-w-2xl">
           <div className="flex items-center gap-2 mb-8">
             <span className="w-[5px] h-[5px] rounded-full bg-[#e09133]" />
             <span className="w-[5px] h-[5px] rounded-full bg-[#e09133]" />
@@ -1377,7 +1373,7 @@ function KuralTrustRow({
             </span>
           </div>
 
-          <div className="text-[20px] md:text-[24px] font-bold text-white leading-[1.8] mb-8 space-y-2">
+          <div className="text-[20px] md:text-[15px] font-bold text-white leading-[1.8] mb-8 space-y-2">
             {formatKural(kuraldata.kural)}
           </div>
 
@@ -1422,32 +1418,29 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
   const defaultIcons = [Activity, Scale, Baby];
 
   return (
-    <section ref={ref} className="py-24 bg-white relative overflow-hidden border-t border-stone-100">
-      <div className="absolute top-0 left-0 w-1/3 h-full bg-[#FAF8F5] rounded-r-[200px] blur-3xl pointer-events-none" />
-
+    <section ref={ref} className="py-24 bg-white relative border-t border-stone-200">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col items-center text-center mb-16 gap-5">
-          <div className="inline-flex items-center gap-3">
-            <span className="w-8 h-px bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive-dark)]">
+        
+        {/* Minimalist Professional Header */}
+        <div className="flex flex-col items-center text-center mb-16 gap-4">
+          <div className="inline-flex items-center gap-2">
+            <span className="w-12 h-[1px] bg-[var(--olive-dark)] opacity-40" />
+            <span className="text-[10px] font-semibold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
               Targeted Nutrition
             </span>
-            <span className="w-8 h-px bg-[var(--orange)]" />
+            <span className="w-12 h-[1px] bg-[var(--olive-dark)] opacity-40" />
           </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] tracking-tight">
-            {t.health_goals_title?.split(" ").slice(0, 2).join(" ") || "Health"}{" "}
-            <span className="text-[var(--olive)] font-light">
-              {t.health_goals_title?.split(" ").slice(2).join(" ") || "Goals"}
-            </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-[var(--foreground)] tracking-tight">
+            {t.health_goals_title || "Shop by Health Goals"}
           </h2>
-          <p className="text-sm text-[var(--dark-grey)] max-w-lg leading-relaxed font-medium">
+          <p className="text-[14px] text-stone-500 max-w-xl leading-relaxed mt-2">
             {t.health_goals_desc || "Discover precisely formulated nutrition tailored for your specific wellness objectives."}
           </p>
         </div>
 
         {displayGoals.length === 0 ? (
-          <div className="py-12 flex flex-col items-center justify-center bg-[#FAF8F5] border border-stone-200 rounded-3xl">
-            <p className="text-[var(--dark-grey)] font-medium text-sm">
+          <div className="py-16 flex flex-col items-center justify-center bg-stone-50 border border-stone-200">
+            <p className="text-stone-500 font-medium text-sm">
               No health goals found.
             </p>
           </div>
@@ -1461,27 +1454,32 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                 <Link
                   href={`/health-goal-products?goalid=${goal.goalid}`}
                   key={goal.goalid || idx}
-                  className="group relative h-[420px] rounded-[28px] overflow-hidden flex flex-col justify-end shadow-sm hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] transition-all duration-500"
+                  className="group flex flex-col bg-white border border-stone-200 transition-all duration-500 hover:border-[var(--olive-dark)] hover:shadow-md"
                 >
-                  <img
-                    src={image}
-                    alt={goal.goalname || ""}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1500ms] ease-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500 z-10" />
+                  {/* Clean Image Container */}
+                  <div className="relative aspect-[4/3] overflow-hidden bg-stone-50 border-b border-stone-200">
+                    <img
+                      src={image}
+                      alt={goal.goalname || ""}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1500ms] ease-out"
+                    />
+                  </div>
 
-                  <div className="relative z-20 p-8 flex flex-col gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 group-hover:bg-[var(--orange)] group-hover:border-transparent transition-all duration-500 shadow-sm">
-                      <Icon className="w-5 h-5" />
+                  {/* Elegant Content Below Image */}
+                  <div className="p-8 flex flex-col items-center text-center">
+                    <div className="w-10 h-10 mb-5 text-[var(--olive-dark)] border border-stone-200 rounded-full flex items-center justify-center bg-stone-50 transition-colors duration-500 group-hover:bg-[var(--olive-dark)] group-hover:text-white group-hover:border-[var(--olive-dark)]">
+                      <Icon className="w-4 h-4" />
                     </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-[var(--orange)] transition-colors duration-300">
-                        {goal.goalname}
-                      </h3>
-                      <p className="text-sm text-white/80 line-clamp-2 font-medium leading-relaxed">
-                        {goal.description}
-                      </p>
-                    </div>
+                    <h3 className="text-xl md:text-2xl font-normal text-[var(--foreground)] mb-3">
+                      {goal.goalname}
+                    </h3>
+                    <p className="text-[13px] text-stone-500 line-clamp-2 leading-relaxed">
+                      {goal.description}
+                    </p>
+                    
+                    <span className="mt-6 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--olive-dark)] border-b border-transparent group-hover:border-[var(--olive-dark)] transition-all duration-300">
+                      Explore Range
+                    </span>
                   </div>
                 </Link>
               );
@@ -1752,8 +1750,8 @@ function NutritionPlanner({ t }: { t: any }) {
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${selectedCategory === cat.id
-                      ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md -translate-y-0.5"
-                      : "bg-[#FAF8F5] border-stone-100 hover:border-[var(--olive)]/50 hover:bg-white text-[var(--dark-grey)]"
+                    ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md -translate-y-0.5"
+                    : "bg-[#FAF8F5] border-stone-100 hover:border-[var(--olive)]/50 hover:bg-white text-[var(--dark-grey)]"
                     }`}
                 >
                   <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-widest">
@@ -1798,8 +1796,8 @@ function NutritionPlanner({ t }: { t: any }) {
                         key={product.productid}
                         onClick={() => handleToggleProduct(product)}
                         className={`group relative p-5 bg-white border rounded-[20px] cursor-pointer transition-all duration-300 ${isSelected
-                            ? "border-[var(--olive-dark)] shadow-[0_8px_25px_rgba(0,0,0,0.08)] ring-1 ring-[var(--olive-dark)] -translate-y-1"
-                            : "border-stone-100 hover:border-[var(--orange)] hover:shadow-lg hover:-translate-y-1"
+                          ? "border-[var(--olive-dark)] shadow-[0_8px_25px_rgba(0,0,0,0.08)] ring-1 ring-[var(--olive-dark)] -translate-y-1"
+                          : "border-stone-100 hover:border-[var(--orange)] hover:shadow-lg hover:-translate-y-1"
                           }`}
                       >
                         <div className={`absolute top-4 left-4 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 border-2 z-10 ${isSelected ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-white border-stone-200 group-hover:border-[var(--orange)]"
@@ -2011,8 +2009,8 @@ function NutritionPlanner({ t }: { t: any }) {
                 }
                 disabled={selectedProducts.length === 0 || isBuying}
                 className={`flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-full font-bold text-[11px] tracking-[0.2em] uppercase transition-all shadow-[0_8px_25px_rgba(0,0,0,0.12)] ${selectedProducts.length > 0
-                    ? "bg-[var(--olive-dark)] text-white hover:bg-[var(--orange)] hover:-translate-y-1"
-                    : "bg-stone-200 text-stone-400 cursor-not-allowed shadow-none"
+                  ? "bg-[var(--olive-dark)] text-white hover:bg-[var(--orange)] hover:-translate-y-1"
+                  : "bg-stone-200 text-stone-400 cursor-not-allowed shadow-none"
                   } w-full sm:w-auto min-w-[220px]`}
               >
                 {isBuying ? (

@@ -166,7 +166,7 @@ export default function CheckoutPage() {
       console.error("Error saving address:", err);
       alert(
         err?.response?.data?.message ||
-          "An error occurred while saving address.",
+        "An error occurred while saving address.",
       );
     }
   };
@@ -234,9 +234,50 @@ export default function CheckoutPage() {
 
   const t = translations[selectedLang] || translations["EN"];
 
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
+  const [couponError, setCouponError] = useState("");
+  const [couponSuccessMsg, setCouponSuccessMsg] = useState("");
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode) {
+      setCouponError("Please enter a coupon code");
+      return;
+    }
+
+    setIsApplyingCoupon(true);
+    setCouponError("");
+    setCouponSuccessMsg("");
+
+    try {
+      const response = await API.post(API_ROUTES.APPLY_COUPON, { code: couponCode });
+      if (response.status === 200 && response.data?.success) {
+        setAppliedCoupon(response.data.coupon);
+        setCouponDiscount(response.data.discount_amount);
+        setCouponSuccessMsg(response.data.message);
+      }
+    } catch (err: any) {
+      setCouponError(err.response?.data?.message || "Failed to apply coupon");
+      setAppliedCoupon(null);
+      setCouponDiscount(0);
+    } finally {
+      setIsApplyingCoupon(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setCouponCode("");
+    setAppliedCoupon(null);
+    setCouponDiscount(0);
+    setCouponError("");
+    setCouponSuccessMsg("");
+  };
+
   // Total calculations consistent with cart page
   const deliveryCharges = 0; // Free shipping
-  const grandTotal = totalAmount;
+  const grandTotal = Math.max(0, totalAmount - couponDiscount + deliveryCharges);
 
   const handlePlaceOrder = async () => {
     if (selectionMode === "single" && !selectedAddressId) {
@@ -265,7 +306,7 @@ export default function CheckoutPage() {
       }
 
       const options = {
-        key: "rzp_live_TQmjNlUYT2QAlj",
+        key: "rzp_test_TRz4Jt08XnAOja",
         amount: Math.round(grandTotal * 100),
         currency: "INR",
         name: "Tradizions",
@@ -278,15 +319,24 @@ export default function CheckoutPage() {
               addressids:
                 selectionMode === "multi"
                   ? multipleAddress.map(({ addressid, productid }) => ({
-                      addressid,
-                      productid,
-                    }))
+                    addressid,
+                    productid,
+                  }))
                   : [],
               razorpay_payment_id: response.razorpay_payment_id,
+              coupon_code: appliedCoupon ? appliedCoupon.code : undefined,
             };
             const apiRes = await API.post(API_ROUTES.PLACEORDER, body);
             if (apiRes.status === 200 && apiRes.data?.data) {
               setPlacedOrderId(apiRes.data.data.orderid || apiRes.data.orderid);
+
+              // Add wallet points based on the grand total
+              try {
+                await API.post(API_ROUTES.ADD_WALLET_POINTS, { amount_spent: grandTotal });
+              } catch (walletErr) {
+                console.error("Error adding wallet points:", walletErr);
+              }
+
               setOrderPlaced(true);
               window.dispatchEvent(new Event("cartUpdated"));
               window.scrollTo({ top: 0, behavior: "smooth" });
@@ -297,7 +347,7 @@ export default function CheckoutPage() {
             console.error("Error placing order:", err);
             alert(
               err?.response?.data?.message ||
-                "An error occurred while placing your order.",
+              "An error occurred while placing your order.",
             );
           } finally {
             setIsPlacingOrder(false);
@@ -341,112 +391,86 @@ export default function CheckoutPage() {
 
   if (orderPlaced) {
     return (
-      <main className="min-h-screen bg-[var(--site-bg)] flex justify-center pt-10 lg:pt-10 pb-12 px-4 sm:px-8 overflow-hidden relative selection:bg-[var(--olive)] selection:text-white text-[var(--dark-grey)]">
-        <div className="relative w-full max-w-md">
-          {/* Card */}
-          <div className="relative bg-white border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-8 pt-10 pb-10 text-center">
-              {/* Success Icon */}
-              <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
-                {/* Ring Animation */}
-                <div className="absolute inset-0 rounded-full border-2 border-[var(--olive)]/30 animate-ping" />
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center p-5 py-10">
+        <div className="w-full max-w-lg bg-white border border-gray-200 shadow-sm overflow-hidden animate-receipt rounded-md">
+          {/* Header */}
+          <div className="bg-[var(--olive)] px-8 py-10 text-center relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_0_4px_rgba(34,197,94,0.2)]">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" style={{ strokeDasharray: 100, strokeDashoffset: 100, animation: "draw 0.6s ease 0.2s forwards" }} />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold text-white tracking-tight mb-2 animate-stagger-1">
+              {t.checkout?.order_confirmed || "Payment Successful"}
+            </h1>
+            <p className="text-gray-400 text-sm animate-stagger-1">
+              {t.order_confirmed_desc || "Your order has been processed and is now confirmed."}
+            </p>
+          </div>
 
-                {/* Circle */}
-                <div className="relative z-10 w-20 h-20 rounded-full bg-gradient-to-br from-[var(--olive)] to-[var(--olive-dark)] flex items-center justify-center shadow-[0_15px_30px_rgba(85,107,47,0.35)]">
-                  <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
-                    {/* Check */}
-                    <svg
-                      className="w-7 h-7 text-[var(--olive)]"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M5 13l4 4L19 7"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        style={{
-                          strokeDasharray: 100,
-                          strokeDashoffset: 100,
-                          animation: "draw 0.6s ease forwards",
-                        }}
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* Title */}
-              <h1 className="text-2xl font-black text-stone-900 mb-2 tracking-tight">
-                {t.checkout?.order_confirmed || "Order Confirmed"}
-              </h1>
-
-              <p className="text-stone-500 text-xs leading-relaxed max-w-[240px] mx-auto mb-6">
-                {t.order_confirmed_desc ||
-                  "Your payment has been completed successfully."}
-              </p>
-
-              {/* Order Info */}
-              <div className="bg-stone-50 rounded-2xl border border-stone-200 p-4 mb-6 text-left">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-stone-400 font-bold">
-                    Order ID
-                  </span>
-
-                  <span className="text-xs font-black text-stone-900">
-                    #{placedOrderId}
-                  </span>
-                </div>
-
-                <div className="border-t border-dashed border-stone-200 my-3"></div>
-
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-[11px] text-stone-500 font-medium">
-                    {t.checkout?.total || "Total"}
-                  </span>
-
-                  <span className="text-lg font-black text-[var(--olive-dark)]">
-                    ₹{grandTotal.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
-                  </span>
-                </div>
-
+          {/* Details */}
+          <div className="px-8 py-8">
+            <div className="mb-6 pb-6 border-b border-gray-100 animate-stagger-2">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Transaction Details</h3>
+              
+              <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-[11px] text-stone-500 font-medium">
-                    {t.checkout?.payment || "Payment"}
-                  </span>
-
-                  <span className="text-[10px] uppercase px-2 py-1 rounded-lg bg-white border border-stone-200 font-bold text-stone-700">
-                    {paymentMethod}
-                  </span>
+                  <span className="text-sm text-gray-500 font-medium">Order ID</span>
+                  <span className="text-sm font-bold text-gray-900">#{placedOrderId}</span>
                 </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-500 font-medium">Date</span>
+                  <span className="text-sm font-bold text-gray-900">{new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                </div>
+                
               </div>
+            </div>
 
-              {/* Buttons */}
-              <div className="flex flex-col gap-4 mt-8">
-                <Link
-                  href={`/order-detail?id=${placedOrderId}`}
-                  className="w-full h-14 bg-[var(--olive-dark)] text-white text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center transition-colors hover:bg-[var(--orange-dark)] shadow-sm"
-                >
-                  {t.track_order || "Track Order"}
-                </Link>
+            <div className="flex justify-between items-center mb-8 bg-gray-50 p-4 rounded border border-gray-100 animate-stagger-3">
+              <span className="text-sm font-bold text-gray-900 uppercase tracking-wide">Total Amount Paid</span>
+              <span className="text-xl font-black text-gray-900">
+                ₹{grandTotal.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+              </span>
+            </div>
 
-                <Link
-                  href="/shop"
-                  className="w-full h-14 bg-white border border-gray-300 text-[var(--dark-grey)] text-[11px] font-bold tracking-[0.2em] uppercase flex items-center justify-center hover:border-[var(--olive-dark)] hover:text-[var(--olive-dark)] transition-colors"
-                >
-                  {t.continue_shopping || "Continue Shopping"}
-                </Link>
-              </div>
+            {/* Actions */}
+            <div className="grid grid-cols-2 gap-4 animate-stagger-4">
+              <Link
+                href="/shop"
+                className="w-full py-3.5 bg-white border border-gray-200 text-gray-700 text-[11px] font-bold tracking-widest uppercase flex items-center justify-center hover:bg-gray-50 transition-colors rounded"
+              >
+                {t.continue_shopping || "Continue Shopping"}
+              </Link>
+              
+              <Link
+                href={`/order-detail?id=${placedOrderId}`}
+                className="w-full py-3.5 bg-[var(--orange)] hover:bg-[var(--orange)/80] text-white text-[11px] font-bold tracking-widest uppercase flex items-center justify-center hover:bg-black transition-colors shadow-sm rounded"
+              >
+                {t.track_order || "Track Order"}
+              </Link>
             </div>
           </div>
         </div>
-
         <style jsx>{`
+          .animate-receipt {
+            animation: printReceipt 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          }
+          .animate-stagger-1 { opacity: 0; animation: staggerFade 0.5s ease-out 0.2s forwards; }
+          .animate-stagger-2 { opacity: 0; animation: staggerFade 0.5s ease-out 0.4s forwards; }
+          .animate-stagger-3 { opacity: 0; animation: staggerFade 0.5s ease-out 0.6s forwards; }
+          .animate-stagger-4 { opacity: 0; animation: staggerFade 0.5s ease-out 0.8s forwards; }
+          @keyframes printReceipt {
+            0% { transform: translateY(-40px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+          }
+          @keyframes staggerFade {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
           @keyframes draw {
-            to {
-              stroke-dashoffset: 0;
-            }
+            to { stroke-dashoffset: 0; }
           }
         `}</style>
       </main>
@@ -488,11 +512,10 @@ export default function CheckoutPage() {
               <div className="space-y-6">
                 {/* Option 1: Single Address */}
                 <div
-                  className={`border rounded-[var(--radius-sm)] p-6 transition-all duration-300 ${
-                    cartItems.length > 1 && selectionMode !== "single"
+                  className={`border rounded-[var(--radius-sm)] p-6 transition-all duration-300 ${cartItems.length > 1 && selectionMode !== "single"
                       ? "border-gray-200 hover:border-gray-400 cursor-pointer bg-white"
                       : "border-[var(--olive)] bg-gray-50 shadow-sm"
-                  }`}
+                    }`}
                   onClick={() =>
                     cartItems.length > 1 && setSelectionMode("single")
                   }
@@ -500,11 +523,10 @@ export default function CheckoutPage() {
                   <div className="flex items-center gap-4 mb-4">
                     {cartItems.length > 1 && (
                       <div
-                        className={`w-5 h-5 rounded flex items-center justify-center transition-all ${
-                          selectionMode === "single"
+                        className={`w-5 h-5 rounded flex items-center justify-center transition-all ${selectionMode === "single"
                             ? "bg-[var(--olive)]"
                             : "bg-white border border-gray-300"
-                        }`}
+                          }`}
                       >
                         {selectionMode === "single" && (
                           <Check
@@ -557,20 +579,18 @@ export default function CheckoutPage() {
 
                     {/* Option 2: Multi Address */}
                     <div
-                      className={`border rounded-[var(--radius-sm)] p-6 cursor-pointer transition-all duration-300 ${
-                        selectionMode === "multi"
+                      className={`border rounded-[var(--radius-sm)] p-6 cursor-pointer transition-all duration-300 ${selectionMode === "multi"
                           ? "border-[var(--olive)] bg-gray-50 shadow-sm"
                           : "border-gray-200 hover:border-gray-400 bg-white"
-                      }`}
+                        }`}
                       onClick={() => setSelectionMode("multi")}
                     >
                       <div className="flex items-center gap-4 mb-4">
                         <div
-                          className={`w-5 h-5 rounded flex items-center justify-center transition-all ${
-                            selectionMode === "multi"
+                          className={`w-5 h-5 rounded flex items-center justify-center transition-all ${selectionMode === "multi"
                               ? "bg-[var(--olive)]"
                               : "bg-white border border-gray-300"
-                          }`}
+                            }`}
                         >
                           {selectionMode === "multi" && (
                             <Check
@@ -598,8 +618,8 @@ export default function CheckoutPage() {
                               ? rawImage
                               : `${IMAGE_URL || ""}${rawImage}`;
                             const itemName = isCustomGift ? item.giftpackname : item.name;
-                            const itemPrice = isCustomGift 
-                              ? (item.totalprice ?? 0) / (item.quantity || 1) 
+                            const itemPrice = isCustomGift
+                              ? (item.totalprice ?? 0) / (item.quantity || 1)
                               : ((item.sellingprice ?? 0) > 0 ? (item.sellingprice ?? 0) : (item.price ?? 0));
 
                             return (
@@ -645,8 +665,8 @@ export default function CheckoutPage() {
                                         item.itemtype === "gift"
                                           ? item.giftid
                                           : item.itemtype === "customgift"
-                                          ? item.giftpackid
-                                          : item.productid;
+                                            ? item.giftpackid
+                                            : item.productid;
                                       const cartId = item.cartid || 0;
                                       setMultipleAddress((prev) => {
                                         const index = prev.findIndex(
@@ -922,8 +942,8 @@ export default function CheckoutPage() {
                     ? rawImage
                     : `${IMAGE_URL || ""}${rawImage}`;
                   const itemName = isCustomGift ? item.giftpackname : item.name;
-                  const itemPrice = isCustomGift 
-                    ? (item.totalprice ?? 0) / (item.quantity || 1) 
+                  const itemPrice = isCustomGift
+                    ? (item.totalprice ?? 0) / (item.quantity || 1)
                     : ((item.sellingprice ?? 0) > 0 ? (item.sellingprice ?? 0) : (item.price ?? 0));
 
                   return (
@@ -985,6 +1005,43 @@ export default function CheckoutPage() {
 
               <div className="h-px bg-stone-100 mb-6 w-full" />
 
+              {/* Coupon Section */}
+              <div className="mb-6">
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-2">
+                  Have a coupon?
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    placeholder="Enter coupon code"
+                    disabled={!!appliedCoupon}
+                    className="flex-1 border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none text-sm font-medium disabled:opacity-60"
+                  />
+                  {!appliedCoupon ? (
+                    <button
+                      onClick={handleApplyCoupon}
+                      disabled={isApplyingCoupon || !couponCode}
+                      className="px-4 py-2 bg-[var(--olive)] text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[var(--olive-dark)] transition-colors disabled:opacity-50"
+                    >
+                      {isApplyingCoupon ? "Applying..." : "Apply"}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleRemoveCoupon}
+                      className="px-4 py-2 bg-red-50 text-red-500 border border-red-100 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-red-100 transition-colors"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+                {couponError && <p className="text-red-500 text-xs mt-2 font-medium">{couponError}</p>}
+                {couponSuccessMsg && <p className="text-green-600 text-xs mt-2 font-medium">{couponSuccessMsg}</p>}
+              </div>
+
+              <div className="h-px bg-stone-100 mb-6 w-full" />
+
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-stone-500 font-medium">
@@ -999,6 +1056,16 @@ export default function CheckoutPage() {
                     ₹{totalAmount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
                   </span>
                 </div>
+                {couponDiscount > 0 && (
+                  <div className="flex justify-between text-sm text-green-600">
+                    <span className="font-medium">
+                      Coupon Discount ({appliedCoupon?.code})
+                    </span>
+                    <span className="font-bold">
+                      - ₹{couponDiscount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                )}
                 <div className="flex justify-between text-sm">
                   <span className="text-stone-500 font-medium">
                     {t.checkout?.shipping || "Shipping"}

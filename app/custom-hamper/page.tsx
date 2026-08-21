@@ -203,7 +203,7 @@ export default function CustomGiftBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans selection:bg-[var(--olive)] selection:text-white pb-24">
+    <div className="min-h-screen bg-gray-50 selection:bg-[var(--olive)] selection:text-white pb-24">
       {/* ── Corporate Hero Section ── */}
       <div className="bg-white border-b border-gray-100 shadow-sm mb-12">
         <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col items-center text-center">
