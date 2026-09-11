@@ -52,18 +52,18 @@ export interface KuralData {
 
 
 export interface CalculatorProductsModel {
-    statusCode?: number;
-    data?:       CalculatorProducts[];
+  statusCode?: number;
+  data?: CalculatorProducts[];
 }
 
 export interface CalculatorProducts {
-    bid?:          number;
-    productid?:    number;
-    productname?:  string;
-    productimage?:  string;
-    categoryid?:   number;
-    price?:        number;
-    sellingprice?: number;
-    weight?:       number;
-    unit?:         string;
+  bid?: number;
+  productid?: number;
+  productname?: string;
+  productimage?: string;
+  categoryid?: number;
+  price?: number;
+  sellingprice?: number;
+  weight?: number;
+  unit?: string;
 }

@@ -140,7 +140,7 @@ export default function ProfilePage() {
       console.error("Error updating profile:", err);
       alert(
         err?.response?.data?.message ||
-        "An error occurred while updating profile.",
+          "An error occurred while updating profile.",
       );
     } finally {
       setIsSavingProfile(false);
@@ -305,7 +305,7 @@ export default function ProfilePage() {
       console.error("Error saving address:", err);
       alert(
         err?.response?.data?.message ||
-        "An error occurred while saving address.",
+          "An error occurred while saving address.",
       );
     }
   };
@@ -328,7 +328,7 @@ export default function ProfilePage() {
       console.error("Error deleting address:", err);
       alert(
         err?.response?.data?.message ||
-        "An error occurred while deleting address.",
+          "An error occurred while deleting address.",
       );
     }
   };
@@ -969,19 +969,21 @@ export default function ProfilePage() {
           <div className="flex bg-stone-100 p-1 rounded-xl w-full sm:w-auto">
             <button
               onClick={() => setOrderHistoryTab("normal")}
-              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${orderHistoryTab === "normal"
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${
+                orderHistoryTab === "normal"
                   ? "bg-white text-[var(--olive)] shadow-sm"
                   : "text-stone-500 hover:text-stone-700"
-                }`}
+              }`}
             >
               Normal Orders
             </button>
             <button
               onClick={() => setOrderHistoryTab("monthly")}
-              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${orderHistoryTab === "monthly"
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[11px] font-black tracking-widest uppercase transition-all ${
+                orderHistoryTab === "monthly"
                   ? "bg-white text-[var(--olive)] shadow-sm"
                   : "text-stone-500 hover:text-stone-700"
-                }`}
+              }`}
             >
               Monthly Orders
             </button>
@@ -999,10 +1001,7 @@ export default function ProfilePage() {
           ) : orders.length === 0 ? (
             <div className="bg-white rounded-md p-12 text-center border border-gray-200 shadow-sm flex flex-col items-center justify-center min-h-[40vh]">
               <div className="w-16 h-16 bg-stone-50 rounded-sm flex items-center justify-center mb-6 border border-stone-200">
-                <Package
-                  className="w-8 h-8 text-stone-300"
-                  strokeWidth={1.5}
-                />
+                <Package className="w-8 h-8 text-stone-300" strokeWidth={1.5} />
               </div>
 
               <h3 className="text-xl font-bold text-gray-900 mb-2 tracking-tight">
@@ -1034,7 +1033,7 @@ export default function ProfilePage() {
                       const hasItems = order.items && order.items.length > 0;
                       const itemName = hasItems
                         ? order.items![0].productname ||
-                        order.items![0].giftpackname
+                          order.items![0].giftpackname
                         : `Order #${order.orderid}`;
 
                       return (
@@ -1079,15 +1078,21 @@ export default function ProfilePage() {
                                   className="text-[13px] font-bold text-gray-900 truncate group-hover:text-[var(--olive)] transition-colors"
                                   title={itemName}
                                 >
-                                  {itemName}
+                                  ORD : {order.orderid}
                                 </h4>
+
                                 <p className="text-[13px] font-black text-[var(--olive)] whitespace-nowrap">
                                   ₹{order.totalamount}
                                 </p>
                               </div>
+                              <h4
+                                className="text-[13px] font-semibold text-gray-900 truncate group-hover:text-[var(--olive)] transition-colors"
+                                title={itemName}
+                              >
+                                {itemName}
+                              </h4>
                               <p className="text-[11px] text-gray-500 font-medium truncate mb-2.5 capitalize">
-                                {order.ordertype || "Normal"} • Order #
-                                {order.orderid}
+                                {order.ordertype || "Normal"}
                               </p>
                             </div>
                             <div className="flex items-center justify-between">
@@ -1406,7 +1411,9 @@ export default function ProfilePage() {
       return (
         <div className="flex flex-col py-20 items-center justify-center space-y-4 animate-fade-in">
           <div className="w-10 h-10 border-4 border-gray-800 border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-400 text-sm font-medium">Loading reward points...</p>
+          <p className="text-gray-400 text-sm font-medium">
+            Loading reward points...
+          </p>
         </div>
       );
     }
@@ -1418,13 +1425,15 @@ export default function ProfilePage() {
             <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
               {t.my_account.wallet_coupons || "Reward Points"}
             </h2>
-            <p className="text-sm text-gray-500 mt-1">Manage your loyalty points and rewards</p>
+            <p className="text-sm text-gray-500 mt-1">
+              Manage your loyalty points and rewards
+            </p>
           </div>
           <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors">
             History <ChevronRight className="w-4 h-4" />
           </button>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Corporate Points Card */}
           <div className="lg:col-span-2 relative p-8 rounded-xl bg-white border border-gray-200 shadow-sm flex flex-col justify-between">
@@ -1434,13 +1443,19 @@ export default function ProfilePage() {
                   <Wallet className="w-5 h-5 text-gray-700" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-gray-900">Total Balance</h3>
-                  <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mt-0.5">Tradizions Corporate</p>
+                  <h3 className="text-sm font-bold text-gray-900">
+                    Total Balance
+                  </h3>
+                  <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mt-0.5">
+                    Tradizions Corporate
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-2 px-3 py-1 rounded bg-green-50 border border-green-100 text-green-700">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                <span className="text-[10px] font-bold uppercase tracking-widest">Active</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest">
+                  Active
+                </span>
               </div>
             </div>
 
@@ -1449,9 +1464,11 @@ export default function ProfilePage() {
                 <h3 className="text-5xl font-black tracking-tight text-gray-900 leading-none">
                   {walletPoints.toLocaleString()}
                 </h3>
-                <span className="text-sm font-bold text-gray-400 tracking-widest uppercase mb-1">PTS</span>
+                <span className="text-sm font-bold text-gray-400 tracking-widest uppercase mb-1">
+                  PTS
+                </span>
               </div>
-              
+
               <div className="flex gap-3">
                 <button className="px-6 py-3 rounded bg-[var(--orange)] hover:bg-[var(--orange)/80] text-white text-[11px] font-bold tracking-widest uppercase transition-colors shadow-sm">
                   Redeem Points
@@ -1466,28 +1483,46 @@ export default function ProfilePage() {
           {/* Side Stats Card */}
           <div className="relative p-6 rounded-xl bg-gray-50 border border-gray-200 flex flex-col justify-between gap-6">
             <div>
-              <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Quick Stats</h4>
+              <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">
+                Quick Stats
+              </h4>
               <div className="space-y-4">
                 <div className="flex justify-between items-center pb-4 border-b border-gray-200">
-                  <span className="text-sm text-gray-600 font-medium">Earned this month</span>
-                  <span className="text-sm font-bold text-gray-900">+450 PTS</span>
+                  <span className="text-sm text-gray-600 font-medium">
+                    Earned this month
+                  </span>
+                  <span className="text-sm font-bold text-gray-900">
+                    +450 PTS
+                  </span>
                 </div>
                 <div className="flex justify-between items-center pb-4 border-b border-gray-200">
-                  <span className="text-sm text-gray-600 font-medium">Redeemed</span>
-                  <span className="text-sm font-bold text-gray-900">-120 PTS</span>
+                  <span className="text-sm text-gray-600 font-medium">
+                    Redeemed
+                  </span>
+                  <span className="text-sm font-bold text-gray-900">
+                    -120 PTS
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 font-medium">Tier Status</span>
-                  <span className="text-xs font-bold text-[var(--olive)] uppercase tracking-widest bg-[var(--olive)]/10 px-2 py-1 rounded">Silver</span>
+                  <span className="text-sm text-gray-600 font-medium">
+                    Tier Status
+                  </span>
+                  <span className="text-xs font-bold text-[var(--olive)] uppercase tracking-widest bg-[var(--olive)]/10 px-2 py-1 rounded">
+                    Silver
+                  </span>
                 </div>
               </div>
             </div>
-            
+
             <div className="p-4 rounded border border-gray-200 bg-white shadow-sm flex items-start gap-3">
               <Zap className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
               <div>
-                <p className="text-xs font-bold text-gray-900 mb-1">Earn 2x Points</p>
-                <p className="text-[10px] text-gray-500 leading-relaxed">Upgrade to Gold Tier by spending ₹5,000 more this year.</p>
+                <p className="text-xs font-bold text-gray-900 mb-1">
+                  Earn 2x Points
+                </p>
+                <p className="text-[10px] text-gray-500 leading-relaxed">
+                  Upgrade to Gold Tier by spending ₹5,000 more this year.
+                </p>
               </div>
             </div>
           </div>
@@ -1514,7 +1549,8 @@ export default function ProfilePage() {
               +91 {mobile}
             </p>
             <span className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white/90 text-[9px] font-bold tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-300 animate-pulse" /> Active Member
+              <span className="w-1.5 h-1.5 rounded-full bg-green-300 animate-pulse" />{" "}
+              Active Member
             </span>
           </div>
 
@@ -1522,11 +1558,23 @@ export default function ProfilePage() {
           <nav className="flex flex-col gap-1 bg-white/80 backdrop-blur-xl rounded-[32px] border border-black/5 shadow-[0_15px_40px_rgba(0,0,0,0.05)] p-3">
             {[
               { id: "profile", icon: User, label: t.my_account.edit_profile },
-              { id: "orders", icon: Package, label: t.my_account.order_history },
-              { id: "subscriptions", icon: Zap, label: t.my_account.subscriptions },
+              {
+                id: "orders",
+                icon: Package,
+                label: t.my_account.order_history,
+              },
+              {
+                id: "subscriptions",
+                icon: Zap,
+                label: t.my_account.subscriptions,
+              },
               { id: "wishlist", icon: Heart, label: t.my_account.wishlist },
               { id: "referrals", icon: Users, label: t.my_account.refer_earn },
-              { id: "wallet", icon: Wallet, label: t.my_account.wallet_coupons },
+              {
+                id: "wallet",
+                icon: Wallet,
+                label: t.my_account.wallet_coupons,
+              },
             ].map(({ id, icon: Icon, label }) => (
               <button
                 key={id}
@@ -1541,11 +1589,16 @@ export default function ProfilePage() {
                   <Icon className="w-4 h-4" />
                   {label}
                 </div>
-                {activeTab === id && <ChevronRight className="w-4 h-4 opacity-70" />}
+                {activeTab === id && (
+                  <ChevronRight className="w-4 h-4 opacity-70" />
+                )}
               </button>
             ))}
             <button
-              onClick={() => { setActiveTab("addresses"); setAddressView("list"); }}
+              onClick={() => {
+                setActiveTab("addresses");
+                setAddressView("list");
+              }}
               className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all font-semibold text-sm ${
                 activeTab === "addresses"
                   ? "bg-[var(--olive)] text-white shadow-[0_8px_20px_rgba(22,163,74,0.25)]"
@@ -1556,7 +1609,9 @@ export default function ProfilePage() {
                 <MapPin className="w-4 h-4" />
                 {t.my_account.saved_addresses}
               </div>
-              {activeTab === "addresses" && <ChevronRight className="w-4 h-4 opacity-70" />}
+              {activeTab === "addresses" && (
+                <ChevronRight className="w-4 h-4 opacity-70" />
+              )}
             </button>
             <div className="h-px w-full bg-black/5 my-1" />
             <button

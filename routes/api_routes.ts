@@ -57,10 +57,12 @@ export const API_ROUTES = {
   ADD_WALLET_POINTS: "/wallet/add-points",
   GET_WALLET_BALANCE: "/wallet/balance",
   APPLY_COUPON: "/coupon/apply",
+  GET_ACTIVE_COUPONS: "/coupon/active-list",
+  REPORT_ISSUE: "/report/create",
 };
 
-export const BASE_URL = "https://demo.sevanta.in/api";
-export const IMAGE_URL = "https://demo.sevanta.in/api";
+export const BASE_URL = "https://api.tradizions.in/api";
+export const IMAGE_URL = "https://api.tradizions.in/";
 
 // export const BASE_URL = "http://localhost:3003/api";
 // export const IMAGE_URL = "http://localhost:3003";

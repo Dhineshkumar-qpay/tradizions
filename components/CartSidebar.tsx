@@ -469,6 +469,11 @@ export default function CartSidebar() {
                                   <h3 className="text-sm font-bold text-gray-900 leading-tight line-clamp-2">
                                     {itemName}
                                   </h3>
+                                  {item.weight != null && item.unit && (
+                                    <p className="text-[10px] text-gray-500 font-medium mt-1">
+                                      {item.weight} {item.unit}
+                                    </p>
+                                  )}
                                   {isCustomGift &&
                                     item.products &&
                                     item.products.length > 0 && (

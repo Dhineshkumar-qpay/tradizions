@@ -20,6 +20,8 @@ export interface CheckoutProduct {
   image?: string;
   price?: number;
   sellingprice?: number;
+  weight?: number | null;
+  unit?: string;
   categoryname?: string;
   giftcard?: GiftCard | null;
   giftpackid?: number;

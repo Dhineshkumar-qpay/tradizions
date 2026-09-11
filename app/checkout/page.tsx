@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShieldCheck, Check, ShoppingCart, Gift, Lock, MapPin } from "lucide-react";
+import {
+  ShieldCheck,
+  Check,
+  ShoppingCart,
+  Gift,
+  Lock,
+  MapPin,
+} from "lucide-react";
 import AddressMapSidebar from "@/components/AddressMapSidebar";
 import en from "@/languages/en.json";
 import ta from "@/languages/ta.json";
@@ -166,8 +173,26 @@ export default function CheckoutPage() {
       console.error("Error saving address:", err);
       alert(
         err?.response?.data?.message ||
-        "An error occurred while saving address.",
+          "An error occurred while saving address.",
       );
+    }
+  };
+
+  const [activeCoupons, setActiveCoupons] = useState<any[]>([]);
+  const [isLoadingCoupons, setIsLoadingCoupons] = useState(false);
+  const [copiedCoupon, setCopiedCoupon] = useState<string | null>(null);
+
+  const fetchCoupons = async () => {
+    setIsLoadingCoupons(true);
+    try {
+      const response = await API.get(API_ROUTES.GET_ACTIVE_COUPONS);
+      if (response.status === 200 && response.data?.success) {
+        setActiveCoupons(response.data.coupons || []);
+      }
+    } catch (err) {
+      console.error("Error fetching coupons:", err);
+    } finally {
+      setIsLoadingCoupons(false);
     }
   };
 
@@ -186,7 +211,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     const init = async () => {
       setIsLoading(true);
-      await Promise.all([fetchAddresses(), fetchCart()]);
+      await Promise.all([fetchAddresses(), fetchCart(), fetchCoupons()]);
       setIsLoading(false);
     };
     init();
@@ -252,7 +277,10 @@ export default function CheckoutPage() {
     setCouponSuccessMsg("");
 
     try {
-      const response = await API.post(API_ROUTES.APPLY_COUPON, { code: couponCode });
+      const response = await API.post(API_ROUTES.APPLY_COUPON, {
+        code: couponCode,
+        cartTotal: totalAmount,
+      });
       if (response.status === 200 && response.data?.success) {
         setAppliedCoupon(response.data.coupon);
         setCouponDiscount(response.data.discount_amount);
@@ -277,7 +305,10 @@ export default function CheckoutPage() {
 
   // Total calculations consistent with cart page
   const deliveryCharges = 0; // Free shipping
-  const grandTotal = Math.max(0, totalAmount - couponDiscount + deliveryCharges);
+  const grandTotal = Math.max(
+    0,
+    totalAmount - couponDiscount + deliveryCharges,
+  );
 
   const handlePlaceOrder = async () => {
     if (selectionMode === "single" && !selectedAddressId) {
@@ -314,14 +345,15 @@ export default function CheckoutPage() {
         handler: async function (response: any) {
           try {
             const body: any = {
-              addressid: selectionMode === "single" ? selectedAddressId || 0 : 0,
+              addressid:
+                selectionMode === "single" ? selectedAddressId || 0 : 0,
               issameaddress: selectionMode === "single",
               addressids:
                 selectionMode === "multi"
                   ? multipleAddress.map(({ addressid, productid }) => ({
-                    addressid,
-                    productid,
-                  }))
+                      addressid,
+                      productid,
+                    }))
                   : [],
               razorpay_payment_id: response.razorpay_payment_id,
               coupon_code: appliedCoupon ? appliedCoupon.code : undefined,
@@ -332,7 +364,9 @@ export default function CheckoutPage() {
 
               // Add wallet points based on the grand total
               try {
-                await API.post(API_ROUTES.ADD_WALLET_POINTS, { amount_spent: grandTotal });
+                await API.post(API_ROUTES.ADD_WALLET_POINTS, {
+                  amount_spent: grandTotal,
+                });
               } catch (walletErr) {
                 console.error("Error adding wallet points:", walletErr);
               }
@@ -347,7 +381,7 @@ export default function CheckoutPage() {
             console.error("Error placing order:", err);
             alert(
               err?.response?.data?.message ||
-              "An error occurred while placing your order.",
+                "An error occurred while placing your order.",
             );
           } finally {
             setIsPlacingOrder(false);
@@ -397,41 +431,75 @@ export default function CheckoutPage() {
           <div className="bg-[var(--olive)] px-8 py-10 text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
             <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_0_4px_rgba(34,197,94,0.2)]">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" style={{ strokeDasharray: 100, strokeDashoffset: 100, animation: "draw 0.6s ease 0.2s forwards" }} />
+              <svg
+                className="w-8 h-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M5 13l4 4L19 7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{
+                    strokeDasharray: 100,
+                    strokeDashoffset: 100,
+                    animation: "draw 0.6s ease 0.2s forwards",
+                  }}
+                />
               </svg>
             </div>
             <h1 className="text-2xl font-bold text-white tracking-tight mb-2 animate-stagger-1">
               {t.checkout?.order_confirmed || "Payment Successful"}
             </h1>
             <p className="text-gray-400 text-sm animate-stagger-1">
-              {t.order_confirmed_desc || "Your order has been processed and is now confirmed."}
+              {t.order_confirmed_desc ||
+                "Your order has been processed and is now confirmed."}
             </p>
           </div>
 
           {/* Details */}
           <div className="px-8 py-8">
             <div className="mb-6 pb-6 border-b border-gray-100 animate-stagger-2">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Transaction Details</h3>
-              
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">
+                Transaction Details
+              </h3>
+
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500 font-medium">Order ID</span>
-                  <span className="text-sm font-bold text-gray-900">#{placedOrderId}</span>
+                  <span className="text-sm text-gray-500 font-medium">
+                    Order ID
+                  </span>
+                  <span className="text-sm font-bold text-gray-900">
+                    #{placedOrderId}
+                  </span>
                 </div>
-                
+
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500 font-medium">Date</span>
-                  <span className="text-sm font-bold text-gray-900">{new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                  <span className="text-sm text-gray-500 font-medium">
+                    Date
+                  </span>
+                  <span className="text-sm font-bold text-gray-900">
+                    {new Date().toLocaleDateString("en-IN", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </span>
                 </div>
-                
               </div>
             </div>
 
             <div className="flex justify-between items-center mb-8 bg-gray-50 p-4 rounded border border-gray-100 animate-stagger-3">
-              <span className="text-sm font-bold text-gray-900 uppercase tracking-wide">Total Amount Paid</span>
+              <span className="text-sm font-bold text-gray-900 uppercase tracking-wide">
+                Total Amount Paid
+              </span>
               <span className="text-xl font-black text-gray-900">
-                ₹{grandTotal.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+                ₹
+                {grandTotal.toLocaleString("en-IN", {
+                  maximumFractionDigits: 2,
+                })}
               </span>
             </div>
 
@@ -443,7 +511,7 @@ export default function CheckoutPage() {
               >
                 {t.continue_shopping || "Continue Shopping"}
               </Link>
-              
+
               <Link
                 href={`/order-detail?id=${placedOrderId}`}
                 className="w-full py-3.5 bg-[var(--orange)] hover:bg-[var(--orange)/80] text-white text-[11px] font-bold tracking-widest uppercase flex items-center justify-center hover:bg-black transition-colors shadow-sm rounded"
@@ -457,20 +525,46 @@ export default function CheckoutPage() {
           .animate-receipt {
             animation: printReceipt 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           }
-          .animate-stagger-1 { opacity: 0; animation: staggerFade 0.5s ease-out 0.2s forwards; }
-          .animate-stagger-2 { opacity: 0; animation: staggerFade 0.5s ease-out 0.4s forwards; }
-          .animate-stagger-3 { opacity: 0; animation: staggerFade 0.5s ease-out 0.6s forwards; }
-          .animate-stagger-4 { opacity: 0; animation: staggerFade 0.5s ease-out 0.8s forwards; }
+          .animate-stagger-1 {
+            opacity: 0;
+            animation: staggerFade 0.5s ease-out 0.2s forwards;
+          }
+          .animate-stagger-2 {
+            opacity: 0;
+            animation: staggerFade 0.5s ease-out 0.4s forwards;
+          }
+          .animate-stagger-3 {
+            opacity: 0;
+            animation: staggerFade 0.5s ease-out 0.6s forwards;
+          }
+          .animate-stagger-4 {
+            opacity: 0;
+            animation: staggerFade 0.5s ease-out 0.8s forwards;
+          }
           @keyframes printReceipt {
-            0% { transform: translateY(-40px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
+            0% {
+              transform: translateY(-40px);
+              opacity: 0;
+            }
+            100% {
+              transform: translateY(0);
+              opacity: 1;
+            }
           }
           @keyframes staggerFade {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+              opacity: 0;
+              transform: translateY(10px);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0);
+            }
           }
           @keyframes draw {
-            to { stroke-dashoffset: 0; }
+            to {
+              stroke-dashoffset: 0;
+            }
           }
         `}</style>
       </main>
@@ -504,18 +598,19 @@ export default function CheckoutPage() {
                   className="text-[10px] font-bold text-[var(--olive)] tracking-[0.2em] hover:text-[var(--orange)] uppercase transition-colors cursor-pointer"
                 >
                   {showAddressForm
-                    ? (t.checkout?.cancel || "Cancel")
-                    : (t.checkout?.add_new_address || "Add New Address")}
+                    ? t.checkout?.cancel || "Cancel"
+                    : t.checkout?.add_new_address || "Add New Address"}
                 </button>
               </div>
 
               <div className="space-y-6">
                 {/* Option 1: Single Address */}
                 <div
-                  className={`border rounded-[var(--radius-sm)] p-6 transition-all duration-300 ${cartItems.length > 1 && selectionMode !== "single"
+                  className={`border rounded-[var(--radius-sm)] p-6 transition-all duration-300 ${
+                    cartItems.length > 1 && selectionMode !== "single"
                       ? "border-gray-200 hover:border-gray-400 cursor-pointer bg-white"
                       : "border-[var(--olive)] bg-gray-50 shadow-sm"
-                    }`}
+                  }`}
                   onClick={() =>
                     cartItems.length > 1 && setSelectionMode("single")
                   }
@@ -523,10 +618,11 @@ export default function CheckoutPage() {
                   <div className="flex items-center gap-4 mb-4">
                     {cartItems.length > 1 && (
                       <div
-                        className={`w-5 h-5 rounded flex items-center justify-center transition-all ${selectionMode === "single"
+                        className={`w-5 h-5 rounded flex items-center justify-center transition-all ${
+                          selectionMode === "single"
                             ? "bg-[var(--olive)]"
                             : "bg-white border border-gray-300"
-                          }`}
+                        }`}
                       >
                         {selectionMode === "single" && (
                           <Check
@@ -539,13 +635,16 @@ export default function CheckoutPage() {
                     <div>
                       <h3 className="text-sm font-extrabold text-gray-900 uppercase tracking-widest">
                         {cartItems.length > 1
-                          ? (t.checkout?.apply_one_address || "Apply one address to all products")
-                          : (t.checkout?.delivery_address || "Delivery Address")}
+                          ? t.checkout?.apply_one_address ||
+                            "Apply one address to all products"
+                          : t.checkout?.delivery_address || "Delivery Address"}
                       </h3>
                       <p className="text-xs text-gray-500 font-bold mt-1">
                         {cartItems.length > 1
-                          ? (t.checkout?.apply_one_address_desc || "All items will be delivered to the same address")
-                          : (t.checkout?.select_delivery || "Select where you want your item delivered")}
+                          ? t.checkout?.apply_one_address_desc ||
+                            "All items will be delivered to the same address"
+                          : t.checkout?.select_delivery ||
+                            "Select where you want your item delivered"}
                       </p>
                     </div>
                   </div>
@@ -579,18 +678,20 @@ export default function CheckoutPage() {
 
                     {/* Option 2: Multi Address */}
                     <div
-                      className={`border rounded-[var(--radius-sm)] p-6 cursor-pointer transition-all duration-300 ${selectionMode === "multi"
+                      className={`border rounded-[var(--radius-sm)] p-6 cursor-pointer transition-all duration-300 ${
+                        selectionMode === "multi"
                           ? "border-[var(--olive)] bg-gray-50 shadow-sm"
                           : "border-gray-200 hover:border-gray-400 bg-white"
-                        }`}
+                      }`}
                       onClick={() => setSelectionMode("multi")}
                     >
                       <div className="flex items-center gap-4 mb-4">
                         <div
-                          className={`w-5 h-5 rounded flex items-center justify-center transition-all ${selectionMode === "multi"
+                          className={`w-5 h-5 rounded flex items-center justify-center transition-all ${
+                            selectionMode === "multi"
                               ? "bg-[var(--olive)]"
                               : "bg-white border border-gray-300"
-                            }`}
+                          }`}
                         >
                           {selectionMode === "multi" && (
                             <Check
@@ -601,10 +702,12 @@ export default function CheckoutPage() {
                         </div>
                         <div>
                           <h3 className="text-sm font-extrabold text-gray-900 uppercase tracking-widest">
-                            {t.checkout?.choose_address || "Choose address for each product"}
+                            {t.checkout?.choose_address ||
+                              "Choose address for each product"}
                           </h3>
                           <p className="text-xs text-gray-500 font-bold mt-1">
-                            {t.checkout?.choose_address_desc || "Select different addresses for different products"}
+                            {t.checkout?.choose_address_desc ||
+                              "Select different addresses for different products"}
                           </p>
                         </div>
                       </div>
@@ -613,14 +716,20 @@ export default function CheckoutPage() {
                         <div className="ml-10 space-y-4">
                           {cartItems.map((item, idx) => {
                             const isCustomGift = item.itemtype === "customgift";
-                            let rawImage = isCustomGift ? item.giftpackimage : item.image;
+                            let rawImage = isCustomGift
+                              ? item.giftpackimage
+                              : item.image;
                             const itemImage = rawImage?.startsWith("http")
                               ? rawImage
                               : `${IMAGE_URL || ""}${rawImage}`;
-                            const itemName = isCustomGift ? item.giftpackname : item.name;
+                            const itemName = isCustomGift
+                              ? item.giftpackname
+                              : item.name;
                             const itemPrice = isCustomGift
                               ? (item.totalprice ?? 0) / (item.quantity || 1)
-                              : ((item.sellingprice ?? 0) > 0 ? (item.sellingprice ?? 0) : (item.price ?? 0));
+                              : (item.sellingprice ?? 0) > 0
+                                ? (item.sellingprice ?? 0)
+                                : (item.price ?? 0);
 
                             return (
                               <div
@@ -640,7 +749,11 @@ export default function CheckoutPage() {
                                       {itemName}
                                     </p>
                                     <p className="text-xs text-stone-500">
-                                      ₹{itemPrice.toLocaleString("en-IN", { maximumFractionDigits: 2 })} × {item.quantity}
+                                      ₹
+                                      {itemPrice.toLocaleString("en-IN", {
+                                        maximumFractionDigits: 2,
+                                      })}{" "}
+                                      × {item.quantity}
                                     </p>
                                   </div>
                                 </div>
@@ -713,7 +826,8 @@ export default function CheckoutPage() {
                     onClick={() => setIsMapOpen(true)}
                     className="mb-6 w-full flex items-center justify-center gap-2 py-3 px-4 bg-gray-50 text-gray-700 border border-gray-200 rounded-[var(--radius-sm)] font-bold text-xs uppercase tracking-widest hover:bg-gray-100 hover:text-gray-900 transition-colors shadow-sm"
                   >
-                    <MapPin className="w-4 h-4" /> {t.checkout?.select_from_map || "Select Address from Map"}
+                    <MapPin className="w-4 h-4" />{" "}
+                    {t.checkout?.select_from_map || "Select Address from Map"}
                   </button>
                   <form onSubmit={handleSaveAddress} className="space-y-5">
                     <div className="grid grid-cols-2 gap-5">
@@ -726,9 +840,15 @@ export default function CheckoutPage() {
                           onChange={(e) => setTitle(e.target.value)}
                           className="w-full border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2.5 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
                         >
-                          <option value="Home">{t.checkout?.home || "Home"}</option>
-                          <option value="Office">{t.checkout?.office || "Office"}</option>
-                          <option value="Other">{t.checkout?.other || "Other"}</option>
+                          <option value="Home">
+                            {t.checkout?.home || "Home"}
+                          </option>
+                          <option value="Office">
+                            {t.checkout?.office || "Office"}
+                          </option>
+                          <option value="Other">
+                            {t.checkout?.other || "Other"}
+                          </option>
                         </select>
                       </div>
                       <div>
@@ -882,7 +1002,9 @@ export default function CheckoutPage() {
                   onClick={() => setShowAddressForm(!showAddressForm)}
                   className="text-[10px] font-bold text-[var(--olive)] tracking-[0.2em] hover:text-[var(--orange)] uppercase transition-colors cursor-pointer"
                 >
-                  {showAddressForm ? (t.checkout?.cancel || "Cancel") : (t.checkout?.add_new_address || "Add New Address")}
+                  {showAddressForm
+                    ? t.checkout?.cancel || "Cancel"
+                    : t.checkout?.add_new_address || "Add New Address"}
                 </button>
               </div>
 
@@ -894,7 +1016,7 @@ export default function CheckoutPage() {
                   >
                     <div className="flex justify-between items-start mb-3">
                       <span className="inline-block px-3 py-1 bg-gray-100 text-gray-900 text-[9px] font-black tracking-widest rounded uppercase">
-                        {addr.city || (t.checkout?.address || "ADDRESS")}
+                        {addr.city || t.checkout?.address || "ADDRESS"}
                       </span>
                     </div>
                     <p className="text-[13px] font-bold text-gray-500 leading-relaxed">
@@ -944,7 +1066,9 @@ export default function CheckoutPage() {
                   const itemName = isCustomGift ? item.giftpackname : item.name;
                   const itemPrice = isCustomGift
                     ? (item.totalprice ?? 0) / (item.quantity || 1)
-                    : ((item.sellingprice ?? 0) > 0 ? (item.sellingprice ?? 0) : (item.price ?? 0));
+                    : (item.sellingprice ?? 0) > 0
+                      ? (item.sellingprice ?? 0)
+                      : (item.price ?? 0);
 
                   return (
                     <div
@@ -964,30 +1088,57 @@ export default function CheckoutPage() {
                             {itemName}
                           </p>
                           <p className="text-[13px] font-bold text-stone-900 whitespace-nowrap">
-                            ₹{itemPrice.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+                            ₹
+                            {itemPrice.toLocaleString("en-IN", {
+                              maximumFractionDigits: 2,
+                            })}
                           </p>
                         </div>
+                        {item.weight != null && item.unit && (
+                          <p className="text-[10px] text-stone-500 font-medium mb-1">
+                            {item.weight} {item.unit}
+                          </p>
+                        )}
                         <p className="text-xs text-stone-500">
                           {t.checkout?.qty || "Qty:"} {item.quantity}
                         </p>
-                        {isCustomGift && item.products && item.products.length > 0 && (
-                          <div className="mt-2 bg-stone-50 p-2 rounded-lg border border-stone-100 space-y-1.5">
-                            <div className="flex justify-between items-center border-b border-stone-200 pb-1 mb-1">
-                              <span className="text-[9px] font-bold text-stone-500 uppercase tracking-widest">{t.checkout?.included_items || "Included Items"}</span>
-                              <span className="text-[9px] font-bold text-stone-500">{t.checkout?.box || "Box:"} ₹{item.giftpackprice || 0}</span>
-                            </div>
-                            {item.products.map((p, pIdx) => (
-                              <div key={pIdx} className="flex justify-between items-center text-[10px]">
-                                <span className="text-stone-700 truncate pr-2 flex-1">
-                                  {p.quantity} × {p.productname}
+                        {isCustomGift &&
+                          item.products &&
+                          item.products.length > 0 && (
+                            <div className="mt-2 bg-stone-50 p-2 rounded-lg border border-stone-100 space-y-1.5">
+                              <div className="flex justify-between items-center border-b border-stone-200 pb-1 mb-1">
+                                <span className="text-[9px] font-bold text-stone-500 uppercase tracking-widest">
+                                  {t.checkout?.included_items ||
+                                    "Included Items"}
                                 </span>
-                                <span className="font-semibold text-stone-900 shrink-0">
-                                  ₹{(p.totalprice || (p.sellingprice ?? 0) * (p.quantity ?? 1) || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+                                <span className="text-[9px] font-bold text-stone-500">
+                                  {t.checkout?.box || "Box:"} ₹
+                                  {item.giftpackprice || 0}
                                 </span>
                               </div>
-                            ))}
-                          </div>
-                        )}
+                              {item.products.map((p, pIdx) => (
+                                <div
+                                  key={pIdx}
+                                  className="flex justify-between items-center text-[10px]"
+                                >
+                                  <span className="text-stone-700 truncate pr-2 flex-1">
+                                    {p.quantity} × {p.productname}
+                                  </span>
+                                  <span className="font-semibold text-stone-900 shrink-0">
+                                    ₹
+                                    {(
+                                      p.totalprice ||
+                                      (p.sellingprice ?? 0) *
+                                        (p.quantity ?? 1) ||
+                                      0
+                                    ).toLocaleString("en-IN", {
+                                      maximumFractionDigits: 2,
+                                    })}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         {/* Gift Card Addon Detail */}
                         {item.giftcard && (
                           <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-[var(--olive)]/10 border border-[var(--olive)]/20 mt-1">
@@ -1010,34 +1161,251 @@ export default function CheckoutPage() {
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-2">
                   Have a coupon?
                 </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                    placeholder="Enter coupon code"
-                    disabled={!!appliedCoupon}
-                    className="flex-1 border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none text-sm font-medium disabled:opacity-60"
-                  />
-                  {!appliedCoupon ? (
-                    <button
-                      onClick={handleApplyCoupon}
-                      disabled={isApplyingCoupon || !couponCode}
-                      className="px-4 py-2 bg-[var(--olive)] text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[var(--olive-dark)] transition-colors disabled:opacity-50"
-                    >
-                      {isApplyingCoupon ? "Applying..." : "Apply"}
-                    </button>
-                  ) : (
-                    <button
-                      onClick={handleRemoveCoupon}
-                      className="px-4 py-2 bg-red-50 text-red-500 border border-red-100 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-red-100 transition-colors"
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-                {couponError && <p className="text-red-500 text-xs mt-2 font-medium">{couponError}</p>}
-                {couponSuccessMsg && <p className="text-green-600 text-xs mt-2 font-medium">{couponSuccessMsg}</p>}
+                {totalAmount > 5000 ? (
+                  <>
+                    <div className="flex gap-2 mb-4">
+                      <input
+                        type="text"
+                        value={couponCode}
+                        onChange={(e) =>
+                          setCouponCode(e.target.value.toUpperCase())
+                        }
+                        placeholder="Enter coupon code"
+                        disabled={!!appliedCoupon}
+                        className="flex-1 border border-gray-200 bg-gray-50 focus:bg-white rounded-md py-2 px-3 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none text-sm font-medium disabled:opacity-60"
+                      />
+                      {!appliedCoupon ? (
+                        <button
+                          onClick={handleApplyCoupon}
+                          disabled={isApplyingCoupon || !couponCode}
+                          className="px-4 py-2 bg-[var(--olive)] text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-[var(--olive-dark)] transition-colors disabled:opacity-50"
+                        >
+                          {isApplyingCoupon ? "Applying..." : "Apply"}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={handleRemoveCoupon}
+                          className="px-4 py-2 bg-red-50 text-red-500 border border-red-100 text-xs font-bold uppercase tracking-widest rounded-md hover:bg-red-100 transition-colors"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    {couponError && (
+                      <p className="text-red-500 text-xs mt-2 font-medium">
+                        {couponError}
+                      </p>
+                    )}
+                    {couponSuccessMsg && (
+                      <p className="text-green-600 text-xs mt-2 font-medium">
+                        {couponSuccessMsg}
+                      </p>
+                    )}
+
+                    {/* Available Coupons List */}
+                    <div className="mt-6">
+                      <div className="flex items-center justify-between mb-3">
+                        <div>
+                          <h4 className="text-sm font-bold text-gray-900 tracking-wide">
+                            Available Coupons
+                          </h4>
+                          <p className="text-[11px] text-gray-500 mt-0.5">
+                            Unlock exclusive savings
+                          </p>
+                        </div>
+
+                        <span
+                          className="text-[10px] font-bold uppercase tracking-wider
+      text-white px-3 py-1.5 rounded-full
+      bg-gradient-to-r from-pink-500 to-blue-500 shadow-sm"
+                        >
+                          Offers
+                        </span>
+                      </div>
+
+                      {isLoadingCoupons ? (
+                        <div className="rounded-2xl p-5 bg-gradient-to-r from-pink-500 to-blue-500 animate-pulse">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-xl bg-white/20" />
+
+                            <div className="flex-1 space-y-2">
+                              <div className="h-3 w-24 bg-white/20 rounded" />
+                              <div className="h-2 w-36 bg-white/20 rounded" />
+                            </div>
+                          </div>
+                        </div>
+                      ) : activeCoupons.length > 0 ? (
+                        <div className="space-y-3">
+                          {activeCoupons.map((coupon, idx) => (
+                            <div
+                              key={idx}
+                              className="
+            group relative overflow-hidden rounded-2xl
+            bg-gradient-to-br from-[#ec4899] via-[#8b5cf6] to-[#3b82f6]
+            shadow-lg shadow-blue-500/15
+            transition-all duration-300
+            hover:-translate-y-1
+            hover:shadow-xl hover:shadow-purple-500/20
+          "
+                            >
+                              {/* Decorative circles */}
+                              <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-white/10" />
+
+                              <div className="absolute -bottom-16 -left-10 h-36 w-36 rounded-full bg-blue-900/10" />
+
+                              {/* Glow */}
+                              <div className="absolute top-1/2 right-16 h-20 w-20 -translate-y-1/2 rounded-full bg-white/10 blur-2xl" />
+
+                              <div className="relative p-4">
+                                {/* Main Content */}
+                                <div className="flex items-center gap-3">
+                                  {/* Coupon Icon */}
+                                  <div
+                                    className="
+                  flex-shrink-0 w-12 h-12
+                  rounded-xl
+                  bg-white/15
+                  border border-white/25
+                  backdrop-blur-md
+                  flex items-center justify-center
+                  shadow-inner
+                "
+                                  >
+                                    <svg
+                                      className="w-6 h-6 text-white"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={1.8}
+                                        d="M9 14l6-6m-5.5-4h7a2 2 0 012 2v2a2 2 0 001.5 1.94A2 2 0 0121 12v2a2 2 0 01-1.5 2A2 2 0 0118 17.94V20a2 2 0 01-2 2h-7a2 2 0 01-2-2v-2.06A2 2 0 015.5 16 2 2 0 014 14v-2a2 2 0 011.5-1.94A2 2 0 007 8.06V6a2 2 0 012-2z"
+                                      />
+                                    </svg>
+                                  </div>
+
+                                  {/* Details */}
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-white font-extrabold text-sm tracking-widest">
+                                        {coupon.code}
+                                      </span>
+
+                                      <span
+                                        className="
+                      text-[9px] font-bold uppercase
+                      bg-white/15 text-white
+                      px-2 py-0.5 rounded-full
+                      border border-white/20
+                    "
+                                      >
+                                        Coupon
+                                      </span>
+                                    </div>
+
+                                    <p className="text-xs text-white/80 mt-1">
+                                      {coupon.discount_type === "percentage"
+                                        ? `${coupon.discount_value}% OFF on your order`
+                                        : `₹${coupon.discount_value} OFF on your order`}
+                                    </p>
+                                  </div>
+
+                                  {/* Copy */}
+                                  <button
+                                    onClick={() => {
+                                      setCouponCode(coupon.code);
+                                      setCopiedCoupon(coupon.code);
+                                      setTimeout(
+                                        () => setCopiedCoupon(null),
+                                        2000,
+                                      );
+                                    }}
+                                    disabled={!!appliedCoupon}
+                                    className={`
+                  flex-shrink-0
+                  px-4 py-2
+                  rounded-xl
+                  text-[10px]
+                  font-bold
+                  uppercase
+                  tracking-wider
+                  transition-all
+                  duration-200
+                  ${
+                    copiedCoupon === coupon.code
+                      ? "bg-white text-blue-600 shadow-lg"
+                      : "bg-white/15 text-white border border-white/30 hover:bg-white hover:text-pink-600"
+                  }
+                  disabled:opacity-40
+                  disabled:cursor-not-allowed
+                `}
+                                  >
+                                    {copiedCoupon === coupon.code
+                                      ? "✓ Copied"
+                                      : "Copy"}
+                                  </button>
+                                </div>
+
+                                {/* Dashed Divider */}
+                                <div className="my-4 border-t border-dashed border-white/30" />
+
+                                {/* Bottom */}
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[10px] text-white/65">
+                                    Apply this coupon at checkout
+                                  </span>
+
+                                  <span className="flex items-center gap-1 text-[10px] font-semibold text-white">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                                    Limited Offer
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Side Cutout Effect */}
+                              <div className="absolute -left-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-white" />
+                              <div className="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-white" />
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="rounded-2xl border border-gray-100 bg-gradient-to-br from-pink-50 to-blue-50 p-6 text-center">
+                          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-blue-500 shadow-md">
+                            <svg
+                              className="h-6 w-6 text-white"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={1.8}
+                                d="M9 14l6-6m-5.5-4h7a2 2 0 012 2v2a2 2 0 001.5 1.94A2 2 0 0121 12v2a2 2 0 01-1.5 2A2 2 0 0118 17.94V20a2 2 0 01-2 2h-7a2 2 0 01-2-2v-2.06A2 2 0 015.5 16 2 2 0 014 14v-2a2 2 0 011.5-1.94A2 2 0 007 8.06V6a2 2 0 012-2z"
+                              />
+                            </svg>
+                          </div>
+
+                          <p className="text-xs font-bold text-gray-700">
+                            No coupons available
+                          </p>
+
+                          <p className="mt-1 text-[10px] text-gray-400">
+                            Check back later for exciting offers
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+                    <p className="text-xs text-yellow-700 font-medium">
+                      Coupons are available only for orders above ₹5,000.
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="h-px bg-stone-100 mb-6 w-full" />
@@ -1053,7 +1421,10 @@ export default function CheckoutPage() {
                     {t.checkout?.items || "items"})
                   </span>
                   <span className="font-bold text-stone-900">
-                    ₹{totalAmount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+                    ₹
+                    {totalAmount.toLocaleString("en-IN", {
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
                 </div>
                 {couponDiscount > 0 && (
@@ -1062,7 +1433,10 @@ export default function CheckoutPage() {
                       Coupon Discount ({appliedCoupon?.code})
                     </span>
                     <span className="font-bold">
-                      - ₹{couponDiscount.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+                      - ₹
+                      {couponDiscount.toLocaleString("en-IN", {
+                        maximumFractionDigits: 2,
+                      })}
                     </span>
                   </div>
                 )}
@@ -1084,7 +1458,10 @@ export default function CheckoutPage() {
                 </span>
                 <div className="text-right">
                   <span className="text-2xl font-black text-stone-900 block leading-none tracking-tight">
-                    ₹{grandTotal.toLocaleString("en-IN", { maximumFractionDigits: 2 })}
+                    ₹
+                    {grandTotal.toLocaleString("en-IN", {
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
                 </div>
               </div>
@@ -1097,7 +1474,8 @@ export default function CheckoutPage() {
                     {t.cart?.secure_payment || "Safe and Secure Payments"}
                   </p>
                   <p className="text-[10px] text-stone-500">
-                    {t.checkout?.secure_payments_desc || "100% Secure. Your data is safe with us."}
+                    {t.checkout?.secure_payments_desc ||
+                      "100% Secure. Your data is safe with us."}
                   </p>
                 </div>
               </div>
@@ -1112,7 +1490,9 @@ export default function CheckoutPage() {
                 ) : (
                   <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 )}
-                {isPlacingOrder ? (t.checkout?.processing || "PROCESSING...") : (t.checkout?.place_order || "Place Order")}
+                {isPlacingOrder
+                  ? t.checkout?.processing || "PROCESSING..."
+                  : t.checkout?.place_order || "Place Order"}
               </button>
 
               <p className="text-[10px] text-center text-stone-400 mt-6 font-medium leading-relaxed">

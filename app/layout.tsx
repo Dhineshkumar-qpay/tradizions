@@ -24,14 +24,14 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL("https://tradizions.vercel.app"),
   title: {
-    default: "Millets, Dry Fruits, Gift Hampers",
+    default: "Tradizons | Premium Millets, Nuts & Gift Hampers Online",
     template: "%s | Tradizions",
   },
   description:
     "Discover the richness of ancient Indian millets, wholesome malts, premium dry fruits, and artisanal gift hampers. Rooted in tradition, crafted for wellness.",
   twitter: {
     card: "summary_large_image",
-    title: "Tradizions - Millets, Dry Fruits, Gift Hampers",
+    title: "Tradizons | Premium Millets, Nuts & Gift Hampers Online",
     description:
       "Discover the richness of ancient Indian millets, wholesome malts, premium dry fruits, and artisanal gift hampers. Rooted in tradition, crafted for wellness.",
     images: [
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Tradizions - Millets, Dry Fruits, Gift Hampers",
+    title: "Tradizons | Premium Millets, Nuts & Gift Hampers Online",
     description:
       "Discover the richness of ancient Indian millets, wholesome malts, premium dry fruits, and artisanal gift hampers. Rooted in tradition, crafted for wellness.",
     url: "https://tradizions.vercel.app",

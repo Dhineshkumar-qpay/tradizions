@@ -282,22 +282,146 @@ export default function Home() {
     <div className="min-h-screen bg-[var(--site-bg)] overflow-x-hidden">
       <HeroSection t={t} />
 
-      {/* Brand Promise Section */}
-      <section className="py-8 md:py-10 bg-white relative overflow-hidden border-b border-stone-50">
-        <div className="max-w-3xl mx-auto px-6 relative z-10 text-center">
-          <h2 className="text-base md:text-lg font-medium text-[var(--dark-grey)] leading-relaxed">
-            "{t.home_tagline}"
-          </h2>
-        </div>
-        {/* Subtle decorative background */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
-      </section>
+      {/* Trust Strip Section */}
+     <section className="relative overflow-hidden border-b border-stone-200 bg-gradient-to-r from-amber-50 via-white to-emerald-50">
+  <div className="pointer-events-none absolute -left-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-amber-200/30 blur-3xl" />
+  <div className="pointer-events-none absolute -right-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-emerald-200/30 blur-3xl" />
 
-      <KuralTrustRow t={t} kuraldata={dailyKural} />
+  <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
+    <div className="grid grid-cols-2 md:grid-cols-4">
+      {[
+        {
+          key: "trust_point_1",
+          label: "Carefully Sourced",
+          color: "amber",
+          iconBg: "bg-amber-100",
+          iconText: "text-amber-700",
+          hoverBg: "group-hover:bg-amber-500",
+          line: "bg-amber-400",
+          glow: "group-hover:shadow-amber-200",
+        },
+        {
+          key: "trust_point_2",
+          label: "Quality Checked",
+          color: "blue",
+          iconBg: "bg-blue-100",
+          iconText: "text-blue-700",
+          hoverBg: "group-hover:bg-blue-500",
+          line: "bg-blue-400",
+          glow: "group-hover:shadow-blue-200",
+        },
+        {
+          key: "trust_point_3",
+          label: "Hygienically Packed",
+          color: "rose",
+          iconBg: "bg-rose-100",
+          iconText: "text-rose-700",
+          hoverBg: "group-hover:bg-rose-500",
+          line: "bg-rose-400",
+          glow: "group-hover:shadow-rose-200",
+        },
+        {
+          key: "trust_point_4",
+          label: "Delivered to Your Door",
+          color: "emerald",
+          iconBg: "bg-emerald-100",
+          iconText: "text-emerald-700",
+          hoverBg: "group-hover:bg-emerald-500",
+          line: "bg-emerald-400",
+          glow: "group-hover:shadow-emerald-200",
+        },
+      ].map((item, index) => (
+        <div
+          key={item.key}
+          className={`
+            group relative flex items-center justify-center
+            overflow-hidden px-4 py-6 sm:px-6 md:py-8
+            transition-all duration-300
+            hover:-translate-y-0.5 hover:bg-white/80
+            ${index < 2 ? "border-b md:border-b-0" : ""}
+            ${index % 2 === 0 ? "border-r" : ""}
+            ${index < 3 ? "md:border-r md:border-stone-200" : ""}
+            border-stone-200
+          `}
+        >
+          <div className="flex items-center gap-3.5 sm:gap-4">
+            <span
+              className={`
+                relative flex h-10 w-10 shrink-0 items-center justify-center
+                rounded-2xl border border-white
+                ${item.iconBg} ${item.iconText}
+                shadow-md transition-all duration-300
+                group-hover:scale-110 ${item.hoverBg}
+                group-hover:text-white ${item.glow}
+                group-hover:shadow-lg
+              `}
+            >
+              <span
+                className={`
+                  absolute -right-1 -top-1 h-3 w-3 rounded-full
+                  ${item.line} opacity-80
+                  transition-transform duration-300
+                  group-hover:scale-125
+                `}
+              />
+
+              <Check className="relative h-4 w-4 stroke-[3]" />
+            </span>
+
+            <div className="min-w-0">
+              <p
+                className="
+                  whitespace-nowrap text-[10px] font-bold uppercase
+                  tracking-[0.08em] text-[var(--dark-grey)]
+                  transition-colors duration-300
+                  sm:text-xs md:text-[13px]
+                  group-hover:text-[var(--olive-dark)]
+                "
+              >
+                {t[item.key] || item.label}
+              </p>
+
+              <div className="mt-2 flex items-center gap-1.5">
+                <span
+                  className={`
+                    h-1 w-6 rounded-full ${item.line}
+                    transition-all duration-300
+                    group-hover:w-10
+                  `}
+                />
+
+                <span className="text-[8px] font-semibold uppercase tracking-[0.14em] text-stone-400 sm:text-[9px]">
+                  Trusted Standard
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <span
+            className={`
+              absolute bottom-0 left-1/2 h-1 w-0
+              -translate-x-1/2 rounded-full
+              ${item.line}
+              transition-all duration-300
+              group-hover:w-20
+            `}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
       <CategoriesSection t={t} categories={categories} />
+      <KuralTrustRow t={t} kuraldata={dailyKural} />
+      <FeaturedSection t={t} products={featuredProducts} />
+      <GiftingSection
+        t={t}
+        giftHampers={homeData?.data?.gifthampers}
+        poojaHampers={homeData?.data?.poojahampers}
+      />
+      <WhyChooseUsSection t={t} />
       <HealthGoalsSection t={t} goals={healthGoalsData} />
       <HealthBenefitsSection t={t} />
-
       {/* ──── Full Size Banner with Shop Button ──── */}
       <section className="relative w-full min-h-[600px] h-[75vh] md:h-[90vh] overflow-hidden bg-[#f5f1e8]">
         {/* Background Image */}
@@ -345,17 +469,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <FeaturedSection t={t} products={featuredProducts} />
       <NewArrivalsSection t={t} products={newArrivalsProducts} />
-      <WhyChooseUsSection t={t} />
-      <GiftingSection
-        t={t}
-        giftHampers={homeData?.data?.gifthampers}
-        poojaHampers={homeData?.data?.poojahampers}
-      />
       <NutritionPlanner t={t} />
-      <SubscriptionPlans t={t} />
+      {/* <SubscriptionPlans t={t} /> */}
       <TestimonialsSection t={t} reviews={userReviews} />
       <CertificationsSection t={t} />
       {/* <VideoTestimonialsSection /> */}
@@ -531,6 +647,13 @@ function HeroSection({
 
   return (
     <section className="relative w-full min-h-[750px] h-[95vh] flex items-center bg-[#FAF8F5] overflow-hidden selection:bg-[var(--olive)] selection:text-white border-b border-stone-200">
+      <Image
+        src="/bg-banner.png"
+        alt=""
+        fill
+        priority
+        className="object-fit object-center"
+      />
       {/* ── Background Accents ── */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-[var(--olive)]/5 rounded-l-[200px] blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 left-0 w-[500px] h-[500px] bg-[var(--orange)]/5 rounded-full blur-[120px] pointer-events-none" />
@@ -548,7 +671,7 @@ function HeroSection({
           >
             <span className="w-8 h-[2px] bg-[var(--orange)]" />
             <span className="text-[10px] md:text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
-              {t.premium_wellness_gifting || "Premium Wellness Gifting"}
+              {t.hero_subheadline_new || "Wholesome Millets. Premium Nuts. Thoughtful Gifts."}
             </span>
           </motion.div>
 
@@ -556,14 +679,9 @@ function HeroSection({
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.1] text-[var(--foreground)]"
+            className="text-3xl md:text-3xl lg:text-4xl font-extrabold tracking-tight leading-[1.1] text-[var(--foreground)]"
           >
-            {t.artisanal_millet || "ARTISANAL MILLET &"}{" "}
-            <span className="text-[var(--olive)]">
-              {t.nut || "NUT"}
-            </span>{" "}
-            <br className="hidden md:block" />
-            {t.gift_packs || "GIFT PACKS"}
+            {t.hero_headline_new || "Traditional Goodness, Made for Today"}
           </motion.h1>
 
           <motion.p
@@ -572,8 +690,7 @@ function HeroSection({
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-sm md:text-lg text-[var(--dark-grey)] mt-6 font-medium leading-relaxed max-w-lg"
           >
-            {t.hero_desc_text ||
-              "Beautifully curated in traditional jute, elegant tin, and crafted MDF boxes. Health meets heritage in every package."}
+            {t.hero_supporting_text_new || "Carefully selected everyday essentials for your family, and beautifully curated gifts for every occasion."}
           </motion.p>
 
           <motion.div
@@ -584,13 +701,13 @@ function HeroSection({
           >
             <Link href="/shop" className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 bg-[var(--olive)] rounded-full overflow-hidden hover:bg-[var(--olive-dark)] hover:shadow-[0_8px_25px_rgba(var(--olive-rgb),0.3)] hover:-translate-y-1">
               <span className="relative text-[12px] tracking-[0.2em] uppercase flex items-center gap-3">
-                Explore Collection
+                {t.hero_btn_shop_home_new || "SHOP FOR HOME"}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
             </Link>
-            <Link href="/about-us" className="group inline-flex items-center justify-center px-8 py-4 font-bold text-[var(--olive-dark)] transition-all duration-300 bg-transparent border-2 border-[var(--olive)]/20 rounded-full hover:border-[var(--olive)] hover:bg-[var(--olive)]/5">
+            <Link href="/gifts" className="group inline-flex items-center justify-center px-8 py-4 font-bold text-[var(--olive-dark)] transition-all duration-300 bg-transparent border-2 border-[var(--olive)]/20 rounded-full hover:border-[var(--olive)] hover:bg-[var(--olive)]/5">
               <span className="text-[12px] tracking-[0.2em] uppercase">
-                Our Story
+                {t.hero_btn_explore_gifts_new || "EXPLORE GIFTS"}
               </span>
             </Link>
           </motion.div>
@@ -619,38 +736,6 @@ function HeroSection({
           </motion.div>
         </div>
 
-        {/* Right: Elegant Image Layout */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-          className="hidden lg:block relative w-full h-[600px]"
-        >
-          {/* Decorative Back Shape */}
-          <div className="absolute top-10 right-4 w-[400px] h-[520px] rounded-t-full rounded-b-[40px] bg-[var(--olive)]/10" />
-
-          {/* Main Image */}
-          <div className="absolute top-0 right-12 w-[420px] h-[540px] rounded-t-full rounded-b-[40px] overflow-hidden border-[8px] border-white shadow-2xl">
-            <Image
-              src="https://images.unsplash.com/photo-1597919926163-9419065218b4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDN8fG51dHN8ZW58MHx8MHx8fDA%3D"
-              alt="Premium Millets & Nuts"
-              fill
-              priority
-              className="object-cover hover:scale-105 transition-transform duration-[2000ms]"
-            />
-          </div>
-
-          {/* Floating Aesthetic Badge */}
-          <div className="absolute bottom-24 -left-6 bg-white p-5 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] flex items-center gap-4 border border-stone-100 animate-[bounce_5s_infinite]">
-            <div className="w-12 h-12 rounded-full bg-[var(--orange)]/10 flex items-center justify-center text-[var(--orange)]">
-              <Award className="w-6 h-6" />
-            </div>
-            <div>
-              <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--dark-grey)]">Trusted Quality</p>
-              <p className="text-xl font-extrabold text-[var(--olive-dark)]">100% Pure</p>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
@@ -1337,7 +1422,7 @@ function KuralTrustRow({
       .trim();
 
     const words = cleanText.split(" ");
-    
+
     return (
       <>
         <p className="leading-relaxed">{words.slice(0, 4).join(" ")}</p>
@@ -1420,7 +1505,7 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
   return (
     <section ref={ref} className="py-24 bg-white relative border-t border-stone-200">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
+
         {/* Minimalist Professional Header */}
         <div className="flex flex-col items-center text-center mb-16 gap-4">
           <div className="inline-flex items-center gap-2">
@@ -1476,7 +1561,7 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                     <p className="text-[13px] text-stone-500 line-clamp-2 leading-relaxed">
                       {goal.description}
                     </p>
-                    
+
                     <span className="mt-6 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--olive-dark)] border-b border-transparent group-hover:border-[var(--olive-dark)] transition-all duration-300">
                       Explore Range
                     </span>
@@ -1530,18 +1615,24 @@ function NutritionPlanner({ t }: { t: any }) {
           }).catch(() => ({ data: { data: [] } })),
         ]);
 
-        const nuts = (resNuts.data?.data || []).map((p: any) => ({
-          ...p,
-          categoryid: 1,
-        }));
-        const millets = (resMillets.data?.data || []).map((p: any) => ({
-          ...p,
-          categoryid: 2,
-        }));
-        const spices = (resSpices.data?.data || []).map((p: any) => ({
-          ...p,
-          categoryid: 3,
-        }));
+        const nuts = (resNuts.data?.data || [])
+          .filter((p: any) => Number(p.weight) === 1)
+          .map((p: any) => ({
+            ...p,
+            categoryid: 1,
+          }));
+        const millets = (resMillets.data?.data || [])
+          .filter((p: any) => Number(p.weight) === 1)
+          .map((p: any) => ({
+            ...p,
+            categoryid: 2,
+          }));
+        const spices = (resSpices.data?.data || [])
+          .filter((p: any) => Number(p.weight) === 1)
+          .map((p: any) => ({
+            ...p,
+            categoryid: 3,
+          }));
 
         setNutsProducts(nuts);
         setMilletsProducts(millets);

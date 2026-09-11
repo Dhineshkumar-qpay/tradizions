@@ -21,6 +21,8 @@ export interface Cart {
   productimage?: string;
   price?: number;
   sellingprice?: number;
+  weight?: number | null;
+  unit?: string;
   categoryname?: string;
   giftcard?: Giftcard[];
   products?: CustomGiftProduct[];

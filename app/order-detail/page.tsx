@@ -222,6 +222,7 @@ function OrderDetailContent() {
   const [orderData, setOrderData] = useState<Data | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+
   useEffect(() => {
     if (!orderItemId) return;
     setIsLoading(true);
@@ -307,7 +308,7 @@ function OrderDetailContent() {
 
     // Add App Logo
     const logoImg = new window.Image();
-    logoImg.src = "/app-logo-new.png";
+    logoImg.src = "/app-logo.png";
 
     const generatePdf = (hasLogo = true) => {
       const pageWidth = doc.internal.pageSize.getWidth();
@@ -499,7 +500,9 @@ function OrderDetailContent() {
                   <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-gray-500">
                     Item {itemIdx + 1} of {orderInfo.items.length}
                   </span>
-                  <StatusPill status={item.status} />
+                  <div className="flex items-center gap-3">
+                    <StatusPill status={item.status} />
+                  </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row">
@@ -884,6 +887,7 @@ function OrderDetailContent() {
           </div>
         </div>
       </div>
+
     </main>
   );
 }
