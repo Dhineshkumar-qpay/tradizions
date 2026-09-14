@@ -293,7 +293,7 @@ export default function MonthlyCartPage() {
                 
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-500 font-medium">Payment Method</span>
-                  <span className="text-sm font-bold text-gray-900 uppercase">Razorpay</span>
+                  <span className="text-sm font-bold text-gray-900 uppercase">Tradizions</span>
                 </div>
               </div>
             </div>

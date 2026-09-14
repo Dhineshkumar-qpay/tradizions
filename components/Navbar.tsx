@@ -51,6 +51,7 @@ export default function Navbar() {
   const [isMobileGiftingOpen, setIsMobileGiftingOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
   const fetchCartCount = async () => {
@@ -200,6 +201,16 @@ export default function Navbar() {
     localStorage.setItem("selectedLang", code);
     window.dispatchEvent(new Event("languageChange"));
     setIsLangOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userMobile");
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setIsProfileMenuOpen(false);
+    window.dispatchEvent(new Event("cartUpdated"));
+    router.push("/");
   };
 
   const handleSendOtp = async () => {
@@ -501,7 +512,7 @@ export default function Navbar() {
               <button
                 onClick={() => {
                   if (isLoggedIn) {
-                    router.push("/my-account");
+                    setIsProfileMenuOpen((isOpen) => !isOpen);
                   } else {
                     setShouldRedirectToAccount(true);
                     setIsDrawerOpen(true);
@@ -511,6 +522,25 @@ export default function Navbar() {
               >
                 <User className="w-5 h-5 group-hover:scale-105 transition-transform" />
               </button>
+              {isLoggedIn && isProfileMenuOpen && (
+                <div className="absolute right-0 top-full mt-3 w-44 rounded-xl border border-gray-100 bg-white p-2 shadow-xl ring-1 ring-black/5">
+                  <Link
+                    href="/my-account"
+                    onClick={() => setIsProfileMenuOpen(false)}
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 hover:text-[var(--olive)]"
+                  >
+                    <User className="h-4 w-4" />
+                    Profile
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-red-500 transition-colors hover:bg-red-50 hover:text-red-600"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    {t.my_account?.logout || "Logout"}
+                  </button>
+                </div>
+              )}
             </div>
 
             <button

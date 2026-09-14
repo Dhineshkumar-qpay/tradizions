@@ -1544,7 +1544,7 @@ export default function ProfilePage() {
               {username || "Tradizions User"}
             </h2>
             <p className="text-xs text-white/70 mt-1 font-medium">
-              +91 {mobile}
+              {email || ""}
             </p>
             <span className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white/90 text-[9px] font-bold tracking-widest uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-green-300 animate-pulse" />{" "}
