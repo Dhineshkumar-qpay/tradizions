@@ -146,7 +146,6 @@ export default function Navbar() {
 
   // Login States
   const [loginStep, setLoginStep] = useState<"mobile" | "otp">("mobile");
-  const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [isLoading, setIsLoading] = useState(false);
@@ -187,8 +186,6 @@ export default function Navbar() {
     const loggedIn = localStorage.getItem("isLoggedIn");
     if (loggedIn === "true") {
       setIsLoggedIn(true);
-      const savedMobile = localStorage.getItem("userMobile");
-      if (savedMobile) setMobile(savedMobile);
     }
 
     let interval: NodeJS.Timeout;
@@ -206,16 +203,15 @@ export default function Navbar() {
   };
 
   const handleSendOtp = async () => {
-    if (mobile.length !== 10) {
-      setError("Please enter a valid 10-digit number.");
+    if (!email.trim()) {
+      setError("Please enter a valid email address.");
       return;
     }
     setError("");
     setIsLoading(true);
     try {
       const response = await API.post<ResponseModel>(API_ROUTES.SENDOTP, {
-        phone: mobile,
-        email,
+        email: email.trim(),
       });
       if (response.status === 200) {
         setLoginStep("otp");
@@ -243,14 +239,13 @@ export default function Navbar() {
     setIsLoading(true);
     try {
       const response = await API.post<VerifyOTPModel>(API_ROUTES.VERIFYOTP, {
-        phone: mobile,
+        email: email.trim(),
         otp: Number(enteredOtp),
       });
       if (response.status === 200 && response.data.data?.token) {
         const token = response.data.data.token;
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userMobile", mobile);
         localStorage.setItem("token", token);
         setLoginStep("mobile");
         setOtp(["", "", "", "", "", ""]);
@@ -675,35 +670,15 @@ export default function Navbar() {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-3">
-                      {t.mobileNumber}
-                    </label>
-                    <div className="flex group focus-within:ring-2 focus-within:ring-[var(--olive)]/20 rounded-xl transition-all">
-                      <div className="flex items-center justify-center px-4 border border-gray-200 border-r-0 rounded-l-xl bg-gray-50 text-gray-500 font-medium text-sm group-focus-within:border-[var(--olive)]">
-                        +91
-                      </div>
-                      <input
-                        type="text"
-                        maxLength={10}
-                        placeholder="Enter 10 digit number"
-                        className="w-full border border-gray-200 rounded-r-xl py-3.5 px-4 text-sm font-bold text-gray-700 outline-none group-focus-within:border-[var(--olive)] transition-colors placeholder:text-gray-300 placeholder:font-medium"
-                        value={mobile}
-                        onChange={(e) =>
-                          setMobile(e.target.value.replace(/\D/g, ""))
-                        }
-                      />
-                    </div>
-                    {error && (
-                      <p className="text-red-500 text-xs mt-2 font-bold animate-fade-in-up">
-                        {error}
-                      </p>
-                    )}
-                  </div>
+                  {error && (
+                    <p className="text-red-500 text-xs mt-2 font-bold animate-fade-in-up">
+                      {error}
+                    </p>
+                  )}
 
                   <button
                     onClick={handleSendOtp}
-                    disabled={isLoading || mobile.length < 10}
+                    disabled={isLoading || !email.trim()}
                     className="w-full py-4 rounded-xl bg-[var(--olive)] text-white font-bold text-[13px] tracking-widest shadow-lg shadow-[var(--olive)]/20 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:hover:translate-y-0 flex justify-center items-center gap-2"
                   >
                     {isLoading ? (
@@ -746,7 +721,7 @@ export default function Navbar() {
                     <p className="text-xs text-gray-500 mb-6">
                       {t.sentCodeTo}{" "}
                       <span className="font-bold text-gray-900">
-                        +91 {mobile}
+                        {email}
                       </span>
                     </p>
 
@@ -797,7 +772,7 @@ export default function Navbar() {
                       }}
                       className="text-[11px] font-bold tracking-wide text-gray-500 hover:text-[var(--olive)] transition-colors"
                     >
-                      {t.changeNumber}
+                      Change Email
                     </button>
                     <button
                       disabled={timer > 0 || isLoading}
@@ -928,7 +903,7 @@ export default function Navbar() {
                                   ? product.stock
                                   : 1,
                             stock: product.stock,
-                            bid: product.bid || 1,
+                            bid: product.bid || 2,
                           };
 
                           return (

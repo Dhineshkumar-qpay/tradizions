@@ -61,8 +61,8 @@ export const API_ROUTES = {
   REPORT_ISSUE: "/report/create",
 };
 
-export const BASE_URL = "https://api.tradizions.in/api";
-export const IMAGE_URL = "https://api.tradizions.in/";
+export const BASE_URL = "https://eadmin.vidyutinfo.in/api";
+export const IMAGE_URL = "https://eadmin.vidyutinfo.in/api";
 
 // export const BASE_URL = "http://localhost:3003/api";
 // export const IMAGE_URL = "http://localhost:3003";

@@ -361,7 +361,7 @@ function HealthGoalProductsContent() {
                                 const response = await API.post(
                                   API_ROUTES.ADDTOCART,
                                   {
-                                    bid: product.bid || 1,
+                                    bid: product.bid || 2,
                                     productid: id,
                                     giftid: null,
                                     quantity: 1,

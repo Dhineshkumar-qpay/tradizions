@@ -89,7 +89,7 @@ export default function CustomGiftBuilder() {
     const fetchProducts = async () => {
       setIsSearching(true);
       try {
-        const response = await API.post(API_ROUTES.GIFTPRODUCTS, { bid: 1 });
+        const response = await API.post(API_ROUTES.GIFTPRODUCTS, { bid: 2 });
         if (response.data?.data) {
           setAllProducts(response.data.data);
         } else {
@@ -203,19 +203,25 @@ export default function CustomGiftBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 selection:bg-[var(--olive)] selection:text-white pb-24">
+    <div className="min-h-screen bg-[var(--site-bg)] selection:bg-[var(--olive)] selection:text-white pb-24 relative overflow-hidden">
+      {/* Premium Background Elements */}
+      <div className="absolute top-0 left-1/2 w-full h-[600px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_top,rgba(217,208,187,0.3)_0%,transparent_70%)] pointer-events-none" />
+
       {/* ── Corporate Hero Section ── */}
-      <div className="bg-white border-b border-gray-100 shadow-sm mb-12">
-        <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <span className="w-8 h-[2px] bg-[var(--olive)]" />
-            <span className="text-[11px] font-bold tracking-widest uppercase text-gray-500">Corporate Gifting</span>
-            <span className="w-8 h-[2px] bg-[var(--olive)]" />
+      <div className="relative pt-24 pb-16 mb-12 border-b border-stone-200/50 bg-white/40 backdrop-blur-3xl">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
+          <div className="inline-flex items-center gap-3 rounded-full border border-amber-200 bg-amber-50/80 px-5 py-2.5 shadow-sm mb-8 backdrop-blur-md">
+            <span className="h-2 w-2 rounded-full bg-amber-400" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-amber-700">Corporate Gifting</span>
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
-            {t.custom_gift?.title || "Custom Hamper Builder"}
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-[var(--foreground)]">
+            {t.custom_gift?.title?.split(' ')[0] || "Custom"}{" "}
+            <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
+              {t.custom_gift?.title?.split(' ').slice(1).join(' ') || "Hamper Builder"}
+            </span>
           </h1>
-          <p className="max-w-2xl text-sm md:text-base text-gray-600 font-medium leading-relaxed">
+          <p className="max-w-2xl text-[15px] md:text-lg text-[var(--dark-grey)] font-medium leading-relaxed mt-2">
             {t.custom_gift?.desc || "Design a truly unique gifting experience tailored to your exact specifications. Select premium packaging and curate artisanal products to build the perfect corporate hamper."}
           </p>
         </div>
@@ -229,16 +235,17 @@ export default function CustomGiftBuilder() {
           <div className="lg:col-span-8 space-y-12">
 
             {/* Step 1: Packaging */}
-            <section className="bg-white rounded-[var(--radius-md)] p-8 md:p-10 shadow-sm border border-gray-200 relative overflow-hidden mb-8">
-              <div className="flex items-center gap-5 mb-10 pb-6 border-b border-gray-100">
-                <div className="flex items-center justify-center w-12 h-12 rounded bg-gray-50 text-[var(--olive)] font-bold text-lg border border-gray-100">
+            <section className="bg-white/80 backdrop-blur-2xl rounded-[32px] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 relative overflow-hidden mb-8 group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-amber-100/30 rounded-full blur-[80px] pointer-events-none transition-all duration-700 group-hover:bg-amber-200/40" />
+              <div className="relative flex items-center gap-5 mb-10 pb-6 border-b border-stone-100">
+                <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100/50 text-amber-700 font-black text-xl border border-amber-200/50 shadow-sm">
                   1
                 </div>
                 <div>
-                  <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
+                  <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[var(--foreground)]">
                     {t.custom_gift?.step1_title || "Choose Your Packaging"}
                   </h2>
-                  <p className="text-sm text-gray-500 font-medium mt-1">
+                  <p className="text-sm text-[var(--dark-grey)] font-medium mt-1">
                     {t.custom_gift?.step1_desc || "Select the foundation for your custom gift"}
                   </p>
                 </div>
@@ -251,9 +258,9 @@ export default function CustomGiftBuilder() {
                     <div
                       key={pkg.id}
                       onClick={() => setSelectedPackage(pkg)}
-                      className={`group cursor-pointer rounded-[var(--radius-sm)] overflow-hidden transition-all duration-300 border-2 ${active
-                        ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-md scale-[1.02]"
-                        : "border-transparent bg-gray-50 hover:bg-white hover:shadow-lg hover:border-gray-200"
+                      className={`group cursor-pointer rounded-[24px] overflow-hidden transition-all duration-500 border-2 ${active
+                        ? "border-[var(--olive)] bg-[var(--olive)]/5 shadow-[0_10px_30px_rgba(0,0,0,0.08)] scale-[1.02]"
+                        : "border-transparent bg-stone-50/50 hover:bg-white hover:shadow-[0_15px_30px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/30 hover:-translate-y-1"
                         }`}
                     >
                       <div className="relative aspect-[4/3] overflow-hidden bg-white border-b border-gray-100">
@@ -296,17 +303,18 @@ export default function CustomGiftBuilder() {
             </section>
 
             {/* Step 2: Products */}
-            <section className="bg-white rounded-[var(--radius-md)] p-8 md:p-10 shadow-sm border border-gray-200 relative overflow-hidden">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-gray-100">
+            <section className="bg-white/80 backdrop-blur-2xl rounded-[32px] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-stone-100 relative overflow-hidden group/step2">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-100/30 rounded-full blur-[80px] pointer-events-none transition-all duration-700 group-hover/step2:bg-emerald-200/40" />
+              <div className="relative flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-stone-100">
                 <div className="flex items-center gap-5">
-                  <div className="flex items-center justify-center w-12 h-12 rounded bg-gray-50 text-[var(--orange)] font-bold text-lg border border-gray-100">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 text-emerald-700 font-black text-xl border border-emerald-200/50 shadow-sm">
                     2
                   </div>
                   <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
+                    <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[var(--foreground)]">
                       {t.custom_gift?.step2_title || "Curate Contents"}
                     </h2>
-                    <p className="text-sm text-gray-500 font-medium mt-1">
+                    <p className="text-sm text-[var(--dark-grey)] font-medium mt-1">
                       {t.custom_gift?.step2_desc || "Select premium items to fill your hamper"}
                     </p>
                   </div>
@@ -321,7 +329,7 @@ export default function CustomGiftBuilder() {
                     placeholder={t.custom_gift?.search || "Search collection..."}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-[var(--radius-sm)] pl-11 pr-4 py-3 outline-none focus:border-[var(--olive)] focus:ring-1 focus:ring-[var(--olive)] transition-all placeholder:text-gray-400 font-medium"
+                    className="w-full bg-white/60 backdrop-blur-md border border-stone-200 text-gray-900 text-sm rounded-full pl-11 pr-4 py-3 outline-none focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 transition-all placeholder:text-gray-400 font-medium shadow-sm"
                   />
                 </div>
               </div>
@@ -384,7 +392,7 @@ export default function CustomGiftBuilder() {
                     return (
                       <div
                         key={idx}
-                        className="group flex flex-col bg-white rounded-[var(--radius-sm)] border border-gray-200 overflow-hidden hover:shadow-lg hover:border-[var(--olive)] transition-all duration-300 h-full"
+                        className="group flex flex-col bg-white rounded-[24px] border border-stone-100 overflow-hidden hover:shadow-[0_15px_30px_rgba(0,0,0,0.08)] hover:border-[var(--olive)]/30 transition-all duration-500 h-full hover:-translate-y-1"
                       >
                         <div className="relative aspect-square w-full shrink-0 bg-gray-50 overflow-hidden border-b border-gray-100">
                           <img
@@ -412,7 +420,7 @@ export default function CustomGiftBuilder() {
                           {qty === 0 ? (
                             <button
                               onClick={() => handleAddItem(product)}
-                              className="w-full bg-white border border-gray-200 text-gray-900 py-2.5 rounded-[var(--radius-sm)] text-[11px] font-bold uppercase tracking-widest hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] transition-all cursor-pointer flex items-center justify-center gap-2"
+                              className="w-full bg-white border border-stone-200 text-gray-900 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-widest hover:bg-[var(--olive)] hover:text-white hover:border-[var(--olive)] hover:shadow-md transition-all duration-300 cursor-pointer flex items-center justify-center gap-2"
                             >
                               {t.custom_gift?.add || "Add Item"}
                             </button>
@@ -446,12 +454,13 @@ export default function CustomGiftBuilder() {
 
           {/* Right Column: Floating Summary Card */}
           <div className="lg:col-span-4">
-            <div className="sticky top-32 bg-white border border-gray-200 rounded-[var(--radius-md)] p-6 md:p-8 shadow-sm">
-              <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-100">
-                <div className="p-2.5 bg-gray-50 border border-gray-200 rounded">
-                  <ShoppingBag className="w-5 h-5 text-gray-900" />
+            <div className="sticky top-32 bg-white/80 backdrop-blur-2xl border border-stone-100 rounded-[32px] p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-[var(--olive)]/5 rounded-full blur-[60px] pointer-events-none" />
+              <div className="relative flex items-center gap-3 mb-8 pb-6 border-b border-stone-100">
+                <div className="p-3 bg-gradient-to-br from-stone-50 to-white border border-stone-100 rounded-2xl shadow-sm">
+                  <ShoppingBag className="w-5 h-5 text-[var(--olive-dark)]" />
                 </div>
-                <h3 className="text-lg font-extrabold text-gray-900">
+                <h3 className="text-xl font-extrabold text-[var(--foreground)] tracking-tight">
                   {t.custom_gift?.order_summary || "Hamper Summary"}
                 </h3>
               </div>
@@ -564,7 +573,7 @@ export default function CustomGiftBuilder() {
               <button
                 onClick={handleCompleteGift}
                 disabled={selectedItems.length === 0 || !selectedPackage || isSubmitting}
-                className="w-full bg-[var(--olive)] text-white py-4 rounded-[var(--radius-sm)] text-[11px] font-bold uppercase tracking-widest transition-all hover:bg-[var(--olive-dark)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                className="w-full bg-[var(--olive)] text-white py-4 rounded-xl shadow-[0_8px_20px_rgba(102,110,81,0.2)] text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[var(--olive-dark)] hover:shadow-[0_12px_25px_rgba(102,110,81,0.3)] hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 disabled:shadow-none disabled:cursor-not-allowed flex items-center justify-center gap-3"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">

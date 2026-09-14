@@ -129,6 +129,7 @@ export default function ProfilePage() {
       const response = await API.post(API_ROUTES.UPDATEPROFILE, {
         username: username,
         email: email,
+        phone: mobile,
       });
       if (response.status === 200) {
         alert("Profile updated successfully!");
@@ -380,7 +381,7 @@ export default function ProfilePage() {
       setAddingToCartId(productid);
       try {
         const response = await API.post(API_ROUTES.ADDTOCART, {
-          bid: 1,
+          bid: 2,
           productid: itemtype == "product" ? productid : null,
           giftid: itemtype == "gift" ? productid : null,
           quantity: 1,
@@ -559,26 +560,23 @@ export default function ProfilePage() {
             <input
               type="email"
               required
+              readOnly
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full border border-gray-200 bg-white focus:bg-white rounded-full py-3 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
+              className="w-full border border-gray-100 bg-gray-50 text-gray-400 rounded-lg py-2.5 px-3 outline-none cursor-not-allowed font-medium text-sm"
             />
           </div>
-          <div>
+          {/* <div>
             <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
               {t.my_account.mobile || t.contact_us.mobile}
             </label>
             <input
               type="text"
-              disabled
               value={mobile}
-              className="w-full border border-gray-100 bg-gray-50 text-gray-400 rounded-lg py-2.5 px-3 outline-none cursor-not-allowed font-medium text-sm"
+              onChange={(e) => setMobile(e.target.value)}
+              className="w-full border border-gray-200 bg-white focus:bg-white rounded-full py-3 px-4 focus:ring-2 focus:ring-[var(--olive)]/20 focus:border-[var(--olive)] outline-none transition-all font-medium text-gray-800 text-sm shadow-sm"
             />
-            <p className="text-[10px] text-gray-400 mt-1">
-              Mobile number cannot be changed.
-            </p>
-          </div>
+          </div> */}
           <button
             type="submit"
             disabled={isSavingProfile}
@@ -1563,13 +1561,13 @@ export default function ProfilePage() {
                 icon: Package,
                 label: t.my_account.order_history,
               },
-              {
-                id: "subscriptions",
-                icon: Zap,
-                label: t.my_account.subscriptions,
-              },
+              // {
+              //   id: "subscriptions",
+              //   icon: Zap,
+              //   label: t.my_account.subscriptions,
+              // },
               { id: "wishlist", icon: Heart, label: t.my_account.wishlist },
-              { id: "referrals", icon: Users, label: t.my_account.refer_earn },
+              // { id: "referrals", icon: Users, label: t.my_account.refer_earn },
               {
                 id: "wallet",
                 icon: Wallet,
@@ -1631,8 +1629,8 @@ export default function ProfilePage() {
           {activeTab === "orders" && renderOrders()}
           {activeTab === "gift-orders" && renderOrders()}
           {activeTab === "monthly-orders" && renderMonthlyOrders()}
-          {activeTab === "subscriptions" && renderSubscriptionManagement()}
-          {activeTab === "referrals" && renderReferrals()}
+          {/* {activeTab === "subscriptions" && renderSubscriptionManagement()} */}
+          {/* {activeTab === "referrals" && renderReferrals()} */}
           {activeTab === "wallet" && renderWallet()}
         </div>
       </div>

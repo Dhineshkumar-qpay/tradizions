@@ -9,6 +9,7 @@ import {
   FaInstagram as Instagram,
   FaTwitter as Twitter,
   FaYoutube as Youtube,
+  FaWhatsapp,
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { API } from "@/service/api_service";
@@ -25,10 +26,14 @@ const translations: Record<string, any> = {
 
 export default function Footer() {
   const socialLinks = [
-    { icon: "https://cdn-icons-png.flaticon.com/128/145/145802.png", href: "#" },
-    { icon: "https://cdn-icons-png.flaticon.com/128/3955/3955024.png", href: "#" },
-    { icon: "https://cdn-icons-png.flaticon.com/128/2168/2168336.png", href: "#" },
-    { icon: "https://cdn-icons-png.flaticon.com/128/3670/3670147.png", href: "#" },
+    {
+      icon: "https://cdn-icons-png.flaticon.com/128/145/145802.png",
+      href: "https://www.facebook.com/Tradizions/",
+    },
+    {
+      icon: "https://cdn-icons-png.flaticon.com/128/3955/3955024.png",
+      href: "https://www.instagram.com/tradizions.in/",
+    },
   ];
   const currentYear = new Date().getFullYear();
 
@@ -121,9 +126,69 @@ export default function Footer() {
                   target="_blank"
                   className="p-3 rounded-full bg-white hover:bg-[var(--orange-dark)] transition-all duration-300 group flex items-center justify-center w-11 h-11"
                 >
-                  <img src={icon} alt="Social Icon" className="w-5 h-5 object-contain group-hover:scale-110 transition-transform group-hover:brightness-0 group-hover:invert" />
+                  <img
+                    src={icon}
+                    alt="Social Icon"
+                    className="w-5 h-5 object-contain group-hover:scale-110 transition-transform group-hover:brightness-0 group-hover:invert"
+                  />
                 </Link>
               ))}
+              <div className="pt-4">
+                <a
+                  href="https://wa.me/919940620019"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+      group inline-flex items-center gap-3
+      rounded-full
+      bg-[#25D366]
+      p-1.5 pr-5
+      text-white
+      font-bold text-xs
+      tracking-[0.1em]
+      uppercase
+      shadow-[0_6px_20px_rgba(37,211,102,0.22)]
+      transition-all duration-300
+      hover:-translate-y-1
+      hover:bg-[#20bd5a]
+      hover:shadow-[0_10px_30px_rgba(37,211,102,0.35)]
+      active:translate-y-0
+    "
+                >
+                  {/* WhatsApp Icon Circle */}
+                  <span
+                    className="
+        flex h-9 w-9 items-center justify-center
+        rounded-full
+        bg-white
+        text-[#25D366]
+        shadow-sm
+        transition-all duration-300
+        group-hover:scale-110
+        group-hover:rotate-6
+      "
+                  >
+                    <FaWhatsapp className="h-5 w-5" />
+                  </span>
+
+                  {/* Button Text */}
+                  <span className="transition-transform duration-300 group-hover:translate-x-0.5">
+                    WhatsApp Us
+                  </span>
+
+                  {/* Arrow */}
+                  <span
+                    className="
+        ml-1 text-white/70
+        transition-all duration-300
+        group-hover:translate-x-1
+        group-hover:text-white
+      "
+                  >
+                    →
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -138,7 +203,10 @@ export default function Footer() {
                 { name: t.contactUs, path: "/contact-us" },
                 { name: t.myAccount, path: "/my-account" },
                 { name: t.blog || "Blog", path: "/blog" },
-                { name: t.nutritionGuides || "Guides & Nutrition", path: "/nutrition-guides" },
+                {
+                  name: t.nutritionGuides || "Guides & Nutrition",
+                  path: "/nutrition-guides",
+                },
               ].map((link) => (
                 <li key={link.path}>
                   <Link
@@ -258,7 +326,7 @@ export default function Footer() {
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-4 right-4 z-50 animate-fade-in-up">
-          <div 
+          <div
             className={`px-6 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-bold tracking-wide ${toastMessage.type === "success" ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-red-50 text-red-600 border border-red-100"}`}
           >
             {toastMessage.text}

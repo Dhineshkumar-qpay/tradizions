@@ -111,7 +111,6 @@ const getImageUrl = (imagePath: string) => {
   return `${cleanedBase}/${cleanedPath}`;
 };
 
-
 /* ── Main Page ── */
 export default function Home() {
   const [selectedLang, setSelectedLang] = useState("EN");
@@ -283,57 +282,57 @@ export default function Home() {
       <HeroSection t={t} />
 
       {/* Trust Strip Section */}
-     <section className="relative overflow-hidden border-b border-stone-200 bg-gradient-to-r from-amber-50 via-white to-emerald-50">
-  <div className="pointer-events-none absolute -left-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-amber-200/30 blur-3xl" />
-  <div className="pointer-events-none absolute -right-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-emerald-200/30 blur-3xl" />
+      <section className="relative overflow-hidden border-b border-stone-200 bg-gradient-to-r from-amber-50 via-white to-emerald-50">
+        <div className="pointer-events-none absolute -left-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-amber-200/30 blur-3xl" />
+        <div className="pointer-events-none absolute -right-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-emerald-200/30 blur-3xl" />
 
-  <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
-    <div className="grid grid-cols-2 md:grid-cols-4">
-      {[
-        {
-          key: "trust_point_1",
-          label: "Carefully Sourced",
-          color: "amber",
-          iconBg: "bg-amber-100",
-          iconText: "text-amber-700",
-          hoverBg: "group-hover:bg-amber-500",
-          line: "bg-amber-400",
-          glow: "group-hover:shadow-amber-200",
-        },
-        {
-          key: "trust_point_2",
-          label: "Quality Checked",
-          color: "blue",
-          iconBg: "bg-blue-100",
-          iconText: "text-blue-700",
-          hoverBg: "group-hover:bg-blue-500",
-          line: "bg-blue-400",
-          glow: "group-hover:shadow-blue-200",
-        },
-        {
-          key: "trust_point_3",
-          label: "Hygienically Packed",
-          color: "rose",
-          iconBg: "bg-rose-100",
-          iconText: "text-rose-700",
-          hoverBg: "group-hover:bg-rose-500",
-          line: "bg-rose-400",
-          glow: "group-hover:shadow-rose-200",
-        },
-        {
-          key: "trust_point_4",
-          label: "Delivered to Your Door",
-          color: "emerald",
-          iconBg: "bg-emerald-100",
-          iconText: "text-emerald-700",
-          hoverBg: "group-hover:bg-emerald-500",
-          line: "bg-emerald-400",
-          glow: "group-hover:shadow-emerald-200",
-        },
-      ].map((item, index) => (
-        <div
-          key={item.key}
-          className={`
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            {[
+              {
+                key: "trust_point_1",
+                label: "Carefully Sourced",
+                color: "amber",
+                iconBg: "bg-amber-100",
+                iconText: "text-amber-700",
+                hoverBg: "group-hover:bg-amber-500",
+                line: "bg-amber-400",
+                glow: "group-hover:shadow-amber-200",
+              },
+              {
+                key: "trust_point_2",
+                label: "Quality Checked",
+                color: "blue",
+                iconBg: "bg-blue-100",
+                iconText: "text-blue-700",
+                hoverBg: "group-hover:bg-blue-500",
+                line: "bg-blue-400",
+                glow: "group-hover:shadow-blue-200",
+              },
+              {
+                key: "trust_point_3",
+                label: "Hygienically Packed",
+                color: "rose",
+                iconBg: "bg-rose-100",
+                iconText: "text-rose-700",
+                hoverBg: "group-hover:bg-rose-500",
+                line: "bg-rose-400",
+                glow: "group-hover:shadow-rose-200",
+              },
+              {
+                key: "trust_point_4",
+                label: "Delivered to Your Door",
+                color: "emerald",
+                iconBg: "bg-emerald-100",
+                iconText: "text-emerald-700",
+                hoverBg: "group-hover:bg-emerald-500",
+                line: "bg-emerald-400",
+                glow: "group-hover:shadow-emerald-200",
+              },
+            ].map((item, index) => (
+              <div
+                key={item.key}
+                className={`
             group relative flex items-center justify-center
             overflow-hidden px-4 py-6 sm:px-6 md:py-8
             transition-all duration-300
@@ -343,10 +342,10 @@ export default function Home() {
             ${index < 3 ? "md:border-r md:border-stone-200" : ""}
             border-stone-200
           `}
-        >
-          <div className="flex items-center gap-3.5 sm:gap-4">
-            <span
-              className={`
+              >
+                <div className="flex items-center gap-3.5 sm:gap-4">
+                  <span
+                    className={`
                 relative flex h-10 w-10 shrink-0 items-center justify-center
                 rounded-2xl border border-white
                 ${item.iconBg} ${item.iconText}
@@ -355,62 +354,53 @@ export default function Home() {
                 group-hover:text-white ${item.glow}
                 group-hover:shadow-lg
               `}
-            >
-              <span
-                className={`
-                  absolute -right-1 -top-1 h-3 w-3 rounded-full
-                  ${item.line} opacity-80
-                  transition-transform duration-300
-                  group-hover:scale-125
-                `}
-              />
+                  >
+                    <Check className="relative h-4 w-4 stroke-[3]" />
+                  </span>
 
-              <Check className="relative h-4 w-4 stroke-[3]" />
-            </span>
-
-            <div className="min-w-0">
-              <p
-                className="
+                  <div className="min-w-0">
+                    <p
+                      className="
                   whitespace-nowrap text-[10px] font-bold uppercase
                   tracking-[0.08em] text-[var(--dark-grey)]
                   transition-colors duration-300
                   sm:text-xs md:text-[13px]
                   group-hover:text-[var(--olive-dark)]
                 "
-              >
-                {t[item.key] || item.label}
-              </p>
+                    >
+                      {t[item.key] || item.label}
+                    </p>
 
-              <div className="mt-2 flex items-center gap-1.5">
-                <span
-                  className={`
+                    <div className="mt-2 flex items-center gap-1.5">
+                      <span
+                        className={`
                     h-1 w-6 rounded-full ${item.line}
                     transition-all duration-300
                     group-hover:w-10
                   `}
-                />
+                      />
 
-                <span className="text-[8px] font-semibold uppercase tracking-[0.14em] text-stone-400 sm:text-[9px]">
-                  Trusted Standard
-                </span>
-              </div>
-            </div>
-          </div>
+                      <span className="text-[8px] font-semibold uppercase tracking-[0.14em] text-stone-400 sm:text-[9px]">
+                        Trusted Standard
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-          <span
-            className={`
+                <span
+                  className={`
               absolute bottom-0 left-1/2 h-1 w-0
               -translate-x-1/2 rounded-full
               ${item.line}
               transition-all duration-300
               group-hover:w-20
             `}
-          />
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
+      </section>
       <CategoriesSection t={t} categories={categories} />
       <KuralTrustRow t={t} kuraldata={dailyKural} />
       <FeaturedSection t={t} products={featuredProducts} />
@@ -428,8 +418,7 @@ export default function Home() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
           style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1675170636943-3bba5a9ff9d8?w=1600&auto=format&fit=crop&q=80')",
+            backgroundImage: "url('home_bg.jpeg')",
           }}
         />
 
@@ -442,7 +431,7 @@ export default function Home() {
 
         {/* Content */}
         <div className="relative z-30 flex items-center h-full px-6 md:px-12 lg:px-20">
-          <div className="max-w-3xl text-left text-white">
+          <div className="max-w-3xl -translate-y-8 text-left text-white md:-translate-y-12">
             <div className="inline-flex items-center gap-2 mb-5 px-4 py-2 rounded-full border border-white/15 bg-white/10 backdrop-blur-md text-[11px] md:text-xs tracking-[0.3em] uppercase">
               Natural Wellness Collection
             </div>
@@ -463,8 +452,6 @@ export default function Home() {
               >
                 {t.shop_now || "Shop Now"}
               </a>
-
-
             </div>
           </div>
         </div>
@@ -473,10 +460,9 @@ export default function Home() {
       <NutritionPlanner t={t} />
       {/* <SubscriptionPlans t={t} /> */}
       <TestimonialsSection t={t} reviews={userReviews} />
-      <CertificationsSection t={t} />
+      {/* <CertificationsSection t={t} /> */}
       {/* <VideoTestimonialsSection /> */}
       <SustainabilityAndPackagingSection t={t} />
-
     </div>
   );
 }
@@ -484,7 +470,10 @@ export default function Home() {
 //  HEALTH BENEFITS SECTION (REDESIGNED)
 //  ══════════════════════════════════════════════════════════════ */
 function HealthBenefitsSection({ t }: { t: any }) {
-  const [activeCategory, setActiveCategory] = useState<"nuts" | "millets" | "spices">("nuts");
+  const [activeCategory, setActiveCategory] = useState<
+    "nuts" | "millets" | "spices"
+  >("nuts");
+
   const [scrollProgress, setScrollProgress] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -494,15 +483,66 @@ function HealthBenefitsSection({ t }: { t: any }) {
     spices: t.health_benefits_data?.spices || [],
   };
 
-  const categoryMeta: Record<string, { emoji: string }> = {
-    nuts: { emoji: "https://cdn-icons-png.flaticon.com/128/7451/7451659.png" },
-    millets: { emoji: "https://cdn-icons-png.flaticon.com/128/616/616428.png" },
-    spices: { emoji: "https://cdn-icons-png.flaticon.com/128/9273/9273863.png" },
+  const categoryMeta: Record<
+    string,
+    {
+      emoji: string;
+      active: string;
+      inactive: string;
+      accent: string;
+      softBg: string;
+      border: string;
+      text: string;
+      iconBg: string;
+      progress: string;
+    }
+  > = {
+    nuts: {
+      emoji: "https://cdn-icons-png.flaticon.com/128/7451/7451659.png",
+      active: "bg-amber-400 border-amber-400 text-white shadow-amber-200/80",
+      inactive:
+        "bg-amber-50/70 border-amber-200 text-amber-700 hover:bg-amber-100",
+      accent: "bg-amber-400",
+      softBg: "bg-amber-50",
+      border: "border-amber-200",
+      text: "text-amber-700",
+      iconBg: "bg-amber-100",
+      progress: "bg-amber-400",
+    },
+    millets: {
+      emoji: "https://cdn-icons-png.flaticon.com/128/616/616428.png",
+      active:
+        "bg-emerald-400 border-emerald-400 text-white shadow-emerald-200/80",
+      inactive:
+        "bg-emerald-50/70 border-emerald-200 text-emerald-700 hover:bg-emerald-100",
+      accent: "bg-emerald-400",
+      softBg: "bg-emerald-50",
+      border: "border-emerald-200",
+      text: "text-emerald-700",
+      iconBg: "bg-emerald-100",
+      progress: "bg-emerald-400",
+    },
+    spices: {
+      emoji: "https://cdn-icons-png.flaticon.com/128/9273/9273863.png",
+      active: "bg-rose-400 border-rose-400 text-white shadow-rose-200/80",
+      inactive: "bg-rose-50/70 border-rose-200 text-rose-700 hover:bg-rose-100",
+      accent: "bg-rose-400",
+      softBg: "bg-rose-50",
+      border: "border-rose-200",
+      text: "text-rose-700",
+      iconBg: "bg-rose-100",
+      progress: "bg-rose-400",
+    },
   };
 
   const activeBenefits = benefitsMap[activeCategory];
   const meta = categoryMeta[activeCategory];
-  const categories: Array<"nuts" | "millets" | "spices"> = ["nuts", "millets", "spices"];
+
+  const categories: Array<"nuts" | "millets" | "spices"> = [
+    "nuts",
+    "millets",
+    "spices",
+  ];
 
   useEffect(() => {
     if (sliderRef.current) {
@@ -516,6 +556,7 @@ function HealthBenefitsSection({ t }: { t: any }) {
       const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
       const maxScroll = scrollWidth - clientWidth;
       const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
+
       setScrollProgress(progress);
     }
   };
@@ -523,109 +564,236 @@ function HealthBenefitsSection({ t }: { t: any }) {
   const slide = (direction: "left" | "right") => {
     if (sliderRef.current) {
       const { clientWidth } = sliderRef.current;
-      const scrollAmount = direction === "left" ? -clientWidth * 0.8 : clientWidth * 0.8;
-      sliderRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      const scrollAmount =
+        direction === "left" ? -clientWidth * 0.8 : clientWidth * 0.8;
+
+      sliderRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
     }
   };
 
   return (
-    <section className="py-24 relative overflow-hidden bg-white border-t border-stone-100">
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-[#FAF8F5] rounded-l-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--olive)]/5 rounded-full blur-[100px] pointer-events-none" />
+    <section className="relative overflow-hidden border-t border-stone-100 bg-gradient-to-br from-white via-orange-50/30 to-emerald-50/40 py-24">
+      {/* Soft decorative background */}
+      <div className="pointer-events-none absolute -right-24 top-0 h-80 w-80 rounded-full bg-amber-200/25 blur-3xl" />
+      <div className="pointer-events-none absolute -left-24 bottom-0 h-96 w-96 rounded-full bg-emerald-200/25 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-20 h-64 w-64 -translate-x-1/2 rounded-full bg-rose-100/30 blur-3xl" />
 
-      <div className="relative max-w-7xl mx-auto px-6 z-10">
-        <div className="flex flex-col items-center text-center mb-16 gap-6">
-          <div className="inline-flex items-center gap-3">
-            <span className="w-8 h-[2px] bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
-              {t.health_advantage || "HEALTH BENEFITS"}
-            </span>
-            <span className="w-8 h-[2px] bg-[var(--orange)]" />
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
+        {/* Header */}
+        <div className="mb-16 flex flex-col items-center gap-4 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mx-auto">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            {t.health_advantage || "HEALTH BENEFITS"}
           </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] tracking-tight">
+
+          <h2 className="max-w-3xl text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px] text-center">
             {t.health_advantage_headline_1}{" "}
-            <span className="text-[var(--olive)] font-light">
+            <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
               {t.health_advantage_headline_2} {t.health_advantage_headline_3}
             </span>
           </h2>
 
-          <div className="flex flex-wrap justify-center gap-3 mt-4">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-8 py-3.5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase transition-all duration-300 border ${activeCategory === cat
-                  ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md"
-                  : "bg-transparent text-[var(--dark-grey)] border-stone-200 hover:border-[var(--olive)] hover:text-[var(--olive-dark)]"
-                  }`}
-              >
-                {t.sections?.[cat] || cat}
-              </button>
-            ))}
+          <div className="mt-4 flex flex-wrap justify-center gap-3">
+            {categories.map((cat) => {
+              const catMeta = categoryMeta[cat];
+              const isActive = activeCategory === cat;
+
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`
+                    rounded-full border px-7 py-3.5
+                    text-[11px] font-bold uppercase tracking-[0.18em]
+                    transition-all duration-300
+                    ${
+                      isActive
+                        ? `${catMeta.active} shadow-lg`
+                        : `${catMeta.inactive} shadow-sm`
+                    }
+                  `}
+                >
+                  {t.sections?.[cat] || cat}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        <div className="relative group max-w-6xl mx-auto">
+        {/* Slider */}
+        <div className="group relative mx-auto max-w-6xl">
           <button
             onClick={() => slide("left")}
-            className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white text-[var(--olive-dark)] rounded-full border border-stone-100 shadow-md flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-transparent opacity-0 group-hover:opacity-100 hidden sm:flex hover:scale-105"
+            aria-label="Previous benefits"
+            className={`
+              absolute -left-6 top-1/2 z-20 hidden h-12 w-12
+              -translate-y-1/2 items-center justify-center
+              rounded-full border border-amber-100 bg-white
+              text-amber-600 shadow-lg
+              transition-all duration-300
+              hover:scale-110 hover:bg-amber-400 hover:text-white
+              group-hover:opacity-100 sm:flex
+              opacity-0
+            `}
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="h-5 w-5" />
           </button>
 
           <button
             onClick={() => slide("right")}
-            className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white text-[var(--olive-dark)] rounded-full border border-stone-100 shadow-md flex items-center justify-center transition-all duration-300 hover:bg-[var(--orange)] hover:text-white hover:border-transparent opacity-0 group-hover:opacity-100 hidden sm:flex hover:scale-105"
+            aria-label="Next benefits"
+            className={`
+              absolute -right-6 top-1/2 z-20 hidden h-12 w-12
+              -translate-y-1/2 items-center justify-center
+              rounded-full border border-emerald-100 bg-white
+              text-emerald-600 shadow-lg
+              transition-all duration-300
+              hover:scale-110 hover:bg-emerald-400 hover:text-white
+              group-hover:opacity-100 sm:flex
+              opacity-0
+            `}
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="h-5 w-5" />
           </button>
 
           <div
             ref={sliderRef}
             onScroll={handleScroll}
-            className="flex gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-10 pt-4 px-4"
+            className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-4 pb-10 pt-4"
           >
             <style jsx>{`
-              div::-webkit-scrollbar { display: none; }
+              div::-webkit-scrollbar {
+                display: none;
+              }
             `}</style>
 
-            {activeBenefits.map((benefit: any, idx: number) => (
-              <div
-                key={benefit.name + idx}
-                className="flex-shrink-0 w-[280px] md:w-[340px] snap-start bg-[#FAF8F5] rounded-[24px] p-8 flex flex-col border border-stone-100 shadow-sm hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:-translate-y-2 hover:bg-white hover:border-[var(--olive)]/20 transition-all duration-500 group/card relative overflow-hidden"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-white border border-stone-200 flex items-center justify-center mb-8 group-hover/card:bg-[var(--olive)] group-hover/card:border-transparent transition-all duration-500 shadow-sm">
-                  <img
-                    src={meta.emoji}
-                    alt="icon"
-                    className="w-6 h-6 object-contain opacity-70 group-hover/card:opacity-100 group-hover/card:brightness-0 group-hover/card:invert transition-all duration-500"
+            {activeBenefits.map((benefit: any, idx: number) => {
+              const cardColors = [
+                {
+                  bg: "bg-gradient-to-br from-amber-50/90 to-white/40",
+                  border: "border-amber-200/50",
+                  iconBg: "bg-amber-100/80",
+                  iconText: "text-amber-600",
+                  accent: "bg-amber-400",
+                },
+                {
+                  bg: "bg-gradient-to-br from-sky-50/90 to-white/40",
+                  border: "border-sky-200/50",
+                  iconBg: "bg-sky-100/80",
+                  iconText: "text-sky-600",
+                  accent: "bg-sky-400",
+                },
+                {
+                  bg: "bg-gradient-to-br from-rose-50/90 to-white/40",
+                  border: "border-rose-200/50",
+                  iconBg: "bg-rose-100/80",
+                  iconText: "text-rose-600",
+                  accent: "bg-rose-400",
+                },
+                {
+                  bg: "bg-gradient-to-br from-emerald-50/90 to-white/40",
+                  border: "border-emerald-200/50",
+                  iconBg: "bg-emerald-100/80",
+                  iconText: "text-emerald-600",
+                  accent: "bg-emerald-400",
+                },
+              ][idx % 4];
+
+              return (
+                <div
+                  key={benefit.name + idx}
+                  className={`
+                    group/card relative flex w-[280px] shrink-0
+                    snap-start flex-col overflow-hidden rounded-[32px]
+                    border p-8 backdrop-blur-xl
+                    ${cardColors.bg} ${cardColors.border}
+                    shadow-[0_8px_20px_rgba(0,0,0,0.03)] transition-all duration-500
+                    hover:-translate-y-2 hover:bg-white
+                    hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:border-white
+                    md:w-[340px] z-10
+                  `}
+                >
+                  {/* Premium subtle inner glow */}
+                  <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 bg-gradient-to-b from-white/80 to-transparent pointer-events-none" />
+
+                  {/* Card decorative circle */}
+                  <div
+                    className={`
+                      pointer-events-none absolute -right-12 -top-12
+                      h-32 w-32 rounded-full blur-2xl
+                      ${cardColors.accent} opacity-20
+                      transition-transform duration-700
+                      group-hover/card:scale-150 group-hover/card:opacity-30
+                    `}
+                  />
+
+                  <div
+                    className={`
+                      relative mb-8 flex h-16 w-16 items-center justify-center
+                      rounded-2xl border border-white/60 backdrop-blur-sm
+                      ${cardColors.iconBg} ${cardColors.iconText}
+                      shadow-[0_4px_15px_rgba(0,0,0,0.05)] transition-all duration-500
+                      group-hover/card:scale-110 group-hover/card:-translate-y-1
+                      group-hover/card:shadow-[0_10px_25px_rgba(0,0,0,0.1)]
+                    `}
+                  >
+                    <img
+                      src={meta.emoji}
+                      alt={`${activeCategory} icon`}
+                      className="h-8 w-8 object-contain transition-all duration-500 group-hover/card:rotate-12 group-hover/card:scale-110"
+                    />
+                  </div>
+
+                  <h3 className="relative mb-4 text-[22px] font-extrabold tracking-tight text-[var(--foreground)] transition-colors duration-300 group-hover/card:text-[var(--olive-dark)]">
+                    {benefit.name}
+                  </h3>
+
+                  <p className="relative mb-8 flex-grow text-[15px] font-medium leading-relaxed text-[var(--dark-grey)]">
+                    {benefit.desc}
+                  </p>
+
+                  <div className="relative mt-auto flex items-center gap-2 transition-all duration-300 group-hover/card:gap-3">
+                    <span
+                      className={`text-[11px] font-bold uppercase tracking-[0.2em] ${meta.text}`}
+                    >
+                      Learn More
+                    </span>
+
+                    <ArrowRight
+                      className={`h-4 w-4 ${meta.text} transition-all duration-300 group-hover/card:translate-x-1`}
+                    />
+                  </div>
+
+                  {/* Bottom animated border */}
+                  <span
+                    className={`
+                      absolute bottom-0 left-0 h-1.5 w-0 rounded-r-full
+                      ${cardColors.accent} opacity-80
+                      transition-all duration-500 ease-out
+                      group-hover/card:w-full
+                    `}
                   />
                 </div>
-
-                <h3 className="text-xl font-bold text-[var(--foreground)] mb-4 group-hover/card:text-[var(--olive-dark)] transition-colors duration-300">
-                  {benefit.name}
-                </h3>
-
-                <p className="text-sm text-[var(--dark-grey)] leading-relaxed font-medium mb-8 flex-grow">
-                  {benefit.desc}
-                </p>
-
-                <div className="mt-auto flex items-center gap-2 group-hover/card:gap-3 transition-all duration-300">
-                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--orange)]">
-                    Learn More
-                  </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-[var(--orange)]" />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
-        <div className="max-w-md mx-auto w-full h-[2px] bg-stone-100 rounded-full overflow-hidden mt-2 relative">
-          <div
-            className="absolute top-0 bottom-0 left-0 bg-[var(--olive-dark)] rounded-full transition-all duration-300 ease-out"
-            style={{ width: `${Math.max(10, scrollProgress)}%` }}
-          />
+        {/* Progress indicator */}
+        <div className="mx-auto mt-2 flex w-full max-w-md items-center gap-3">
+          <span className="h-2 w-2 rounded-full bg-amber-300" />
+
+          <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-stone-100">
+            <div
+              className={`absolute inset-y-0 left-0 rounded-full ${meta.progress} transition-all duration-300 ease-out`}
+              style={{ width: `${Math.max(10, scrollProgress)}%` }}
+            />
+          </div>
+
+          <span className="h-2 w-2 rounded-full bg-emerald-300" />
         </div>
       </div>
     </section>
@@ -634,11 +802,7 @@ function HealthBenefitsSection({ t }: { t: any }) {
 
 // -----------------------------------  HERO SECTION
 
-function HeroSection({
-  t,
-}: {
-  t: any;
-}) {
+function HeroSection({ t }: { t: any }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -646,101 +810,106 @@ function HeroSection({
   }, []);
 
   return (
-    <section className="relative w-full min-h-[750px] h-[95vh] flex items-center bg-[#FAF8F5] overflow-hidden selection:bg-[var(--olive)] selection:text-white border-b border-stone-200">
+    <section className="relative isolate mt-0 min-h-[760px] w-full overflow-hidden border-b border-stone-200 bg-[#FAF8F5] selection:bg-[var(--olive)] selection:text-white sm:min-h-[820px] md:-mt-12 md:h-[95vh] md:min-h-[750px]">
+      {/* Background image */}
       <Image
-        src="/bg-banner.png"
+        src="/bg_banner.png"
         alt=""
         fill
         priority
-        className="object-fit object-center"
+        sizes="100vw"
+        className={`object-cover object-[68%_center] transition-all duration-1000 ease-out md:object-contain md:object-center ${
+          loaded ? "scale-100 opacity-100" : "scale-105 opacity-0"
+        }`}
       />
-      {/* ── Background Accents ── */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-[var(--olive)]/5 rounded-l-[200px] blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-40 left-0 w-[500px] h-[500px] bg-[var(--orange)]/5 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* ── Content Area ── */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-4 md:mt-8">
+      {/* Soft overlays for better text contrast */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/95 via-[#FAF8F5]/75 to-transparent md:from-[#FAF8F5]/90 md:via-[#FAF8F5]/45 md:to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#FAF8F5]/80 via-transparent to-transparent md:hidden" />
 
-        {/* Left: Text Content */}
-        <div className="max-w-2xl text-left">
+      {/* Background accents */}
+      <div className="pointer-events-none absolute -right-32 -top-20 h-[420px] w-[420px] rounded-full bg-[var(--olive)]/10 blur-[100px]" />
+      <div className="pointer-events-none absolute -bottom-40 -left-24 h-[500px] w-[500px] rounded-full bg-[var(--orange)]/10 blur-[120px]" />
+      <div className="pointer-events-none absolute right-[8%] top-[18%] hidden h-3 w-3 animate-pulse rounded-full bg-[var(--orange)]/70 md:block" />
+      <div className="pointer-events-none absolute right-[18%] top-[30%] hidden h-2 w-2 animate-pulse rounded-full bg-[var(--olive)]/60 [animation-delay:700ms] md:block" />
+
+      {/* Content area */}
+      <div className="relative z-20 mx-auto grid min-h-[760px] w-full max-w-7xl grid-cols-1 items-center gap-12 px-6 py-24 mt-20 sm:min-h-[820px] md:min-h-0 md:grid-cols-2 md:px-12 md:py-0 lg:gap-20">
+        {/* Left: Text content */}
+        <div className="flex h-full max-w-2xl flex-col justify-center text-left md:translate-y-16">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -16 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-4 mb-6"
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            className="mb-6 inline-flex items-center gap-4"
           >
-            <span className="w-8 h-[2px] bg-[var(--orange)]" />
-            <span className="text-[10px] md:text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
-              {t.hero_subheadline_new || "Wholesome Millets. Premium Nuts. Thoughtful Gifts."}
+            <span className="h-[2px] w-8 bg-[var(--orange)] sm:w-12" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--olive-dark)] sm:text-[11px] sm:tracking-[0.3em]">
+              {t.hero_subheadline_new ||
+                "Wholesome Millets. Premium Nuts. Thoughtful Gifts."}
             </span>
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="text-3xl md:text-3xl lg:text-4xl font-extrabold tracking-tight leading-[1.1] text-[var(--foreground)]"
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            className="max-w-xl text-3xl font-extrabold leading-[1.05] tracking-[-0.04em] text-[var(--foreground)] sm:text-3xl md:text-4xl lg:text-4xl"
           >
             {t.hero_headline_new || "Traditional Goodness, Made for Today"}
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-sm md:text-lg text-[var(--dark-grey)] mt-6 font-medium leading-relaxed max-w-lg"
+            transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+            className="mt-6 max-w-lg text-sm font-medium leading-7 text-[var(--dark-grey)] sm:text-base md:text-lg"
           >
-            {t.hero_supporting_text_new || "Carefully selected everyday essentials for your family, and beautifully curated gifts for every occasion."}
+            {t.hero_supporting_text_new ||
+              "Carefully selected everyday essentials for your family, and beautifully curated gifts for every occasion."}
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-10 flex flex-wrap gap-4"
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+            className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
           >
-            <Link href="/shop" className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 bg-[var(--olive)] rounded-full overflow-hidden hover:bg-[var(--olive-dark)] hover:shadow-[0_8px_25px_rgba(var(--olive-rgb),0.3)] hover:-translate-y-1">
-              <span className="relative text-[12px] tracking-[0.2em] uppercase flex items-center gap-3">
+            <Link
+              href="/shop"
+              className="group inline-flex min-h-14 items-center justify-center rounded-full bg-[var(--olive)] px-7 py-4 font-bold text-white shadow-lg shadow-[var(--olive)]/15 transition-all duration-300 hover:-translate-y-1 hover:bg-[var(--olive-dark)] hover:shadow-xl hover:shadow-[var(--olive)]/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--olive)] focus-visible:ring-offset-2 sm:px-8"
+            >
+              <span className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] sm:text-[12px]">
                 {t.hero_btn_shop_home_new || "SHOP FOR HOME"}
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </span>
             </Link>
-            <Link href="/gifts" className="group inline-flex items-center justify-center px-8 py-4 font-bold text-[var(--olive-dark)] transition-all duration-300 bg-transparent border-2 border-[var(--olive)]/20 rounded-full hover:border-[var(--olive)] hover:bg-[var(--olive)]/5">
-              <span className="text-[12px] tracking-[0.2em] uppercase">
+
+            <Link
+              href="/gifts"
+              className="group inline-flex min-h-14 items-center justify-center rounded-full border-2 border-[var(--olive)]/25 bg-white/30 px-7 py-4 font-bold text-[var(--olive-dark)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--olive)] hover:bg-[var(--olive)]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--olive)] focus-visible:ring-offset-2 sm:px-8"
+            >
+              <span className="text-[11px] uppercase tracking-[0.18em] sm:text-[12px]">
                 {t.hero_btn_explore_gifts_new || "EXPLORE GIFTS"}
               </span>
             </Link>
           </motion.div>
-
-          {/* Corporate Trust Badges - Minimal Row */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="mt-12 pt-8 border-t border-stone-200 flex flex-wrap gap-6 md:gap-10"
-          >
-            {[
-              { icon: Leaf, text: t.organic_100 || "100% Organic" },
-              { icon: Star, text: t.premium_quality || "Premium Quality" },
-              { icon: Shield, text: t.certified_pure || "Certified Pure" }
-            ].map((badge, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-[var(--orange)] shadow-sm">
-                  <badge.icon className="w-4 h-4" />
-                </div>
-                <span className="text-[10px] font-bold tracking-widest text-[var(--olive-dark)] uppercase">
-                  {badge.text}
-                </span>
-              </div>
-            ))}
-          </motion.div>
         </div>
-
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="absolute bottom-6 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-2 text-[9px] font-bold uppercase tracking-[0.25em] text-[var(--olive-dark)]/60 md:flex"
+      >
+        <span>Scroll to explore</span>
+        <span className="h-8 w-px bg-[var(--olive)]/40" />
+      </motion.div>
     </section>
   );
 }
-
 // ----------------------------------- CATEGORIES
 
 const getCategoryImageUrl = (imagePath: string) => {
@@ -777,17 +946,14 @@ function CategoriesSection({ t, categories }: { t: any; categories: any[] }) {
         <div
           className={`text-center mb-20 space-y-5 transition-all duration-500 opacity-100 translate-y-0`}
         >
-          <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
-            <span className="w-8 h-px bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
-              Collections
-            </span>
-            <span className="w-8 h-px bg-[var(--orange)]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4 mx-auto">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            Collections
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px] text-center">
             {t.categories_title?.split(" ").slice(0, 2).join(" ") ||
               "Our Collections"}{" "}
-            <span className="text-[var(--orange)] font-light">
+            <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
               {t.categories_title?.split(" ").slice(2).join(" ") || ""}
             </span>
           </h2>
@@ -868,15 +1034,13 @@ function FeaturedSection({ t, products }: { t: any; products?: any[] }) {
           className={`flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-6 transition-all duration-500 opacity-100 translate-y-0`}
         >
           <div className="space-y-4 text-left">
-            <div className="inline-flex items-center gap-3 mb-1">
-              <span className="w-6 h-px bg-[var(--orange)]" />
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
-                Highlights
-              </span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4">
+              <span className="h-2 w-2 rounded-full bg-amber-500" />
+              Highlights
             </div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--foreground)] tracking-tight leading-none">
+            <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px]">
               {t.featured_products.split(" ")[0]}{" "}
-              <span className="text-[var(--orange)] font-light">
+              <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
                 {t.featured_products.split(" ")[1]}
               </span>
             </h2>
@@ -978,15 +1142,13 @@ function GiftingSection({
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-stone-100 pb-8">
               <div className="space-y-4 text-left">
-                <div className="inline-flex items-center gap-3 mb-1">
-                  <span className="w-6 h-px bg-[var(--orange)]" />
-                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
-                    Curated Presents
-                  </span>
+                <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4">
+                  <span className="h-2 w-2 rounded-full bg-amber-500" />
+                  Curated Presents
                 </div>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--foreground)] tracking-tight leading-none">
+                <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px]">
                   {t.gift.split(" ")[0]}{" "}
-                  <span className="text-[var(--orange)] font-light">
+                  <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
                     {t.gift.split(" ").slice(1).join(" ")}
                   </span>
                 </h2>
@@ -1022,8 +1184,8 @@ function GiftingSection({
                   const price = item.sellingprice || item.price || 0;
                   const originalPrice =
                     item.price !== undefined &&
-                      item.sellingprice !== undefined &&
-                      item.price > item.sellingprice
+                    item.sellingprice !== undefined &&
+                    item.price > item.sellingprice
                       ? item.price
                       : null;
                   const image = item.productimage
@@ -1118,73 +1280,199 @@ function GiftingSection({
 function WhyChooseUsSection({ t }: { t: any }) {
   const { ref, isVisible } = useInView();
 
-  return (
-    <section ref={ref} className="py-20 bg-stone-50 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
-          {/* Left Side: Elegant Sharp Image */}
-          <div
-            className={`w-full lg:w-5/12 relative transition-all duration-700 opacity-100 translate-x-0`}
-          >
-            <div className="relative aspect-[4/5] rounded-sm overflow-hidden shadow-sm border border-stone-200 mx-auto max-w-sm group bg-white">
-              <Image
-                src="https://images.unsplash.com/photo-1626023873533-f5cc77cc2458?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Quality organic products"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
-              />
-              <div className="absolute inset-0 bg-stone-900/10 opacity-100" />
+  const featureStyles = [
+    {
+      iconBg: "bg-amber-100",
+      iconColor: "text-amber-600",
+      hoverBg: "group-hover:bg-amber-500",
+      border: "border-amber-200",
+      glow: "group-hover:shadow-amber-200/70",
+      accent: "bg-amber-400",
+    },
+    {
+      iconBg: "bg-sky-100",
+      iconColor: "text-sky-600",
+      hoverBg: "group-hover:bg-sky-500",
+      border: "border-sky-200",
+      glow: "group-hover:shadow-sky-200/70",
+      accent: "bg-sky-400",
+    },
+    {
+      iconBg: "bg-rose-100",
+      iconColor: "text-rose-600",
+      hoverBg: "group-hover:bg-rose-500",
+      border: "border-rose-200",
+      glow: "group-hover:shadow-rose-200/70",
+      accent: "bg-rose-400",
+    },
+    {
+      iconBg: "bg-emerald-100",
+      iconColor: "text-emerald-600",
+      hoverBg: "group-hover:bg-emerald-500",
+      border: "border-emerald-200",
+      glow: "group-hover:shadow-emerald-200/70",
+      accent: "bg-emerald-400",
+    },
+  ];
 
-              {/* Floating Stat Card inside Image */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] bg-white p-4 rounded-sm shadow-sm flex items-center gap-4 border border-stone-200 group-hover:-translate-y-1 transition-transform duration-500">
-                <div className="w-12 h-12 rounded-sm bg-[var(--olive-dark)] flex items-center justify-center text-white flex-shrink-0 shadow-sm">
-                  <BadgeCheck className="w-6 h-6" />
+  return (
+    <section
+      ref={ref}
+      className="
+        relative overflow-hidden bg-gradient-to-br
+        from-amber-50 via-white to-emerald-50
+        py-20 md:py-24
+      "
+    >
+      {/* Decorative background shapes */}
+      <div className="pointer-events-none absolute -left-28 top-20 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
+      <div className="pointer-events-none absolute -right-28 bottom-10 h-80 w-80 rounded-full bg-emerald-200/30 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-0 h-52 w-52 -translate-x-1/2 rounded-full bg-rose-100/30 blur-3xl" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
+        <div className="flex flex-col items-center gap-16 lg:flex-row lg:gap-24">
+          {/* Left Side: Colorful Image Card */}
+          <div
+            className={`
+              w-full max-w-sm lg:w-5/12
+              transition-all duration-700
+              ${
+                isVisible
+                  ? "translate-x-0 opacity-100"
+                  : "-translate-x-10 opacity-0"
+              }
+            `}
+          >
+            <div className="relative mx-auto">
+              {/* Colorful frame */}
+              <div className="absolute -inset-3 rotate-2 rounded-[2rem] bg-gradient-to-br from-amber-300 via-rose-300 to-emerald-300 opacity-70 blur-[1px]" />
+              <div className="absolute -inset-1 -rotate-1 rounded-[1.6rem] bg-white shadow-xl" />
+
+              <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl border-4 border-white bg-white shadow-2xl">
+                <img
+                  src="why_us.jpeg"
+                  alt="Quality organic products"
+                  className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/60 via-transparent to-amber-900/10" />
+
+                {/* Decorative corner label */}
+                <div className="absolute left-5 top-5 rounded-full bg-white/90 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--olive-dark)] shadow-lg backdrop-blur-sm">
+                  Naturally Better
                 </div>
-                <div>
-                  <h4 className="text-[15px] font-bold text-[var(--foreground)] leading-none mb-1">
-                    100% Pure
-                  </h4>
-                  <p className="text-[10px] text-[var(--dark-grey)] font-bold uppercase tracking-widest">
-                    Organic Certified
-                  </p>
+
+                {/* Floating stat card */}
+                <div className="absolute bottom-5 left-1/2 flex w-[88%] -translate-x-1/2 items-center gap-4 rounded-2xl border border-white/70 bg-white/95 p-4 shadow-xl backdrop-blur-md transition-transform duration-500 group-hover:-translate-y-2">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--olive-dark)] to-emerald-600 text-white shadow-lg">
+                    <BadgeCheck className="h-6 w-6" />
+                  </div>
+
+                  <div>
+                    <h4 className="mb-1 text-[15px] font-bold leading-none text-[var(--foreground)]">
+                      Taste. Health. Tradition.
+                    </h4>
+                    
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Side: Content & Features */}
+          {/* Right Side: Content and Features */}
           <div
-            className={`w-full lg:w-7/12 space-y-12 transition-all duration-700 delay-200 opacity-100 translate-x-0`}
+            className={`
+              w-full lg:w-7/12
+              transition-all delay-200 duration-700
+              ${
+                isVisible
+                  ? "translate-x-0 opacity-100"
+                  : "translate-x-10 opacity-0"
+              }
+            `}
           >
-            <div className="space-y-5 text-center lg:text-left">
-              <h2 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-[var(--foreground)] leading-[1.15] tracking-tight">
+            <div className="mb-12 space-y-5 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700">
+                <span className="h-2 w-2 rounded-full bg-amber-500" />
+                Why choose us
+              </div>
+
+              <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px]">
                 {t.why_choose.split(" ").slice(0, 1).join(" ")}
-                <span className="text-[var(--olive-dark)]">
+                <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
                   {" "}
                   {t.why_choose.split(" ").slice(1).join(" ")}
                 </span>
               </h2>
-              <p className="text-[var(--dark-grey)] text-sm md:text-[15px] font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+
+              <p className="mx-auto max-w-xl text-sm font-medium leading-relaxed text-[var(--dark-grey)] md:text-[15px] lg:mx-0">
                 {t.why_desc}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10">
-              {whyChooseUs.map((item, idx) => (
-                <div key={idx} className="flex gap-5 group items-start">
-                  <div className="flex-shrink-0 w-[60px] h-[60px] rounded-sm bg-white border border-stone-200 text-[var(--foreground)] flex items-center justify-center group-hover:bg-[var(--foreground)] group-hover:text-white group-hover:border-[var(--foreground)] transition-all duration-300 shadow-sm">
-                    <item.icon className="w-6 h-6" />
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              {whyChooseUs.map((item, idx) => {
+                const style = featureStyles[idx % featureStyles.length];
+
+                return (
+                  <div
+                    key={idx}
+                    className={`
+                      group relative overflow-hidden rounded-2xl
+                      border bg-white/80 p-5
+                      ${style.border}
+                      shadow-sm backdrop-blur-sm
+                      transition-all duration-300
+                      hover:-translate-y-1 hover:bg-white
+                      hover:shadow-xl ${style.glow}
+                    `}
+                  >
+                    <div
+                      className={`
+                        absolute right-0 top-0 h-20 w-20
+                        -translate-y-8 translate-x-8 rounded-full
+                        ${style.accent} opacity-10
+                        transition-transform duration-500
+                        group-hover:scale-150
+                      `}
+                    />
+
+                    <div className="relative flex items-start gap-4">
+                      <div
+                        className={`
+                          flex h-14 w-14 shrink-0 items-center justify-center
+                          rounded-2xl border
+                          ${style.iconBg} ${style.iconColor} ${style.border}
+                          transition-all duration-300
+                          ${style.hoverBg}
+                          group-hover:scale-105 group-hover:text-white
+                        `}
+                      >
+                        <item.icon className="h-6 w-6" />
+                      </div>
+
+                      <div className="space-y-1.5 pt-1">
+                        <h4 className="text-[16px] font-bold text-[var(--foreground)] transition-colors group-hover:text-[var(--olive-dark)]">
+                          {t.features[idx * 2]}
+                        </h4>
+
+                        <p className="text-[13px] font-medium leading-snug text-[var(--dark-grey)]">
+                          {t.features[idx * 2 + 1]}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`
+                        absolute bottom-0 left-5 h-1 w-8 rounded-full
+                        ${style.accent}
+                        transition-all duration-300
+                        group-hover:w-16
+                      `}
+                    />
                   </div>
-                  <div className="space-y-1.5 pt-1">
-                    <h4 className="text-[16px] font-bold text-[var(--foreground)] group-hover:text-[var(--olive-dark)] transition-colors">
-                      {t.features[idx * 2]}
-                    </h4>
-                    <p className="text-[13px] text-[var(--dark-grey)] font-medium leading-snug">
-                      {t.features[idx * 2 + 1]}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -1192,7 +1480,6 @@ function WhyChooseUsSection({ t }: { t: any }) {
     </section>
   );
 }
-
 // -----------------------------------  TESTIMONIALS
 
 function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
@@ -1216,12 +1503,12 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   const listToRender =
     reviews && reviews.length > 0
       ? reviews.map((r) => ({
-        name: r.username || "Anonymous User",
-        role: "Verified Buyer",
-        text: r.review || "",
-        rating: Math.round(r.rating || 5),
-        avatar: getInitials(r.username || "Anonymous"),
-      }))
+          name: r.username || "Anonymous User",
+          role: "Verified Buyer",
+          text: r.review || "",
+          rating: Math.round(r.rating || 5),
+          avatar: getInitials(r.username || "Anonymous"),
+        }))
       : [];
 
   if (listToRender.length === 0) {
@@ -1237,16 +1524,13 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
         <div
           className={`max-w-2xl mx-auto text-center space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
         >
-          <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
-            <span className="w-8 h-px bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
-              Testimonials
-            </span>
-            <span className="w-8 h-px bg-[var(--orange)]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4 mx-auto">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            Testimonials
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] leading-tight">
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px] text-center">
             {t.loved.split(" ").slice(0, 2).join(" ")}{" "}
-            <span className="text-[var(--orange)] font-light">
+            <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
               {t.loved.split(" ").slice(2).join(" ")}
             </span>
           </h2>
@@ -1425,18 +1709,22 @@ function KuralTrustRow({
 
     return (
       <>
-        <p className="leading-relaxed">{words.slice(0, 4).join(" ")}</p>
-        <p className="leading-relaxed">{words.slice(4).join(" ")}</p>
+        <p className="whitespace-nowrap leading-relaxed">
+          {words.slice(0, 4).join(" ")}
+        </p>
+        <p className="whitespace-nowrap leading-relaxed">
+          {words.slice(4, 7).join(" ")}
+        </p>
       </>
     );
   };
 
   return (
     <section className="relative w-full bg-[#344b2b] overflow-hidden py-16 md:py-24">
-      <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-center">
+      <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-4 items-center">
         {/* Left Image */}
         <div className="hidden lg:flex justify-center lg:justify-end">
-          <div className="relative w-[280px] aspect-[4/4.5] lg:aspect-[4/5] max-w-[280px]">
+          <div className="relative w-[220px] aspect-[4/4.5] lg:aspect-[4/5] max-w-[220px]">
             <div className="absolute inset-0 -translate-x-3 translate-y-3 border-[1.5px] border-[#59784b] rounded-t-[200px] rounded-b-[20px] pointer-events-none" />
             <div className="relative w-full h-full rounded-t-[200px] rounded-b-[20px] overflow-hidden z-10">
               <img
@@ -1458,12 +1746,12 @@ function KuralTrustRow({
             </span>
           </div>
 
-          <div className="text-[20px] md:text-[15px] font-bold text-white leading-[1.8] mb-8 space-y-2">
+          <div className="text-sm sm:text-base md:text-[12px] lg:text-[13px] font-bold text-white leading-[1.8] mb-8 space-y-2">
             {formatKural(kuraldata.kural)}
           </div>
 
           {kuraldata.meaning && (
-            <div className="text-[13px] md:text-[14px] text-[#a9bca1] leading-[1.8] mb-10 max-w-lg font-medium">
+            <div className="text-[12px] md:text-[12px] text-[#a9bca1] leading-[1.8] mb-10 max-w-lg font-medium">
               {kuraldata.meaning}
             </div>
           )}
@@ -1478,7 +1766,7 @@ function KuralTrustRow({
 
         {/* Right Image */}
         <div className="hidden lg:flex justify-center lg:justify-start">
-          <div className="relative w-[280px] aspect-[4/4.5] lg:aspect-[4/5] max-w-[280px]">
+          <div className="relative w-[220px] aspect-[4/4.5] lg:aspect-[4/5] max-w-[220px]">
             <div className="absolute inset-0 -translate-x-3 translate-y-3 border-[1.5px] border-[#59784b] rounded-t-[200px] rounded-b-[20px] pointer-events-none" />
             <div className="relative w-full h-full rounded-t-[200px] rounded-b-[20px] overflow-hidden z-10">
               <img
@@ -1503,23 +1791,25 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
   const defaultIcons = [Activity, Scale, Baby];
 
   return (
-    <section ref={ref} className="py-24 bg-white relative border-t border-stone-200">
+    <section
+      ref={ref}
+      className="py-24 bg-white relative border-t border-stone-200"
+    >
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-
         {/* Minimalist Professional Header */}
         <div className="flex flex-col items-center text-center mb-16 gap-4">
-          <div className="inline-flex items-center gap-2">
-            <span className="w-12 h-[1px] bg-[var(--olive-dark)] opacity-40" />
-            <span className="text-[10px] font-semibold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
-              Targeted Nutrition
-            </span>
-            <span className="w-12 h-[1px] bg-[var(--olive-dark)] opacity-40" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4 mx-auto">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            Targeted Nutrition
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-[var(--foreground)] tracking-tight">
-            {t.health_goals_title || "Shop by Health Goals"}
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px] text-center">
+            <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
+              {t.health_goals_title || "Shop by Health Goals"}
+            </span>
           </h2>
           <p className="text-[14px] text-stone-500 max-w-xl leading-relaxed mt-2">
-            {t.health_goals_desc || "Discover precisely formulated nutrition tailored for your specific wellness objectives."}
+            {t.health_goals_desc ||
+              "Discover precisely formulated nutrition tailored for your specific wellness objectives."}
           </p>
         </div>
 
@@ -1602,16 +1892,16 @@ function NutritionPlanner({ t }: { t: any }) {
       try {
         const [resNuts, resMillets, resSpices] = await Promise.all([
           API.post(API_ROUTES.CALCULATORPRODUCTS, {
-            categoryid: 1,
-            bid: 1,
-          }).catch(() => ({ data: { data: [] } })),
-          API.post(API_ROUTES.CALCULATORPRODUCTS, {
-            categoryid: 2,
-            bid: 1,
-          }).catch(() => ({ data: { data: [] } })),
-          API.post(API_ROUTES.CALCULATORPRODUCTS, {
             categoryid: 3,
-            bid: 1,
+            bid: 2,
+          }).catch(() => ({ data: { data: [] } })),
+          API.post(API_ROUTES.CALCULATORPRODUCTS, {
+            categoryid: 4,
+            bid: 2,
+          }).catch(() => ({ data: { data: [] } })),
+          API.post(API_ROUTES.CALCULATORPRODUCTS, {
+            categoryid: 6,
+            bid: 2,
           }).catch(() => ({ data: { data: [] } })),
         ]);
 
@@ -1737,17 +2027,14 @@ function NutritionPlanner({ t }: { t: any }) {
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
         {/* Main Calculator Header & Description */}
         <div className="text-center mb-12 space-y-6">
-          <div className="inline-flex items-center gap-3">
-            <span className="w-8 h-[2px] bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
-              {t.budget_planning || "Budget & Planning"}
-            </span>
-            <span className="w-8 h-[2px] bg-[var(--orange)]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4 mx-auto">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            {t.budget_planning || "Budget & Planning"}
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] leading-tight tracking-tight">
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px] text-center">
             {t.monthly_product || "Monthly Product"}{" "}
-            <span className="text-[var(--olive)] font-light">
+            <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
               {t.calculator || "Calculator"}
             </span>
           </h2>
@@ -1758,14 +2045,17 @@ function NutritionPlanner({ t }: { t: any }) {
               {t.strategic_nutrition || "Strategic Nutrition Planning"}
             </h3>
             <p className="text-[10px] font-bold text-[var(--orange)] mb-10 text-center uppercase tracking-[0.2em] relative z-10">
-              {t.estimate_requirements || "Estimate Requirements & Costs Instantly"}
+              {t.estimate_requirements ||
+                "Estimate Requirements & Costs Instantly"}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10 relative z-10">
               {[
-                t.calc_req_1 || "Calculate precise quantities based on headcount",
+                t.calc_req_1 ||
+                  "Calculate precise quantities based on headcount",
                 t.calc_req_2 || "Estimate daily & monthly consumption in grams",
-                t.calc_req_3 || "Forecast budget based on selected premium products",
+                t.calc_req_3 ||
+                  "Forecast budget based on selected premium products",
                 t.calc_req_4 || "Maintain a balanced inventory effortlessly",
               ].map((item, i) => (
                 <div
@@ -1773,7 +2063,10 @@ function NutritionPlanner({ t }: { t: any }) {
                   className="flex items-start gap-4 bg-[#FAF8F5] p-6 rounded-2xl border border-stone-100 hover:border-[var(--olive)]/30 hover:shadow-sm transition-all duration-300"
                 >
                   <div className="w-10 h-10 rounded-xl bg-white border border-stone-100 flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <Check className="w-4 h-4 text-[var(--olive-dark)]" strokeWidth={2.5} />
+                    <Check
+                      className="w-4 h-4 text-[var(--olive-dark)]"
+                      strokeWidth={2.5}
+                    />
                   </div>
                   <span className="text-[13px] text-[var(--dark-grey)] font-medium leading-relaxed pt-1">
                     {item}
@@ -1804,7 +2097,8 @@ function NutritionPlanner({ t }: { t: any }) {
                 </h2>
               </div>
               <p className="text-[var(--dark-grey)] font-medium ml-16 text-sm">
-                {t.curate_selection || "Curate the selection for your monthly estimate."}
+                {t.curate_selection ||
+                  "Curate the selection for your monthly estimate."}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
@@ -1832,24 +2126,49 @@ function NutritionPlanner({ t }: { t: any }) {
             {/* Sidebar Categories */}
             <div className="w-full lg:w-72 flex flex-col gap-3">
               {[
-                { id: 0, icon: LayoutGrid, label: t.all_catalog || "All Catalog", count: allProducts.length },
-                { id: 1, icon: Circle, label: t.nuts || "Nuts", count: nutsProducts.length },
-                { id: 2, icon: Wheat, label: t.millets || "Millets", count: milletsProducts.length },
-                { id: 3, icon: Flame, label: t.spices || "Spices", count: spicesProducts.length },
+                {
+                  id: 0,
+                  icon: LayoutGrid,
+                  label: t.all_catalog || "All Catalog",
+                  count: allProducts.length,
+                },
+                {
+                  id: 1,
+                  icon: Circle,
+                  label: t.nuts || "Nuts",
+                  count: nutsProducts.length,
+                },
+                {
+                  id: 2,
+                  icon: Wheat,
+                  label: t.millets || "Millets",
+                  count: milletsProducts.length,
+                },
+                {
+                  id: 3,
+                  icon: Flame,
+                  label: t.spices || "Spices",
+                  count: spicesProducts.length,
+                },
               ].map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${selectedCategory === cat.id
-                    ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md -translate-y-0.5"
-                    : "bg-[#FAF8F5] border-stone-100 hover:border-[var(--olive)]/50 hover:bg-white text-[var(--dark-grey)]"
-                    }`}
+                  className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${
+                    selectedCategory === cat.id
+                      ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md -translate-y-0.5"
+                      : "bg-[#FAF8F5] border-stone-100 hover:border-[var(--olive)]/50 hover:bg-white text-[var(--dark-grey)]"
+                  }`}
                 >
                   <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-widest">
-                    <cat.icon className={`w-4 h-4 ${selectedCategory === cat.id ? "text-[var(--orange)]" : "text-[var(--olive-dark)]"}`} />
+                    <cat.icon
+                      className={`w-4 h-4 ${selectedCategory === cat.id ? "text-[var(--orange)]" : "text-[var(--olive-dark)]"}`}
+                    />
                     {cat.label}
                   </div>
-                  <span className={`text-[10px] font-black px-2.5 py-1 rounded-lg ${selectedCategory === cat.id ? "bg-white/20 text-white" : "bg-white text-[var(--dark-grey)] border border-stone-200"}`}>
+                  <span
+                    className={`text-[10px] font-black px-2.5 py-1 rounded-lg ${selectedCategory === cat.id ? "bg-white/20 text-white" : "bg-white text-[var(--dark-grey)] border border-stone-200"}`}
+                  >
                     {cat.count}
                   </span>
                 </button>
@@ -1860,9 +2179,12 @@ function NutritionPlanner({ t }: { t: any }) {
             <div className="flex-1 border border-stone-100 bg-[#FAF8F5]/50 rounded-[24px] p-6 md:p-8">
               <div className="flex justify-between items-center mb-8">
                 <h3 className="font-bold text-[var(--foreground)] uppercase tracking-widest text-[11px]">
-                  {selectedCategory === 0 ? t.complete_catalog || "Complete Catalog"
-                    : selectedCategory === 1 ? t.nuts_category || "Nuts Category"
-                      : selectedCategory === 2 ? t.millets_category || "Millets Category"
+                  {selectedCategory === 0
+                    ? t.complete_catalog || "Complete Catalog"
+                    : selectedCategory === 1
+                      ? t.nuts_category || "Nuts Category"
+                      : selectedCategory === 2
+                        ? t.millets_category || "Millets Category"
                         : t.spices_category || "Spices Category"}
                   <span className="text-[var(--orange)] ml-2 bg-white px-2 py-1 rounded-full shadow-sm">
                     {displayedProducts.length} items
@@ -1874,26 +2196,38 @@ function NutritionPlanner({ t }: { t: any }) {
                 <div className="py-16 flex flex-col items-center justify-center bg-white border border-dashed border-stone-200 rounded-[20px]">
                   <Leaf className="w-10 h-10 text-stone-300 mb-4" />
                   <p className="text-[var(--dark-grey)] font-medium text-sm">
-                    {t.no_products_inventory || "No products found in inventory."}
+                    {t.no_products_inventory ||
+                      "No products found in inventory."}
                   </p>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-5">
                   {displayedProducts.map((product) => {
-                    const isSelected = !!selectedProducts.find((p) => p.productid === product.productid);
+                    const isSelected = !!selectedProducts.find(
+                      (p) => p.productid === product.productid,
+                    );
                     const price = product.sellingprice || product.price || 0;
                     return (
                       <div
                         key={product.productid}
                         onClick={() => handleToggleProduct(product)}
-                        className={`group relative p-5 bg-white border rounded-[20px] cursor-pointer transition-all duration-300 ${isSelected
-                          ? "border-[var(--olive-dark)] shadow-[0_8px_25px_rgba(0,0,0,0.08)] ring-1 ring-[var(--olive-dark)] -translate-y-1"
-                          : "border-stone-100 hover:border-[var(--orange)] hover:shadow-lg hover:-translate-y-1"
-                          }`}
+                        className={`group relative p-5 bg-white border rounded-[20px] cursor-pointer transition-all duration-300 ${
+                          isSelected
+                            ? "border-[var(--olive-dark)] shadow-[0_8px_25px_rgba(0,0,0,0.08)] ring-1 ring-[var(--olive-dark)] -translate-y-1"
+                            : "border-stone-100 hover:border-[var(--orange)] hover:shadow-lg hover:-translate-y-1"
+                        }`}
                       >
-                        <div className={`absolute top-4 left-4 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 border-2 z-10 ${isSelected ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white" : "bg-white border-stone-200 group-hover:border-[var(--orange)]"
-                          }`}>
-                          <Check className={`w-3.5 h-3.5 ${isSelected ? "opacity-100 scale-100" : "opacity-0 scale-50"} transition-all duration-300`} strokeWidth={3} />
+                        <div
+                          className={`absolute top-4 left-4 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 border-2 z-10 ${
+                            isSelected
+                              ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white"
+                              : "bg-white border-stone-200 group-hover:border-[var(--orange)]"
+                          }`}
+                        >
+                          <Check
+                            className={`w-3.5 h-3.5 ${isSelected ? "opacity-100 scale-100" : "opacity-0 scale-50"} transition-all duration-300`}
+                            strokeWidth={3}
+                          />
                         </div>
 
                         <div className="h-[100px] w-full relative mb-5 mt-4 bg-[#FAF8F5] rounded-[16px] overflow-hidden flex items-center justify-center group-hover:bg-[var(--orange)]/5 transition-colors">
@@ -1909,8 +2243,12 @@ function NutritionPlanner({ t }: { t: any }) {
                             {product.productname}
                           </p>
                           <div className="inline-block px-3 py-1.5 bg-white border border-stone-100 rounded-full shadow-sm">
-                            <span className="text-[11px] font-black text-[var(--olive-dark)]">₹{price}</span>
-                            <span className="text-[9px] font-bold text-[var(--dark-grey)] ml-1 uppercase">/ Kg</span>
+                            <span className="text-[11px] font-black text-[var(--olive-dark)]">
+                              ₹{price}
+                            </span>
+                            <span className="text-[9px] font-bold text-[var(--dark-grey)] ml-1 uppercase">
+                              / Kg
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -1925,7 +2263,10 @@ function NutritionPlanner({ t }: { t: any }) {
                   <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
                     <Check className="w-4 h-4 text-[var(--orange)]" />
                   </div>
-                  <span>{selectedProducts.length} {t.items_selected || "Items Selected"}</span>
+                  <span>
+                    {selectedProducts.length}{" "}
+                    {t.items_selected || "Items Selected"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -1940,7 +2281,10 @@ function NutritionPlanner({ t }: { t: any }) {
         </div>
 
         {/* Step 2: Calculator */}
-        <div id="calculator-section" className="bg-white rounded-[32px] border border-stone-100 shadow-[0_15px_40px_rgba(0,0,0,0.03)] p-8 md:p-12 relative overflow-hidden">
+        <div
+          id="calculator-section"
+          className="bg-white rounded-[32px] border border-stone-100 shadow-[0_15px_40px_rgba(0,0,0,0.03)] p-8 md:p-12 relative overflow-hidden"
+        >
           <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--orange)]/5 rounded-full blur-[80px] pointer-events-none" />
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 relative z-10">
@@ -1954,7 +2298,8 @@ function NutritionPlanner({ t }: { t: any }) {
                 </h2>
               </div>
               <p className="text-[var(--dark-grey)] font-medium ml-16 text-sm">
-                {t.adjust_parameters || "Adjust parameters to forecast your monthly procurement budget."}
+                {t.adjust_parameters ||
+                  "Adjust parameters to forecast your monthly procurement budget."}
               </p>
             </div>
           </div>
@@ -1963,31 +2308,53 @@ function NutritionPlanner({ t }: { t: any }) {
             <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
                 <tr className="bg-[#FAF8F5] text-[10px] font-black text-[var(--olive-dark)] uppercase tracking-[0.15em] border-b border-stone-100">
-                  <th className="px-6 py-5 rounded-tl-[24px]">{t.product_name || "Product Name"}</th>
-                  <th className="px-4 py-5 text-center">{t.grams_per_day || "Grams / Day"}</th>
+                  <th className="px-6 py-5 rounded-tl-[24px]">
+                    {t.product_name || "Product Name"}
+                  </th>
+                  <th className="px-4 py-5 text-center">
+                    {t.grams_per_day || "Grams / Day"}
+                  </th>
                   <th className="px-4 py-5 text-center">{t.days || "Days"}</th>
-                  <th className="px-4 py-5 text-center">{t.headcount || "Headcount"}</th>
-                  <th className="px-4 py-5 text-center">{t.total_kg || "Total (KG)"}</th>
-                  <th className="px-4 py-5 text-center">{t.unit_price || "Unit Price"}</th>
-                  <th className="px-6 py-5 text-right">{t.subtotal || "Subtotal"}</th>
-                  <th className="px-6 py-5 text-center rounded-tr-[24px]">{t.action || "Action"}</th>
+                  <th className="px-4 py-5 text-center">
+                    {t.headcount || "Headcount"}
+                  </th>
+                  <th className="px-4 py-5 text-center">
+                    {t.total_kg || "Total (KG)"}
+                  </th>
+                  <th className="px-4 py-5 text-center">
+                    {t.unit_price || "Unit Price"}
+                  </th>
+                  <th className="px-6 py-5 text-right">
+                    {t.subtotal || "Subtotal"}
+                  </th>
+                  <th className="px-6 py-5 text-center rounded-tr-[24px]">
+                    {t.action || "Action"}
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-50">
                 {selectedProducts.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-6 py-20 text-center text-[var(--dark-grey)] font-bold uppercase tracking-widest text-xs bg-white">
-                      {t.inventory_empty || "Inventory empty. Select items to generate estimate."}
+                    <td
+                      colSpan={8}
+                      className="px-6 py-20 text-center text-[var(--dark-grey)] font-bold uppercase tracking-widest text-xs bg-white"
+                    >
+                      {t.inventory_empty ||
+                        "Inventory empty. Select items to generate estimate."}
                     </td>
                   </tr>
                 ) : (
                   selectedProducts.map((product) => {
                     const data = plannerData[product.productid!];
                     const { qty, price } = calculateRow(product);
-                    const displayPrice = product.sellingprice || product.price || 0;
+                    const displayPrice =
+                      product.sellingprice || product.price || 0;
 
                     return (
-                      <tr key={product.productid} className="hover:bg-stone-50/50 transition-colors bg-white">
+                      <tr
+                        key={product.productid}
+                        className="hover:bg-stone-50/50 transition-colors bg-white"
+                      >
                         <td className="px-6 py-5">
                           <div className="flex items-center gap-4">
                             <div className="w-14 h-14 rounded-2xl bg-[#FAF8F5] border border-stone-100 flex-shrink-0 p-2 shadow-sm">
@@ -2007,7 +2374,15 @@ function NutritionPlanner({ t }: { t: any }) {
                             type="number"
                             className="w-20 px-3 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm font-black text-[var(--foreground)] text-center focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-inner"
                             value={data.grams}
-                            onChange={(e) => setPlannerData(prev => ({ ...prev, [product.productid!]: { ...data, grams: Number(e.target.value) } }))}
+                            onChange={(e) =>
+                              setPlannerData((prev) => ({
+                                ...prev,
+                                [product.productid!]: {
+                                  ...data,
+                                  grams: Number(e.target.value),
+                                },
+                              }))
+                            }
                           />
                         </td>
                         <td className="px-4 py-5 text-center">
@@ -2015,7 +2390,15 @@ function NutritionPlanner({ t }: { t: any }) {
                             type="number"
                             className="w-20 px-3 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm font-black text-[var(--foreground)] text-center focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-inner"
                             value={data.days}
-                            onChange={(e) => setPlannerData(prev => ({ ...prev, [product.productid!]: { ...data, days: Number(e.target.value) } }))}
+                            onChange={(e) =>
+                              setPlannerData((prev) => ({
+                                ...prev,
+                                [product.productid!]: {
+                                  ...data,
+                                  days: Number(e.target.value),
+                                },
+                              }))
+                            }
                           />
                         </td>
                         <td className="px-4 py-5 text-center">
@@ -2023,14 +2406,27 @@ function NutritionPlanner({ t }: { t: any }) {
                             type="number"
                             className="w-20 px-3 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm font-black text-[var(--foreground)] text-center focus:border-[var(--olive)] focus:ring-2 focus:ring-[var(--olive)]/20 outline-none transition-all shadow-inner"
                             value={data.members}
-                            onChange={(e) => setPlannerData(prev => ({ ...prev, [product.productid!]: { ...data, members: Number(e.target.value) } }))}
+                            onChange={(e) =>
+                              setPlannerData((prev) => ({
+                                ...prev,
+                                [product.productid!]: {
+                                  ...data,
+                                  members: Number(e.target.value),
+                                },
+                              }))
+                            }
                           />
                         </td>
                         <td className="px-4 py-5 text-center font-black text-[var(--olive-dark)] text-sm">
-                          {qty} <span className="text-[10px] uppercase font-bold text-[var(--dark-grey)]">Kg</span>
+                          {qty}{" "}
+                          <span className="text-[10px] uppercase font-bold text-[var(--dark-grey)]">
+                            Kg
+                          </span>
                         </td>
                         <td className="px-4 py-5 text-center font-bold text-[var(--dark-grey)] text-xs">
-                          <span className="bg-[#FAF8F5] px-3 py-1.5 rounded-full border border-stone-100">₹{displayPrice}</span>
+                          <span className="bg-[#FAF8F5] px-3 py-1.5 rounded-full border border-stone-100">
+                            ₹{displayPrice}
+                          </span>
                         </td>
                         <td className="px-6 py-5 text-right font-black text-[var(--foreground)] text-[15px]">
                           ₹{price}
@@ -2056,7 +2452,8 @@ function NutritionPlanner({ t }: { t: any }) {
               onClick={handleClearAll}
               className="px-6 py-3 rounded-full border border-stone-200 text-[var(--dark-grey)] font-bold text-[10px] tracking-[0.2em] uppercase flex items-center gap-2 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all bg-white shadow-sm"
             >
-              {t.clear_estimate || "Clear Estimate"} <Trash2 className="w-3.5 h-3.5" />
+              {t.clear_estimate || "Clear Estimate"}{" "}
+              <Trash2 className="w-3.5 h-3.5" />
             </button>
             <div className="flex flex-col sm:flex-row items-center gap-8 sm:gap-12 w-full md:w-auto">
               <div className="text-center sm:text-right">
@@ -2076,7 +2473,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         products: selectedProducts.map((p) => {
                           const d = plannerData[p.productid!];
                           return {
-                            bid: p.bid || 1,
+                            bid: p.bid || 2,
                             productid: p.productid,
                             gramsperday: d.grams,
                             dayspermonth: d.days,
@@ -2084,7 +2481,10 @@ function NutritionPlanner({ t }: { t: any }) {
                           };
                         }),
                       };
-                      const response = await API.post(API_ROUTES.ADDCALCULATORCART, payload);
+                      const response = await API.post(
+                        API_ROUTES.ADDCALCULATORCART,
+                        payload,
+                      );
                       if (response.status === 200) {
                         router.push("/monthly-cart");
                       } else {
@@ -2092,23 +2492,28 @@ function NutritionPlanner({ t }: { t: any }) {
                       }
                     } catch (err: any) {
                       console.error("Error adding to monthly cart", err);
-                      alert(err?.response?.data?.message || "An error occurred while adding to monthly cart.");
+                      alert(
+                        err?.response?.data?.message ||
+                          "An error occurred while adding to monthly cart.",
+                      );
                     } finally {
                       setIsBuying(false);
                     }
                   })
                 }
                 disabled={selectedProducts.length === 0 || isBuying}
-                className={`flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-full font-bold text-[11px] tracking-[0.2em] uppercase transition-all shadow-[0_8px_25px_rgba(0,0,0,0.12)] ${selectedProducts.length > 0
-                  ? "bg-[var(--olive-dark)] text-white hover:bg-[var(--orange)] hover:-translate-y-1"
-                  : "bg-stone-200 text-stone-400 cursor-not-allowed shadow-none"
-                  } w-full sm:w-auto min-w-[220px]`}
+                className={`flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-full font-bold text-[11px] tracking-[0.2em] uppercase transition-all shadow-[0_8px_25px_rgba(0,0,0,0.12)] ${
+                  selectedProducts.length > 0
+                    ? "bg-[var(--olive-dark)] text-white hover:bg-[var(--orange)] hover:-translate-y-1"
+                    : "bg-stone-200 text-stone-400 cursor-not-allowed shadow-none"
+                } w-full sm:w-auto min-w-[220px]`}
               >
                 {isBuying ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
-                    {t.proceed_to_cart || "Proceed to Cart"} <ArrowRight className="w-4 h-4" />
+                    {t.proceed_to_cart || "Proceed to Cart"}{" "}
+                    <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
@@ -2187,16 +2592,13 @@ function SubscriptionPlans({ t }: { t: any }) {
         <div
           className={`text-center mb-16 space-y-4 transition-all duration-500 opacity-100 translate-y-0`}
         >
-          <div className="inline-flex items-center gap-3 justify-center w-full mb-2">
-            <span className="w-8 h-px bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
-              Membership
-            </span>
-            <span className="w-8 h-px bg-[var(--orange)]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4 mx-auto">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            Membership
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] leading-tight">
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px] text-center">
             {t.subscription.split(" ").slice(0, 2).join(" ")}{" "}
-            <span className="text-[var(--orange)] font-light">
+            <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
               {t.subscription.split(" ").slice(2).join(" ")}
             </span>
           </h2>
@@ -2334,15 +2736,13 @@ function NewArrivalsSection({ t, products }: { t: any; products?: any[] }) {
           className={`flex flex-col md:flex-row items-end justify-between mb-16 gap-6 transition-all duration-500 opacity-100 translate-y-0`}
         >
           <div className="space-y-4 text-left">
-            <div className="inline-flex items-center gap-3 mb-1">
-              <span className="w-6 h-px bg-[var(--orange)]" />
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[var(--olive)]">
-                Latest Additions
-              </span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4">
+              <span className="h-2 w-2 rounded-full bg-amber-500" />
+              Latest Additions
             </div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--foreground)] tracking-tight leading-none">
+            <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px]">
               {t.new_arrivals.split(" ")[0]}{" "}
-              <span className="text-[var(--orange)] font-light">
+              <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
                 {t.new_arrivals.split(" ")[1]}
               </span>
             </h2>
@@ -2500,14 +2900,13 @@ function CertificationsSection({ t }: { t: any }) {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center space-y-4 mb-14">
-          <div className="inline-flex items-center gap-3 justify-center w-full mb-1">
-            <span className="text-[10px] font-black tracking-[0.4em] uppercase text-[var(--orange)]">
-              {t.accreditations || "Accreditations"}
-            </span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4 mx-auto">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            {t.accreditations || "Accreditations"}
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px] text-center">
             {t.trusted || "Trusted"}{" "}
-            <span className="text-[var(--olive)] font-light">
+            <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
               {t.certifications || "Certifications"}
             </span>
           </h2>
@@ -2568,17 +2967,20 @@ function VideoTestimonialsSection() {
     {
       name: "Sravani",
       duration: "0:45",
-      cover: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=400",
+      cover:
+        "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=400",
     },
     {
       name: "Karthik",
       duration: "0:58",
-      cover: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400",
+      cover:
+        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400",
     },
     {
       name: "Deepika",
       duration: "0:50",
-      cover: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=400",
+      cover:
+        "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=400",
     },
   ];
 
@@ -2587,26 +2989,29 @@ function VideoTestimonialsSection() {
       <div className="absolute top-0 right-0 w-1/3 h-full bg-[#FAF8F5] rounded-l-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-
         <div className="text-center space-y-4 mb-16">
-          <div className="inline-flex items-center gap-3 justify-center w-full mb-1">
-            <span className="w-8 h-[2px] bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
-              Real Stories
-            </span>
-            <span className="w-8 h-[2px] bg-[var(--orange)]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4 mx-auto">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            Real Stories
           </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
-            Video <span className="text-[var(--olive)] font-light">Testimonials</span>
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px] text-center">
+            Video{" "}
+            <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
+              Testimonials
+            </span>
           </h2>
           <p className="text-sm text-[var(--dark-grey)] font-medium max-w-xl mx-auto leading-relaxed mt-4">
-            Hear directly from our community about their experiences and journeys with our products.
+            Hear directly from our community about their experiences and
+            journeys with our products.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
           {videoReviews.map((video, idx) => (
-            <div key={idx} className="group relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-700 cursor-pointer">
+            <div
+              key={idx}
+              className="group relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-700 cursor-pointer"
+            >
               <img
                 src={video.cover}
                 alt={video.name}
@@ -2620,7 +3025,10 @@ function VideoTestimonialsSection() {
                 <div className="relative group-hover:scale-110 transition-transform duration-500">
                   <div className="absolute -inset-4 bg-[var(--orange)]/30 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse" />
                   <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 transition-all duration-500 shadow-xl group-hover:bg-[var(--orange)] group-hover:border-transparent">
-                    <svg className="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24">
+                    <svg
+                      className="w-6 h-6 fill-current ml-1"
+                      viewBox="0 0 24 24"
+                    >
                       <path d="M8 5v14l11-7z" />
                     </svg>
                   </div>
@@ -2657,18 +3065,19 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center space-y-4 mb-16">
-          <div className="inline-flex items-center gap-3 justify-center w-full mb-1">
-            <span className="w-8 h-[2px] bg-[var(--orange)]" />
-            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--olive-dark)]">
-              Our Commitment
-            </span>
-            <span className="w-8 h-[2px] bg-[var(--orange)]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4 mx-auto">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            Our Commitment
           </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--foreground)] tracking-tight leading-none text-center">
-            Purity & <span className="text-[var(--olive)] font-light">Planet</span>
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-[var(--foreground)] md:text-4xl lg:text-[42px] text-center">
+            Purity &{" "}
+            <span className="bg-gradient-to-r from-[var(--olive-dark)] via-emerald-600 to-teal-500 bg-clip-text text-transparent">
+              Planet
+            </span>
           </h2>
           <p className="text-sm text-[var(--dark-grey)] font-medium max-w-xl mx-auto leading-relaxed mt-4">
-            We believe in creating products that are as good for the earth as they are for you.
+            We believe in creating products that are as good for the earth as
+            they are for you.
           </p>
         </div>
 
@@ -2739,7 +3148,10 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
                   t.eco_friendly_processes || "Eco Friendly Processes",
                   t.supporting_local_farmers || "Supporting Local Farmers",
                 ].map((text, idx) => (
-                  <li key={idx} className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)] tracking-wide uppercase">
+                  <li
+                    key={idx}
+                    className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)] tracking-wide uppercase"
+                  >
                     <div className="w-4 h-4 rounded-full bg-[var(--olive-dark)] flex items-center justify-center text-white shadow-sm">
                       <Check className="w-2.5 h-2.5" strokeWidth={3} />
                     </div>
@@ -2756,8 +3168,18 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
 
             <div className="space-y-6 relative z-10">
               <div className="w-16 h-16 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--orange)] group-hover:text-white transition-all duration-500 shadow-sm">
-                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                <svg
+                  className="w-7 h-7"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                  />
                 </svg>
               </div>
 
@@ -2783,7 +3205,10 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
                   t.fully_biodegradable || "Fully Biodegradable",
                   t.better_for_earth || "Better for Earth",
                 ].map((text, idx) => (
-                  <li key={idx} className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)] tracking-wide uppercase">
+                  <li
+                    key={idx}
+                    className="flex items-center gap-3 text-[11px] font-bold text-[var(--dark-grey)] tracking-wide uppercase"
+                  >
                     <div className="w-4 h-4 rounded-full bg-[var(--olive-dark)] flex items-center justify-center text-white shadow-sm">
                       <Check className="w-2.5 h-2.5" strokeWidth={3} />
                     </div>

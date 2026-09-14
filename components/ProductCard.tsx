@@ -110,7 +110,6 @@ export default function ProductCard({
   };
 
   const isGiftOrPooja =
-    product.categoryid === 4 ||
     product.categoryid === 5 ||
     product.itemtype === "gift" ||
     (product.category && product.category.toLowerCase().includes("gift"));
@@ -130,7 +129,7 @@ export default function ProductCard({
         <img
           src={image}
           alt={name}
-          className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${(product.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
+          className={`h-full w-full object-contain transition-transform duration-700 group-hover:scale-105 ${(product.availablestock ?? 0) <= 0 ? "grayscale opacity-60" : ""}`}
         />
 
         {/* Subtle Corporate Overlay on Hover */}
@@ -264,7 +263,7 @@ export default function ProductCard({
                 setIsAdding(true);
                 try {
                   const response = await API.post(API_ROUTES.ADDTOCART, {
-                    bid: product.bid || 1,
+                    bid: product.bid || 2,
                     productid: product.itemtype === "gift" ? null : id,
                     giftid: product.itemtype === "gift" ? id : null,
                     quantity: quantity,

@@ -169,7 +169,7 @@ export default function ContactUsPageClient() {
             </div>
 
             {/* Headquarters Card - Corporate */}
-            <div className="corporate-card group p-10 h-full flex flex-col">
+            <div className="corporate-card group p-10 flex flex-col">
               <div className="flex items-start justify-between mb-8">
                 <div className="w-14 h-14 bg-gray-50 text-[var(--olive)] rounded-[var(--radius-sm)] border border-gray-100 flex items-center justify-center transition-transform duration-500 group-hover:bg-[var(--olive)] group-hover:text-white">
                   <MapPin className="w-6 h-6" />
@@ -184,7 +184,7 @@ export default function ContactUsPageClient() {
                 </div>
               </div>
 
-              <div className="space-y-6 flex-grow">
+              <div className="space-y-6">
                 <div>
                   <h4 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
                     {t.contact_us.hq}

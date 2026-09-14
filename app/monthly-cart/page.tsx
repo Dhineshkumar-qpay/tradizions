@@ -193,7 +193,7 @@ export default function MonthlyCartPage() {
       const grandTotal = cartData?.totalamount || 0;
 
       const options = {
-        key: "rzp_test_TRz4Jt08XnAOja",
+        key: "rzp_live_TQmjNlUYT2QAlj",
         amount: Math.round(grandTotal * 100),
         currency: "INR",
         name: "Tradizions",

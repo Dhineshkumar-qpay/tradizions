@@ -126,7 +126,7 @@ export default function GiftDetailPage() {
       setIsAddingToCart(true);
       try {
         const response = await API.post(API_ROUTES.ADDTOCART, {
-          bid: gift.bid || 1,
+          bid: gift.bid || 2,
           productid: null,
           giftid: gift.giftid || Number(id),
           quantity: quantity,
@@ -157,7 +157,7 @@ export default function GiftDetailPage() {
     setIsAddingToCart(true);
     try {
       const response = await API.post(API_ROUTES.ADDTOCART, {
-        bid: gift.bid || 1,
+        bid: gift.bid || 2,
         productid: null,
         giftid: gift.giftid || Number(id),
         quantity: quantity,
@@ -273,7 +273,7 @@ export default function GiftDetailPage() {
     setIsSubmittingReview(true);
     try {
       const payload = {
-        bid: gift?.bid || 1,
+        bid: gift?.bid || 2,
         productid: gift?.giftid || Number(id),
         rating: rating,
         review: reviewContent,
@@ -1284,7 +1284,7 @@ export default function GiftDetailPage() {
                             handleActionWithLogin(async () => {
                               try {
                                 const response = await API.post(API_ROUTES.ADDTOCART, {
-                                  bid: relGift.bid || 1,
+                                  bid: relGift.bid || 2,
                                   productid: null,
                                   giftid: relId,
                                   quantity: 1,

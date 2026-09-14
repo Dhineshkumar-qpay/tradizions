@@ -151,7 +151,7 @@ export default function CorporateOrdersPageClient() {
       setIsAddingToCart(item.productid);
       try {
         const response = await API.post(API_ROUTES.ADDTOCART, {
-          bid: item.bid || 1,
+          bid: item.bid || 2,
           productid: null,
           giftid: item.productid,
           quantity: 1,
@@ -280,7 +280,7 @@ export default function CorporateOrdersPageClient() {
                   </div>
                   <div>
                     <p className="text-sm font-extrabold text-gray-900 tracking-tight">
-                      100% Organic
+                      Custom Branding
                     </p>
                   </div>
                 </div>

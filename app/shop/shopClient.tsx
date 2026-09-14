@@ -338,12 +338,22 @@ export default function ShopPage() {
           p.categoryid === 4
           ? "gift"
           : "product"),
-      bid: p.bid || 1,
+      bid: p.bid || 2,
       availablestock: p.availablestock || 0,
     };
   });
 
-  const searchedProducts = mappedProducts.filter((product) =>
+  const sortedProducts = [...mappedProducts].sort((a, b) => {
+    if (activeFilters.sortby === "price-low-high") {
+      return a.price - b.price;
+    }
+    if (activeFilters.sortby === "price-high-low") {
+      return b.price - a.price;
+    }
+    return 0;
+  });
+
+  const searchedProducts = sortedProducts.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
@@ -534,7 +544,7 @@ export default function ShopPage() {
           <ChevronDown className="w-3 h-3 text-stone-400 transition-transform group-open:rotate-180" />
         </summary>
         <div className="px-4 pb-4 grid grid-cols-2 gap-2 animate-in fade-in duration-300">
-          {["250g", "500g", "1kg", "2kg"].map((w) => {
+          {["0.25kg", "0.5kg", "1kg", "2kg"].map((w) => {
             const numericWeight = mapWeightToValue(w);
             const isSelected = activeFilters.weight === numericWeight;
             return (
