@@ -287,7 +287,7 @@ export default function Home() {
         <div className="pointer-events-none absolute -right-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-emerald-200/30 blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4">
+          <div className="grid grid-cols-1 md:grid-cols-4">
             {[
               {
                 key: "trust_point_1",
