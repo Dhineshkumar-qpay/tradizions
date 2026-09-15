@@ -97,13 +97,14 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="bg-[var(--olive-dark)] text-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-12 relative z-10 border-t border-white/10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+    <footer className="relative overflow-hidden bg-gradient-to-br from-[var(--olive-dark)] via-[#173d39] to-[var(--olive)] text-white">
+      <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-[var(--orange)] via-[#f0c477] to-transparent" />
+      <div className="relative z-10 mx-auto max-w-7xl border-t border-white/10 px-6 pb-12 pt-16 sm:pt-20">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Brand */}
-          <div className="lg:col-span-4 space-y-8">
+          <div className="space-y-8 lg:col-span-4 lg:border-r lg:border-white/10 lg:pr-12">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="p-2 bg-white rounded-sm transition-transform duration-300 group-hover:scale-105 shadow-sm">
+              <div className="rounded-sm bg-white p-2 shadow-[0_8px_24px_rgba(0,0,0,0.16)] transition-transform duration-300 group-hover:scale-105">
                 <Image
                   src="/app-logo.png"
                   alt="Tradizions Logo"
@@ -129,17 +130,18 @@ export default function Footer() {
                   <img
                     src={icon}
                     alt="Social Icon"
-                    className="w-5 h-5 object-contain group-hover:scale-110 transition-transform group-hover:brightness-0 group-hover:invert"
+                    className="w-5 h-5 object-contain group-hover:scale-110 transition-transform "
                   />
                 </Link>
               ))}
-              <div className="pt-4">
+              <div>
                 <a
                   href="https://wa.me/919940620019"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="
       group inline-flex items-center gap-3
+      h-11
       rounded-full
       bg-[#25D366]
       p-1.5 pr-5
@@ -173,7 +175,7 @@ export default function Footer() {
 
                   {/* Button Text */}
                   <span className="transition-transform duration-300 group-hover:translate-x-0.5">
-                    WhatsApp Us
+                    WhatsApp
                   </span>
 
                   {/* Arrow */}
@@ -193,7 +195,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="space-y-8 lg:col-span-2">
             <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-[var(--orange)]">
               {t.quick_links}
             </h4>
@@ -222,7 +224,7 @@ export default function Footer() {
           </div>
 
           {/* Company */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="space-y-8 lg:col-span-2">
             <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-[var(--orange)]">
               {t.policies}
             </h4>
@@ -251,7 +253,7 @@ export default function Footer() {
           </div>
 
           {/* Newsletter & Contact */}
-          <div className="lg:col-span-4 space-y-10">
+          <div className="space-y-10 lg:col-span-4">
             {/* Newsletter */}
             <div className="space-y-6">
               <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-[var(--orange)]">
@@ -310,7 +312,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="mt-16 flex flex-col items-center justify-between gap-5 border-t border-white/10 pt-6 md:flex-row">
           <p className="text-xs text-white/40">
             © {currentYear} TRADIZIONS. All rights reserved.
           </p>

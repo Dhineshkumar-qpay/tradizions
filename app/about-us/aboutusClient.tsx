@@ -18,7 +18,6 @@ import hi from "@/languages/hi.json";
 import { API } from "@/service/api_service";
 import { API_ROUTES } from "@/routes/api_routes";
 
-
 const translations: Record<string, any> = {
   EN: en,
   TA: ta,
@@ -204,7 +203,6 @@ export default function AboutUsPage() {
         ref={heroRef.ref}
         className="relative py-10 overflow-hidden flex items-center justify-center bg-white border-b border-stone-200"
       >
-
         <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
           <div
             className={`inline-flex items-center gap-2 px-5 py-2 rounded-sm bg-stone-100 text-[var(--olive-dark)] border border-stone-200 text-[11px] font-bold tracking-[0.25em] uppercase mb-8 shadow-sm transition-all duration-1000 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
@@ -217,7 +215,10 @@ export default function AboutUsPage() {
             className={`text-2xl md:text-3xl lg:text-4xl font-extrabold text-stone-900 leading-[1.1] tracking-tight mb-8 transition-all duration-1000 delay-200 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
             {t.about_us.welcome}
-            <span className="text-[var(--olive-dark)]"> {t.about_us.brand}</span>
+            <span className="text-[var(--olive-dark)]">
+              {" "}
+              {t.about_us.brand}
+            </span>
           </h1>
 
           <p
@@ -267,7 +268,7 @@ export default function AboutUsPage() {
                       {t.about_us.heritage}
                     </p>
                   </div>
-                  <p className="text-5xl font-black italic">1995</p>
+                  <p className="text-5xl font-black italic">2024</p>
                 </div>
               </div>
 
@@ -310,15 +311,9 @@ export default function AboutUsPage() {
 
               <div className="grid grid-cols-2 gap-8 pt-6">
                 <div className="space-y-1">
-                  <p className="text-3xl font-bold text-gray-900">30+</p>
+                  <p className="text-3xl font-bold text-gray-900">2+</p>
                   <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
                     {t.about_us.exp_years}
-                  </p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-3xl font-bold text-gray-900">100%</p>
-                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                    {t.about_us.org_cert}
                   </p>
                 </div>
               </div>
@@ -331,7 +326,6 @@ export default function AboutUsPage() {
       <section className="py-24 bg-white relative overflow-hidden border-t border-stone-200">
         <div className="max-w-6xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            
             {/* Mission Card */}
             <div className="group relative bg-white rounded-sm p-12 md:p-16 border border-stone-200 shadow-sm overflow-hidden transition-all duration-300 hover:border-stone-400">
               <div className="relative z-10 text-center">
@@ -346,7 +340,10 @@ export default function AboutUsPage() {
                   </div>
 
                   <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 leading-relaxed italic tracking-wide">
-                    “{t.about_us.mission_quote || "To bring together tradition, health, and convenience by delivering high-quality essentials that enrich everyday living."}”
+                    “
+                    {t.about_us.mission_quote ||
+                      "To bring together tradition, health, and convenience by delivering high-quality essentials that enrich everyday living."}
+                    ”
                   </h2>
 
                   <div className="flex flex-col items-center gap-4 pt-4">
@@ -373,7 +370,10 @@ export default function AboutUsPage() {
                   </div>
 
                   <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-white leading-relaxed italic tracking-wide">
-                    “{t.about_us.vision_quote || "To become the global standard for pure, traditional wellness, uniting modern lifestyles with timeless, organic nourishment."}”
+                    “
+                    {t.about_us.vision_quote ||
+                      "To become the global standard for pure, traditional wellness, uniting modern lifestyles with timeless, organic nourishment."}
+                    ”
                   </h2>
 
                   <div className="flex flex-col items-center gap-4 pt-4">
@@ -385,13 +385,15 @@ export default function AboutUsPage() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
       {/* ── OUR PROMISE ── */}
-      <section ref={valuesRef.ref} className="py-32 bg-white border-y border-stone-200">
+      <section
+        ref={valuesRef.ref}
+        className="py-32 bg-white border-y border-stone-200"
+      >
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20 space-y-4">
             <p className="text-sm font-bold text-[var(--olive)] tracking-[0.3em] uppercase">
@@ -455,7 +457,6 @@ export default function AboutUsPage() {
           <div
             className={`bg-white rounded-sm shadow-sm border border-stone-200 p-8 md:p-14 relative overflow-hidden transition-all duration-700 min-h-[400px] flex flex-col justify-center ${offerRef.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}
           >
-
             {isSubmitted ? (
               <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in relative z-10">
                 <div className="w-20 h-20 bg-emerald-50 text-[var(--olive)] rounded-full flex items-center justify-center mb-6 border border-emerald-100 shadow-sm animate-scale-in">

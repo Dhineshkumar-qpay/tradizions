@@ -212,7 +212,7 @@ export default function CustomGiftBuilder() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-3 rounded-full border border-amber-200 bg-amber-50/80 px-5 py-2.5 shadow-sm mb-8 backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-amber-400" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-amber-700">Corporate Gifting</span>
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-amber-700">{t.custom_gift?.title || "Custom"}</span>
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-[var(--foreground)]">

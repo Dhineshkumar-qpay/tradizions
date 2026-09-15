@@ -35,11 +35,13 @@ export default function ProductCard({
   isVisible = true,
   delay = 0,
   onClick,
+  compact = false,
 }: {
   product: any;
   isVisible?: boolean;
   delay?: number;
   onClick?: () => void;
+  compact?: boolean;
 }) {
   const id = product.productid !== undefined ? product.productid : product.id;
   const name = product.productname || product.name;
@@ -121,11 +123,11 @@ export default function ProductCard({
     <Link
       href={detailUrl}
       onClick={onClick}
-      className="group relative bg-white border border-gray-200 hover:border-gray-300 rounded-lg overflow-hidden flex flex-col transition-all duration-500 hover:shadow-xl h-full animate-fade-in"
+      className={`group relative bg-white border border-gray-200 hover:border-gray-300 rounded-lg overflow-hidden flex flex-col transition-all duration-500 hover:shadow-xl h-full animate-fade-in ${compact ? "rounded-md" : ""}`}
       style={{ transitionDelay: isVisible ? `${delay}ms` : "0ms" }}
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-50 justify-center items-center flex border-b border-gray-100">
+      <div className={`relative w-full overflow-hidden bg-gray-50 justify-center items-center flex border-b border-gray-100 ${compact ? "h-24" : "aspect-[4/3]"}`}>
         <img
           src={image}
           alt={name}
@@ -137,7 +139,7 @@ export default function ProductCard({
 
         {(product.availablestock ?? 0) <= 0 && (
           <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[2px] z-10">
-            <span className="bg-gray-900 text-white text-[10px] font-bold px-4 py-2 tracking-widest uppercase rounded shadow-sm">
+            <span className="bg-gray-900 text-white text-[9px] font-bold px-2 py-1 tracking-widest uppercase rounded shadow-sm">
               {t.navbar?.out_of_stock || "Out Of Stock"}
             </span>
           </div>
@@ -145,13 +147,13 @@ export default function ProductCard({
 
         {/* Top Left Discount Badge */}
         {originalPrice && originalPrice > price && (
-          <div className="absolute top-3 left-3 z-20 bg-[var(--orange)] text-white text-[10px] font-bold px-2 py-1 shadow-sm tracking-wider rounded-sm">
+          <div className={`absolute z-20 bg-[var(--orange)] text-white font-bold shadow-sm tracking-wider rounded-sm ${compact ? "top-2 left-2 text-[8px] px-1.5 py-0.5" : "top-3 left-3 text-[10px] px-2 py-1"}`}>
             -{Math.round(((originalPrice - price) / originalPrice) * 100)}% {t.navbar?.off || "OFF"}
           </div>
         )}
 
         {/* Top Right Favourite Button */}
-        <div className="absolute top-3 right-3 z-20">
+        <div className={`absolute z-20 ${compact ? "top-2 right-2" : "top-3 right-3"}`}>
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -170,58 +172,58 @@ export default function ProductCard({
                 }
               });
             }}
-            className={`w-8 h-8 bg-white shadow-sm border flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer rounded-sm ${isFav
+            className={`${compact ? "w-6 h-6" : "w-8 h-8"} bg-white shadow-sm border flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer rounded-sm ${isFav
               ? "border-[var(--orange)] text-[var(--orange)]"
               : "border-gray-200 text-gray-400 hover:text-[var(--orange)] hover:border-[var(--orange)]"
               }`}
           >
             <Heart
-              className={`w-3.5 h-3.5 transition-colors ${isFav ? "fill-[var(--orange)] text-[var(--orange)]" : ""
+              className={`${compact ? "w-3 h-3" : "w-3.5 h-3.5"} transition-colors ${isFav ? "fill-[var(--orange)] text-[var(--orange)]" : ""
                 }`}
             />
           </button>
         </div>
 
         {/* Quick View Bar */}
-        <div className="absolute bottom-0 left-0 right-0 bg-[var(--cream)] backdrop-blur border-t border-gray-100 text-[var(--olive-dark)] text-[10px] font-bold py-3 text-center translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20 tracking-widest uppercase">
+        <div className="absolute bottom-0 left-0 right-0 bg-[var(--cream)] backdrop-blur border-t border-gray-100 text-[9px] font-bold py-1.5 text-center translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20 tracking-widest uppercase">
           {t.quick_view || "Quick View"}
         </div>
       </div>
 
       {/* Content Area */}
-      <div className="p-5 flex flex-col flex-1 bg-white relative z-10">
+      <div className={`flex flex-col flex-1 bg-white relative z-10 ${compact ? "p-3" : "p-5"}`}>
         {/* Subcategory & Title */}
-        <div className="space-y-1.5 mb-3">
+        <div className={`${compact ? "space-y-1 mb-2" : "space-y-1.5 mb-3"}`}>
           <div className="flex items-center justify-between gap-2">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest truncate">
               {product.category || "Organic"}
             </span>
             {product.weight && (product.unit || product.unitname) && (
-              <span className="text-gray-500 text-[10px] font-medium">
+              <span className="text-gray-500 text-[9px] font-medium">
                 {product.weight} {product.unit || product.unitname}
               </span>
             )}
           </div>
-          <h3 className="text-[15px] font-bold text-[var(--olive-dark)] group-hover:text-[var(--orange)] transition-colors duration-300 line-clamp-1 leading-tight">
+          <h3 className={`${compact ? "text-[12px]" : "text-[15px]"} font-bold text-[var(--olive-dark)] group-hover:text-[var(--orange)] transition-colors duration-300 line-clamp-1 leading-tight`}>
             {name}
           </h3>
         </div>
 
         {/* Ratings & Stock Status Row */}
-        <div className="flex items-center justify-between gap-2 mb-4">
-          <p className="text-[12px] text-gray-500 font-medium line-clamp-2 leading-relaxed flex-1 pr-2">
+        <div className={`flex items-center justify-between gap-2 ${compact ? "mb-2" : "mb-4"}`}>
+          <p className={`${compact ? "hidden" : "text-[12px]"} text-gray-500 font-medium line-clamp-2 leading-relaxed flex-1 pr-2`}>
             {product.desc || product.description || "Tradizions premium selection for health. Discover natural goodness."}
           </p>
         </div>
 
         {/* Price Details */}
-        <div className="flex items-baseline gap-2 mb-5 border-t border-gray-100 pt-4 mt-auto">
-          <span className="text-lg font-bold text-gray-900">
+        <div className={`flex items-baseline gap-2 border-t border-gray-100 mt-auto ${compact ? "mb-3 pt-2" : "mb-5 pt-4"}`}>
+          <span className={`${compact ? "text-sm" : "text-lg"} font-bold text-gray-900`}>
             ₹{price.toLocaleString()}
           </span>
           {originalPrice && (
             <>
-              <span className="text-[13px] text-gray-400 line-through font-medium">
+              <span className="text-[10px] text-gray-400 line-through font-medium">
                 ₹{originalPrice.toLocaleString()}
               </span>
             </>
@@ -229,26 +231,26 @@ export default function ProductCard({
         </div>
 
         {/* Add to Cart Actions */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className={`flex flex-wrap items-center ${compact ? "gap-1.5" : "gap-3"}`}>
           {/* Quantity Stepper */}
           <div
-            className="flex items-center border border-gray-200 rounded bg-white overflow-hidden h-10 shrink-0"
+            className={`flex items-center border border-gray-200 rounded bg-white overflow-hidden shrink-0 ${compact ? "h-8" : "h-10"}`}
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
           >
             <button
               onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-              className="px-3 text-gray-500 hover:text-gray-900 transition-colors hover:bg-gray-50 h-full flex items-center cursor-pointer"
+              className={`${compact ? "px-1.5" : "px-3"} text-gray-500 hover:text-gray-900 transition-colors hover:bg-gray-50 h-full flex items-center cursor-pointer`}
             >
-              <Minus className="w-3.5 h-3.5" />
+              <Minus className={`${compact ? "w-3 h-3" : "w-3.5 h-3.5"}`} />
             </button>
-            <span className="text-[13px] font-bold text-gray-900 w-6 text-center">
+            <span className={`${compact ? "text-[11px] w-5" : "text-[13px] w-6"} font-bold text-gray-900 text-center`}>
               {quantity}
             </span>
             <button
               onClick={() => setQuantity((prev) => prev + 1)}
-              className="px-3 text-gray-500 hover:text-gray-900 transition-colors hover:bg-gray-50 h-full flex items-center cursor-pointer"
+              className={`${compact ? "px-1.5" : "px-3"} text-gray-500 hover:text-gray-900 transition-colors hover:bg-gray-50 h-full flex items-center cursor-pointer`}
             >
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className={`${compact ? "w-3 h-3" : "w-3.5 h-3.5"}`} />
             </button>
           </div>
 
@@ -285,7 +287,7 @@ export default function ProductCard({
                 }
               });
             }}
-            className={`flex-1 h-10 rounded font-semibold text-[10px] tracking-widest uppercase flex items-center justify-center gap-2 transition-all duration-300 px-3 ${(product.availablestock ?? 0) <= 0
+            className={`flex-1 rounded font-semibold text-[9px] tracking-widest uppercase flex items-center justify-center gap-1 transition-all duration-300 ${compact ? "h-8 px-1" : "h-10 gap-2 px-3"} ${(product.availablestock ?? 0) <= 0
               ? "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
               : "bg-[var(--olive)] hover:bg-[var(--orange-dark)] text-white shadow-md hover:shadow-lg cursor-pointer"
               } disabled:opacity-50`}
@@ -293,7 +295,7 @@ export default function ProductCard({
             {isAdding ? (
               <div className="w-4 h-4 border-2 border-white/50 border-t-white rounded-full animate-spin" />
             ) : (
-              <ShoppingCart className="w-4 h-4" />
+              <ShoppingCart className={`${compact ? "w-3 h-3" : "w-4 h-4"}`} />
             )}
             <span>
               {(product.availablestock ?? 0) <= 0

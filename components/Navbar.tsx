@@ -322,7 +322,7 @@ export default function Navbar() {
   const navItems = [
     { name: t.home, href: "/" },
     { name: t.shop, href: "/shop" },
-    { name: t.custom_gift?.title || "Build Your Gift", href: "/custom-hamper" },
+    { name: t.gifting || "Gifting", href: "/gifts" },
   ];
 
   const secondaryNavItems = [{ name: t.contactUs, href: "/contact-us" }];
@@ -407,12 +407,12 @@ export default function Navbar() {
               </div>
 
               <Link
-                href="/gifts"
-                className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-wide font-semibold transition-all duration-300 whitespace-nowrap ${pathname === "/gifts" ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
+                href="/custom-hamper"
+                className={`group relative py-2 px-1 text-[11px] xl:text-[12px] tracking-wide font-semibold transition-all duration-300 whitespace-nowrap ${pathname === "/custom-hamper" ? "text-[var(--olive)]" : "text-gray-600 hover:text-[var(--olive)]"}`}
               >
-                {t.gifting || "Gifts"}
+                {t.custom_gift?.title || "Build Your Gift"}
                 <span
-                  className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-t-md bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/gifts" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                  className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-t-md bg-[var(--olive)] transform origin-left transition-transform duration-300 ease-out ${pathname === "/custom-hamper" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
                 />
               </Link>
               <Link
@@ -577,20 +577,20 @@ export default function Navbar() {
                 {t.shop}
               </Link>
               <Link
-                href="/custom-hamper"
+                href="/gifts"
                 className="text-md font-semibold text-gray-900 border-b border-gray-50 pb-4"
                 onClick={() => setOpen(false)}
               >
-                {t.custom_gift?.title || "Build Your Gift"}
+                {t.gifting || "Gifting"}
               </Link>
 
               {/* Mobile Gifting Links */}
               <Link
-                href="/gifts"
+                href="/custom-hamper"
                 className="block text-md font-semibold text-gray-900 border-b border-gray-50 pb-4"
                 onClick={() => setOpen(false)}
               >
-                {t.gifting || "Gifts"}
+                {t.custom_gift?.title || "Build Your Gift"}
               </Link>
               <Link
                 href="/corporate-orders"
@@ -837,17 +837,17 @@ export default function Navbar() {
       {isSearchOpen && (
         <div className="fixed inset-0 z-[100] flex flex-col animate-fade-in-up">
           {/* Top Search Bar */}
-          <div className="w-full bg-white py-4 px-6 md:px-12 flex items-center justify-center shrink-0 shadow-sm relative z-20">
-            <div className="w-full max-w-[1400px] flex items-center gap-4">
-              <div className="flex-1 bg-white flex items-center px-4 py-3 border border-gray-200 focus-within:border-gray-300 transition-colors">
-                <Search className="w-5 h-5 text-gray-500 mr-3" />
+          <div className="w-full bg-[var(--olive-dark)] py-4 px-4 sm:px-6 md:px-12 flex items-center justify-center shrink-0 border-b border-white/10 relative z-20">
+            <div className="w-full max-w-4xl flex items-center gap-2 sm:gap-3">
+              <div className="flex-1 bg-white/10 flex items-center h-12 px-4 rounded-md border border-white/20 shadow-[0_8px_24px_rgba(0,0,0,0.16)] focus-within:bg-white/15 focus-within:border-[var(--orange)] focus-within:shadow-[0_8px_28px_rgba(0,0,0,0.24)] transition-all">
+                <Search className="w-4 h-4 text-[var(--orange)] mr-3 shrink-0" />
                 <input
                   type="text"
                   autoFocus
                   placeholder={t.searchPlaceholder || "Search products"}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 text-[16px] bg-transparent focus:outline-none text-gray-800 placeholder-gray-400"
+                  className="flex-1 min-w-0 text-sm bg-transparent focus:outline-none text-white placeholder:text-white/50"
                 />
               </div>
               <button
@@ -856,9 +856,9 @@ export default function Navbar() {
                   setSearchQuery("");
                   setSuggestions([]);
                 }}
-                className="p-2 text-gray-500 hover:text-gray-900 transition-colors shrink-0"
+                className="w-12 h-12 rounded-md border border-white/15 bg-[var(--orange)] text-white hover:bg-[var(--orange-dark)] transition-colors shrink-0 flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.16)]"
               >
-                <X className="w-7 h-7 stroke-[1.5]" />
+                <X className="w-4 h-4 stroke-[2]" />
               </button>
             </div>
           </div>
@@ -909,7 +909,7 @@ export default function Navbar() {
                           View all products
                         </Link>
                       </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
                         {suggestions.map((product) => {
                           const mappedProduct = {
                             id: product.productid,
@@ -940,6 +940,7 @@ export default function Navbar() {
                             <ProductCard
                               key={mappedProduct.id}
                               product={mappedProduct}
+                              compact
                               onClick={() => {
                                 setIsSearchOpen(false);
                                 setSearchQuery("");

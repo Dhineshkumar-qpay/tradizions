@@ -141,7 +141,7 @@
   "hero_title_2": "Delivered to Your Doorstep.",
   "hero_subtitle": "From Tradition to Wellness – Premium Essentials for Every Home",
   "shop_headline": "The Purest Ingredients for Your Kitchen & Wellness",
-  "shop_desc": "Discover our curated selection of premium organic millets, traditional health malts, and nutrient-rich dry fruits.",
+  "shop_desc": "Discover our curated selection of premium organic millets, nutrient-rich seeds, and wholesome dry fruits",
   "shop_filters": {
     "title": "Filters",
     "clear_all": "Clear All",
@@ -184,7 +184,7 @@
     "tagline2": "In today’s fast-paced world, we aim to reconnect modern homes with the richness of tradition.",
     "story_title": "Our Story",
     "story_heading": "Rooted in Soil, Grown with Love.",
-    "story_desc1": "Founded in 1995, Tradizions began with a simple vision: to make traditional, high-quality products easily accessible to every household.",
+    "story_desc1": "Founded in 2024, Tradizions began with a simple vision: to make traditional, high-quality products easily accessible to every household.",
     "story_desc2": "What started as a focus on millets and nuts has grown into a complete platform offering a wide range of essentials.",
     "exp_years": "Years Experience",
     "org_cert": "Organic Certified",
@@ -588,8 +588,8 @@
     ]
   },
   "custom_gift": {
-    "title": "Custom Gifting",
-    "desc": "Select from our premium range of boxes and artisanal products to build custom hampers for clients, employees, and special occasions.",
+    "title": "Gift Hampers",
+    "desc": "Explore our premium range of boxes and artisanal products, thoughtfully curated to create memorable custom hampers for loved ones, friends, clients, employees, and special occasions.",
     "step1_title": "Select the Vessel",
     "step1_desc": "Foundation of your gift",
     "step2_title": "Curate Contents",

@@ -291,7 +291,7 @@ export default function ContactUsPageClient() {
                         {t.contact_us.email_inquiries}
                       </p>
                       <p className="text-sm font-bold text-gray-900">
-                        partners@tradizions.com
+                        tradizions@gmail.com
                       </p>
                     </div>
                   </div>

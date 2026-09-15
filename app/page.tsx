@@ -413,44 +413,47 @@ export default function Home() {
       <HealthGoalsSection t={t} goals={healthGoalsData} />
       <HealthBenefitsSection t={t} />
       {/* ──── Full Size Banner with Shop Button ──── */}
-      <section className="relative w-full min-h-[600px] h-[75vh] md:h-[90vh] overflow-hidden bg-[#f5f1e8]">
+      <section className="group relative isolate w-full min-h-[560px] overflow-hidden bg-[#f5f1e8] md:min-h-[680px]">
         {/* Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
+          className="absolute inset-0 scale-105 bg-cover bg-[58%_center] bg-no-repeat transition-transform duration-[1600ms] ease-out group-hover:scale-110 md:bg-center"
           style={{
             backgroundImage: "url('home_bg.jpeg')",
           }}
         />
 
         {/* Overlay layers */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/80 via-black/45 to-black/20" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_40%)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#102d2a]/95 via-[#102d2a]/65 to-[#102d2a]/15" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/10" />
+        <div className="absolute inset-y-0 left-0 w-full bg-[radial-gradient(circle_at_18%_45%,rgba(255,255,255,0.14),transparent_34%)]" />
 
         {/* Top accent bar */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--olive)] via-[#b7a36a] to-transparent z-20" />
+        <div className="absolute left-0 top-0 z-20 h-1.5 w-full bg-gradient-to-r from-[var(--orange)] via-[#f0c477] to-transparent" />
 
         {/* Content */}
-        <div className="relative z-30 flex items-center h-full px-6 md:px-12 lg:px-20">
-          <div className="max-w-3xl -translate-y-8 text-left text-white md:-translate-y-12">
-            <div className="inline-flex items-center gap-2 mb-5 px-4 py-2 rounded-full border border-white/15 bg-white/10 backdrop-blur-md text-[11px] md:text-xs tracking-[0.3em] uppercase">
+        <div className="relative z-30 mx-auto flex min-h-[560px] max-w-7xl items-center px-6 py-20 sm:px-10 md:min-h-[680px] md:px-12 lg:px-20">
+          <div className="max-w-2xl border-l-2 border-[var(--orange)]/80 pl-6 text-left text-white sm:pl-8 md:pl-10">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.25em] text-white/90 backdrop-blur-md sm:text-[10px]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--orange)]" />
               Natural Wellness Collection
             </div>
 
-            <h2 className="text-4xl md:text-4xl lg:text-5xl font-semibold leading-[1.05] tracking-tight">
+            <h2 className="max-w-xl text-4xl font-bold leading-[1.02] tracking-tight sm:text-5xl md:text-6xl">
               {t.banner_title || "Pure Nutrition, Rooted in Tradition"}
             </h2>
 
-            <p className="mt-6 max-w-2xl text-sm md:text-lg lg:text-xl text-white/85 leading-relaxed">
+            <p className="mt-6 max-w-lg text-sm font-medium leading-7 text-white/80 sm:text-base md:text-lg">
               {t.banner_subtitle ||
                 "Discover premium natural ingredients carefully sourced to support a healthier lifestyle for you and your family."}
             </p>
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+            <div className="mt-9 flex flex-col gap-4 sm:flex-row">
               <a
                 href="/shop"
-                className="inline-flex items-center justify-center rounded-[0px] bg-[var(--olive)] px-8 py-3.5 text-sm md:text-base font-semibold tracking-[0.18em] uppercase text-white shadow-lg transition-all duration-300 hover:bg-[var(--olive-dark)] hover:-translate-y-1 hover:shadow-2xl"
+                className="group/cta inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-[var(--orange)] px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white shadow-[0_10px_30px_rgba(217,119,54,0.3)] transition-all duration-300 hover:-translate-y-1 hover:bg-[var(--orange-dark)] hover:shadow-[0_14px_35px_rgba(217,119,54,0.4)] sm:px-8"
               >
                 {t.shop_now || "Shop Now"}
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-1" />
               </a>
             </div>
           </div>
@@ -1820,7 +1823,7 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
             {displayGoals.map((goal, idx) => {
               const Icon = defaultIcons[idx % defaultIcons.length];
               const image = getImageUrl(goal.goalimage);
@@ -1829,32 +1832,36 @@ function HealthGoalsSection({ t, goals }: { t: any; goals: any[] }) {
                 <Link
                   href={`/health-goal-products?goalid=${goal.goalid}`}
                   key={goal.goalid || idx}
-                  className="group flex flex-col bg-white border border-stone-200 transition-all duration-500 hover:border-[var(--olive-dark)] hover:shadow-md"
+                  className="group relative flex min-h-[360px] overflow-hidden rounded-[24px] border border-stone-200 bg-stone-900 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-[var(--olive)] hover:shadow-[0_20px_45px_rgba(18,48,45,0.18)]"
                 >
-                  {/* Clean Image Container */}
-                  <div className="relative aspect-[4/3] overflow-hidden bg-stone-50 border-b border-stone-200">
+                  <div className="absolute inset-0 overflow-hidden bg-stone-100">
                     <img
                       src={image}
                       alt={goal.goalname || ""}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1500ms] ease-out"
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--olive-dark)] via-[var(--olive-dark)]/45 to-black/5" />
                   </div>
 
-                  {/* Elegant Content Below Image */}
-                  <div className="p-8 flex flex-col items-center text-center">
-                    <div className="w-10 h-10 mb-5 text-[var(--olive-dark)] border border-stone-200 rounded-full flex items-center justify-center bg-stone-50 transition-colors duration-500 group-hover:bg-[var(--olive-dark)] group-hover:text-white group-hover:border-[var(--olive-dark)]">
+                  <span className="absolute right-5 top-5 flex h-8 min-w-8 items-center justify-center rounded-full border border-white/40 bg-black/15 px-2 text-[10px] font-bold tracking-[0.18em] text-white backdrop-blur-md">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+
+                  <div className="relative z-10 mt-auto p-6 text-white md:p-7">
+                    <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-white/25 bg-white/15 text-white backdrop-blur-md transition-all duration-500 group-hover:border-[var(--orange)] group-hover:bg-[var(--orange)]">
                       <Icon className="w-4 h-4" />
                     </div>
-                    <h3 className="text-xl md:text-2xl font-normal text-[var(--foreground)] mb-3">
+                    <h3 className="mb-2 text-xl font-bold tracking-tight text-white md:text-2xl">
                       {goal.goalname}
                     </h3>
-                    <p className="text-[13px] text-stone-500 line-clamp-2 leading-relaxed">
+                    <p className="line-clamp-2 text-[13px] leading-relaxed text-white/75">
                       {goal.description}
                     </p>
 
-                    <span className="mt-6 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--olive-dark)] border-b border-transparent group-hover:border-[var(--olive-dark)] transition-all duration-300">
+                    <div className="mt-5 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--orange)]">
                       Explore Range
-                    </span>
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
                   </div>
                 </Link>
               );
@@ -2019,14 +2026,16 @@ function NutritionPlanner({ t }: { t: any }) {
   return (
     <section
       ref={ref}
-      className="pt-24 pb-28 bg-[var(--cream)] relative overflow-hidden border-t border-gray-200"
+      className="relative overflow-hidden border-t border-stone-200 bg-gradient-to-br from-[#FAF8F5] via-white to-emerald-50/40 px-0 pb-16 pt-12 md:pt-16"
     >
       {/* Subtle Corporate Grid Background */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#204E4A_1px,transparent_1px),linear-gradient(to_bottom,#204E4A_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.035]" />
+      <div className="pointer-events-none absolute -right-32 top-10 h-80 w-80 rounded-full bg-amber-200/20 blur-3xl" />
+      <div className="pointer-events-none absolute -left-40 bottom-20 h-96 w-96 rounded-full bg-emerald-200/20 blur-3xl" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
         {/* Main Calculator Header & Description */}
-        <div className="text-center mb-12 space-y-6">
+        <div className="mb-12 space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-100/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-700 mb-4 mx-auto">
             <span className="h-2 w-2 rounded-full bg-amber-500" />
             {t.budget_planning || "Budget & Planning"}
@@ -2039,17 +2048,24 @@ function NutritionPlanner({ t }: { t: any }) {
             </span>
           </h2>
 
-          <div className="max-w-4xl mx-auto bg-white rounded-[32px] border border-stone-100 p-8 md:p-12 shadow-[0_15px_40px_rgba(0,0,0,0.03)] text-left relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--olive)]/5 rounded-full blur-[80px] pointer-events-none group-hover:bg-[var(--olive)]/10 transition-colors duration-700" />
-            <h3 className="text-xl md:text-2xl font-black text-[var(--foreground)] mb-3 text-center tracking-tight relative z-10">
+          <div className="group relative mx-auto max-w-4xl overflow-hidden rounded-[28px] border border-[var(--olive)]/15 bg-white/90 p-7 text-left shadow-[0_20px_55px_rgba(18,48,45,0.08)] backdrop-blur-sm md:p-10">
+            <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[var(--olive)]/5 blur-[80px] transition-colors duration-700 group-hover:bg-[var(--olive)]/10" />
+            <div className="relative z-10 mb-8 flex items-center gap-3 border-b border-stone-100 pb-5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--olive-dark)] text-white shadow-md">
+                <Leaf className="h-4 w-4" />
+              </span>
+              <div>
+                <h3 className="text-xl font-black tracking-tight text-[var(--foreground)] md:text-2xl">
               {t.strategic_nutrition || "Strategic Nutrition Planning"}
-            </h3>
-            <p className="text-[10px] font-bold text-[var(--orange)] mb-10 text-center uppercase tracking-[0.2em] relative z-10">
+                </h3>
+                <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--orange)]">
               {t.estimate_requirements ||
                 "Estimate Requirements & Costs Instantly"}
-            </p>
+                </p>
+              </div>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10 relative z-10">
+            <div className="relative z-10 mb-8 grid grid-cols-1 gap-3 md:grid-cols-2">
               {[
                 t.calc_req_1 ||
                   "Calculate precise quantities based on headcount",
@@ -2060,23 +2076,23 @@ function NutritionPlanner({ t }: { t: any }) {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-4 bg-[#FAF8F5] p-6 rounded-2xl border border-stone-100 hover:border-[var(--olive)]/30 hover:shadow-sm transition-all duration-300"
+                  className="group/item flex items-start gap-3 rounded-2xl border border-stone-100 bg-[#FAF8F5] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--olive)]/30 hover:bg-white hover:shadow-sm"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white border border-stone-100 flex items-center justify-center flex-shrink-0 shadow-sm">
+                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border border-stone-100 bg-white shadow-sm transition-colors group-hover/item:bg-emerald-50">
                     <Check
                       className="w-4 h-4 text-[var(--olive-dark)]"
                       strokeWidth={2.5}
                     />
                   </div>
-                  <span className="text-[13px] text-[var(--dark-grey)] font-medium leading-relaxed pt-1">
+                  <span className="pt-1 text-[12px] font-medium leading-relaxed text-[var(--dark-grey)]">
                     {item}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="bg-[var(--olive)]/5 rounded-2xl p-6 border border-[var(--olive)]/10 text-center relative z-10">
-              <p className="text-sm text-[var(--olive-dark)] font-bold leading-relaxed">
+            <div className="relative z-10 rounded-2xl border border-[var(--olive)]/10 bg-[var(--olive)]/5 p-5 text-center">
+              <p className="text-[13px] font-bold leading-relaxed text-[var(--olive-dark)]">
                 {t.choose_required_products ||
                   "Choose your required products, input the number of members, and generate an instant procurement estimate."}
               </p>
@@ -2085,11 +2101,11 @@ function NutritionPlanner({ t }: { t: any }) {
         </div>
 
         {/* Step 1: Select Products */}
-        <div className="bg-white rounded-[32px] border border-stone-100 shadow-[0_15px_40px_rgba(0,0,0,0.03)] p-8 md:p-12 relative overflow-hidden">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6 relative z-10">
+        <div className="relative overflow-hidden rounded-[28px] border border-stone-200 bg-white/95 p-6 shadow-[0_20px_55px_rgba(18,48,45,0.07)] backdrop-blur-sm md:p-10">
+          <div className="relative z-10 mb-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
             <div>
               <div className="flex items-center gap-4 mb-2">
-                <span className="w-12 h-12 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] border border-stone-100 flex items-center justify-center font-black text-sm shadow-sm">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--orange)] text-sm font-black text-white shadow-lg shadow-orange-200/50">
                   01
                 </span>
                 <h2 className="text-2xl md:text-3xl font-black text-[var(--foreground)] tracking-tight">
@@ -2122,9 +2138,9 @@ function NutritionPlanner({ t }: { t: any }) {
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8 relative z-10">
+          <div className="relative z-10 flex flex-col gap-6 lg:flex-row">
             {/* Sidebar Categories */}
-            <div className="w-full lg:w-72 flex flex-col gap-3">
+            <div className="flex w-full flex-col gap-2 lg:w-64">
               {[
                 {
                   id: 0,
@@ -2154,7 +2170,7 @@ function NutritionPlanner({ t }: { t: any }) {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${
+                  className={`flex items-center justify-between rounded-2xl border p-3.5 transition-all duration-300 ${
                     selectedCategory === cat.id
                       ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md -translate-y-0.5"
                       : "bg-[#FAF8F5] border-stone-100 hover:border-[var(--olive)]/50 hover:bg-white text-[var(--dark-grey)]"
@@ -2176,8 +2192,8 @@ function NutritionPlanner({ t }: { t: any }) {
             </div>
 
             {/* Products Grid */}
-            <div className="flex-1 border border-stone-100 bg-[#FAF8F5]/50 rounded-[24px] p-6 md:p-8">
-              <div className="flex justify-between items-center mb-8">
+            <div className="flex-1 rounded-[24px] border border-stone-100 bg-[#FAF8F5]/70 p-5 md:p-7">
+              <div className="mb-7 flex items-center justify-between">
                 <h3 className="font-bold text-[var(--foreground)] uppercase tracking-widest text-[11px]">
                   {selectedCategory === 0
                     ? t.complete_catalog || "Complete Catalog"
@@ -2201,7 +2217,7 @@ function NutritionPlanner({ t }: { t: any }) {
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-5">
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4">
                   {displayedProducts.map((product) => {
                     const isSelected = !!selectedProducts.find(
                       (p) => p.productid === product.productid,
@@ -2211,7 +2227,7 @@ function NutritionPlanner({ t }: { t: any }) {
                       <div
                         key={product.productid}
                         onClick={() => handleToggleProduct(product)}
-                        className={`group relative p-5 bg-white border rounded-[20px] cursor-pointer transition-all duration-300 ${
+                        className={`group relative rounded-[20px] border bg-white p-4 cursor-pointer transition-all duration-300 ${
                           isSelected
                             ? "border-[var(--olive-dark)] shadow-[0_8px_25px_rgba(0,0,0,0.08)] ring-1 ring-[var(--olive-dark)] -translate-y-1"
                             : "border-stone-100 hover:border-[var(--orange)] hover:shadow-lg hover:-translate-y-1"
@@ -2230,7 +2246,7 @@ function NutritionPlanner({ t }: { t: any }) {
                           />
                         </div>
 
-                        <div className="h-[100px] w-full relative mb-5 mt-4 bg-[#FAF8F5] rounded-[16px] overflow-hidden flex items-center justify-center group-hover:bg-[var(--orange)]/5 transition-colors">
+                        <div className="relative mb-4 mt-4 flex h-[92px] w-full items-center justify-center overflow-hidden rounded-[16px] bg-[#FAF8F5] transition-colors group-hover:bg-[var(--orange)]/5">
                           <img
                             src={`${IMAGE_URL ?? ""}${product.productimage ?? ""}`}
                             alt={product.productname ?? "product image"}
@@ -2239,7 +2255,7 @@ function NutritionPlanner({ t }: { t: any }) {
                         </div>
 
                         <div className="text-center space-y-3">
-                          <p className="font-bold text-[11px] uppercase tracking-wider text-[var(--foreground)] line-clamp-2 leading-snug group-hover:text-[var(--olive-dark)] transition-colors h-8">
+                          <p className="h-8 line-clamp-2 text-[10px] font-bold uppercase leading-snug tracking-wider text-[var(--foreground)] transition-colors group-hover:text-[var(--olive-dark)]">
                             {product.productname}
                           </p>
                           <div className="inline-block px-3 py-1.5 bg-white border border-stone-100 rounded-full shadow-sm">
@@ -3059,7 +3075,7 @@ function VideoTestimonialsSection() {
 
 function SustainabilityAndPackagingSection({ t }: { t: any }) {
   return (
-    <section className="py-24 bg-[#FAF8F5] relative overflow-hidden border-t border-stone-100">
+    <section className="pt-12 pb-24 bg-[#FAF8F5] relative overflow-hidden border-t border-stone-100">
       <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--olive)]/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-[var(--orange)]/5 rounded-full blur-[100px] pointer-events-none" />
 
@@ -3083,11 +3099,12 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-stretch">
           {/* Card 1: SECURE PAYMENTS */}
-          <div className="flex flex-col justify-between p-10 bg-white border border-stone-100 shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:-translate-y-2 transition-all duration-500 hover:border-[var(--olive)]/30 group relative overflow-hidden rounded-[32px]">
+          <div className="group relative flex flex-col justify-between overflow-hidden rounded-[28px] border border-stone-200 border-t-4 border-t-[var(--orange)] bg-white/90 p-8 shadow-[0_12px_30px_rgba(31,41,55,0.05)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-[var(--orange)]/40 hover:shadow-[0_24px_50px_rgba(31,41,55,0.12)] lg:p-9">
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-[var(--orange)]/5 rounded-full group-hover:bg-[var(--orange)]/10 transition-colors duration-500 blur-2xl" />
+            <span className="absolute right-7 top-7 text-[10px] font-black tracking-[0.2em] text-[var(--orange)]/50">01</span>
 
             <div className="space-y-6 relative z-10">
-              <div className="w-16 h-16 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--orange)] group-hover:text-white transition-all duration-500 shadow-sm">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-50 to-amber-100 text-[var(--orange-dark)] shadow-sm ring-1 ring-orange-200/60 transition-all duration-500 group-hover:rotate-3 group-hover:bg-[var(--orange)] group-hover:text-white">
                 <Shield className="w-7 h-7" strokeWidth={1.5} />
               </div>
 
@@ -3118,11 +3135,12 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
           </div>
 
           {/* Card 2: SUSTAINABILITY */}
-          <div className="flex flex-col justify-between p-10 bg-white border border-stone-100 shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:-translate-y-2 transition-all duration-500 hover:border-[var(--olive)]/30 group relative overflow-hidden rounded-[32px]">
+          <div className="group relative flex flex-col justify-between overflow-hidden rounded-[28px] border border-stone-200 border-t-4 border-t-[var(--olive)] bg-[#f7faf7] p-8 shadow-[0_12px_30px_rgba(31,41,55,0.05)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-[var(--olive)]/40 hover:shadow-[0_24px_50px_rgba(31,41,55,0.12)] lg:p-9">
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-[var(--olive)]/5 rounded-full group-hover:bg-[var(--olive)]/10 transition-colors duration-500 blur-2xl" />
+            <span className="absolute right-7 top-7 text-[10px] font-black tracking-[0.2em] text-[var(--olive)]/50">02</span>
 
             <div className="space-y-6 relative z-10">
-              <div className="w-16 h-16 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--olive)] group-hover:text-white transition-all duration-500 shadow-sm">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-50 to-green-100 text-[var(--olive)] shadow-sm ring-1 ring-emerald-200/60 transition-all duration-500 group-hover:-rotate-3 group-hover:bg-[var(--olive)] group-hover:text-white">
                 <Leaf className="w-7 h-7" strokeWidth={1.5} />
               </div>
 
@@ -3163,11 +3181,12 @@ function SustainabilityAndPackagingSection({ t }: { t: any }) {
           </div>
 
           {/* Card 3: PLASTIC-FREE PACKAGING */}
-          <div className="flex flex-col justify-between p-10 bg-white border border-stone-100 shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:-translate-y-2 transition-all duration-500 hover:border-[var(--olive)]/30 group relative overflow-hidden rounded-[32px]">
+          <div className="group relative flex flex-col justify-between overflow-hidden rounded-[28px] border border-stone-200 border-t-4 border-t-[var(--orange)] bg-white/90 p-8 shadow-[0_12px_30px_rgba(31,41,55,0.05)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-[var(--orange)]/40 hover:shadow-[0_24px_50px_rgba(31,41,55,0.12)] lg:p-9">
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-[var(--orange)]/5 rounded-full group-hover:bg-[var(--orange)]/10 transition-colors duration-500 blur-2xl" />
+            <span className="absolute right-7 top-7 text-[10px] font-black tracking-[0.2em] text-[var(--orange)]/50">03</span>
 
             <div className="space-y-6 relative z-10">
-              <div className="w-16 h-16 rounded-2xl bg-[#FAF8F5] text-[var(--olive-dark)] flex items-center justify-center group-hover:bg-[var(--orange)] group-hover:text-white transition-all duration-500 shadow-sm">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-50 to-amber-100 text-[var(--orange-dark)] shadow-sm ring-1 ring-orange-200/60 transition-all duration-500 group-hover:rotate-3 group-hover:bg-[var(--orange)] group-hover:text-white">
                 <svg
                   className="w-7 h-7"
                   fill="none"

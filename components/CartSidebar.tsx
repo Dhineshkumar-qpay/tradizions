@@ -7,6 +7,7 @@ import {
   Minus,
   ArrowRight,
   ShieldCheck,
+  AlertCircle,
   X,
   ShoppingBag,
   ShoppingCart,
@@ -68,6 +69,8 @@ export default function CartSidebar() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [updatingCartId, setUpdatingCartId] = useState<number | null>(null);
   const [isProceeding, setIsProceeding] = useState<boolean>(false);
+  const [showMinimumQuantityAlert, setShowMinimumQuantityAlert] =
+    useState(false);
   const [uploadingGiftForCartId, setUploadingGiftForCartId] = useState<
     number | null
   >(null);
@@ -336,6 +339,59 @@ export default function CartSidebar() {
           className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[80] transition-opacity"
           onClick={() => setIsOpen(false)}
         />
+      )}
+
+      {showMinimumQuantityAlert && (
+        <div
+          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 px-5 backdrop-blur-sm"
+          role="presentation"
+          onClick={() => setShowMinimumQuantityAlert(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-[var(--radius-md)] border border-gray-200 bg-white p-6 shadow-2xl"
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="minimum-quantity-alert-title"
+            aria-describedby="minimum-quantity-alert-message"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-orange-50 text-[var(--orange)]">
+                <AlertCircle className="h-6 w-6" />
+              </div>
+              <div className="min-w-0">
+                <h3
+                  id="minimum-quantity-alert-title"
+                  className="text-lg font-extrabold tracking-tight text-gray-900"
+                >
+                  Minimum order quantity
+                </h3>
+                <p
+                  id="minimum-quantity-alert-message"
+                  className="mt-2 text-sm leading-relaxed text-gray-500"
+                >
+                  Please add at least two products or increase the quantity to
+                  two before proceeding.
+                </p>
+              </div>
+              <button
+                type="button"
+                aria-label="Close alert"
+                onClick={() => setShowMinimumQuantityAlert(false)}
+                className="ml-auto flex h-8 w-8 shrink-0 items-center justify-center rounded border border-gray-200 text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-900"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowMinimumQuantityAlert(false)}
+              className="btn-standard mt-6 w-full uppercase"
+            >
+              Okay
+            </button>
+          </div>
+        </div>
       )}
 
       {/* Drawer */}
@@ -890,6 +946,15 @@ export default function CartSidebar() {
                         disabled={isProceeding}
                         onClick={async () => {
                           if (cartItems.length > 0) {
+                            const totalQuantity = cartItems.reduce(
+                              (total, item) => total + (item.quantity ?? 0),
+                              0,
+                            );
+                            if (totalQuantity < 2) {
+                              setShowMinimumQuantityAlert(true);
+                              return;
+                            }
+
                             setIsProceeding(true);
                             try {
                               const updatePromises = cartItems
