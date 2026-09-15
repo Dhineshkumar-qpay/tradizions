@@ -657,10 +657,10 @@ export default function CorporateOrdersPageClient() {
                       Email Us
                     </p>
                     <a
-                      href="mailto:tradizions@gmail.com"
+                      href="mailto:support@tradizions.in"
                       className="text-sm font-medium text-[var(--cream)] hover:text-[var(--orange)] transition-colors"
                     >
-                      tradizions@gmail.com
+                      support@tradizions.in
                     </a>
                   </div>
                 </div>

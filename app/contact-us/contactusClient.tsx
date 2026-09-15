@@ -227,7 +227,7 @@ export default function ContactUsPageClient() {
                       {t.contact_us.email_support}
                     </p>
                     <p className="text-sm font-bold text-gray-900">
-                      tradizions@gmail.com
+                      support@tradizions.in
                     </p>
                   </div>
                 </div>
@@ -291,7 +291,7 @@ export default function ContactUsPageClient() {
                         {t.contact_us.email_inquiries}
                       </p>
                       <p className="text-sm font-bold text-gray-900">
-                        tradizions@gmail.com
+                        support@tradizions.in
                       </p>
                     </div>
                   </div>
