@@ -1482,7 +1482,7 @@ export default function CheckoutPage() {
 
               <button
                 onClick={handlePlaceOrder}
-                disabled={isPlacingOrder}
+                disabled={true}
                 className="btn-standard w-full uppercase py-4 mt-6 text-sm flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isPlacingOrder ? (

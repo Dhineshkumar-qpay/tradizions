@@ -551,7 +551,7 @@ export default function MonthlyCartPage() {
 
               <button
                 onClick={handlePlaceOrder}
-                disabled={isPlacingOrder || !cartData?.items?.length}
+                disabled={true}
                 className="w-full py-4 bg-[var(--olive-dark)] text-white font-bold text-[12px] uppercase tracking-[0.2em] shadow-sm hover:bg-[var(--orange-dark)] transition-colors disabled:opacity-50 flex justify-center items-center gap-2 cursor-pointer"
               >
                 {isPlacingOrder ? (
