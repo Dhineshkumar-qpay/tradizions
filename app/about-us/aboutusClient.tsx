@@ -311,10 +311,7 @@ export default function AboutUsPage() {
 
               <div className="grid grid-cols-2 gap-8 pt-6">
                 <div className="space-y-1">
-                  <p className="text-3xl font-bold text-gray-900">2+</p>
-                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                    {t.about_us.exp_years}
-                  </p>
+                 
                 </div>
               </div>
             </div>

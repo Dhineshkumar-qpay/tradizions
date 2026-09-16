@@ -612,10 +612,9 @@ function HealthBenefitsSection({ t }: { t: any }) {
                     rounded-full border px-7 py-3.5
                     text-[11px] font-bold uppercase tracking-[0.18em]
                     transition-all duration-300
-                    ${
-                      isActive
-                        ? `${catMeta.active} shadow-lg`
-                        : `${catMeta.inactive} shadow-sm`
+                    ${isActive
+                      ? `${catMeta.active} shadow-lg`
+                      : `${catMeta.inactive} shadow-sm`
                     }
                   `}
                 >
@@ -821,9 +820,8 @@ function HeroSection({ t }: { t: any }) {
         fill
         priority
         sizes="100vw"
-        className={`object-cover object-[68%_center] transition-all duration-1000 ease-out md:object-contain md:object-center ${
-          loaded ? "scale-100 opacity-100" : "scale-105 opacity-0"
-        }`}
+        className={`object-cover object-[68%_center] transition-all duration-1000 ease-out md:object-contain md:object-center ${loaded ? "scale-100 opacity-100" : "scale-105 opacity-0"
+          }`}
       />
 
       {/* Soft overlays for better text contrast */}
@@ -1187,8 +1185,8 @@ function GiftingSection({
                   const price = item.sellingprice || item.price || 0;
                   const originalPrice =
                     item.price !== undefined &&
-                    item.sellingprice !== undefined &&
-                    item.price > item.sellingprice
+                      item.sellingprice !== undefined &&
+                      item.price > item.sellingprice
                       ? item.price
                       : null;
                   const image = item.productimage
@@ -1339,10 +1337,9 @@ function WhyChooseUsSection({ t }: { t: any }) {
             className={`
               w-full max-w-sm lg:w-5/12
               transition-all duration-700
-              ${
-                isVisible
-                  ? "translate-x-0 opacity-100"
-                  : "-translate-x-10 opacity-0"
+              ${isVisible
+                ? "translate-x-0 opacity-100"
+                : "-translate-x-10 opacity-0"
               }
             `}
           >
@@ -1375,7 +1372,7 @@ function WhyChooseUsSection({ t }: { t: any }) {
                     <h4 className="mb-1 text-[15px] font-bold leading-none text-[var(--foreground)]">
                       Taste. Health. Tradition.
                     </h4>
-                    
+
                   </div>
                 </div>
               </div>
@@ -1387,10 +1384,9 @@ function WhyChooseUsSection({ t }: { t: any }) {
             className={`
               w-full lg:w-7/12
               transition-all delay-200 duration-700
-              ${
-                isVisible
-                  ? "translate-x-0 opacity-100"
-                  : "translate-x-10 opacity-0"
+              ${isVisible
+                ? "translate-x-0 opacity-100"
+                : "translate-x-10 opacity-0"
               }
             `}
           >
@@ -1506,12 +1502,12 @@ function TestimonialsSection({ t, reviews }: { t: any; reviews?: Review[] }) {
   const listToRender =
     reviews && reviews.length > 0
       ? reviews.map((r) => ({
-          name: r.username || "Anonymous User",
-          role: "Verified Buyer",
-          text: r.review || "",
-          rating: Math.round(r.rating || 5),
-          avatar: getInitials(r.username || "Anonymous"),
-        }))
+        name: r.username || "Anonymous User",
+        role: "Verified Buyer",
+        text: r.review || "",
+        rating: Math.round(r.rating || 5),
+        avatar: getInitials(r.username || "Anonymous"),
+      }))
       : [];
 
   if (listToRender.length === 0) {
@@ -2056,11 +2052,11 @@ function NutritionPlanner({ t }: { t: any }) {
               </span>
               <div>
                 <h3 className="text-xl font-black tracking-tight text-[var(--foreground)] md:text-2xl">
-              {t.strategic_nutrition || "Strategic Nutrition Planning"}
+                  {t.strategic_nutrition || "Strategic Nutrition Planning"}
                 </h3>
                 <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--orange)]">
-              {t.estimate_requirements ||
-                "Estimate Requirements & Costs Instantly"}
+                  {t.estimate_requirements ||
+                    "Estimate Requirements & Costs Instantly"}
                 </p>
               </div>
             </div>
@@ -2068,10 +2064,10 @@ function NutritionPlanner({ t }: { t: any }) {
             <div className="relative z-10 mb-8 grid grid-cols-1 gap-3 md:grid-cols-2">
               {[
                 t.calc_req_1 ||
-                  "Calculate precise quantities based on headcount",
+                "Calculate precise quantities based on headcount",
                 t.calc_req_2 || "Estimate daily & monthly consumption in grams",
                 t.calc_req_3 ||
-                  "Forecast budget based on selected premium products",
+                "Forecast budget based on selected premium products",
                 t.calc_req_4 || "Maintain a balanced inventory effortlessly",
               ].map((item, i) => (
                 <div
@@ -2170,11 +2166,10 @@ function NutritionPlanner({ t }: { t: any }) {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`flex items-center justify-between rounded-2xl border p-3.5 transition-all duration-300 ${
-                    selectedCategory === cat.id
+                  className={`flex items-center justify-between rounded-2xl border p-3.5 transition-all duration-300 ${selectedCategory === cat.id
                       ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white shadow-md -translate-y-0.5"
                       : "bg-[#FAF8F5] border-stone-100 hover:border-[var(--olive)]/50 hover:bg-white text-[var(--dark-grey)]"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-3 font-bold text-xs uppercase tracking-widest">
                     <cat.icon
@@ -2227,18 +2222,16 @@ function NutritionPlanner({ t }: { t: any }) {
                       <div
                         key={product.productid}
                         onClick={() => handleToggleProduct(product)}
-                        className={`group relative rounded-[20px] border bg-white p-4 cursor-pointer transition-all duration-300 ${
-                          isSelected
+                        className={`group relative rounded-[20px] border bg-white p-4 cursor-pointer transition-all duration-300 ${isSelected
                             ? "border-[var(--olive-dark)] shadow-[0_8px_25px_rgba(0,0,0,0.08)] ring-1 ring-[var(--olive-dark)] -translate-y-1"
                             : "border-stone-100 hover:border-[var(--orange)] hover:shadow-lg hover:-translate-y-1"
-                        }`}
+                          }`}
                       >
                         <div
-                          className={`absolute top-4 left-4 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 border-2 z-10 ${
-                            isSelected
+                          className={`absolute top-4 left-4 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 border-2 z-10 ${isSelected
                               ? "bg-[var(--olive-dark)] border-[var(--olive-dark)] text-white"
                               : "bg-white border-stone-200 group-hover:border-[var(--orange)]"
-                          }`}
+                            }`}
                         >
                           <Check
                             className={`w-3.5 h-3.5 ${isSelected ? "opacity-100 scale-100" : "opacity-0 scale-50"} transition-all duration-300`}
@@ -2510,7 +2503,7 @@ function NutritionPlanner({ t }: { t: any }) {
                       console.error("Error adding to monthly cart", err);
                       alert(
                         err?.response?.data?.message ||
-                          "An error occurred while adding to monthly cart.",
+                        "An error occurred while adding to monthly cart.",
                       );
                     } finally {
                       setIsBuying(false);
@@ -2518,11 +2511,10 @@ function NutritionPlanner({ t }: { t: any }) {
                   })
                 }
                 disabled={selectedProducts.length === 0 || isBuying}
-                className={`flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-full font-bold text-[11px] tracking-[0.2em] uppercase transition-all shadow-[0_8px_25px_rgba(0,0,0,0.12)] ${
-                  selectedProducts.length > 0
+                className={`flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-full font-bold text-[11px] tracking-[0.2em] uppercase transition-all shadow-[0_8px_25px_rgba(0,0,0,0.12)] ${selectedProducts.length > 0
                     ? "bg-[var(--olive-dark)] text-white hover:bg-[var(--orange)] hover:-translate-y-1"
                     : "bg-stone-200 text-stone-400 cursor-not-allowed shadow-none"
-                } w-full sm:w-auto min-w-[220px]`}
+                  } w-full sm:w-auto min-w-[220px]`}
               >
                 {isBuying ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
