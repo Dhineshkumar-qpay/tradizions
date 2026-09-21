@@ -5,103 +5,83 @@ import React, { useEffect, useState } from "react";
 const content: Record<string, any> = {
   EN: {
     title: "Terms and Conditions",
-    lastUpdated: "Last Updated: May 02, 2026",
-    intro: "Welcome to Tradizions. By accessing or using our website and purchasing our products, you agree to comply with and be bound by the following Terms and Conditions. Please read them carefully.",
+    lastUpdated: "Last Updated: September 21, 2026",
+    intro: <>Welcome to <strong>Tradizions</strong>. By accessing or using our website and purchasing our products, you agree to comply with and be bound by the following Terms and Conditions. Please read these terms carefully before using our website or placing an order.</>,
     sections: [
       {
         id: 1,
         title: "1. General",
-        content: "This website is operated by Tradizions. By using our website, you agree to these Terms, Privacy Policy, and other policies."
+        content: <>This website is operated by <strong>Tradizions</strong>. By accessing or using our website, you acknowledge that you have read, understood, and agreed to these Terms and Conditions, our Privacy Policy, and any other applicable policies published on the website.</>
       },
       {
         id: 2,
         title: "2. Eligibility",
-        list: ["Users must be 18+", "Minors must use under guardian supervision"]
+        content: <>Users must be <strong>18 years of age or older</strong> to use this website independently. Minors may access or use the website only under the supervision of a parent or legal guardian.</>
       },
       {
         id: 3,
         title: "3. Products",
-        intro: "We offer:",
-        list: ["Nuts & dry fruits", "Millets", "Spices",  "Gift boxes & hampers"],
-        footer: "All products are subject to availability."
+        content: <>We offer a range of products including <strong>nuts and dry fruits, millets, spices, pooja items, and gift boxes and hampers</strong>. All products are subject to availability. Product descriptions and availability may change from time to time.</>
       },
       {
         id: 4,
-        title: "4. Orders & Payments",
-        list: [
-          "Orders are confirmed only after successful payment",
-          "COD (if applicable) is subject to availability",
-          "Prices may change without notice",
-          "Offers may have separate terms"
-        ]
+        title: "4. Orders and Payments",
+        content: "An order will be considered confirmed only after successful payment. Cash on Delivery, where available, will be subject to availability and applicable conditions. Prices may be changed without prior notice, and promotional offers may be subject to separate terms and conditions."
       },
       {
         id: 5,
-        title: "5. Shipping & Delivery",
-        list: [
-          "Delivery timelines are estimates and may vary",
-          "Delays due to courier or external factors are not our responsibility",
-          "Customer must provide accurate address details"
-        ]
+        title: "5. Shipping and Delivery",
+        content: "Delivery timelines provided on the website are estimates and may vary depending on the delivery location and other circumstances. We are not responsible for delays caused by courier services or other external factors beyond our reasonable control. Customers are responsible for providing accurate and complete delivery address details."
       },
       {
         id: 6,
         title: "6. Subscription Services",
-        list: [
-          "Subscription plans are auto-renewed unless cancelled",
-          "Customers can modify or cancel before the next cycle",
-          "No cancellation after order processing"
-        ]
+        content: "Where subscription services are offered, subscription plans will be automatically renewed unless cancelled by the customer. Customers may modify or cancel their subscription before the next billing or subscription cycle. Once an order has entered processing, cancellation may no longer be possible."
       },
       {
         id: 7,
-        title: "7. Bulk & Corporate Orders",
-        list: [
-          "Bulk orders may require advance payment",
-          "Customised orders cannot be cancelled once confirmed",
-          "Delivery timelines may differ from regular orders"
-        ]
+        title: "7. Bulk and Corporate Orders",
+        content: "Bulk and corporate orders may require advance payment. Customised orders cannot be cancelled once they have been confirmed. Delivery timelines for bulk or customised orders may differ from those applicable to regular orders."
       },
       {
         id: 8,
         title: "8. Health Disclaimer",
-        list: ["Customers must check ingredients for allergens", "We are not liable for allergic reactions"]
+        content: "Customers are responsible for reviewing product ingredients and checking for any allergens before consuming a product. We are not liable for allergic reactions arising from the consumption of products."
       },
       {
         id: 9,
         title: "9. User Responsibilities",
-        list: ["No misuse or fraud", "Maintain account security"]
+        content: "Users agree not to misuse the website or engage in fraudulent activities. Customers are also responsible for maintaining the security and confidentiality of their account information and login credentials."
       },
       {
         id: 10,
         title: "10. Limitation of Liability",
-        list: ["Liability limited to order value", "No indirect damages covered"]
+        content: "Our liability, where applicable, shall be limited to the value of the relevant order. We shall not be responsible for indirect, incidental, or consequential damages arising from the use of our website or products."
       },
       {
         id: 11,
         title: "11. Intellectual Property",
-        content: "All website content belongs to Tradizions."
+        content: <>All content available on this website, including text, images, graphics, logos, designs, and other materials, belongs to <strong>Tradizions</strong> unless otherwise stated and may not be reproduced, copied, modified, or distributed without prior permission.</>
       },
       {
         id: 12,
         title: "12. Third-Party Services",
-        content: "We are not responsible for payment gateways or courier services."
+        content: "We may use third-party service providers, including payment gateways and courier or delivery services. We are not responsible for disruptions, delays, errors, or other issues arising from services provided by such third parties."
       },
       {
         id: 13,
         title: "13. Force Majeure",
-        content: "We are not liable for delays due to unforeseen events."
+        content: "We shall not be liable for delays or failure to fulfil our obligations where such delays or failures arise from unforeseen circumstances or events beyond our reasonable control."
       },
       {
         id: 14,
         title: "14. Governing Law",
-        content: "Applicable laws: India / Tamil Nadu",
-        footer: "Jurisdiction: Chennai"
+        content: <>These Terms and Conditions shall be governed by the applicable laws of <strong>Tamil Nadu, India</strong>. Any disputes arising in connection with these terms shall be subject to the jurisdiction of <strong>Chennai</strong>.</>
       },
       {
         id: 15,
-        title: "15. Contact",
-        content: "If you have any questions, please contact us:",
+        title: "15. Contact Us",
+        content: "If you have any questions regarding these Terms and Conditions, please contact us using the details below:",
         email: "support@tradizions.in",
         phone: "+91 99406 20019"
       }
@@ -354,11 +334,11 @@ export default function TermsPolicyPage() {
               <h2 className="text-lg font-bold mb-4 uppercase tracking-wider text-gray-900">
                 {section.title}
               </h2>
-              
-              {section.content && <p className={section.id === 15 ? "mb-3" : ""}>{section.content}</p>}
-              
+
+              {section.content && <p className={section.id === 15 ? "mb-3 whitespace-pre-line" : "whitespace-pre-line"}>{section.content}</p>}
+
               {section.intro && <p className="mb-4">{section.intro}</p>}
-              
+
               {section.list && (
                 <ul className="list-disc pl-6 space-y-3">
                   {section.list.map((item: string, idx: number) => (
@@ -366,7 +346,7 @@ export default function TermsPolicyPage() {
                   ))}
                 </ul>
               )}
-              
+
               {section.footer && (
                 <p className={`mt-4 ${section.id === 3 ? "italic text-gray-500" : ""}`}>
                   {section.footer}

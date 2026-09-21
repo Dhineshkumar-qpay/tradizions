@@ -4,65 +4,44 @@ import { useEffect, useState } from "react";
 
 const content: Record<string, any> = {
   EN: {
-    title: "Cancellation and Refund Policy",
-    lastUpdated: "Last Updated: May 02, 2026",
-    intro: "At Tradizions, we strive to provide high-quality products including nuts, millets, spices, pooja essentials, and gift items. Due to the nature of our products, the following policy applies:",
+    title: "Cancellation & Refund Policy",
+    lastUpdated: "Last Updated: September 21, 2026",
+    intro: <>At <strong>Tradizions</strong>, we strive to provide high-quality products including nuts, millets, spices, pooja essentials, and gift items. Due to the nature of our products, the following Cancellation and Refund Policy applies.</>,
     sections: [
       {
         id: 1,
         title: "1. Order Cancellation",
-        list: [
-          "Orders can be cancelled before dispatch only.",
-          "Once the order is shipped, cancellation is not allowed.",
-          "For cancellation requests, contact us via Email/WhatsApp with your order details.",
-          "Eligible refunds will be processed within 5–7 working days."
-        ]
+        content: <>Orders may be cancelled only before they are dispatched. Once an order has been shipped, cancellation will not be permitted. Customers wishing to cancel an eligible order should contact us through email or WhatsApp and provide the relevant order details. Eligible refunds will be processed within <strong>5–7 working days</strong>.</>
       },
       {
         id: 2,
         title: "2. Refunds & Replacements",
-        highlight: "We do not accept returns due to the perishable nature of food products.",
-        intro: "Refunds/replacements are allowed only if:",
-        list: ["Wrong product delivered", "Damaged product", "Expired product"],
-        footer: "You must notify within 48 hours of delivery with photo/video proof."
+        content: <>Due to the perishable nature of our food products, we do not accept general returns. Refunds or replacements will be considered only in cases where the <strong>wrong product has been delivered, the product has been damaged, or the product has expired</strong>. Customers must notify us within <strong>48 hours of delivery</strong> and provide appropriate photo or video proof to support the claim.</>
       },
       {
         id: 3,
         title: "3. Non-Refundable Cases",
-        intro: "Refunds will NOT be provided for:",
-        list: [
-          "Opened or used products",
-          "Taste preference issues",
-          "Incorrect address provided",
-          "Failed delivery due to customer unavailability",
-          "Delay caused by courier partners"
-        ]
+        content: "Refunds will not be provided for products that have been opened or used, or where the customer is dissatisfied solely due to taste preference. Refunds will also not be provided where an incorrect delivery address was provided by the customer, where delivery failed due to customer unavailability, or where a delay was caused by our courier partners."
       },
       {
         id: 4,
         title: "4. Subscription Orders",
-        list: [
-          "Subscription orders can be paused or cancelled before the next billing cycle",
-          "Once processed, the order cannot be cancelled"
-        ]
+        content: "Subscription orders may be paused or cancelled before the next billing cycle. Once a subscription order has been processed, it cannot be cancelled."
       },
       {
         id: 5,
         title: "5. Bulk / Gifting Orders",
-        list: [
-          "Bulk and customized gift orders are non-cancellable and non-refundable once confirmed",
-          "Any damage claims must be reported within 48 hours"
-        ]
+        content: <>Bulk orders and customised gift orders are non-cancellable and non-refundable once they have been confirmed. Any claims relating to damage must be reported within <strong>48 hours of delivery</strong>.</>
       },
       {
         id: 6,
         title: "6. Refund Processing",
-        list: ["Refunds will be issued to the original payment method", "Processing time: 5–7 business days"]
+        content: <>Approved refunds will be issued to the <strong>original payment method</strong> used for the order. Refund processing may take <strong>5–7 business days</strong>.</>
       },
       {
         id: 7,
         title: "7. Contact Us",
-        content: "If you have any questions, please contact us:",
+        content: "If you have any questions regarding our Cancellation & Refund Policy, please contact us using the details below:",
         email: "support@tradizions.in",
         phone: "+91 99406 20019"
       }

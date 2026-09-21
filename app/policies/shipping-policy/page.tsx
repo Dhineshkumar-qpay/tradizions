@@ -4,90 +4,69 @@ import React, { useEffect, useState } from "react";
 
 const content: Record<string, any> = {
   EN: {
-    title: "Shipping and Delivery Policy",
-    lastUpdated: "Last Updated: May 02, 2026",
-    intro: "At Tradizions, we ensure safe and timely delivery of your orders including food items, pooja essentials, and gift packs.",
+    title: "Shipping & Delivery Policy",
+    lastUpdated: "Last Updated: September 21, 2026",
+    intro: <>At <strong>Tradizions</strong>, we strive to ensure the safe and timely delivery of your orders, including food items, pooja essentials, and gift packs.</>,
     sections: [
       {
         id: 1,
         title: "1. Order Processing",
-        list: [
-          "Orders are processed within 1–2 business days",
-          "Weekend/holiday orders processed next working day",
-          "Confirmation sent via SMS/Email"
-        ]
+        content: <>Orders are generally processed within <strong>1–2 business days</strong>. Orders placed on weekends or public holidays will be processed on the next working day. Once your order has been processed, an order confirmation will be sent to you via <strong>SMS or email</strong>.</>
       },
       {
         id: 2,
         title: "2. Shipping Coverage",
-        list: ["We deliver across India", "International shipping may be available on request"]
+        content: <>We currently provide delivery services <strong>across India</strong>. International shipping may also be available upon request, subject to applicable availability and delivery arrangements.</>
       },
       {
         id: 3,
         title: "3. Delivery Timeline",
-        list: [
-          "Standard delivery: 3–7 business days",
-          "Metro cities: Faster delivery possible",
-          "Remote areas may take longer"
-        ],
-        delayTitle: "Delays may occur due to:",
-        delayList: ["Weather", "Courier issues", "Government restrictions"]
+        content: <>Our standard delivery timeline is approximately <strong>3–7 business days</strong>. Deliveries to metro cities may be completed sooner depending on the location and courier service, while deliveries to remote or difficult-to-reach areas may require additional time.{"\n\n"}Delivery timelines may be affected by circumstances such as <strong>adverse weather conditions, courier-related issues, or government restrictions</strong>.</>
       },
       {
         id: 4,
         title: "4. Shipping Charges",
-        list: ["Calculated at checkout", "Free shipping above ₹999 (if applicable)"]
+        content: "Applicable shipping charges will be calculated and displayed at checkout. Where applicable, we may offer free shipping on orders above ₹999, subject to the terms of the offer."
       },
       {
         id: 5,
         title: "5. Order Tracking",
-        content: "Tracking link shared via SMS/Email."
+        content: <>Once your order has been dispatched, tracking details or a tracking link will be shared with you through <strong>SMS or email</strong>, where tracking is available.</>
       },
       {
         id: 6,
         title: "6. Delivery Attempts",
-        list: [
-          "Courier will attempt delivery 2–3 times",
-          "If unavailable, rescheduling may be required",
-          "Failed deliveries may incur re-shipping charges"
-        ]
+        content: <>Our courier partners will generally make <strong>2–3 delivery attempts</strong>. If the recipient is unavailable, rescheduling of the delivery may be required. In cases where delivery cannot be completed after the applicable attempts, additional re-shipping charges may apply.</>
       },
       {
         id: 7,
         title: "7. Incorrect Address",
-        list: [
-          "Customer is responsible for correct details",
-          "We are not liable for delivery failures due to incorrect address"
-        ]
+        content: <>Customers are responsible for providing accurate and complete delivery details when placing an order. <strong>Tradizions</strong> will not be liable for delivery failures or delays resulting from an incorrect or incomplete address provided by the customer.</>
       },
       {
         id: 8,
         title: "8. Perishable & Sensitive Products",
-        intro: "Since we deal in:",
-        list: ["Food items (nuts, millets, spices)",  "Gift packs"],
-        footerTitle: "Please ensure:",
-        footerList: ["Someone is available to receive the order", "Products are checked immediately upon delivery"]
+        content: <>As we deal in food items such as <strong>nuts, millets, and spices</strong>, as well as pooja items and gift packs, customers are requested to ensure that someone is available to receive the order. Products should also be checked promptly upon delivery.</>
       },
       {
         id: 9,
         title: "9. Damaged / Tampered Packages",
-        list: ["Do not accept visibly damaged packages", "If accepted, report within 48 hours with proof"]
+        content: <>Customers are advised not to accept packages that are visibly damaged or appear to have been tampered with at the time of delivery. If a damaged or tampered package is accepted, the issue must be reported to us within <strong>48 hours</strong>, along with appropriate supporting proof.</>
       },
       {
         id: 10,
         title: "10. Bulk & Gifting Orders",
-        list: ["Delivery timelines may vary", "Customised orders may require additional time"]
+        content: "Delivery timelines for bulk orders and gifting orders may vary depending on the order quantity and requirements. Customised orders may also require additional processing and delivery time."
       },
       {
         id: 11,
         title: "11. Force Majeure",
-        intro: "We are not responsible for delays due to:",
-        list: ["Natural disasters", "Strikes", "Lockdowns"]
+        content: <>We shall not be responsible for delays caused by circumstances beyond our reasonable control, including <strong>natural disasters, strikes, lockdowns, or similar unforeseen events</strong>.</>
       },
       {
         id: 12,
         title: "12. Contact Us",
-        content: "If you have any questions, please contact us:",
+        content: "If you have any questions regarding our Shipping & Delivery Policy, please contact us using the details below:",
         email: "support@tradizions.in",
         phone: "+91 99406 20019"
       }
@@ -323,7 +302,7 @@ export default function ShippingPolicyPage() {
                 </ul>
               )}
 
-              {section.content && <p>{section.content}</p>}
+              {section.content && <p className="whitespace-pre-line">{section.content}</p>}
 
               {section.delayTitle && (
                 <>

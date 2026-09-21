@@ -5,85 +5,58 @@ import React, { useEffect, useState } from "react";
 const content: Record<string, any> = {
   EN: {
     title: "Privacy Policy",
-    lastUpdated: "Last Updated: May 02, 2026",
-    intro: "At Tradizions, we value your trust and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our website.",
+    lastUpdated: "Last Updated: September 21, 2026",
+    intro: <>At <strong>Tradizions</strong>, we value your trust and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you use our website.</>,
     sections: [
       {
         id: 1,
         title: "1. Information We Collect",
-        subsections: [
-          {
-            title: "Personal Information:",
-            list: ["Name, phone number, email address", "Billing & shipping address", "Payment details (processed securely via payment gateways)"]
-          },
-          {
-            title: "Non-Personal Information:",
-            list: ["Device type, browser, IP address", "Website usage and browsing behaviour"]
-          },
-          {
-            title: "Cookies & Tracking:",
-            list: ["Used to improve experience, remember preferences, and personalize content"]
-          }
-        ]
+        content: <>We may collect personal information such as your <strong>name, phone number, email address, billing address, and shipping address</strong> when you use our website or place an order. Payment details are processed securely through the applicable payment gateways.{"\n\n"}We may also collect non-personal information such as your <strong>device type, browser information, IP address, website usage, and browsing behaviour.</strong>{"\n\n"}Our website may use cookies and similar tracking technologies to improve your browsing experience, remember your preferences, and personalise content.</>
       },
       {
         id: 2,
         title: "2. How We Use Your Information",
-        intro: "We use your data to:",
-        list: [
-          "Process and deliver orders (including subscription orders)",
-          "Communicate order updates, offers, and support",
-          "Improve our products and website experience",
-          "Send festival reminders, promotional messages (if opted in)",
-          "Comply with legal obligations"
-        ]
+        content: "We use the information we collect to process and deliver your orders, including subscription orders where applicable. Your information may also be used to communicate order updates, provide customer support, share offers, and improve our products and website experience.\n\nWhere you have opted in to receive promotional communications, we may also send festival reminders and promotional messages. We may use or disclose information where necessary to comply with applicable legal obligations."
       },
       {
         id: 3,
         title: "3. Sharing of Information",
-        highlight: "We do NOT sell your data.",
-        intro: "We may share with:",
-        list: ["Payment gateways (for secure transactions)", "Delivery/courier partners", "WhatsApp/SMS/email service providers", "Legal authorities if required"]
+        content: <>We do not sell your personal data.{"\n\n"}We may share relevant information with trusted third-party service providers where necessary to provide our services. This may include <strong>payment gateways for processing secure transactions, delivery and courier partners for fulfilling orders, and WhatsApp, SMS, or email service providers for communication</strong>. Information may also be shared with legal or regulatory authorities where required by applicable law.</>
       },
       {
         id: 4,
         title: "4. Data Security",
-        content: "We take reasonable measures to protect your data. However, no online system is 100% secure."
+        content: "We take reasonable measures to protect your personal information from unauthorised access, misuse, alteration, or disclosure. However, no online system or method of electronic transmission can be guaranteed to be completely secure."
       },
       {
         id: 5,
         title: "5. Your Rights",
-        intro: "You can:",
-        list: ["Access or update your data", "Opt out of marketing messages", "Request deletion of your data"],
-        footer: "Contact: support@tradizions.in"
+        content: "You may request access to or update your personal information. You may also opt out of receiving marketing and promotional communications or request deletion of your personal data, subject to applicable requirements and limitations.\n\nFor requests relating to your personal information, please contact us at support@tradizions.in."
       },
       {
         id: 6,
         title: "6. Cookies Policy",
-        intro: "Cookies help:",
-        list: ["Faster browsing", "Personalized experience"],
-        footer: "You can disable cookies, but some features may not work."
+        content: "Cookies help us provide a faster and more personalised browsing experience. They may be used to remember your preferences and improve website functionality.\n\nYou may choose to disable cookies through your browser settings. However, disabling certain cookies may affect the availability or functionality of some features of the website."
       },
       {
         id: 7,
         title: "7. Third-Party Links",
-        intro: "We are not responsible for:",
-        list: ["Payment gateways", "Courier tracking sites"]
+        content: "Our website may contain links or references to third-party services, including payment gateways and courier tracking websites. We are not responsible for the privacy practices, content, security, or policies of such third-party websites or services."
       },
       {
         id: 8,
-        title: "8. Children’s Privacy",
-        content: "Not intended for users under 18."
+        title: "8. Children's Privacy",
+        content: <>Our website is not intended for users under <strong>18 years of age</strong>.</>
       },
       {
         id: 9,
         title: "9. Policy Updates",
-        content: "We may update this policy. Changes will be posted here."
+        content: "We may update this Privacy Policy from time to time to reflect changes in our practices or applicable requirements. Any changes will be posted on this page, and the updated version will be effective from the date specified in the revised policy."
       },
       {
         id: 10,
         title: "10. Contact Us",
-        content: "If you have any questions, please contact us:",
+        content: "If you have any questions, concerns, or requests regarding this Privacy Policy or the way we handle your information, please contact us using the details below:",
         email: "support@tradizions.in",
         phone: "+91 99406 20019"
       }
@@ -330,7 +303,7 @@ export default function PrivacyPolicyPage() {
                 </ul>
               )}
 
-              {section.content && <p>{section.content}</p>}
+              {section.content && <p className="whitespace-pre-line">{section.content}</p>}
 
               {section.footer && (
                 <p className="mt-4 text-gray-600">
